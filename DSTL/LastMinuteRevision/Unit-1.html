@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Theory & Relations - Exam Notes</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        // Lucide Icons as inline SVG components
+        const ChevronDown = ({ size = 24 }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+        );
+
+        const ChevronRight = ({ size = 24 }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        );
+
+        const BookOpen = ({ size = 24 }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+            </svg>
+        );
+
+        const ExamNotes = () => {
+            const [expandedSections, setExpandedSections] = useState({});
+
+            const toggleSection = (section) => {
+                setExpandedSections(prev => ({
+                    ...prev,
+                    [section]: !prev[section]
+                }));
+            };
+
+            const Section = ({ title, children, id }) => (
+                <div className="mb-4 border border-gray-300 rounded-lg overflow-hidden">
+                    <button
+                        onClick={() => toggleSection(id)}
+                        className="w-full px-4 py-3 bg-blue-50 hover:bg-blue-100 flex items-center justify-between text-left font-semibold text-blue-900"
+                    >
+                        <span>{title}</span>
+                        {expandedSections[id] ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
+                    </button>
+                    {expandedSections[id] && (
+                        <div className="p-4 bg-white">
+                            {children}
+                        </div>
+                    )}
+                </div>
+            );
+
+            return (
+                <div className="max-w-4xl mx-auto p-6 bg-gray-50 min-h-screen">
+                    <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-6 rounded-lg mb-6 shadow-lg">
+                        <div className="flex items-center gap-3 mb-2">
+                            <BookOpen size={32} />
+                            <h1 className="text-3xl font-bold">Set Theory & Relations</h1>
+                        </div>
+                        <p className="text-blue-100">Quick Exam Notes - Focus on Key Concepts</p>
+                    </div>
+
+                    <Section title="1. Set Theory - Introduction" id="intro">
+                        <div className="space-y-3">
+                            <div className="bg-yellow-50 p-3 rounded border-l-4 border-yellow-400">
+                                <p className="font-semibold text-yellow-900">Key Definition:</p>
+                                <p>Set = Well-defined collection of distinct objects</p>
+                            </div>
+                            
+                            <div>
+                                <p className="font-semibold mb-2">Basic Operations:</p>
+                                <ul className="list-disc pl-6 space-y-1">
+                                    <li><strong>Union (A ∪ B):</strong> All elements in A or B or both</li>
+                                    <li><strong>Intersection (A ∩ B):</strong> Common elements in both A and B</li>
+                                    <li><strong>Difference (A - B):</strong> Elements in A but not in B</li>
+                                    <li><strong>Complement (A'):</strong> Elements not in A (within universal set)</li>
+                                    <li><strong>Symmetric Difference (A Δ B):</strong> (A-B) ∪ (B-A)</li>
+                                </ul>
+                            </div>
+
+                            <div className="bg-blue-50 p-3 rounded mt-3">
+                                <p className="font-semibold mb-2">Example:</p>
+                                <p>A = {`{1, 2, 3}`}, B = {`{3, 4, 5}`}</p>
+                                <p>A ∪ B = {`{1, 2, 3, 4, 5}`}</p>
+                                <p>A ∩ B = {`{3}`}</p>
+                                <p>A - B = {`{1, 2}`}</p>
+                            </div>
+                        </div>
+                    </Section>
+
+                    <Section title="2. Combination of Sets" id="combination">
+                        <div className="space-y-3">
+                            <div>
+                                <p className="font-semibold mb-2">Laws of Set Algebra:</p>
+                                <ul className="list-disc pl-6 space-y-1">
+                                    <li><strong>Commutative:</strong> A ∪ B = B ∪ A, A ∩ B = B ∩ A</li>
+                                    <li><strong>Associative:</strong> (A ∪ B) ∪ C = A ∪ (B ∪ C)</li>
+                                    <li><strong>Distributive:</strong> A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C)</li>
+                                    <li><strong>Identity:</strong> A ∪ ∅ = A, A ∩ U = A</li>
+                                    <li><strong>Complement:</strong> A ∪ A' = U, A ∩ A' = ∅</li>
+                                    <li><strong>De Morgan's Laws:</strong> (A ∪ B)' = A' ∩ B', (A ∩ B)' = A' ∪ B'</li>
+                                </ul>
+                            </div>
+
+                            <div className="bg-green-50 p-3 rounded border-l-4 border-green-400 mt-3">
+                                <p className="font-semibold text-green-900">Power Set:</p>
+                                <p>P(A) = Set of all subsets of A</p>
+                                <p>If |A| = n, then |P(A)| = 2ⁿ</p>
+                            </div>
+                        </div>
+                    </Section>
+
+                    <Section title="3. Relations - Definition" id="relations-def">
+                        <div className="space-y-3">
+                            <div className="bg-yellow-50 p-3 rounded border-l-4 border-yellow-400">
+                                <p className="font-semibold text-yellow-900">Definition:</p>
+                                <p>Relation R from A to B is a subset of A × B (Cartesian product)</p>
+                                <p>R ⊆ A × B</p>
+                            </div>
+
+                            <div>
+                                <p className="font-semibold mb-2">Types:</p>
+                                <ul className="list-disc pl-6 space-y-1">
+                                    <li><strong>Binary Relation:</strong> Relates two elements</li>
+                                    <li><strong>Empty Relation:</strong> R = ∅</li>
+                                    <li><strong>Universal Relation:</strong> R = A × B</li>
+                                    <li><strong>Identity Relation:</strong> R = {`{(a,a) | a ∈ A}`}</li>
+                                </ul>
+                            </div>
+
+                            <div className="bg-blue-50 p-3 rounded mt-3">
+                                <p className="font-semibold mb-2">Example:</p>
+                                <p>A = {`{1, 2, 3}`}, B = {`{x, y}`}</p>
+                                <p>A × B = {`{(1,x), (1,y), (2,x), (2,y), (3,x), (3,y)}`}</p>
+                                <p>R = {`{(1,x), (2,y)}`} is a relation from A to B</p>
+                            </div>
+                        </div>
+                    </Section>
+
+                    <Section title="4. Operations on Relations" id="operations">
+                        <div className="space-y-3">
+                            <ul className="list-disc pl-6 space-y-2">
+                                <li><strong>Union:</strong> R₁ ∪ R₂ = {`{(a,b) | (a,b) ∈ R₁ or (a,b) ∈ R₂}`}</li>
+                                <li><strong>Intersection:</strong> R₁ ∩ R₂ = {`{(a,b) | (a,b) ∈ R₁ and (a,b) ∈ R₂}`}</li>
+                                <li><strong>Difference:</strong> R₁ - R₂ = {`{(a,b) | (a,b) ∈ R₁ and (a,b) ∉ R₂}`}</li>
+                                <li><strong>Complement:</strong> R' = (A × B) - R</li>
+                                <li><strong>Inverse:</strong> R⁻¹ = {`{(b,a) | (a,b) ∈ R}`}</li>
+                            </ul>
+                        </div>
+                    </Section>
+
+                    <Section title="5. Properties of Relations" id="properties">
+                        <div className="space-y-3">
+                            <div className="space-y-3">
+                                <div className="p-3 bg-purple-50 rounded border-l-4 border-purple-400">
+                                    <p className="font-semibold text-purple-900">Reflexive:</p>
+                                    <p>(a,a) ∈ R for all a ∈ A</p>
+                                    <p className="text-sm italic">Every element related to itself</p>
+                                </div>
+
+                                <div className="p-3 bg-pink-50 rounded border-l-4 border-pink-400">
+                                    <p className="font-semibold text-pink-900">Symmetric:</p>
+                                    <p>If (a,b) ∈ R, then (b,a) ∈ R</p>
+                                    <p className="text-sm italic">Two-way relationship</p>
+                                </div>
+
+                                <div className="p-3 bg-indigo-50 rounded border-l-4 border-indigo-400">
+                                    <p className="font-semibold text-indigo-900">Antisymmetric:</p>
+                                    <p>If (a,b) ∈ R and (b,a) ∈ R, then a = b</p>
+                                    <p className="text-sm italic">No two-way unless same element</p>
+                                </div>
+
+                                <div className="p-3 bg-green-50 rounded border-l-4 border-green-400">
+                                    <p className="font-semibold text-green-900">Transitive:</p>
+                                    <p>If (a,b) ∈ R and (b,c) ∈ R, then (a,c) ∈ R</p>
+                                    <p className="text-sm italic">Chain property</p>
+                                </div>
+
+                                <div className="p-3 bg-orange-50 rounded border-l-4 border-orange-400">
+                                    <p className="font-semibold text-orange-900">Equivalence Relation:</p>
+                                    <p>Reflexive + Symmetric + Transitive</p>
+                                    <p className="text-sm italic">Example: Equality (=)</p>
+                                </div>
+                            </div>
+
+                            <div className="bg-blue-50 p-3 rounded mt-3">
+                                <p className="font-semibold mb-2">Example:</p>
+                                <p>A = {`{1, 2, 3}`}, R = {`{(1,1), (2,2), (3,3), (1,2), (2,1)}`}</p>
+                                <p>✓ Reflexive (all elements relate to themselves)</p>
+                                <p>✓ Symmetric ((1,2) and (2,1) both present)</p>
+                                <p>✗ Not Transitive</p>
+                            </div>
+                        </div>
+                    </Section>
+
+                    <Section title="6. Composite Relations" id="composite">
+                        <div className="space-y-3">
+                            <div className="bg-yellow-50 p-3 rounded border-l-4 border-yellow-400">
+                                <p className="font-semibold text-yellow-900">Definition:</p>
+                                <p>R₁ ∘ R₂ = {`{(a,c) | there exists b such that (a,b) ∈ R₂ and (b,c) ∈ R₁}`}</p>
+                                <p className="text-sm italic mt-1">Note: Right relation applied first!</p>
+                            </div>
+
+                            <div className="bg-blue-50 p-3 rounded mt-3">
+                                <p className="font-semibold mb-2">Example:</p>
+                                <p>R₁ = {`{(1,2), (2,3)}`}</p>
+                                <p>R₂ = {`{(4,1), (5,2)}`}</p>
+                                <p>R₁ ∘ R₂ = {`{(4,2), (5,3)}`}</p>
+                                <p className="text-sm italic">4→1→2 and 5→2→3</p>
+                            </div>
+                        </div>
+                    </Section>
+
+                    <Section title="7. Equality & Recursive Definition" id="equality">
+                        <div className="space-y-3">
+                            <div>
+                                <p className="font-semibold mb-2">Equality of Relations:</p>
+                                <p>R₁ = R₂ if they contain exactly same ordered pairs</p>
+                            </div>
+
+                            <div className="mt-3">
+                                <p className="font-semibold mb-2">Recursive Definition:</p>
+                                <ul className="list-disc pl-6 space-y-1">
+                                    <li><strong>Base case:</strong> Initial condition</li>
+                                    <li><strong>Recursive step:</strong> Rule to generate new elements</li>
+                                    <li>Used to define transitive closure, reflexive closure, etc.</li>
+                                </ul>
+                            </div>
+
+                            <div className="bg-green-50 p-3 rounded mt-3 border-l-4 border-green-400">
+                                <p className="font-semibold text-green-900">Transitive Closure R⁺:</p>
+                                <p>Smallest transitive relation containing R</p>
+                                <p>R⁺ = R ∪ R² ∪ R³ ∪ ...</p>
+                            </div>
+                        </div>
+                    </Section>
+
+                    <Section title="8. Order of Relations" id="order">
+                        <div className="space-y-3">
+                            <div className="bg-yellow-50 p-3 rounded border-l-4 border-yellow-400">
+                                <p className="font-semibold text-yellow-900">Partial Order:</p>
+                                <p>Reflexive + Antisymmetric + Transitive</p>
+                                <p className="text-sm italic">Denoted by ≤ or ⊑</p>
+                            </div>
+
+                            <div>
+                                <p className="font-semibold mb-2">Total/Linear Order:</p>
+                                <p>Partial order where every pair is comparable</p>
+                                <p>For all a,b: either a ≤ b or b ≤ a</p>
+                            </div>
+
+                            <div className="bg-blue-50 p-3 rounded mt-3">
+                                <p className="font-semibold mb-2">Examples:</p>
+                                <p>• ≤ on real numbers (Total order)</p>
+                                <p>• ⊆ on power set (Partial order, not total)</p>
+                                <p>• | (divisibility) on integers (Partial order)</p>
+                            </div>
+                        </div>
+                    </Section>
+
+                    <Section title="9. Hasse Diagram" id="hasse">
+                        <div className="space-y-3">
+                            <div className="bg-yellow-50 p-3 rounded border-l-4 border-yellow-400">
+                                <p className="font-semibold text-yellow-900">Purpose:</p>
+                                <p>Visual representation of POSET (Partially Ordered Set)</p>
+                            </div>
+
+                            <div>
+                                <p className="font-semibold mb-2">Construction Rules:</p>
+                                <ul className="list-disc pl-6 space-y-1">
+                                    <li>Remove reflexive pairs (self-loops)</li>
+                                    <li>Remove transitive edges (implied connections)</li>
+                                    <li>Remove direction arrows (assume upward)</li>
+                                    <li>Place smaller elements below larger ones</li>
+                                </ul>
+                            </div>
+
+                            <div className="bg-gray-100 p-4 rounded mt-3 font-mono text-sm">
+                                <p className="font-semibold mb-2">Example: Divisibility on {`{1,2,3,6}`}</p>
+                                <pre className="whitespace-pre">
+{`        6
+       /  \\
+      2    3
+       \\  /
+        1`}
+                                </pre>
+                                <p className="text-xs mt-2">1|2, 1|3, 2|6, 3|6</p>
+                            </div>
+
+                            <div className="mt-3">
+                                <p className="font-semibold mb-2">Key Terms:</p>
+                                <ul className="list-disc pl-6 space-y-1">
+                                    <li><strong>Maximal:</strong> No element above it</li>
+                                    <li><strong>Minimal:</strong> No element below it</li>
+                                    <li><strong>Greatest:</strong> Above all elements (unique)</li>
+                                    <li><strong>Least:</strong> Below all elements (unique)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </Section>
+
+                    <Section title="10. POSET (Partially Ordered Set)" id="poset">
+                        <div className="space-y-3">
+                            <div className="bg-yellow-50 p-3 rounded border-l-4 border-yellow-400">
+                                <p className="font-semibold text-yellow-900">Definition:</p>
+                                <p>POSET = (A, ≤) where ≤ is a partial order on set A</p>
+                            </div>
+
+                            <div>
+                                <p className="font-semibold mb-2">Important Concepts:</p>
+                                <ul className="list-disc pl-6 space-y-1">
+                                    <li><strong>Upper Bound:</strong> Element u ≥ all elements in subset</li>
+                                    <li><strong>Lower Bound:</strong> Element l ≤ all elements in subset</li>
+                                    <li><strong>LUB (Supremum):</strong> Least upper bound</li>
+                                    <li><strong>GLB (Infimum):</strong> Greatest lower bound</li>
+                                </ul>
+                            </div>
+
+                            <div className="bg-blue-50 p-3 rounded mt-3">
+                                <p className="font-semibold mb-2">Example:</p>
+                                <p>POSET: ({`{1,2,3,6}`}, |)</p>
+                                <p>For subset {`{2,3}`}: UB = {`{6}`}, LUB = 6</p>
+                                <p>For subset {`{2,3}`}: LB = {`{1}`}, GLB = 1</p>
+                            </div>
+                        </div>
+                    </Section>
+
+                    <Section title="11. Lattices - Definition & Properties" id="lattices">
+                        <div className="space-y-3">
+                            <div className="bg-yellow-50 p-3 rounded border-l-4 border-yellow-400">
+                                <p className="font-semibold text-yellow-900">Lattice Definition:</p>
+                                <p>POSET where every pair of elements has both LUB and GLB</p>
+                                <p>Operations: Join (∨) = LUB, Meet (∧) = GLB</p>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+                                <div className="p-3 bg-purple-50 rounded border-l-4 border-purple-400">
+                                    <p className="font-semibold text-purple-900">Bounded Lattice:</p>
+                                    <p>Has greatest (1) and least (0) elements</p>
+                                    <p className="text-sm">a ∨ 0 = a, a ∧ 1 = a</p>
+                                </div>
+
+                                <div className="p-3 bg-pink-50 rounded border-l-4 border-pink-400">
+                                    <p className="font-semibold text-pink-900">Complemented:</p>
+                                    <p>Bounded + every element has complement</p>
+                                    <p className="text-sm">a ∨ a' = 1, a ∧ a' = 0</p>
+                                </div>
+
+                                <div className="p-3 bg-indigo-50 rounded border-l-4 border-indigo-400">
+                                    <p className="font-semibold text-indigo-900">Distributive:</p>
+                                    <p>a ∧ (b ∨ c) = (a ∧ b) ∨ (a ∧ c)</p>
+                                    <p className="text-sm">Meet distributes over join</p>
+                                </div>
+
+                                <div className="p-3 bg-green-50 rounded border-l-4 border-green-400">
+                                    <p className="font-semibold text-green-900">Modular:</p>
+                                    <p>If a ≤ c, then a ∨ (b ∧ c) = (a ∨ b) ∧ c</p>
+                                    <p className="text-sm">Weaker than distributive</p>
+                                </div>
+                            </div>
+
+                            <div className="p-3 bg-orange-50 rounded border-l-4 border-orange-400 mt-3">
+                                <p className="font-semibold text-orange-900">Complete Lattice:</p>
+                                <p>Every subset has both LUB and GLB</p>
+                                <p className="text-sm italic">Stronger condition than regular lattice</p>
+                            </div>
+
+                            <div className="bg-blue-50 p-3 rounded mt-3">
+                                <p className="font-semibold mb-2">Examples:</p>
+                                <p>• Power set with ⊆ is a bounded, complemented, distributive lattice</p>
+                                <p>• (ℕ, |) divisibility is a lattice (LCM = join, GCD = meet)</p>
+                            </div>
+                        </div>
+                    </Section>
+
+                    <Section title="📋 QUICK REVISION SUMMARY" id="summary">
+                        <div className="space-y-4">
+                            <div className="bg-red-50 p-4 rounded-lg border-2 border-red-300">
+                                <p className="font-bold text-red-900 text-lg mb-3">⚡ Key Formulas & Definitions</p>
+                                
+                                <div className="space-y-3 text-sm">
+                                    <div className="border-b border-red-200 pb-2">
+                                        <p className="font-semibold">Set Operations:</p>
+                                        <p>• |P(A)| = 2ⁿ where |A| = n</p>
+                                        <p>• De Morgan: (A ∪ B)' = A' ∩ B', (A ∩ B)' = A' ∪ B'</p>
+                                    </div>
+
+                                    <div className="border-b border-red-200 pb-2">
+                                        <p className="font-semibold">Relation Properties:</p>
+                                        <p>• <strong>Reflexive:</strong> (a,a) ∈ R for all a</p>
+                                        <p>• <strong>Symmetric:</strong> (a,b) ∈ R implies (b,a) ∈ R</p>
+                                        <p>• <strong>Antisymmetric:</strong> (a,b) ∈ R and (b,a) ∈ R implies a=b</p>
+                                        <p>• <strong>Transitive:</strong> (a,b),(b,c) ∈ R implies (a,c) ∈ R</p>
+                                        <p>• <strong>Equivalence:</strong> Reflexive + Symmetric + Transitive</p>
+                                        <p>• <strong>Partial Order:</strong> Reflexive + Antisymmetric + Transitive</p>
+                                    </div>
+
+                                    <div className="border-b border-red-200 pb-2">
+                                        <p className="font-semibold">Composite Relation:</p>
+                                        <p>• R₁ ∘ R₂ = {`{(a,c) | there exists b: (a,b) ∈ R₂, (b,c) ∈ R₁}`}</p>
+                                        <p>• R⁻¹ = {`{(b,a) | (a,b) ∈ R}`}</p>
+                                    </div>
+
+                                    <div className="border-b border-red-200 pb-2">
+                                        <p className="font-semibold">Hasse Diagram:</p>
+                                        <p>• Remove reflexive, transitive edges, directions</p>
+                                        <p>• Maximal = no element above</p>
+                                        <p>• Minimal = no element below</p>
+                                    </div>
+
+                                    <div className="border-b border-red-200 pb-2">
+                                        <p className="font-semibold">POSET Terms:</p>
+                                        <p>• LUB = Least Upper Bound (Supremum)</p>
+                                        <p>• GLB = Greatest Lower Bound (Infimum)</p>
+                                    </div>
+
+                                    <div>
+                                        <p className="font-semibold">Lattice Types:</p>
+                                        <p>• <strong>Lattice:</strong> Every pair has LUB & GLB</p>
+                                        <p>• <strong>Bounded:</strong> Has 0 (least) & 1 (greatest)</p>
+                                        <p>• <strong>Complemented:</strong> Bounded + for all a exists a': a∨a'=1, a∧a'=0</p>
+                                        <p>• <strong>Distributive:</strong> a∧(b∨c) = (a∧b)∨(a∧c)</p>
+                                        <p>• <strong>Modular:</strong> a≤c implies a∨(b∧c) = (a∨b)∧c</p>
+                                        <p>• <strong>Complete:</strong> Every subset has LUB & GLB</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="bg-green-50 p-4 rounded-lg border-2 border-green-300">
+                                <p className="font-bold text-green-900 text-lg mb-3">🎯 Quick Memory Tricks</p>
+                                <ul className="list-disc pl-6 space-y-1 text-sm">
+                                    <li><strong>Reflexive:</strong> "Self-love" - every element relates to itself</li>
+                                    <li><strong>Symmetric:</strong> "Two-way street" - if A to B then B to A</li>
+                                    <li><strong>Antisymmetric:</strong> "One-way or same" - A to B and B to A only if A=B</li>
+                                    <li><strong>Transitive:</strong> "Chain reaction" - A to B to C means A to C</li>
+                                    <li><strong>Lattice hierarchy:</strong> Complete contains Bounded contains Lattice contains POSET</li>
+                                    <li><strong>Distributive contains Modular</strong></li>
+                                </ul>
+                            </div>
+
+                            <div className="bg-blue-50 p-4 rounded-lg border-2 border-blue-300">
+                                <p className="font-bold text-blue-900 text-lg mb-3">✅ Common Exam Questions</p>
+                                <ul className="list-disc pl-6 space-y-1 text-sm">
+                                    <li>Check if relation is equivalence/partial order</li>
+                                    <li>Find composite relation R₁ ∘ R₂</li>
+                                    <li>Draw Hasse diagram from relation</li>
+                                    <li>Find LUB, GLB for subset in POSET</li>
+                                    <li>Identify lattice type (bounded, complemented, distributive)</li>
+                                    <li>Apply De Morgan's laws</li>
+                                    <li>Calculate power set cardinality</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </Section>
+
+                    <div className="mt-6 p-4 bg-gradient-to-r from-green-500 to-blue-500 text-white rounded-lg text-center">
+                        <p className="text-xl font-bold">Good Luck on Your Exam! 🎓</p>
+                        <p className="text-sm mt-1">Click each section to expand/collapse. Focus on the summary at the end!</p>
+                    </div>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<ExamNotes />, document.getElementById('root'));
+    </script>
+</body>
+</html>
