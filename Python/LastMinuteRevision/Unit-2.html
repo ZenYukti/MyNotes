@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Unit-2: Flow Control - Last Minute Revision</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+        .output-block {
+            background: #0f172a;
+            color: #10b981;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+        .syntax-block {
+            background: #312e81;
+            color: #c7d2fe;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            margin-bottom: 0.75rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        // Icon Components
+        const ChevronDown = () => (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+        );
+
+        const ChevronRight = () => (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+        );
+
+        const BookOpen = () => (
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+        );
+
+        const Code = () => (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+            </svg>
+        );
+
+        // Collapsible Section Component
+        const Section = ({ title, children, defaultOpen = false, icon }) => {
+            const [isOpen, setIsOpen] = useState(defaultOpen);
+
+            return (
+                <div className="mb-4 bg-white rounded-lg shadow-md overflow-hidden">
+                    <button
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="w-full px-6 py-4 flex items-center justify-between bg-gradient-to-r from-indigo-600 to-purple-700 text-white hover:from-indigo-700 hover:to-purple-800 transition-all"
+                    >
+                        <div className="flex items-center gap-3">
+                            {icon}
+                            <span className="font-semibold text-lg">{title}</span>
+                        </div>
+                        {isOpen ? <ChevronDown /> : <ChevronRight />}
+                    </button>
+                    {isOpen && (
+                        <div className="p-6">
+                            {children}
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        // Main Component
+        const PythonUnit2Notes = () => {
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-100 py-8 px-4">
+                    <div className="max-w-5xl mx-auto">
+                        {/* Header */}
+                        <div className="bg-white rounded-xl shadow-xl p-8 mb-8 border-t-4 border-indigo-600">
+                            <div className="flex items-center gap-4 mb-4">
+                                <BookOpen />
+                                <h1 className="text-4xl font-bold text-gray-800">Python Unit-2</h1>
+                            </div>
+                            <p className="text-xl text-gray-600 mb-2">Program Flow Control</p>
+                            <p className="text-sm text-gray-500 italic">Last Minute Revision Notes</p>
+                            <div className="mt-4 flex flex-wrap gap-3 text-sm">
+                                <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full">Conditionals</span>
+                                <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full">Loops</span>
+                                <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full">for & while</span>
+                                <span className="bg-pink-100 text-pink-800 px-3 py-1 rounded-full">Loop Control</span>
+                                <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full">break/continue</span>
+                            </div>
+                        </div>
+
+                        {/* Section 1: Conditional Blocks */}
+                        <Section title="1. Conditional Blocks (if, elif, else)" defaultOpen={true} icon={<Code />}>
+                            <div className="space-y-4">
+                                {/* if Statement */}
+                                <div>
+                                    <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-3">
+                                        <h3 className="font-bold text-yellow-800 mb-2">📌 if Statement</h3>
+                                        <p className="text-gray-700">Executes code block <strong>only if</strong> condition is True.</p>
+                                    </div>
+                                    <div className="syntax-block">
+if condition:<br/>
+    statement(s)  # Executes if True
+                                    </div>
+                                    <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                        <h4 className="font-bold text-blue-800 mb-2">💡 Example</h4>
+                                        <div className="code-block">
+age = 18<br/>
+<br/>
+if age &gt;= 18:<br/>
+    print("Eligible to vote")<br/>
+    print("Welcome!")
+                                        </div>
+                                        <div className="output-block">Output: Eligible to vote<br/>Welcome!</div>
+                                    </div>
+                                </div>
+
+                                {/* if-else Statement */}
+                                <div>
+                                    <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-3">
+                                        <h3 className="font-bold text-yellow-800 mb-2">📌 if-else Statement</h3>
+                                        <p className="text-gray-700">Executes one block if True, another if False.</p>
+                                    </div>
+                                    <div className="syntax-block">
+if condition:<br/>
+    statement(s)  # True block<br/>
+else:<br/>
+    statement(s)  # False block
+                                    </div>
+                                    <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                        <h4 className="font-bold text-blue-800 mb-2">💡 Example</h4>
+                                        <div className="code-block">
+age = 16<br/>
+<br/>
+if age &gt;= 18:<br/>
+    print("Can vote")<br/>
+else:<br/>
+    print("Cannot vote yet")<br/>
+    print(f"Wait {`{18 - age}`} more years")
+                                        </div>
+                                        <div className="output-block">Output: Cannot vote yet<br/>Wait 2 more years</div>
+                                    </div>
+                                </div>
+
+                                {/* if-elif-else Statement */}
+                                <div>
+                                    <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-3">
+                                        <h3 className="font-bold text-yellow-800 mb-2">📌 if-elif-else Statement</h3>
+                                        <p className="text-gray-700">Multiple conditions checked <strong>sequentially</strong>. First True condition executes.</p>
+                                    </div>
+                                    <div className="syntax-block">
+if condition1:<br/>
+    statement(s)<br/>
+elif condition2:<br/>
+    statement(s)<br/>
+elif condition3:<br/>
+    statement(s)<br/>
+else:<br/>
+    statement(s)  # All False
+                                    </div>
+                                    <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                        <h4 className="font-bold text-blue-800 mb-2">💡 Example: Grading System</h4>
+                                        <div className="code-block">
+marks = 75<br/>
+<br/>
+if marks &gt;= 90:<br/>
+    grade = 'A'<br/>
+elif marks &gt;= 80:<br/>
+    grade = 'B'<br/>
+elif marks &gt;= 70:<br/>
+    grade = 'C'<br/>
+elif marks &gt;= 60:<br/>
+    grade = 'D'<br/>
+else:<br/>
+    grade = 'F'<br/>
+<br/>
+print(f"Grade: {`{grade}`}")
+                                        </div>
+                                        <div className="output-block">Output: Grade: C</div>
+                                    </div>
+                                </div>
+
+                                {/* Nested if & Ternary */}
+                                <div className="grid md:grid-cols-2 gap-4">
+                                    <div className="bg-purple-50 border-l-4 border-purple-400 p-4">
+                                        <h4 className="font-bold text-purple-800 mb-2">🔀 Nested if</h4>
+                                        <div className="code-block text-xs">
+num = 15<br/>
+<br/>
+if num &gt; 0:<br/>
+    print("Positive")<br/>
+    if num % 2 == 0:<br/>
+        print("Even")<br/>
+    else:<br/>
+        print("Odd")
+                                        </div>
+                                        <div className="output-block text-xs mt-2">Positive<br/>Odd</div>
+                                    </div>
+                                    <div className="bg-green-50 border-l-4 border-green-400 p-4">
+                                        <h4 className="font-bold text-green-800 mb-2">⚡ Ternary Operator</h4>
+                                        <div className="code-block text-xs">
+# Syntax:<br/>
+value_if_true if condition else value_if_false<br/>
+<br/>
+age = 20<br/>
+status = "Adult" if age &gt;= 18 else "Minor"<br/>
+print(status)  # Adult<br/>
+<br/>
+# Find max<br/>
+a, b = 10, 20<br/>
+max_val = a if a &gt; b else b
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Section>
+
+                        {/* Section 2: for Loops */}
+                        <Section title="2. for Loops in Python" icon={<Code />}>
+                            <div className="space-y-4">
+                                {/* Basic for Loop */}
+                                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-3">
+                                    <h3 className="font-bold text-yellow-800 mb-2">📌 for Loop Definition</h3>
+                                    <p className="text-gray-700">Iterate over a <strong>sequence</strong> (list, string, range, dict). Used when <strong>number of iterations is known</strong>.</p>
+                                </div>
+                                <div className="syntax-block">
+for variable in sequence:<br/>
+    statement(s)  # Execute for each item
+                                </div>
+
+                                {/* range() Function */}
+                                <div className="bg-green-50 border-l-4 border-green-400 p-4">
+                                    <h3 className="font-bold text-green-800 mb-3">🔢 range() Function (Key Formula)</h3>
+                                    <div className="grid md:grid-cols-3 gap-3 text-sm">
+                                        <div className="bg-white p-3 rounded shadow">
+                                            <strong>range(stop)</strong>
+                                            <div className="code-block text-xs mt-2">
+# 0 to stop-1<br/>
+for i in range(5):<br/>
+    print(i, end=" ")<br/>
+# Output: 0 1 2 3 4
+                                            </div>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow">
+                                            <strong>range(start, stop)</strong>
+                                            <div className="code-block text-xs mt-2">
+# start to stop-1<br/>
+for i in range(2, 7):<br/>
+    print(i, end=" ")<br/>
+# Output: 2 3 4 5 6
+                                            </div>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow">
+                                            <strong>range(start, stop, step)</strong>
+                                            <div className="code-block text-xs mt-2">
+# With step<br/>
+for i in range(0, 10, 2):<br/>
+    print(i, end=" ")<br/>
+# Output: 0 2 4 6 8<br/>
+<br/>
+# Countdown<br/>
+range(10, 0, -1)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* for with String */}
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                    <h3 className="font-bold text-blue-800 mb-2">💡 for Loop with String</h3>
+                                    <div className="grid md:grid-cols-2 gap-3">
+                                        <div className="code-block text-xs">
+text = "Python"<br/>
+<br/>
+# Character iteration<br/>
+for char in text:<br/>
+    print(char, end="-")<br/>
+# Output: P-y-t-h-o-n-
+                                        </div>
+                                        <div className="code-block text-xs">
+# With index using enumerate()<br/>
+for index, char in enumerate(text):<br/>
+    print(f"{`{index}`}: {`{char}`}")<br/>
+# Output:<br/>
+# 0: P<br/>
+# 1: y<br/>
+# ...
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* for with List */}
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                    <h3 className="font-bold text-blue-800 mb-2">💡 for Loop with List</h3>
+                                    <div className="grid md:grid-cols-2 gap-3">
+                                        <div className="code-block text-xs">
+numbers = [10, 20, 30, 40]<br/>
+<br/>
+# Simple iteration<br/>
+for num in numbers:<br/>
+    print(num * 2, end=" ")<br/>
+# Output: 20 40 60 80
+                                        </div>
+                                        <div className="code-block text-xs">
+# With index and value<br/>
+for i, val in enumerate(numbers):<br/>
+    print(f"[{`{i}`}] = {`{val}`}")<br/>
+# Output:<br/>
+# [0] = 10<br/>
+# [1] = 20<br/>
+# [2] = 30<br/>
+# [3] = 40
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* for with Dictionary */}
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                    <h3 className="font-bold text-blue-800 mb-2">💡 for Loop with Dictionary</h3>
+                                    <div className="code-block">
+student = {`{"name": "Alice", "age": 20, "grade": "A"}`}<br/>
+<br/>
+# Iterate through keys (default)<br/>
+for key in student:<br/>
+    print(key)  # name, age, grade<br/>
+<br/>
+# Iterate through values<br/>
+for value in student.values():<br/>
+    print(value)  # Alice, 20, A<br/>
+<br/>
+# Iterate through key-value pairs (BEST)<br/>
+for key, value in student.items():<br/>
+    print(f"{`{key}`}: {`{value}`}")<br/>
+# Output:<br/>
+# name: Alice<br/>
+# age: 20<br/>
+# grade: A
+                                    </div>
+                                </div>
+
+                                {/* Nested for Loops */}
+                                <div className="bg-purple-50 border-l-4 border-purple-400 p-4">
+                                    <h3 className="font-bold text-purple-800 mb-2">🔀 Nested for Loops</h3>
+                                    <div className="grid md:grid-cols-2 gap-3">
+                                        <div>
+                                            <h4 className="font-semibold mb-2 text-sm">Multiplication Table:</h4>
+                                            <div className="code-block text-xs">
+for i in range(1, 4):<br/>
+    for j in range(1, 4):<br/>
+        print(f"{`{i}`}x{`{j}`}={`{i*j}`}", end=" ")<br/>
+    print()  # newline<br/>
+<br/>
+# Output:<br/>
+# 1x1=1 1x2=2 1x3=3<br/>
+# 2x1=2 2x2=4 2x3=6<br/>
+# 3x1=3 3x2=6 3x3=9
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h4 className="font-semibold mb-2 text-sm">Pattern Printing:</h4>
+                                            <div className="code-block text-xs">
+for i in range(1, 6):<br/>
+    for j in range(i):<br/>
+        print("*", end="")<br/>
+    print()<br/>
+<br/>
+# Output:<br/>
+# *<br/>
+# **<br/>
+# ***<br/>
+# ****<br/>
+# *****
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Section>
+
+                        {/* Section 3: while Loops */}
+                        <Section title="3. while Loops in Python" icon={<Code />}>
+                            <div className="space-y-4">
+                                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-3">
+                                    <h3 className="font-bold text-yellow-800 mb-2">📌 while Loop Definition</h3>
+                                    <p className="text-gray-700">Repeats code block <strong>while condition is True</strong>. Used when <strong>number of iterations unknown</strong>.</p>
+                                </div>
+                                <div className="syntax-block">
+while condition:<br/>
+    statement(s)  # Executes while True<br/>
+    # Must update condition variable!
+                                </div>
+
+                                {/* Basic while Loop */}
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                    <h3 className="font-bold text-blue-800 mb-2">💡 Basic Example</h3>
+                                    <div className="grid md:grid-cols-2 gap-3">
+                                        <div className="code-block text-xs">
+count = 1<br/>
+<br/>
+while count &lt;= 5:<br/>
+    print(f"Count: {`{count}`}")<br/>
+    count += 1  # MUST update!<br/>
+<br/>
+print("Loop ended")
+                                        </div>
+                                        <div className="output-block text-xs">
+Count: 1<br/>
+Count: 2<br/>
+Count: 3<br/>
+Count: 4<br/>
+Count: 5<br/>
+Loop ended
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Infinite Loop */}
+                                <div className="bg-purple-50 border-l-4 border-purple-400 p-4">
+                                    <h3 className="font-bold text-purple-800 mb-2">♾️ Infinite Loop with break</h3>
+                                    <div className="code-block">
+count = 0<br/>
+while True:  # Infinite loop<br/>
+    print(count)<br/>
+    count += 1<br/>
+    if count &gt;= 5:<br/>
+        break  # Exit loop<br/>
+<br/>
+# Output: 0 1 2 3 4
+                                    </div>
+                                </div>
+
+                                {/* while vs for */}
+                                <div className="bg-indigo-50 border-l-4 border-indigo-400 p-4">
+                                    <h3 className="font-bold text-indigo-800 mb-2">⚖️ while vs for Loop</h3>
+                                    <div className="overflow-x-auto">
+                                        <table className="min-w-full text-sm">
+                                            <thead className="bg-indigo-100">
+                                                <tr>
+                                                    <th className="px-4 py-2 text-left">Aspect</th>
+                                                    <th className="px-4 py-2 text-left">for Loop</th>
+                                                    <th className="px-4 py-2 text-left">while Loop</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="text-gray-700">
+                                                <tr className="border-b">
+                                                    <td className="px-4 py-2 font-semibold">Use Case</td>
+                                                    <td className="px-4 py-2">Known iterations</td>
+                                                    <td className="px-4 py-2">Unknown iterations</td>
+                                                </tr>
+                                                <tr className="border-b">
+                                                    <td className="px-4 py-2 font-semibold">Syntax</td>
+                                                    <td className="px-4 py-2"><code>for i in seq:</code></td>
+                                                    <td className="px-4 py-2"><code>while condition:</code></td>
+                                                </tr>
+                                                <tr className="border-b">
+                                                    <td className="px-4 py-2 font-semibold">Example</td>
+                                                    <td className="px-4 py-2">Iterate over list</td>
+                                                    <td className="px-4 py-2">Input validation</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="px-4 py-2 font-semibold">Update</td>
+                                                    <td className="px-4 py-2">Automatic</td>
+                                                    <td className="px-4 py-2">Manual (must update)</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                {/* Comparison Example */}
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                    <h3 className="font-bold text-blue-800 mb-2">💡 Same Result, Different Approach</h3>
+                                    <div className="grid md:grid-cols-2 gap-3">
+                                        <div>
+                                            <h4 className="font-semibold mb-2 text-sm">for Loop:</h4>
+                                            <div className="code-block text-xs">
+for i in range(5):<br/>
+    print(i, end=" ")<br/>
+# Output: 0 1 2 3 4
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h4 className="font-semibold mb-2 text-sm">while Loop:</h4>
+                                            <div className="code-block text-xs">
+i = 0<br/>
+while i &lt; 5:<br/>
+    print(i, end=" ")<br/>
+    i += 1<br/>
+# Output: 0 1 2 3 4
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Section>
+
+                        {/* Section 4: Loop Manipulation */}
+                        <Section title="4. Loop Manipulation (pass, continue, break, else)" icon={<Code />}>
+                            <div className="space-y-4">
+                                {/* pass Statement */}
+                                <div>
+                                    <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-3">
+                                        <h3 className="font-bold text-yellow-800 mb-2">📌 pass Statement</h3>
+                                        <p className="text-gray-700"><strong>Empty placeholder</strong> - does nothing. Used when syntax requires code but you have nothing to execute.</p>
+                                    </div>
+                                    <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                        <div className="code-block">
+for i in range(5):<br/>
+    pass  # TODO: implement later<br/>
+<br/>
+if x &gt; 5:<br/>
+    pass  # will add logic<br/>
+else:<br/>
+    print("x is small")<br/>
+<br/>
+def my_function():<br/>
+    pass  # empty function
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* continue Statement */}
+                                <div>
+                                    <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-3">
+                                        <h3 className="font-bold text-yellow-800 mb-2">📌 continue Statement</h3>
+                                        <p className="text-gray-700"><strong>Skip current iteration</strong> - jumps to next iteration. Rest of loop body is skipped.</p>
+                                    </div>
+                                    <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                        <h4 className="font-bold text-blue-800 mb-2">💡 Example: Skip Even Numbers</h4>
+                                        <div className="grid md:grid-cols-2 gap-3">
+                                            <div className="code-block text-xs">
+# Print odd numbers only<br/>
+for i in range(1, 11):<br/>
+    if i % 2 == 0:<br/>
+        continue  # Skip even<br/>
+    print(i, end=" ")<br/>
+# Output: 1 3 5 7 9
+                                            </div>
+                                            <div className="code-block text-xs">
+# Skip specific item<br/>
+fruits = ["apple", "banana", "cherry"]<br/>
+for fruit in fruits:<br/>
+    if fruit == "banana":<br/>
+        continue<br/>
+    print(fruit)<br/>
+# Output: apple, cherry
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* break Statement */}
+                                <div>
+                                    <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-3">
+                                        <h3 className="font-bold text-yellow-800 mb-2">📌 break Statement</h3>
+                                        <p className="text-gray-700"><strong>Exit loop immediately</strong> - terminates loop. Control moves to statement after loop.</p>
+                                    </div>
+                                    <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                        <h4 className="font-bold text-blue-800 mb-2">💡 Example: Find First Match</h4>
+                                        <div className="grid md:grid-cols-2 gap-3">
+                                            <div className="code-block text-xs">
+# Find first even number<br/>
+numbers = [1, 3, 5, 8, 9, 10]<br/>
+<br/>
+for num in numbers:<br/>
+    if num % 2 == 0:<br/>
+        print(f"Found: {`{num}`}")<br/>
+        break<br/>
+    print(f"Checking {`{num}`}")<br/>
+<br/>
+# Output:<br/>
+# Checking 1<br/>
+# Checking 3<br/>
+# Checking 5<br/>
+# Found: 8
+                                            </div>
+                                            <div className="code-block text-xs">
+# Search in list<br/>
+fruits = ["apple", "banana", "cherry"]<br/>
+search = "cherry"<br/>
+<br/>
+for fruit in fruits:<br/>
+    if fruit == search:<br/>
+        print(f"Found {`{search}`}!")<br/>
+        break<br/>
+else:<br/>
+    print(f"{`{search}`} not found")<br/>
+<br/>
+# Output: Found cherry!
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* else with Loops */}
+                                <div>
+                                    <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-3">
+                                        <h3 className="font-bold text-yellow-800 mb-2">📌 else Clause with Loops</h3>
+                                        <p className="text-gray-700"><strong>Executes when loop completes normally</strong> (without break). Does NOT execute if loop exits via break.</p>
+                                    </div>
+                                    <div className="bg-purple-50 border-l-4 border-purple-400 p-4">
+                                        <h4 className="font-bold text-purple-800 mb-3">🔑 Key Concept</h4>
+                                        <ul className="space-y-2 text-sm text-gray-700">
+                                            <li>✓ <strong>else runs:</strong> Loop finishes all iterations normally</li>
+                                            <li>✗ <strong>else skipped:</strong> Loop exits with <code>break</code></li>
+                                        </ul>
+                                    </div>
+                                    <div className="bg-blue-50 border-l-4 border-blue-400 p-4 mt-3">
+                                        <h4 className="font-bold text-blue-800 mb-2">💡 Examples</h4>
+                                        <div className="grid md:grid-cols-2 gap-3">
+                                            <div>
+                                                <h5 className="font-semibold mb-2 text-xs">Loop Completes (else runs):</h5>
+                                                <div className="code-block text-xs">
+for i in range(5):<br/>
+    print(i, end=" ")<br/>
+else:<br/>
+    print("\\nCompleted!")<br/>
+<br/>
+# Output:<br/>
+# 0 1 2 3 4<br/>
+# Completed!
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <h5 className="font-semibold mb-2 text-xs">Loop Breaks (else skipped):</h5>
+                                                <div className="code-block text-xs">
+for i in range(5):<br/>
+    if i == 3:<br/>
+        break<br/>
+    print(i, end=" ")<br/>
+else:<br/>
+    print("\\nCompleted!")<br/>
+<br/>
+# Output: 0 1 2<br/>
+# (else NOT executed)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="mt-3">
+                                            <h5 className="font-semibold mb-2 text-xs">Practical: Search with else</h5>
+                                            <div className="code-block text-xs">
+numbers = [1, 3, 5, 7, 9]<br/>
+search = 4<br/>
+<br/>
+for num in numbers:<br/>
+    if num == search:<br/>
+        print(f"Found {`{search}`}")<br/>
+        break<br/>
+else:<br/>
+    print(f"{`{search}`} not found in list")<br/>
+<br/>
+# Output: 4 not found in list
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Comparison Table */}
+                                <div className="bg-green-50 border-l-4 border-green-400 p-4">
+                                    <h3 className="font-bold text-green-800 mb-3">📊 Loop Control Comparison</h3>
+                                    <div className="overflow-x-auto">
+                                        <table className="min-w-full text-sm">
+                                            <thead className="bg-green-100">
+                                                <tr>
+                                                    <th className="px-4 py-2 text-left">Statement</th>
+                                                    <th className="px-4 py-2 text-left">Action</th>
+                                                    <th className="px-4 py-2 text-left">Effect</th>
+                                                    <th className="px-4 py-2 text-left">Use Case</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="text-gray-700">
+                                                <tr className="border-b">
+                                                    <td className="px-4 py-2 font-semibold">pass</td>
+                                                    <td className="px-4 py-2">Do nothing</td>
+                                                    <td className="px-4 py-2">Continue normally</td>
+                                                    <td className="px-4 py-2">Placeholder</td>
+                                                </tr>
+                                                <tr className="border-b">
+                                                    <td className="px-4 py-2 font-semibold">continue</td>
+                                                    <td className="px-4 py-2">Skip current</td>
+                                                    <td className="px-4 py-2">Next iteration</td>
+                                                    <td className="px-4 py-2">Skip items</td>
+                                                </tr>
+                                                <tr className="border-b">
+                                                    <td className="px-4 py-2 font-semibold">break</td>
+                                                    <td className="px-4 py-2">Exit loop</td>
+                                                    <td className="px-4 py-2">Terminate loop</td>
+                                                    <td className="px-4 py-2">Early exit</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="px-4 py-2 font-semibold">else</td>
+                                                    <td className="px-4 py-2">Run after loop</td>
+                                                    <td className="px-4 py-2">If no break</td>
+                                                    <td className="px-4 py-2">Completion check</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </Section>
+
+                        {/* Section 5: Programming Examples */}
+                        <Section title="5. Common Programming Patterns" icon={<Code />}>
+                            <div className="space-y-4">
+                                <div className="grid md:grid-cols-2 gap-4">
+                                    {/* Prime Number */}
+                                    <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                        <h4 className="font-bold text-blue-800 mb-2">1. Prime Number Check</h4>
+                                        <div className="code-block text-xs">
+num = 17<br/>
+<br/>
+if num &lt; 2:<br/>
+    print("Not prime")<br/>
+else:<br/>
+    is_prime = True<br/>
+    for i in range(2, int(num**0.5)+1):<br/>
+        if num % i == 0:<br/>
+            is_prime = False<br/>
+            break<br/>
+    <br/>
+    if is_prime:<br/>
+        print(f"{`{num}`} is prime")<br/>
+    else:<br/>
+        print(f"{`{num}`} is not prime")
+                                        </div>
+                                    </div>
+
+                                    {/* Factorial */}
+                                    <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                        <h4 className="font-bold text-blue-800 mb-2">2. Factorial (for & while)</h4>
+                                        <div className="code-block text-xs">
+# Using for loop<br/>
+n = 5<br/>
+factorial = 1<br/>
+for i in range(1, n+1):<br/>
+    factorial *= i<br/>
+print(factorial)  # 120<br/>
+<br/>
+# Using while loop<br/>
+n, fact, i = 5, 1, 1<br/>
+while i &lt;= n:<br/>
+    fact *= i<br/>
+    i += 1<br/>
+print(fact)  # 120
+                                        </div>
+                                    </div>
+
+                                    {/* Fibonacci */}
+                                    <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                        <h4 className="font-bold text-blue-800 mb-2">3. Fibonacci Series</h4>
+                                        <div className="code-block text-xs">
+n = 10<br/>
+a, b = 0, 1<br/>
+<br/>
+for i in range(n):<br/>
+    print(a, end=" ")<br/>
+    a, b = b, a + b<br/>
+<br/>
+# Output: 0 1 1 2 3 5 8 13 21 34
+                                        </div>
+                                    </div>
+
+                                    {/* Reverse Number */}
+                                    <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                        <h4 className="font-bold text-blue-800 mb-2">4. Reverse Number</h4>
+                                        <div className="code-block text-xs">
+num = 12345<br/>
+reverse = 0<br/>
+<br/>
+while num &gt; 0:<br/>
+    digit = num % 10<br/>
+    reverse = reverse * 10 + digit<br/>
+    num //= 10<br/>
+<br/>
+print(reverse)  # 54321
+                                        </div>
+                                    </div>
+
+                                    {/* Pattern */}
+                                    <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                        <h4 className="font-bold text-blue-800 mb-2">5. Pattern Printing</h4>
+                                        <div className="code-block text-xs">
+# Right triangle<br/>
+n = 5<br/>
+for i in range(1, n+1):<br/>
+    for j in range(i):<br/>
+        print("*", end="")<br/>
+    print()<br/>
+<br/>
+# Output:<br/>
+# *<br/>
+# **<br/>
+# ***<br/>
+# ****<br/>
+# *****
+                                        </div>
+                                    </div>
+
+                                    {/* Sum of Digits */}
+                                    <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                        <h4 className="font-bold text-blue-800 mb-2">6. Sum of Digits</h4>
+                                        <div className="code-block text-xs">
+num = 12345<br/>
+sum_digits = 0<br/>
+<br/>
+while num &gt; 0:<br/>
+    digit = num % 10<br/>
+    sum_digits += digit<br/>
+    num //= 10<br/>
+<br/>
+print(sum_digits)  # 15
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Section>
+
+                        {/* Quick Revision Summary */}
+                        <div className="bg-gradient-to-r from-red-500 to-pink-600 rounded-xl shadow-2xl p-8 text-white mt-8">
+                            <h2 className="text-3xl font-bold mb-6 flex items-center gap-3">
+                                <span>🎯</span>
+                                QUICK REVISION SUMMARY
+                            </h2>
+
+                            {/* Key Syntax & Formulas */}
+                            <div className="bg-white bg-opacity-20 rounded-lg p-4 mb-4">
+                                <h3 className="text-xl font-bold mb-3">📐 Key Syntax & Formulas</h3>
+                                <div className="grid md:grid-cols-2 gap-4 text-sm">
+                                    <div>
+                                        <strong>Conditionals:</strong>
+                                        <div className="code-block text-xs mt-2">
+if condition:<br/>
+    block<br/>
+elif condition:<br/>
+    block<br/>
+else:<br/>
+    block<br/>
+<br/>
+# Ternary<br/>
+x = a if condition else b
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <strong>Loops:</strong>
+                                        <div className="code-block text-xs mt-2">
+# for loop<br/>
+for item in sequence:<br/>
+    block<br/>
+<br/>
+# while loop<br/>
+while condition:<br/>
+    block
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <strong>range() - 3 Forms:</strong>
+                                        <div className="code-block text-xs mt-2">
+range(stop)         # 0 to stop-1<br/>
+range(start, stop)  # start to stop-1<br/>
+range(start, stop, step)
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <strong>Loop Control:</strong>
+                                        <div className="code-block text-xs mt-2">
+pass      # Do nothing<br/>
+continue  # Skip to next<br/>
+break     # Exit loop<br/>
+else:     # After loop (no break)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Key Definitions */}
+                            <div className="bg-white bg-opacity-20 rounded-lg p-4 mb-4">
+                                <h3 className="text-xl font-bold mb-3">📚 Key Definitions</h3>
+                                <div className="grid md:grid-cols-2 gap-3 text-sm">
+                                    <div>
+                                        <strong>if-elif-else:</strong> Multiple condition checking (sequential, first True executes)
+                                    </div>
+                                    <div>
+                                        <strong>for loop:</strong> Iterate over sequence (known iterations)
+                                    </div>
+                                    <div>
+                                        <strong>while loop:</strong> Repeat while condition True (unknown iterations)
+                                    </div>
+                                    <div>
+                                        <strong>range():</strong> Generate sequence of numbers
+                                    </div>
+                                    <div>
+                                        <strong>enumerate():</strong> Get index and value together
+                                    </div>
+                                    <div>
+                                        <strong>.items():</strong> Dict key-value pairs
+                                    </div>
+                                    <div>
+                                        <strong>pass:</strong> Empty placeholder (does nothing)
+                                    </div>
+                                    <div>
+                                        <strong>continue:</strong> Skip current iteration
+                                    </div>
+                                    <div>
+                                        <strong>break:</strong> Exit loop immediately
+                                    </div>
+                                    <div>
+                                        <strong>loop-else:</strong> Runs if loop completes (no break)
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Memory Tricks */}
+                            <div className="bg-white bg-opacity-20 rounded-lg p-4 mb-4">
+                                <h3 className="text-xl font-bold mb-3">🧠 Memory Tricks & Mnemonics</h3>
+                                <ul className="space-y-2 text-sm">
+                                    <li><strong>🔀 if-elif-else:</strong> <em>"Check TOP to BOTTOM, first True WINS"</em></li>
+                                    <li><strong>🔄 for vs while:</strong> <em>"for = Know COUNT, while = Know CONDITION"</em></li>
+                                    <li><strong>📊 range():</strong> <em>"Stop is EXCLUSIVE, Start is INCLUSIVE"</em> (range(1,5) → 1,2,3,4)</li>
+                                    <li><strong>🔍 enumerate():</strong> <em>"Get BOTH index and value together"</em></li>
+                                    <li><strong>📚 dict.items():</strong> <em>"BEST way to iterate dictionaries"</em></li>
+                                    <li><strong>🚫 pass:</strong> <em>"PASS = DO NOTHING (placeholder)"</em></li>
+                                    <li><strong>⏭️ continue:</strong> <em>"CONTINUE = SKIP this, NEXT iteration"</em></li>
+                                    <li><strong>🛑 break:</strong> <em>"BREAK = EXIT loop NOW"</em></li>
+                                    <li><strong>✅ loop-else:</strong> <em>"else runs if NO BREAK (completion check)"</em></li>
+                                    <li><strong>⚠️ while loop:</strong> <em>"MUST UPDATE condition variable (or infinite loop!)"</em></li>
+                                </ul>
+                            </div>
+
+                            {/* Loop Control Decision Tree */}
+                            <div className="bg-white bg-opacity-20 rounded-lg p-4 mb-4">
+                                <h3 className="text-xl font-bold mb-3">🌳 Loop Control Decision Tree</h3>
+                                <div className="bg-black bg-opacity-30 p-3 rounded text-xs font-mono">
+Need placeholder? → <strong>pass</strong><br/>
+Skip this item? → <strong>continue</strong><br/>
+Exit loop early? → <strong>break</strong><br/>
+Check completion? → <strong>else</strong> clause<br/>
+<br/>
+Loop Type:<br/>
+Know iterations? → <strong>for</strong> loop<br/>
+Unknown iterations? → <strong>while</strong> loop
+                                </div>
+                            </div>
+
+                            {/* Common Exam Questions */}
+                            <div className="bg-white bg-opacity-20 rounded-lg p-4">
+                                <h3 className="text-xl font-bold mb-3">🎓 Common Exam Question Types</h3>
+                                <div className="space-y-3 text-sm">
+                                    <div>
+                                        <strong>Type 1: Output Prediction</strong>
+                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 font-mono text-xs">
+for i in range(1, 6):<br/>
+    if i == 3:<br/>
+        continue<br/>
+    if i == 5:<br/>
+        break<br/>
+    print(i, end=" ")<br/>
+# Output: 1 2 4
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <strong>Type 2: Loop-else Behavior</strong>
+                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 font-mono text-xs">
+for i in range(5):<br/>
+    if i == 3:<br/>
+        break<br/>
+else:<br/>
+    print("Completed")<br/>
+# Output: (nothing - else skipped due to break)
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <strong>Type 3: range() Understanding</strong>
+                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 font-mono text-xs">
+Q: What does range(2, 10, 3) generate?<br/>
+A: 2, 5, 8 (start=2, step=3, stop before 10)
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <strong>Type 4: Nested Loop Pattern</strong>
+                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 font-mono text-xs">
+for i in range(1, 4):<br/>
+    for j in range(i):<br/>
+        print("*", end="")<br/>
+    print()<br/>
+# Output:<br/>
+# *<br/>
+# **<br/>
+# ***
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <strong>Type 5: Dict Iteration</strong>
+                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 font-mono text-xs">
+d = {`{"a": 1, "b": 2}`}<br/>
+for k, v in d.items():<br/>
+    print(f"{`{k}`}:{`{v}`}")<br/>
+# Output: a:1  b:2
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <strong>Type 6: while Loop Trace</strong>
+                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 font-mono text-xs">
+x = 5<br/>
+while x &gt; 0:<br/>
+    print(x, end=" ")<br/>
+    x -= 2<br/>
+# Output: 5 3 1
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Pre-Exam Checklist */}
+                            <div className="bg-white bg-opacity-20 rounded-lg p-4 mt-4">
+                                <h3 className="text-xl font-bold mb-3">✅ Pre-Exam Checklist</h3>
+                                <div className="grid md:grid-cols-3 gap-2 text-sm">
+                                    <div><input type="checkbox" className="mr-2" />if-elif-else syntax</div>
+                                    <div><input type="checkbox" className="mr-2" />Ternary operator</div>
+                                    <div><input type="checkbox" className="mr-2" />for loop with range()</div>
+                                    <div><input type="checkbox" className="mr-2" />for with string/list</div>
+                                    <div><input type="checkbox" className="mr-2" />for with dict (.items())</div>
+                                    <div><input type="checkbox" className="mr-2" />enumerate() usage</div>
+                                    <div><input type="checkbox" className="mr-2" />while loop syntax</div>
+                                    <div><input type="checkbox" className="mr-2" />Nested loops</div>
+                                    <div><input type="checkbox" className="mr-2" />pass statement</div>
+                                    <div><input type="checkbox" className="mr-2" />continue vs break</div>
+                                    <div><input type="checkbox" className="mr-2" />loop-else clause</div>
+                                    <div><input type="checkbox" className="mr-2" />Prime number check</div>
+                                    <div><input type="checkbox" className="mr-2" />Factorial program</div>
+                                    <div><input type="checkbox" className="mr-2" />Pattern printing</div>
+                                    <div><input type="checkbox" className="mr-2" />Reverse number</div>
+                                </div>
+                            </div>
+
+                            {/* Last Minute Tips */}
+                            <div className="mt-4 bg-yellow-400 text-gray-900 rounded-lg p-4">
+                                <h3 className="text-lg font-bold mb-2">⏰ Last Minute Exam Tips:</h3>
+                                <ol className="space-y-1 text-sm list-decimal list-inside">
+                                    <li><strong>Trace loops step-by-step</strong> - Write down each iteration value</li>
+                                    <li><strong>range() is exclusive:</strong> range(5) → 0,1,2,3,4 (NOT 5)</li>
+                                    <li><strong>elif NOT elseif:</strong> Common syntax mistake!</li>
+                                    <li><strong>Indentation counts:</strong> All statements in block must align</li>
+                                    <li><strong>while needs update:</strong> Forget to update → infinite loop</li>
+                                    <li><strong>continue skips, break exits:</strong> continue = next iteration, break = done</li>
+                                    <li><strong>loop-else:</strong> Only runs if NO break (completion check)</li>
+                                    <li><strong>enumerate() gives (index, value):</strong> Unpack with two variables</li>
+                                    <li><strong>dict.items():</strong> Best way to iterate key-value pairs</li>
+                                    <li><strong>Nested loops:</strong> Inner loop completes fully for each outer iteration</li>
+                                </ol>
+                            </div>
+
+                            {/* Critical Formulas */}
+                            <div className="mt-4 bg-white bg-opacity-20 rounded-lg p-4">
+                                <h3 className="text-xl font-bold mb-3">⚡ Critical Formulas to Remember</h3>
+                                <div className="grid md:grid-cols-2 gap-3 text-sm">
+                                    <div>
+                                        <strong>Prime Check:</strong>
+                                        <div className="code-block text-xs mt-1">
+for i in range(2, int(n**0.5)+1):<br/>
+    if n % i == 0:<br/>
+        # Not prime
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <strong>Factorial:</strong>
+                                        <div className="code-block text-xs mt-1">
+fact = 1<br/>
+for i in range(1, n+1):<br/>
+    fact *= i
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <strong>Reverse Number:</strong>
+                                        <div className="code-block text-xs mt-1">
+while num &gt; 0:<br/>
+    digit = num % 10<br/>
+    rev = rev*10 + digit<br/>
+    num //= 10
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <strong>Fibonacci:</strong>
+                                        <div className="code-block text-xs mt-1">
+a, b = 0, 1<br/>
+for i in range(n):<br/>
+    print(a)<br/>
+    a, b = b, a+b
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Footer */}
+                        <div className="text-center mt-8 text-gray-600">
+                            <p className="text-sm">Best of luck with your exam! 🚀</p>
+                            <p className="text-xs mt-2">Python Unit-2 - Program Flow Control - Last Minute Revision</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Render the app
+        ReactDOM.render(<PythonUnit2Notes />, document.getElementById('root'));
+    </script>
+</body>
+</html>
