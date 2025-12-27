@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit-4: Algebraic Structures - Exam Notes</title>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>body{font-family:system-ui,sans-serif}.mono{font-family:monospace}</style>
+</head>
+<body class="bg-gray-50">
+<div id="root"></div>
+<script type="text/babel">
+const {useState} = React;
+
+const ChevronDown = () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>;
+const ChevronRight = () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/></svg>;
+const BookOpen = () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>;
+
+const Sec = ({t, c, d=false}) => {
+  const [o, setO] = useState(d);
+  return (
+    <div className="mb-3 bg-white rounded-lg shadow-md overflow-hidden">
+      <button onClick={() => setO(!o)} className={`w-full px-5 py-3 flex items-center justify-between bg-gradient-to-r ${c} text-white hover:opacity-90`}>
+        <span className="font-bold flex items-center gap-2"><BookOpen/>{t}</span>
+        {o ? <ChevronDown/> : <ChevronRight/>}
+      </button>
+      {o && <div className="p-5 space-y-3">{c.children}</div>}
+    </div>
+  );
+};
+
+const Def = ({t, children}) => <div className="bg-yellow-50 border-l-4 border-yellow-500 p-3 rounded-r"><h4 className="font-bold text-yellow-800 text-sm mb-1">📌 {t}</h4><div className="text-gray-800 text-xs">{children}</div></div>;
+const Ex = ({t, children}) => <div className="bg-blue-50 border-l-4 border-blue-500 p-3 rounded-r"><h4 className="font-bold text-blue-800 text-sm mb-1">💡 {t}</h4><div className="text-gray-800 text-xs">{children}</div></div>;
+const Form = ({t, children}) => <div className="bg-green-50 border-l-4 border-green-500 p-3 rounded-r"><h4 className="font-bold text-green-800 text-sm mb-1">🔢 {t}</h4><div className="text-gray-800 text-xs">{children}</div></div>;
+const Prop = ({t, children}) => <div className="bg-purple-50 border-l-4 border-purple-500 p-3 rounded-r"><h4 className="font-bold text-purple-800 text-sm mb-1">⭐ {t}</h4><div className="text-gray-800 text-xs">{children}</div></div>;
+
+const App = () => (
+  <div className="min-h-screen py-6 px-3">
+    <div className="max-w-5xl mx-auto">
+      <header className="text-center mb-6 bg-gradient-to-r from-indigo-600 to-purple-600 p-6 rounded-xl shadow-xl text-white">
+        <h1 className="text-3xl font-bold">Unit-4: Algebraic Structures</h1>
+        <p className="text-lg">Groups • Rings • Fields</p>
+        <p className="text-xs mt-1 opacity-90">Exam Ready Guide</p>
+      </header>
+
+      <Sec t="1. Algebraic Structures & Groups" c="from-indigo-600 to-purple-600" d={true}>
+        <Def t="Algebraic Structure">
+          <p>Set with one or more operations satisfying specific axioms</p>
+          <p className="mt-1"><strong>Examples:</strong> (ℤ, +), (ℝ, +, ×), (Matrices, +, ×)</p>
+        </Def>
+
+        <Def t="Group (G, ∘)">
+          <p><strong>Definition:</strong> Non-empty set G with binary operation ∘ satisfying:</p>
+          <ul className="list-disc ml-5 mt-1 space-y-0.5">
+            <li><strong>Closure:</strong> ∀a,b ∈ G, a∘b ∈ G</li>
+            <li><strong>Associativity:</strong> ∀a,b,c: (a∘b)∘c = a∘(b∘c)</li>
+            <li><strong>Identity:</strong> ∃e ∈ G: a∘e = e∘a = a, ∀a ∈ G</li>
+            <li><strong>Inverse:</strong> ∀a ∈ G, ∃a⁻¹: a∘a⁻¹ = a⁻¹∘a = e</li>
+          </ul>
+          <p className="mt-1 text-red-600 font-bold">Mnemonic: CAII (Closure-Associative-Identity-Inverse)</p>
+        </Def>
+
+        <Prop t="Abelian (Commutative) Group">
+          <p>Group with additional property: a∘b = b∘a, ∀a,b ∈ G</p>
+          <p className="mt-1"><strong>Examples:</strong> (ℤ,+), (ℝ\{0},×), (ℂ,+)</p>
+        </Prop>
+
+        <Ex t="Group Examples">
+          <div className="space-y-1">
+            <p><strong>✓ (ℤ, +):</strong> Integers under addition (abelian)</p>
+            <p><strong>✓ (ℝ\{0}, ×):</strong> Non-zero reals under multiplication</p>
+            <p><strong>✓ (Zₙ, +ₙ):</strong> Integers mod n under addition mod n</p>
+            <p><strong>✗ (ℕ, +):</strong> No inverses (not a group)</p>
+            <p><strong>✗ (ℤ, ×):</strong> No inverse for 2 (not a group)</p>
+          </div>
+        </Ex>
+
+        <Form t="Group Order">
+          <p><strong>|G|</strong> = Number of elements in G</p>
+          <p className="mt-1"><strong>Finite Group:</strong> |G| &lt; ∞</p>
+          <p><strong>Infinite Group:</strong> |G| = ∞</p>
+          <p className="mt-1"><strong>Order of element a:</strong> o(a) = smallest positive n: aⁿ = e</p>
+        </Form>
+      </Sec>
+
+      <Sec t="2. Subgroups" c="from-blue-600 to-cyan-600">
+        <Def t="Subgroup">
+          <p>H ⊆ G is a <strong>subgroup</strong> (H ≤ G) if H is a group under same operation as G</p>
+        </Def>
+
+        <Form t="Subgroup Test ⭐">
+          <p className="font-bold">H ≤ G iff:</p>
+          <ul className="list-decimal ml-5 mt-1 space-y-0.5">
+            <li>H ≠ ∅ (non-empty)</li>
+            <li>∀a,b ∈ H: a∘b ∈ H (closure)</li>
+            <li>∀a ∈ H: a⁻¹ ∈ H (inverse)</li>
+          </ul>
+          <p className="mt-1 text-green-700 font-bold">One-step test: ∀a,b ∈ H: a∘b⁻¹ ∈ H</p>
+        </Form>
+
+        <Ex t="Subgroup Examples">
+          <div className="space-y-1">
+            <p>(2ℤ, +) ≤ (ℤ, +) — even integers</p>
+            <p>(nℤ, +) ≤ (ℤ, +) — multiples of n</p>
+            <p>({e}, ∘) ≤ G — trivial subgroup</p>
+            <p>(G, ∘) ≤ G — improper subgroup</p>
+          </div>
+        </Ex>
+
+        <Prop t="Properties">
+          <ul className="list-disc ml-5 space-y-0.5">
+            <li>Every group has at least 2 subgroups: {e} and G</li>
+            <li>If H ≤ G, then |H| divides |G| (by Lagrange)</li>
+            <li>Intersection of subgroups is subgroup: H₁ ∩ H₂ ≤ G</li>
+            <li>Union may NOT be subgroup</li>
+          </ul>
+        </Prop>
+      </Sec>
+
+      <Sec t="3. Cyclic Groups" c="from-green-600 to-emerald-600">
+        <Def t="Cyclic Group">
+          <p>Group G generated by single element: G = &lt;a&gt; = {aⁿ : n ∈ ℤ}</p>
+          <p className="mt-1">a is called <strong>generator</strong> of G</p>
+        </Def>
+
+        <Form t="Properties of Cyclic Groups">
+          <ul className="list-disc ml-5 space-y-0.5">
+            <li>Every cyclic group is <strong>abelian</strong></li>
+            <li>Every subgroup of cyclic group is cyclic</li>
+            <li>If |G| = n, then G ≅ Zₙ</li>
+            <li>If |G| = ∞, then G ≅ ℤ</li>
+            <li>G = &lt;a&gt; with |G| = n → o(a) = n</li>
+          </ul>
+        </Form>
+
+        <Ex t="Cyclic Group Examples">
+          <div className="space-y-1">
+            <p><strong>(ℤ, +) = &lt;1&gt; = &lt;-1&gt;:</strong> Infinite cyclic</p>
+            <p><strong>(Zₙ, +ₙ) = &lt;1&gt;:</strong> Cyclic of order n</p>
+            <p><strong>(Z₆, +₆) = &lt;1&gt; = &lt;5&gt;:</strong> Generators: gcd(k,6)=1</p>
+            <p className="text-red-600"><strong>✗ (Z₂×Z₂, +):</strong> NOT cyclic (Klein-4 group)</p>
+          </div>
+        </Ex>
+
+        <Form t="Number of Generators">
+          <p>For cyclic group of order n:</p>
+          <p className="font-bold">Number of generators = φ(n)</p>
+          <p className="text-xs">where φ is Euler's totient function</p>
+        </Form>
+      </Sec>
+
+      <Sec t="4. Cosets" c="from-purple-600 to-pink-600">
+        <Def t="Left & Right Cosets">
+          <p>Let H ≤ G, a ∈ G:</p>
+          <ul className="list-disc ml-5 mt-1 space-y-0.5">
+            <li><strong>Left coset:</strong> aH = {ah : h ∈ H}</li>
+            <li><strong>Right coset:</strong> Ha = {ha : h ∈ H}</li>
+          </ul>
+        </Def>
+
+        <Prop t="Coset Properties ⭐">
+          <ul className="list-disc ml-5 space-y-0.5">
+            <li>|aH| = |H| (same size as H)</li>
+            <li>aH = bH ⟺ a⁻¹b ∈ H</li>
+            <li>Either aH = bH or aH ∩ bH = ∅ (disjoint or equal)</li>
+            <li>Cosets partition the group G</li>
+            <li>Number of distinct cosets = [G:H] (index of H in G)</li>
+          </ul>
+        </Prop>
+
+        <Ex t="Cosets Example">
+          <div className="mono text-xs bg-gray-100 p-2 rounded">
+            <p>G = Z₆ = {0,1,2,3,4,5}, H = {0,3}</p>
+            <p className="mt-1">Left cosets:</p>
+            <p>0+H = {0,3}</p>
+            <p>1+H = {1,4}</p>
+            <p>2+H = {2,5}</p>
+            <p>3+H = {3,0} = {0,3} = 0+H</p>
+            <p className="mt-1 text-blue-600">3 distinct cosets partition Z₆</p>
+          </div>
+        </Ex>
+      </Sec>
+
+      <Sec t="5. Lagrange's Theorem" c="from-red-600 to-orange-600">
+        <Form t="Lagrange's Theorem ⭐⭐⭐">
+          <div className="bg-white p-2 rounded space-y-1">
+            <p className="font-bold text-lg">If H ≤ G and |G| is finite, then:</p>
+            <p className="font-bold text-xl text-center my-2">|G| = |H| × [G:H]</p>
+            <p><strong>Therefore:</strong> |H| divides |G|</p>
+            <p className="mt-1 text-red-600 font-bold">Most important theorem in group theory!</p>
+          </div>
+        </Form>
+
+        <Prop t="Consequences">
+          <ul className="list-disc ml-5 space-y-0.5">
+            <li>Order of subgroup divides order of group</li>
+            <li>Order of element divides order of group: o(a) | |G|</li>
+            <li>aⁿ = e where n = |G|</li>
+            <li>If |G| is prime, then G is cyclic (only subgroups: {e}, G)</li>
+          </ul>
+        </Prop>
+
+        <Ex t="Application">
+          <div className="space-y-1">
+            <p><strong>Ex 1:</strong> |G| = 12, |H| must be: 1, 2, 3, 4, 6, or 12</p>
+            <p><strong>Ex 2:</strong> |G| = 7 (prime) → G ≅ Z₇ (cyclic)</p>
+            <p><strong>Ex 3:</strong> a ∈ G, |G| = 20 → o(a) ∈ {1,2,4,5,10,20}</p>
+          </div>
+        </Ex>
+      </Sec>
+
+      <Sec t="6. Normal Subgroups" c="from-indigo-600 to-purple-600">
+        <Def t="Normal Subgroup">
+          <p>H ⊴ G (H normal in G) if:</p>
+          <p className="font-bold mt-1">gHg⁻¹ = H, ∀g ∈ G</p>
+          <p className="mt-1">Equivalently: gH = Hg, ∀g (left coset = right coset)</p>
+        </Def>
+
+        <Prop t="Properties">
+          <ul className="list-disc ml-5 space-y-0.5">
+            <li>Every subgroup of abelian group is normal</li>
+            <li>{e} and G are always normal in G</li>
+            <li>If [G:H] = 2, then H ⊴ G</li>
+            <li>Kernel of homomorphism is normal</li>
+          </ul>
+        </Prop>
+
+        <Form t="Quotient Group">
+          <p>If H ⊴ G, then G/H = {aH : a ∈ G} is a group</p>
+          <p className="mt-1"><strong>Operation:</strong> (aH)(bH) = (ab)H</p>
+          <p><strong>|G/H| = [G:H] = |G|/|H|</strong></p>
+        </Form>
+
+        <Ex t="Normal Subgroup Example">
+          <div className="space-y-1">
+            <p><strong>✓ nℤ ⊴ ℤ:</strong> All subgroups of ℤ are normal (abelian)</p>
+            <p><strong>✓ A₃ ⊴ S₃:</strong> Alternating group in symmetric group</p>
+            <p><strong>Quotient:</strong> ℤ/nℤ ≅ Zₙ</p>
+          </div>
+        </Ex>
+      </Sec>
+
+      <Sec t="7. Permutations & Symmetric Groups" c="from-blue-600 to-cyan-600">
+        <Def t="Permutation">
+          <p>Bijective function σ: {1,2,...,n} → {1,2,...,n}</p>
+          <p className="mt-1"><strong>Symmetric Group Sₙ:</strong> All permutations of n elements</p>
+          <p><strong>|Sₙ| = n!</strong></p>
+        </Def>
+
+        <Form t="Cycle Notation">
+          <div className="mono text-xs bg-gray-100 p-2 rounded space-y-1">
+            <p>(1 2 3) means: 1→2, 2→3, 3→1</p>
+            <p>(1 2)(3 4) means: 1↔2, 3↔4</p>
+            <p>Disjoint cycles commute</p>
+          </div>
+        </Form>
+
+        <Def t="Transposition">
+          <p>2-cycle (a b): swaps a and b</p>
+          <p className="mt-1">Every permutation = product of transpositions</p>
+        </Def>
+
+        <Prop t="Even & Odd Permutations">
+          <ul className="list-disc ml-5 space-y-0.5">
+            <li><strong>Even:</strong> Product of even number of transpositions</li>
+            <li><strong>Odd:</strong> Product of odd number of transpositions</li>
+            <li>sgn(σ) = +1 (even) or -1 (odd)</li>
+          </ul>
+        </Prop>
+
+        <Def t="Alternating Group Aₙ">
+          <p>Subgroup of Sₙ containing all even permutations</p>
+          <p className="font-bold mt-1">|Aₙ| = n!/2</p>
+          <p className="mt-1">Aₙ ⊴ Sₙ (normal subgroup)</p>
+        </Def>
+
+        <Ex t="Example: S₃">
+          <div className="mono text-xs bg-gray-100 p-2 rounded">
+            <p>S₃ = {e, (12), (13), (23), (123), (132)}</p>
+            <p>|S₃| = 6</p>
+            <p className="mt-1">A₃ = {e, (123), (132)} — even perms</p>
+            <p>|A₃| = 3</p>
+          </div>
+        </Ex>
+      </Sec>
+
+      <Sec t="8. Group Homomorphisms" c="from-green-600 to-emerald-600">
+        <Def t="Homomorphism">
+          <p>φ: G → H is homomorphism if:</p>
+          <p className="font-bold mt-1">φ(a ∘ b) = φ(a) ⊙ φ(b), ∀a,b ∈ G</p>
+          <p className="text-xs mt-1">Preserves group operation</p>
+        </Def>
+
+        <Prop t="Types">
+          <ul className="list-disc ml-5 space-y-0.5">
+            <li><strong>Monomorphism:</strong> Injective homomorphism (one-to-one)</li>
+            <li><strong>Epimorphism:</strong> Surjective homomorphism (onto)</li>
+            <li><strong>Isomorphism:</strong> Bijective homomorphism (G ≅ H)</li>
+            <li><strong>Automorphism:</strong> Isomorphism G → G</li>
+          </ul>
+        </Prop>
+
+        <Form t="Kernel & Image">
+          <div className="space-y-1">
+            <p><strong>Kernel:</strong> ker(φ) = {g ∈ G : φ(g) = e_H}</p>
+            <p><strong>Image:</strong> im(φ) = {φ(g) : g ∈ G}</p>
+            <p className="mt-1 font-bold">ker(φ) ⊴ G (normal subgroup)</p>
+            <p className="font-bold">im(φ) ≤ H (subgroup)</p>
+          </div>
+        </Form>
+
+        <Form t="First Isomorphism Theorem ⭐">
+          <p className="font-bold">G/ker(φ) ≅ im(φ)</p>
+          <p className="text-xs mt-1">Fundamental theorem of homomorphisms</p>
+        </Form>
+
+        <Prop t="Properties">
+          <ul className="list-disc ml-5 space-y-0.5">
+            <li>φ(e_G) = e_H</li>
+            <li>φ(a⁻¹) = (φ(a))⁻¹</li>
+            <li>φ injective ⟺ ker(φ) = {e}</li>
+            <li>If φ surjective: |G|/|ker(φ)| = |H|</li>
+          </ul>
+        </Prop>
+
+        <Ex t="Homomorphism Example">
+          <div className="space-y-1">
+            <p><strong>φ: ℤ → Zₙ</strong> by φ(m) = m mod n</p>
+            <p>ker(φ) = nℤ, im(φ) = Zₙ</p>
+            <p className="mt-1"><strong>sgn: Sₙ → {-1,+1}</strong> (sign homomorphism)</p>
+            <p>ker(sgn) = Aₙ</p>
+          </div>
+        </Ex>
+      </Sec>
+
+      <Sec t="9. Rings" c="from-purple-600 to-pink-600">
+        <Def t="Ring (R, +, ×)">
+          <p><strong>Definition:</strong> Set R with two operations +, × satisfying:</p>
+          <ul className="list-disc ml-5 mt-1 space-y-0.5">
+            <li>(R, +) is abelian group</li>
+            <li>(R, ×) is closed and associative</li>
+            <li>Distributive: a×(b+c) = a×b + a×c</li>
+          </ul>
+        </Def>
+
+        <Prop t="Ring Properties">
+          <ul className="list-disc ml-5 space-y-0.5">
+            <li><strong>Commutative Ring:</strong> a×b = b×a</li>
+            <li><strong>Ring with Unity:</strong> ∃1 ∈ R: 1×a = a×1 = a</li>
+            <li><strong>Zero element:</strong> 0 + a = a, 0×a = 0</li>
+            <li>a×0 = 0×a = 0, ∀a ∈ R</li>
+          </ul>
+        </Prop>
+
+        <Def t="Integral Domain">
+          <p>Commutative ring with unity and no zero divisors</p>
+          <p className="mt-1"><strong>Zero divisor:</strong> a≠0, b≠0 but a×b=0</p>
+          <p className="mt-1 font-bold">If ab=0 ⟹ a=0 or b=0</p>
+        </Def>
+
+        <Ex t="Ring Examples">
+          <div className="space-y-1">
+            <p><strong>✓ (ℤ, +, ×):</strong> Commutative ring with unity, integral domain</p>
+            <p><strong>✓ (ℚ, +, ×):</strong> Field (more later)</p>
+            <p><strong>✓ (Zₙ, +ₙ, ×ₙ):</strong> Ring, but NOT always integral domain</p>
+            <p><strong>✓ M₂(ℝ):</strong> 2×2 matrices, non-commutative ring</p>
+            <p className="text-red-600"><strong>✗ Z₆:</strong> Has zero divisors: 2×3=0 mod 6</p>
+          </div>
+        </Ex>
+
+        <Prop t="Subrings & Ideals">
+          <div className="space-y-1">
+            <p><strong>Subring:</strong> S ⊆ R, closed under +, ×, and subtraction</p>
+            <p><strong>Ideal I ⊴ R:</strong> ∀r ∈ R, a ∈ I: ra, ar ∈ I</p>
+            <p className="text-xs mt-1">Ideals generalize normal subgroups</p>
+          </div>
+        </Prop>
+      </Sec>
+
+      <Sec t="10. Fields" c="from-red-600 to-orange-600">
+        <Def t="Field (F, +, ×)">
+          <p><strong>Definition:</strong> Commutative ring with unity where every non-zero element has multiplicative inverse</p>
+          <ul className="list-disc ml-5 mt-1 space-y-0.5">
+            <li>(F, +) is abelian group</li>
+            <li>(F\{0}, ×) is abelian group</li>
+            <li>Distributive law holds</li>
+          </ul>
+        </Def>
+
+        <Prop t="Field Properties">
+          <ul className="list-disc ml-5 space-y-0.5">
+            <li>Every field is integral domain</li>
+            <li>No zero divisors in fields</li>
+            <li>Smallest fields: ℤₚ (p prime), |F| ≥ 2</li>
+            <li>If |F| finite, then |F| = pⁿ for some prime p</li>
+          </ul>
+        </Prop>
+
+        <Ex t="Field Examples">
+          <div className="space-y-1">
+            <p><strong>✓ (ℚ, +, ×):</strong> Rationals — infinite field</p>
+            <p><strong>✓ (ℝ, +, ×):</strong> Reals — infinite field</p>
+            <p><strong>✓ (ℂ, +, ×):</strong> Complex numbers — infinite field</p>
+            <p><strong>✓ (Zₚ, +, ×):</strong> p prime — finite field, |F| = p</p>
+            <p className="text-red-600"><strong>✗ (ℤ, +, ×):</strong> Not field (2 has no inverse)</p>
+          </div>
+        </Ex>
+
+        <Form t="Characteristic of Field">
+          <div className="space-y-1">
+            <p><strong>char(F):</strong> Smallest n &gt; 0 such that n·1 = 0</p>
+            <p>If no such n exists, char(F) = 0</p>
+            <p className="mt-1">char(ℚ) = char(ℝ) = char(ℂ) = 0</p>
+            <p>char(Zₚ) = p</p>
+          </div>
+        </Form>
+
+        <Prop t="Hierarchy">
+          <div className="text-center mono text-xs bg-gray-100 p-2 rounded">
+            <p>Field ⊂ Integral Domain ⊂ Commutative Ring ⊂ Ring</p>
+            <p className="mt-1">↓ ↓ ↓</p>
+            <p>More structure ← Less structure</p>
+          </div>
+        </Prop>
+      </Sec>
+
+      {/* QUICK REVISION */}
+      <div className="mt-6 bg-gradient-to-br from-red-50 to-pink-50 border-4 border-red-500 rounded-xl p-5 shadow-2xl">
+        <h2 className="text-2xl font-bold text-red-700 mb-4 flex items-center gap-2">
+          <span className="text-3xl">🚀</span>QUICK REVISION SUMMARY
+        </h2>
+
+        <div className="space-y-3">
+          {/* Definitions Table */}
+          <div className="bg-white p-3 rounded-lg shadow">
+            <h3 className="text-lg font-bold text-yellow-600 mb-2">📌 KEY DEFINITIONS</h3>
+            <div className="text-xs space-y-1">
+              <p><strong>Group:</strong> (G,∘) with Closure, Associativity, Identity, Inverse (CAII)</p>
+              <p><strong>Subgroup H≤G:</strong> Non-empty, closed, has inverses | Test: ∀a,b∈H: ab⁻¹∈H</p>
+              <p><strong>Cyclic:</strong> G=⟨a⟩ (generated by one element)</p>
+              <p><strong>Coset:</strong> aH = {ah: h∈H}</p>
+              <p><strong>Normal H⊴G:</strong> gHg⁻¹=H ∀g (or gH=Hg)</p>
+              <p><strong>Homomorphism:</strong> φ(ab)=φ(a)φ(b)</p>
+              <p><strong>Ring:</strong> (R,+,×) where (R,+) abelian group, × associative, distributive</p>
+              <p><strong>Integral Domain:</strong> Commutative ring with unity, no zero divisors</p>
+              <p><strong>Field:</strong> Commutative ring where every non-zero has multiplicative inverse</p>
+            </div>
+          </div>
+
+          {/* Critical Formulas */}
+          <div className="bg-white p-3 rounded-lg shadow">
+            <h3 className="text-lg font-bold text-green-600 mb-2">🔥 CRITICAL FORMULAS</h3>
+            <div className="text-xs font-bold space-y-1">
+              <p className="text-red-600">1. LAGRANGE: |G| = |H| × [G:H] → |H| divides |G|</p>
+              <p>2. Cyclic generators: φ(n) for order n group</p>
+              <p>3. |Sₙ| = n!, |Aₙ| = n!/2</p>
+              <p>4. o(a) divides |G| (by Lagrange)</p>
+              <p>5. First Isomorphism: G/ker(φ) ≅ im(φ)</p>
+              <p>6. If |G| prime → G cyclic</p>
+            </div>
+          </div>
+
+          {/* Properties Checklist */}
+          <div className="bg-white p-3 rounded-lg shadow">
+            <h3 className="text-lg font-bold text-purple-600 mb-2">⭐ GROUP PROPERTIES</h3>
+            <table className="w-full text-xs">
+              <thead><tr className="border-b-2"><th>Structure</th><th>Abelian?</th><th>Unity?</th><th>Inverses?</th></tr></thead>
+              <tbody className="text-center">
+                <tr><td>Group</td><td>Maybe</td><td>Yes (e)</td><td>Yes</td></tr>
+                <tr><td>Abelian Grp</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+                <tr><td>Ring</td><td>+(Yes)</td><td>Maybe</td><td>+(Yes)</td></tr>
+                <tr><td>Integral Dom</td><td>×(Yes)</td><td>Yes</td><td>+(Yes)</td></tr>
+                <tr><td>Field</td><td>Both(Yes)</td><td>Yes</td><td>Both(Yes)</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          {/* Memory Tricks */}
+          <div className="bg-gradient-to-r from-purple-100 to-pink-100 p-3 rounded-lg">
+            <h3 className="text-lg font-bold text-purple-700 mb-2">🧠 MEMORY TRICKS</h3>
+            <ul className="list-disc ml-5 text-xs space-y-0.5">
+              <li><strong>"CAII":</strong> Closure-Associative-Identity-Inverse (group axioms)</li>
+              <li><strong>"Lagrange divides":</strong> Subgroup order always divides group order</li>
+              <li><strong>"Cyclic = Abelian":</strong> All cyclic groups are commutative</li>
+              <li><strong>"Kernel is Normal":</strong> ker(φ) ⊴ G always</li>
+              <li><strong>"Prime → Cyclic":</strong> Prime order groups are always cyclic</li>
+              <li><strong>"Field → Domain → Ring":</strong> Hierarchy (most → least structure)</li>
+              <li><strong>"Every field is domain":</strong> But not vice versa (ℤ is domain, not field)</li>
+            </ul>
+          </div>
+
+          {/* Common Proofs */}
+          <div className="bg-gradient-to-r from-blue-100 to-cyan-100 p-3 rounded-lg">
+            <h3 className="text-lg font-bold text-blue-700 mb-2">📝 COMMON EXAM PROOFS</h3>
+            <div className="space-y-2 text-xs">
+              <div className="bg-white p-2 rounded">
+                <p className="font-bold">Subgroup Test:</p>
+                <p>Show H≠∅, ∀a,b∈H: ab⁻¹∈H</p>
+              </div>
+              <div className="bg-white p-2 rounded">
+                <p className="font-bold">Cyclic → Abelian:</p>
+                <p>a,b∈G=⟨g⟩ → a=gᵐ, b=gⁿ → ab=gᵐgⁿ=gᵐ⁺ⁿ=gⁿ⁺ᵐ=ba</p>
+              </div>
+              <div className="bg-white p-2 rounded">
+                <p className="font-bold">Cosets Partition:</p>
+                <p>Show aH∩bH≠∅ → aH=bH</p>
+              </div>
+              <div className="bg-white p-2 rounded">
+                <p className="font-bold">Kernel is Normal:</p>
+                <p>Show gKg⁻¹ ⊆ K where K=ker(φ)</p>
+              </div>
+              <div className="bg-white p-2 rounded">
+                <p className="font-bold">φ injective ⟺ ker(φ)={e}:</p>
+                <p>Both directions: assume and derive</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Exam Question Types */}
+          <div className="bg-gradient-to-r from-green-100 to-emerald-100 p-3 rounded-lg">
+            <h3 className="text-lg font-bold text-green-700 mb-2">📋 EXAM QUESTION TYPES</h3>
+            <div className="space-y-1 text-xs">
+              <p><strong>Q1:</strong> Verify if (G,∘) is group (check CAII)</p>
+              <p><strong>Q2:</strong> Prove H is subgroup using one-step test</p>
+              <p><strong>Q3:</strong> Find order of element/group</p>
+              <p><strong>Q4:</strong> Show group is cyclic, find generators</p>
+              <p><strong>Q5:</strong> List all cosets of H in G</p>
+              <p><strong>Q6:</strong> Apply Lagrange's theorem (find possible orders)</p>
+              <p><strong>Q7:</strong> Verify if H is normal subgroup</p>
+              <p><strong>Q8:</strong> Write permutation in cycle notation, find order</p>
+              <p><strong>Q9:</strong> Verify homomorphism, find ker & im</p>
+              <p><strong>Q10:</strong> Determine if ring/integral domain/field</p>
+            </div>
+          </div>
+
+          {/* Critical Mistakes */}
+          <div className="bg-red-100 border-2 border-red-500 p-3 rounded-lg">
+            <h3 className="text-lg font-bold text-red-700 mb-2">❌ AVOID THESE</h3>
+            <ul className="list-disc ml-5 text-xs space-y-0.5 text-red-800">
+              <li>Forgetting to check ALL 4 group axioms (CAII)</li>
+              <li>Confusing left and right cosets (matter for non-abelian!)</li>
+              <li>Assuming subgroup → normal (need gHg⁻¹=H)</li>
+              <li>Forgetting |G| must be divisible by |H| (Lagrange!)</li>
+              <li>Mixing up kernel (maps to e) vs image (range)</li>
+              <li>Thinking all rings have unity or are commutative</li>
+              <li>Confusing integral domain with field (ℤ is domain, not field)</li>
+            </ul>
+          </div>
+
+          {/* Quick Reference */}
+          <div className="bg-white p-3 rounded-lg shadow">
+            <h3 className="text-lg font-bold text-indigo-600 mb-2">⚡ QUICK REFERENCE</h3>
+            <div className="grid grid-cols-2 gap-2 text-xs">
+              <div>
+                <p className="font-bold">Group Examples:</p>
+                <p>(ℤ,+), (ℚ\{0},×), Zₙ, Sₙ, Aₙ</p>
+              </div>
+              <div>
+                <p className="font-bold">Non-Groups:</p>
+                <p>(ℕ,+), (ℤ,×), (ℤₙ,×ₙ)</p>
+              </div>
+              <div>
+                <p className="font-bold">Cyclic:</p>
+                <p>ℤ, Zₙ, ⟨a⟩</p>
+              </div>
+              <div>
+                <p className="font-bold">Non-Cyclic:</p>
+                <p>Z₂×Z₂, S₃, Dₙ</p>
+              </div>
+              <div>
+                <p className="font-bold">Fields:</p>
+                <p>ℚ, ℝ, ℂ, Zₚ (p prime)</p>
+              </div>
+              <div>
+                <p className="font-bold">Not Fields:</p>
+                <p>ℤ, Zₙ (n composite)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-4 p-3 bg-gradient-to-r from-red-600 to-pink-600 rounded-lg text-center text-white">
+          <p className="text-xl font-bold">🎯 YOU'RE READY! 🎯</p>
+          <p className="text-xs mt-1">Master: Lagrange, Subgroup test, Cyclic→Abelian, ker(φ)⊴G, Field hierarchy</p>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+ReactDOM.render(<App />, document.getElementById('root'));
+</script>
+</body>
+</html>
