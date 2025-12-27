@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Unit-1: Last Minute Revision</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+        }
+        .output-block {
+            background: #0f172a;
+            color: #10b981;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        // Icon Components
+        const ChevronDown = () => (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+        );
+
+        const ChevronRight = () => (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+        );
+
+        const BookOpen = () => (
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+        );
+
+        // Collapsible Section Component
+        const Section = ({ title, children, defaultOpen = false }) => {
+            const [isOpen, setIsOpen] = useState(defaultOpen);
+
+            return (
+                <div className="mb-4 bg-white rounded-lg shadow-md overflow-hidden">
+                    <button
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="w-full px-6 py-4 flex items-center justify-between bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 transition-all"
+                    >
+                        <span className="font-semibold text-lg">{title}</span>
+                        {isOpen ? <ChevronDown /> : <ChevronRight />}
+                    </button>
+                    {isOpen && (
+                        <div className="p-6">
+                            {children}
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        // Main Component
+        const PythonUnit1Notes = () => {
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
+                    <div className="max-w-5xl mx-auto">
+                        {/* Header */}
+                        <div className="bg-white rounded-xl shadow-xl p-8 mb-8 border-t-4 border-blue-600">
+                            <div className="flex items-center gap-4 mb-4">
+                                <BookOpen />
+                                <h1 className="text-4xl font-bold text-gray-800">Python Unit-1</h1>
+                            </div>
+                            <p className="text-xl text-gray-600">Last Minute Revision Notes</p>
+                            <div className="mt-4 flex gap-4 text-sm">
+                                <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full">Variables</span>
+                                <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full">Operators</span>
+                                <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full">Data Types</span>
+                                <span className="bg-pink-100 text-pink-800 px-3 py-1 rounded-full">Blocks</span>
+                            </div>
+                        </div>
+
+                        {/* Section 1: Introduction to Python */}
+                        <Section title="1. Introduction to Python" defaultOpen={true}>
+                            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+                                <h3 className="font-bold text-yellow-800 mb-2">📌 Definition</h3>
+                                <p className="text-gray-700">Python is a <strong>high-level, interpreted, dynamically-typed</strong> programming language created by Guido van Rossum in 1991.</p>
+                            </div>
+
+                            <div className="bg-purple-50 border-l-4 border-purple-400 p-4 mb-4">
+                                <h3 className="font-bold text-purple-800 mb-3">🔑 Key Features</h3>
+                                <ul className="space-y-2 text-gray-700">
+                                    <li>✓ <strong>Interpreted:</strong> No compilation needed, runs line by line</li>
+                                    <li>✓ <strong>Dynamically Typed:</strong> No need to declare variable types</li>
+                                    <li>✓ <strong>Easy Syntax:</strong> Readable, beginner-friendly</li>
+                                    <li>✓ <strong>Object-Oriented:</strong> Supports OOP concepts</li>
+                                    <li>✓ <strong>Cross-platform:</strong> Windows, Linux, Mac</li>
+                                    <li>✓ <strong>Extensive Libraries:</strong> Rich standard library</li>
+                                </ul>
+                            </div>
+
+                            <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                <h3 className="font-bold text-blue-800 mb-2">💡 Basic Syntax Example</h3>
+                                <div className="code-block">
+# Comments start with #<br/>
+print("Hello, World!")  # Output to console<br/>
+<br/>
+# Indentation matters (no braces needed)<br/>
+if True:<br/>
+    print("Indented block")
+                                </div>
+                                <div className="output-block">
+Output:<br/>
+Hello, World!<br/>
+Indented block
+                                </div>
+                            </div>
+                        </Section>
+
+                        {/* Section 2: Python Variables */}
+                        <Section title="2. Python Variables">
+                            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+                                <h3 className="font-bold text-yellow-800 mb-2">📌 Definition</h3>
+                                <p className="text-gray-700">Variable = Container to store data. No declaration needed (dynamic typing).</p>
+                            </div>
+
+                            <div className="grid md:grid-cols-2 gap-4 mb-4">
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                    <h3 className="font-bold text-blue-800 mb-2">Simple Assignment</h3>
+                                    <div className="code-block">
+x = 10          # int<br/>
+name = "Python" # str<br/>
+pi = 3.14       # float<br/>
+is_valid = True # bool<br/>
+<br/>
+print(x, name, pi, is_valid)
+                                    </div>
+                                    <div className="output-block">10 Python 3.14 True</div>
+                                </div>
+
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                    <h3 className="font-bold text-blue-800 mb-2">Multiple Assignment</h3>
+                                    <div className="code-block">
+# Same value<br/>
+a = b = c = 100<br/>
+<br/>
+# Different values<br/>
+x, y, z = 10, 20, 30<br/>
+<br/>
+# Swap variables<br/>
+a, b = 5, 10<br/>
+a, b = b, a  # Now a=10, b=5
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="bg-purple-50 border-l-4 border-purple-400 p-4 mb-4">
+                                <h3 className="font-bold text-purple-800 mb-3">📋 Variable Naming Rules</h3>
+                                <div className="overflow-x-auto">
+                                    <table className="min-w-full text-sm">
+                                        <thead className="bg-purple-100">
+                                            <tr>
+                                                <th className="px-4 py-2 text-left">Rule</th>
+                                                <th className="px-4 py-2 text-left">Example</th>
+                                                <th className="px-4 py-2 text-center">Valid?</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="text-gray-700">
+                                            <tr className="border-b">
+                                                <td className="px-4 py-2">Start with letter or _</td>
+                                                <td className="px-4 py-2"><code>name, _value</code></td>
+                                                <td className="px-4 py-2 text-center text-green-600">✓</td>
+                                            </tr>
+                                            <tr className="border-b">
+                                                <td className="px-4 py-2">Can contain letters, digits, _</td>
+                                                <td className="px-4 py-2"><code>var1, my_var</code></td>
+                                                <td className="px-4 py-2 text-center text-green-600">✓</td>
+                                            </tr>
+                                            <tr className="border-b">
+                                                <td className="px-4 py-2">Cannot start with digit</td>
+                                                <td className="px-4 py-2"><code>1var</code></td>
+                                                <td className="px-4 py-2 text-center text-red-600">✗</td>
+                                            </tr>
+                                            <tr className="border-b">
+                                                <td className="px-4 py-2">Cannot use keywords</td>
+                                                <td className="px-4 py-2"><code>if, for, while</code></td>
+                                                <td className="px-4 py-2 text-center text-red-600">✗</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="px-4 py-2">Case-sensitive</td>
+                                                <td className="px-4 py-2"><code>Name ≠ name</code></td>
+                                                <td className="px-4 py-2 text-center text-green-600">✓</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                <h3 className="font-bold text-blue-800 mb-2">Dynamic Typing</h3>
+                                <div className="code-block">
+x = 10          # int<br/>
+print(type(x))  # &lt;class 'int'&gt;<br/>
+<br/>
+x = "Hello"     # now string<br/>
+print(type(x))  # &lt;class 'str'&gt;<br/>
+<br/>
+x = 3.14        # now float<br/>
+print(type(x))  # &lt;class 'float'&gt;
+                                </div>
+                            </div>
+                        </Section>
+
+                        {/* Section 3: Python Operators */}
+                        <Section title="3. Python Basic Operators">
+                            <div className="space-y-4">
+                                {/* Arithmetic Operators */}
+                                <div className="bg-green-50 border-l-4 border-green-400 p-4">
+                                    <h3 className="font-bold text-green-800 mb-3">➕ Arithmetic Operators</h3>
+                                    <div className="overflow-x-auto">
+                                        <table className="min-w-full text-sm">
+                                            <thead className="bg-green-100">
+                                                <tr>
+                                                    <th className="px-4 py-2 text-left">Operator</th>
+                                                    <th className="px-4 py-2 text-left">Description</th>
+                                                    <th className="px-4 py-2 text-left">Example</th>
+                                                    <th className="px-4 py-2 text-left">Result</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="text-gray-700">
+                                                <tr className="border-b"><td className="px-4 py-2"><code>+</code></td><td className="px-4 py-2">Addition</td><td className="px-4 py-2"><code>5 + 3</code></td><td className="px-4 py-2"><code>8</code></td></tr>
+                                                <tr className="border-b"><td className="px-4 py-2"><code>-</code></td><td className="px-4 py-2">Subtraction</td><td className="px-4 py-2"><code>5 - 3</code></td><td className="px-4 py-2"><code>2</code></td></tr>
+                                                <tr className="border-b"><td className="px-4 py-2"><code>*</code></td><td className="px-4 py-2">Multiplication</td><td className="px-4 py-2"><code>5 * 3</code></td><td className="px-4 py-2"><code>15</code></td></tr>
+                                                <tr className="border-b"><td className="px-4 py-2"><code>/</code></td><td className="px-4 py-2">Division (float)</td><td className="px-4 py-2"><code>5 / 2</code></td><td className="px-4 py-2"><code>2.5</code></td></tr>
+                                                <tr className="border-b"><td className="px-4 py-2"><code>//</code></td><td className="px-4 py-2">Floor Division</td><td className="px-4 py-2"><code>5 // 2</code></td><td className="px-4 py-2"><code>2</code></td></tr>
+                                                <tr className="border-b"><td className="px-4 py-2"><code>%</code></td><td className="px-4 py-2">Modulus (remainder)</td><td className="px-4 py-2"><code>5 % 2</code></td><td className="px-4 py-2"><code>1</code></td></tr>
+                                                <tr><td className="px-4 py-2"><code>**</code></td><td className="px-4 py-2">Exponentiation</td><td className="px-4 py-2"><code>5 ** 2</code></td><td className="px-4 py-2"><code>25</code></td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                {/* Comparison Operators */}
+                                <div className="bg-green-50 border-l-4 border-green-400 p-4">
+                                    <h3 className="font-bold text-green-800 mb-3">⚖️ Comparison Operators</h3>
+                                    <div className="overflow-x-auto">
+                                        <table className="min-w-full text-sm">
+                                            <thead className="bg-green-100">
+                                                <tr>
+                                                    <th className="px-4 py-2 text-left">Operator</th>
+                                                    <th className="px-4 py-2 text-left">Description</th>
+                                                    <th className="px-4 py-2 text-left">Example</th>
+                                                    <th className="px-4 py-2 text-left">Result</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="text-gray-700">
+                                                <tr className="border-b"><td className="px-4 py-2"><code>==</code></td><td className="px-4 py-2">Equal to</td><td className="px-4 py-2"><code>5 == 5</code></td><td className="px-4 py-2"><code>True</code></td></tr>
+                                                <tr className="border-b"><td className="px-4 py-2"><code>!=</code></td><td className="px-4 py-2">Not equal</td><td className="px-4 py-2"><code>5 != 3</code></td><td className="px-4 py-2"><code>True</code></td></tr>
+                                                <tr className="border-b"><td className="px-4 py-2"><code>&gt;</code></td><td className="px-4 py-2">Greater than</td><td className="px-4 py-2"><code>5 &gt; 3</code></td><td className="px-4 py-2"><code>True</code></td></tr>
+                                                <tr className="border-b"><td className="px-4 py-2"><code>&lt;</code></td><td className="px-4 py-2">Less than</td><td className="px-4 py-2"><code>5 &lt; 3</code></td><td className="px-4 py-2"><code>False</code></td></tr>
+                                                <tr className="border-b"><td className="px-4 py-2"><code>&gt;=</code></td><td className="px-4 py-2">Greater or equal</td><td className="px-4 py-2"><code>5 &gt;= 5</code></td><td className="px-4 py-2"><code>True</code></td></tr>
+                                                <tr><td className="px-4 py-2"><code>&lt;=</code></td><td className="px-4 py-2">Less or equal</td><td className="px-4 py-2"><code>5 &lt;= 3</code></td><td className="px-4 py-2"><code>False</code></td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                {/* Logical Operators */}
+                                <div className="bg-green-50 border-l-4 border-green-400 p-4">
+                                    <h3 className="font-bold text-green-800 mb-3">🔗 Logical Operators</h3>
+                                    <div className="grid md:grid-cols-2 gap-4">
+                                        <div>
+                                            <table className="min-w-full text-sm">
+                                                <thead className="bg-green-100">
+                                                    <tr>
+                                                        <th className="px-4 py-2 text-left">Operator</th>
+                                                        <th className="px-4 py-2 text-left">Description</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody className="text-gray-700">
+                                                    <tr className="border-b"><td className="px-4 py-2"><code>and</code></td><td className="px-4 py-2">Both True</td></tr>
+                                                    <tr className="border-b"><td className="px-4 py-2"><code>or</code></td><td className="px-4 py-2">At least one True</td></tr>
+                                                    <tr><td className="px-4 py-2"><code>not</code></td><td className="px-4 py-2">Negation</td></tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div className="code-block">
+a = True<br/>
+b = False<br/>
+<br/>
+print(a and b)  # False<br/>
+print(a or b)   # True<br/>
+print(not a)    # False
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Assignment Operators */}
+                                <div className="bg-green-50 border-l-4 border-green-400 p-4">
+                                    <h3 className="font-bold text-green-800 mb-3">📝 Assignment Operators</h3>
+                                    <div className="grid md:grid-cols-2 gap-4">
+                                        <div className="overflow-x-auto">
+                                            <table className="min-w-full text-sm">
+                                                <thead className="bg-green-100">
+                                                    <tr>
+                                                        <th className="px-4 py-2 text-left">Operator</th>
+                                                        <th className="px-4 py-2 text-left">Example</th>
+                                                        <th className="px-4 py-2 text-left">Equivalent</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody className="text-gray-700">
+                                                    <tr className="border-b"><td className="px-4 py-2"><code>=</code></td><td className="px-4 py-2"><code>x = 5</code></td><td className="px-4 py-2"><code>x = 5</code></td></tr>
+                                                    <tr className="border-b"><td className="px-4 py-2"><code>+=</code></td><td className="px-4 py-2"><code>x += 3</code></td><td className="px-4 py-2"><code>x = x + 3</code></td></tr>
+                                                    <tr className="border-b"><td className="px-4 py-2"><code>-=</code></td><td className="px-4 py-2"><code>x -= 3</code></td><td className="px-4 py-2"><code>x = x - 3</code></td></tr>
+                                                    <tr className="border-b"><td className="px-4 py-2"><code>*=</code></td><td className="px-4 py-2"><code>x *= 3</code></td><td className="px-4 py-2"><code>x = x * 3</code></td></tr>
+                                                    <tr><td className="px-4 py-2"><code>/=</code></td><td className="px-4 py-2"><code>x /= 3</code></td><td className="px-4 py-2"><code>x = x / 3</code></td></tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div className="code-block">
+x = 10<br/>
+<br/>
+x += 5  # x = 15<br/>
+x -= 3  # x = 12<br/>
+x *= 2  # x = 24<br/>
+x //= 5 # x = 4
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Operator Precedence */}
+                                <div className="bg-indigo-50 border-l-4 border-indigo-400 p-4">
+                                    <h3 className="font-bold text-indigo-800 mb-3">⚡ Operator Precedence (High to Low)</h3>
+                                    <ol className="list-decimal list-inside space-y-1 text-gray-700">
+                                        <li><code>**</code> (Exponentiation) - Highest</li>
+                                        <li><code>*, /, //, %</code> (Multiplication, Division)</li>
+                                        <li><code>+, -</code> (Addition, Subtraction)</li>
+                                        <li><code>==, !=, &gt;, &lt;, &gt;=, &lt;=</code> (Comparison)</li>
+                                        <li><code>not</code> (Logical NOT)</li>
+                                        <li><code>and</code> (Logical AND)</li>
+                                        <li><code>or</code> (Logical OR) - Lowest</li>
+                                    </ol>
+                                    <div className="code-block mt-3">
+result = 10 + 5 * 2<br/>
+# 10 + 10 = 20 (not 30)<br/>
+<br/>
+result = (10 + 5) * 2<br/>
+# 15 * 2 = 30 (parentheses first)
+                                    </div>
+                                </div>
+
+                                {/* Identity and Membership */}
+                                <div className="grid md:grid-cols-2 gap-4">
+                                    <div className="bg-purple-50 border-l-4 border-purple-400 p-4">
+                                        <h3 className="font-bold text-purple-800 mb-2">🔍 Identity Operators</h3>
+                                        <div className="code-block">
+a = [1, 2, 3]<br/>
+b = [1, 2, 3]<br/>
+c = a<br/>
+<br/>
+a == b  # True (same values)<br/>
+a is b  # False (diff objects)<br/>
+a is c  # True (same object)
+                                        </div>
+                                    </div>
+                                    <div className="bg-purple-50 border-l-4 border-purple-400 p-4">
+                                        <h3 className="font-bold text-purple-800 mb-2">📦 Membership Operators</h3>
+                                        <div className="code-block">
+fruits = ["apple", "banana"]<br/>
+<br/>
+"apple" in fruits     # True<br/>
+"grape" in fruits     # False<br/>
+"grape" not in fruits # True<br/>
+<br/>
+"Hello" in "Hello World" # True
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Section>
+
+                        {/* Section 4: Python Blocks */}
+                        <Section title="4. Understanding Python Blocks">
+                            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+                                <h3 className="font-bold text-yellow-800 mb-2">📌 Key Concept</h3>
+                                <p className="text-gray-700">Python uses <strong>INDENTATION</strong> (spaces/tabs) to define code blocks, NOT braces {`{}`} like C/Java.</p>
+                            </div>
+
+                            <div className="grid md:grid-cols-2 gap-4 mb-4">
+                                <div className="bg-green-50 border-l-4 border-green-400 p-4">
+                                    <h3 className="font-bold text-green-800 mb-2">✅ Correct Indentation</h3>
+                                    <div className="code-block">
+# 4 spaces (standard)<br/>
+if True:<br/>
+    print("Inside if")<br/>
+    print("Still inside")<br/>
+print("Outside if")<br/>
+<br/>
+# Nested blocks<br/>
+if x &gt; 5:<br/>
+    print("x &gt; 5")<br/>
+    if x &gt; 8:<br/>
+        print("x &gt; 8")<br/>
+    print("Back to first if")
+                                    </div>
+                                </div>
+                                <div className="bg-red-50 border-l-4 border-red-400 p-4">
+                                    <h3 className="font-bold text-red-800 mb-2">❌ Wrong Indentation</h3>
+                                    <div className="code-block">
+# No indentation - ERROR<br/>
+if True:<br/>
+print("Error!")  # IndentationError<br/>
+<br/>
+# Inconsistent - ERROR<br/>
+if True:<br/>
+    print("Line 1")<br/>
+      print("Line 2")  # Error<br/>
+<br/>
+# Mix tabs/spaces - ERROR<br/>
+if True:<br/>
+→   print("Tab")<br/>
+    print("Space")  # Error
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="bg-purple-50 border-l-4 border-purple-400 p-4">
+                                <h3 className="font-bold text-purple-800 mb-3">📋 Block Rules</h3>
+                                <ul className="space-y-2 text-gray-700">
+                                    <li>✓ Use <strong>4 spaces</strong> per indentation level (PEP 8 standard)</li>
+                                    <li>✓ Be <strong>consistent</strong> - all spaces OR all tabs (not mixed)</li>
+                                    <li>✓ Code at same level = same indentation</li>
+                                    <li>✓ Colon <code>:</code> starts a new block</li>
+                                    <li>✓ Empty lines don't affect indentation</li>
+                                </ul>
+                            </div>
+                        </Section>
+
+                        {/* Section 5: Python Data Types */}
+                        <Section title="5. Python Data Types">
+                            <div className="bg-purple-50 border-l-4 border-purple-400 p-4 mb-4">
+                                <h3 className="font-bold text-purple-800 mb-3">📊 Data Type Categories</h3>
+                                <div className="overflow-x-auto">
+                                    <table className="min-w-full text-sm">
+                                        <thead className="bg-purple-100">
+                                            <tr>
+                                                <th className="px-4 py-2 text-left">Category</th>
+                                                <th className="px-4 py-2 text-left">Data Types</th>
+                                                <th className="px-4 py-2 text-left">Example</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="text-gray-700">
+                                            <tr className="border-b">
+                                                <td className="px-4 py-2 font-semibold">Numeric</td>
+                                                <td className="px-4 py-2">int, float, complex</td>
+                                                <td className="px-4 py-2"><code>42, 3.14, 2+3j</code></td>
+                                            </tr>
+                                            <tr className="border-b">
+                                                <td className="px-4 py-2 font-semibold">Sequence</td>
+                                                <td className="px-4 py-2">str, list, tuple</td>
+                                                <td className="px-4 py-2"><code>"hello", [1,2], (1,2)</code></td>
+                                            </tr>
+                                            <tr className="border-b">
+                                                <td className="px-4 py-2 font-semibold">Boolean</td>
+                                                <td className="px-4 py-2">bool</td>
+                                                <td className="px-4 py-2"><code>True, False</code></td>
+                                            </tr>
+                                            <tr className="border-b">
+                                                <td className="px-4 py-2 font-semibold">Set</td>
+                                                <td className="px-4 py-2">set, frozenset</td>
+                                                <td className="px-4 py-2"><code>{`{1, 2, 3}`}</code></td>
+                                            </tr>
+                                            <tr className="border-b">
+                                                <td className="px-4 py-2 font-semibold">Mapping</td>
+                                                <td className="px-4 py-2">dict</td>
+                                                <td className="px-4 py-2"><code>{`{"key": "value"}`}</code></td>
+                                            </tr>
+                                            <tr>
+                                                <td className="px-4 py-2 font-semibold">None</td>
+                                                <td className="px-4 py-2">NoneType</td>
+                                                <td className="px-4 py-2"><code>None</code></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                <h3 className="font-bold text-blue-800 mb-2">🔍 Type Checking</h3>
+                                <div className="code-block">
+x = 10<br/>
+print(type(x))        # &lt;class 'int'&gt;<br/>
+<br/>
+y = "Hello"<br/>
+print(type(y))        # &lt;class 'str'&gt;<br/>
+<br/>
+z = [1, 2, 3]<br/>
+print(type(z))        # &lt;class 'list'&gt;<br/>
+<br/>
+isinstance(x, int)    # True<br/>
+isinstance(y, str)    # True
+                                </div>
+                            </div>
+                        </Section>
+
+                        {/* Section 6: Numeric Data Types */}
+                        <Section title="6. Numeric Data Types (int, float, complex)">
+                            <div className="space-y-4">
+                                {/* Integer */}
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                    <h3 className="font-bold text-blue-800 mb-3">🔢 1. Integer (int)</h3>
+                                    <div className="bg-yellow-50 p-3 rounded mb-3">
+                                        <strong>Definition:</strong> Whole numbers (positive, negative, zero) with unlimited precision
+                                    </div>
+                                    <div className="code-block">
+# Integer examples<br/>
+age = 25<br/>
+temperature = -10<br/>
+large = 999999999999999999<br/>
+<br/>
+print(type(age))      # &lt;class 'int'&gt;<br/>
+<br/>
+# Operations<br/>
+a = 10<br/>
+b = 3<br/>
+print(a + b)          # 13<br/>
+print(a // b)         # 3 (floor division)<br/>
+print(a % b)          # 1 (modulus)<br/>
+print(a ** b)         # 1000 (exponent)
+                                    </div>
+                                </div>
+
+                                {/* Float */}
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                    <h3 className="font-bold text-blue-800 mb-3">🔢 2. Float (float)</h3>
+                                    <div className="bg-yellow-50 p-3 rounded mb-3">
+                                        <strong>Definition:</strong> Decimal numbers with finite precision (~15-17 decimal places)
+                                    </div>
+                                    <div className="code-block">
+# Float examples<br/>
+pi = 3.14159<br/>
+price = 99.99<br/>
+scientific = 2.5e-3   # 0.0025<br/>
+<br/>
+print(type(pi))       # &lt;class 'float'&gt;<br/>
+<br/>
+# Operations<br/>
+a = 10.5<br/>
+b = 2.5<br/>
+print(a + b)          # 13.0<br/>
+print(a / b)          # 4.2<br/>
+print(a * b)          # 26.25
+                                    </div>
+                                </div>
+
+                                {/* Complex */}
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                    <h3 className="font-bold text-blue-800 mb-3">🔢 3. Complex (complex)</h3>
+                                    <div className="bg-yellow-50 p-3 rounded mb-3">
+                                        <strong>Definition:</strong> Complex numbers in form <code>a + bj</code> where a=real, b=imaginary
+                                    </div>
+                                    <div className="code-block">
+# Complex examples<br/>
+c = 2 + 3j<br/>
+<br/>
+print(type(c))        # &lt;class 'complex'&gt;<br/>
+print(c.real)         # 2.0<br/>
+print(c.imag)         # 3.0<br/>
+<br/>
+# Operations<br/>
+c1 = 1 + 2j<br/>
+c2 = 3 + 4j<br/>
+print(c1 + c2)        # (4+6j)<br/>
+print(c1 * c2)        # (-5+10j)
+                                    </div>
+                                </div>
+
+                                {/* Type Conversion */}
+                                <div className="bg-green-50 border-l-4 border-green-400 p-4">
+                                    <h3 className="font-bold text-green-800 mb-3">🔄 Type Conversion</h3>
+                                    <div className="grid md:grid-cols-2 gap-4">
+                                        <div className="code-block">
+# int to float<br/>
+x = 10<br/>
+y = float(x)<br/>
+print(y)              # 10.0<br/>
+<br/>
+# float to int (truncates)<br/>
+a = 3.99<br/>
+b = int(a)<br/>
+print(b)              # 3<br/>
+<br/>
+# string to int/float<br/>
+s1 = "100"<br/>
+s2 = "3.14"<br/>
+print(int(s1))        # 100<br/>
+print(float(s2))      # 3.14
+                                        </div>
+                                        <div className="code-block">
+# int to string<br/>
+age = 25<br/>
+s = str(age)<br/>
+print("Age: " + s)    # Age: 25<br/>
+<br/>
+# Mixed operations<br/>
+a = 10      # int<br/>
+b = 3.5     # float<br/>
+print(a + b)          # 13.5 (float)<br/>
+print(a * b)          # 35.0 (float)<br/>
+<br/>
+# Type checking<br/>
+print(type(a + b))    # &lt;class 'float'&gt;
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Math Functions */}
+                                <div className="bg-indigo-50 border-l-4 border-indigo-400 p-4">
+                                    <h3 className="font-bold text-indigo-800 mb-3">🧮 Built-in Math Functions</h3>
+                                    <div className="grid md:grid-cols-2 gap-4">
+                                        <div>
+                                            <h4 className="font-semibold mb-2">Basic Functions:</h4>
+                                            <div className="code-block">
+abs(-10)              # 10<br/>
+pow(2, 3)             # 8 (2^3)<br/>
+round(3.7)            # 4<br/>
+round(3.14159, 2)     # 3.14<br/>
+<br/>
+max(1, 5, 3)          # 5<br/>
+min(1, 5, 3)          # 1<br/>
+sum([1, 2, 3])        # 6
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h4 className="font-semibold mb-2">Math Module:</h4>
+                                            <div className="code-block">
+import math<br/>
+<br/>
+math.sqrt(16)         # 4.0<br/>
+math.ceil(3.2)        # 4<br/>
+math.floor(3.9)       # 3<br/>
+math.pi               # 3.14159...<br/>
+math.factorial(5)     # 120<br/>
+math.sin(math.pi/2)   # 1.0
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Input and Conversion */}
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                    <h3 className="font-bold text-blue-800 mb-2">⌨️ Taking Numeric Input</h3>
+                                    <div className="code-block">
+# input() always returns string, must convert<br/>
+<br/>
+age = int(input("Enter age: "))<br/>
+height = float(input("Enter height: "))<br/>
+<br/>
+print(f"Age: {`{age}`}, Height: {`{height}`}")<br/>
+print(f"Next year: {`{age + 1}`}")<br/>
+<br/>
+# Example:<br/>
+# Input: 25<br/>
+# Input: 5.8<br/>
+# Output: Age: 25, Height: 5.8<br/>
+#         Next year: 26
+                                    </div>
+                                </div>
+                            </div>
+                        </Section>
+
+                        {/* Final Revision Summary */}
+                        <div className="bg-gradient-to-r from-red-500 to-pink-600 rounded-xl shadow-2xl p-8 text-white mt-8">
+                            <h2 className="text-3xl font-bold mb-6 flex items-center gap-3">
+                                <span>🎯</span>
+                                QUICK REVISION SUMMARY
+                            </h2>
+
+                            {/* Key Formulas */}
+                            <div className="bg-white bg-opacity-20 rounded-lg p-4 mb-4">
+                                <h3 className="text-xl font-bold mb-3">📐 Key Operations & Formulas</h3>
+                                <div className="grid md:grid-cols-2 gap-3 text-sm">
+                                    <div>
+                                        <strong>Arithmetic:</strong>
+                                        <ul className="ml-4 mt-1 space-y-1">
+                                            <li>• <code>a + b</code> (Addition)</li>
+                                            <li>• <code>a - b</code> (Subtraction)</li>
+                                            <li>• <code>a * b</code> (Multiplication)</li>
+                                            <li>• <code>a / b</code> (Division → float)</li>
+                                            <li>• <code>a // b</code> (Floor Division → int)</li>
+                                            <li>• <code>a % b</code> (Modulus → remainder)</li>
+                                            <li>• <code>a ** b</code> (Exponent → a^b)</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <strong>Type Conversion:</strong>
+                                        <ul className="ml-4 mt-1 space-y-1">
+                                            <li>• <code>int(x)</code> → integer</li>
+                                            <li>• <code>float(x)</code> → float</li>
+                                            <li>• <code>str(x)</code> → string</li>
+                                            <li>• <code>type(x)</code> → check type</li>
+                                        </ul>
+                                        <strong className="block mt-2">Math Functions:</strong>
+                                        <ul className="ml-4 mt-1 space-y-1">
+                                            <li>• <code>abs(x)</code> → absolute</li>
+                                            <li>• <code>round(x, n)</code> → round</li>
+                                            <li>• <code>pow(x, y)</code> → x^y</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Key Definitions */}
+                            <div className="bg-white bg-opacity-20 rounded-lg p-4 mb-4">
+                                <h3 className="text-xl font-bold mb-3">📚 Key Definitions</h3>
+                                <div className="space-y-2 text-sm">
+                                    <div><strong>Python:</strong> High-level, interpreted, dynamically-typed language</div>
+                                    <div><strong>Variable:</strong> Container to store data, no declaration needed</div>
+                                    <div><strong>Dynamic Typing:</strong> Variable type changes automatically</div>
+                                    <div><strong>Indentation:</strong> Spaces/tabs that define code blocks (4 spaces standard)</div>
+                                    <div><strong>int:</strong> Whole numbers, unlimited precision (10, -5, 999...)</div>
+                                    <div><strong>float:</strong> Decimal numbers, ~15 decimal precision (3.14, 2.5e-3)</div>
+                                    <div><strong>complex:</strong> Complex numbers a+bj (2+3j)</div>
+                                </div>
+                            </div>
+
+                            {/* Operator Precedence */}
+                            <div className="bg-white bg-opacity-20 rounded-lg p-4 mb-4">
+                                <h3 className="text-xl font-bold mb-3">⚡ Operator Precedence (Remember: PEMDAS+)</h3>
+                                <ol className="list-decimal list-inside space-y-1 text-sm">
+                                    <li><strong>**</strong> (Exponentiation) - HIGHEST</li>
+                                    <li><strong>*, /, //, %</strong> (Mult, Div, Floor, Mod)</li>
+                                    <li><strong>+, -</strong> (Add, Subtract)</li>
+                                    <li><strong>==, !=, &gt;, &lt;, &gt;=, &lt;=</strong> (Comparison)</li>
+                                    <li><strong>not</strong> (Logical NOT)</li>
+                                    <li><strong>and</strong> (Logical AND)</li>
+                                    <li><strong>or</strong> (Logical OR) - LOWEST</li>
+                                </ol>
+                                <div className="mt-2 bg-black bg-opacity-30 p-2 rounded text-xs">
+                                    <strong>Example:</strong> <code>10 + 5 * 2 ** 3</code> = <code>10 + 5 * 8</code> = <code>10 + 40</code> = <code>50</code>
+                                </div>
+                            </div>
+
+                            {/* Memory Tricks */}
+                            <div className="bg-white bg-opacity-20 rounded-lg p-4 mb-4">
+                                <h3 className="text-xl font-bold mb-3">🧠 Memory Tricks & Mnemonics</h3>
+                                <ul className="space-y-2 text-sm">
+                                    <li><strong>🔤 Variable Names:</strong> <em>"Letter Or Underscore Start, Then Letters Digits Underscore"</em></li>
+                                    <li><strong>➗ Division:</strong> <code>/</code> = <strong>F</strong>loat (gives decimal), <code>//</code> = <strong>F</strong>loor (gives whole)</li>
+                                    <li><strong>🔍 Identity:</strong> <code>is</code> checks <strong>same object</strong>, <code>==</code> checks <strong>same value</strong></li>
+                                    <li><strong>📦 Membership:</strong> <code>in</code> = "Is it <strong>IN</strong>side?" (checks if element exists)</li>
+                                    <li><strong>🔢 Types:</strong> <strong>I</strong>nt = <strong>I</strong>nteger (whole), <strong>F</strong>loat = <strong>F</strong>ractional (decimal), <strong>C</strong>omplex = <strong>C</strong>ombined (a+bj)</li>
+                                    <li><strong>📏 Indentation:</strong> <strong>4</strong> Spaces = <strong>Python's Four</strong>dation (standard)</li>
+                                </ul>
+                            </div>
+
+                            {/* Common Exam Questions */}
+                            <div className="bg-white bg-opacity-20 rounded-lg p-4">
+                                <h3 className="text-xl font-bold mb-3">🎓 Common Exam Question Types</h3>
+                                <div className="grid md:grid-cols-2 gap-3 text-sm">
+                                    <div>
+                                        <strong>1. Output Questions:</strong>
+                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 font-mono text-xs">
+x = 10<br/>
+x += 5<br/>
+print(x // 3)<br/>
+# Answer: 5
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <strong>2. Type Questions:</strong>
+                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 font-mono text-xs">
+x = 10<br/>
+x = x / 2<br/>
+print(type(x))<br/>
+# Answer: float
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <strong>3. Precedence:</strong>
+                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 font-mono text-xs">
+5 + 3 * 2 ** 2<br/>
+= 5 + 3 * 4<br/>
+= 5 + 12 = 17
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <strong>4. Comparison:</strong>
+                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 font-mono text-xs">
+5 &gt; 3 and 10 &lt; 20<br/>
+= True and True<br/>
+= True
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <strong>5. Conversion:</strong>
+                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 font-mono text-xs">
+int(3.99)    # 3<br/>
+float(10)    # 10.0<br/>
+str(25)      # "25"
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <strong>6. Swap Variables:</strong>
+                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 font-mono text-xs">
+a, b = 5, 10<br/>
+a, b = b, a<br/>
+# Now: a=10, b=5
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Quick Checklist */}
+                            <div className="bg-white bg-opacity-20 rounded-lg p-4 mt-4">
+                                <h3 className="text-xl font-bold mb-3">✅ Pre-Exam Checklist</h3>
+                                <div className="grid md:grid-cols-3 gap-2 text-sm">
+                                    <div>
+                                        <input type="checkbox" className="mr-2" />Variable naming rules
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" className="mr-2" />All 7 arithmetic operators
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" className="mr-2" />Comparison operators (6)
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" className="mr-2" />Logical operators (and/or/not)
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" className="mr-2" />Operator precedence order
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" className="mr-2" />Indentation rules
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" className="mr-2" />int, float, complex types
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" className="mr-2" />Type conversion functions
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" className="mr-2" />is vs == difference
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" className="mr-2" />/ vs // difference
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" className="mr-2" />Math functions (abs, round, pow)
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" className="mr-2" />Taking numeric input
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Last Minute Tips */}
+                            <div className="mt-4 bg-yellow-400 text-gray-900 rounded-lg p-4">
+                                <h3 className="text-lg font-bold mb-2">⏰ Last Minute Tips for Exam:</h3>
+                                <ul className="space-y-1 text-sm">
+                                    <li>1. <strong>Trace code step-by-step</strong> - Don't skip steps in your mind</li>
+                                    <li>2. <strong>Remember:</strong> <code>/</code> always gives <strong>float</strong>, even for <code>10/5</code> → <code>2.0</code></li>
+                                    <li>3. <strong>Indentation errors</strong> are common - count spaces carefully</li>
+                                    <li>4. <strong>Type matters:</strong> <code>"10" + "5" = "105"</code> (string) vs <code>10 + 5 = 15</code> (int)</li>
+                                    <li>5. <strong>input() returns string</strong> - always convert: <code>int(input())</code></li>
+                                    <li>6. <strong>Parentheses matter:</strong> Use them to control precedence</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        {/* Footer */}
+                        <div className="text-center mt-8 text-gray-600">
+                            <p className="text-sm">Good luck with your exam! 🍀</p>
+                            <p className="text-xs mt-2">Python Unit-1 - Last Minute Revision Notes</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Render the app
+        ReactDOM.render(<PythonUnit1Notes />, document.getElementById('root'));
+    </script>
+</body>
+</html>
