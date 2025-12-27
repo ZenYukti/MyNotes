@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit-3: Theory of Logics & Predicate Logic - Exam Notes</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        .math {
+            font-family: 'Cambria Math', 'Times New Roman', serif;
+            font-style: italic;
+        }
+        .truth-table {
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        // Icon Components
+        const ChevronDown = () => (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+        );
+
+        const ChevronRight = () => (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+        );
+
+        const BookOpen = () => (
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+        );
+
+        const Section = ({ title, children, defaultOpen = false }) => {
+            const [isOpen, setIsOpen] = useState(defaultOpen);
+            
+            return (
+                <div className="mb-4 bg-white rounded-lg shadow-md overflow-hidden">
+                    <button
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="w-full px-6 py-4 flex items-center justify-between bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 transition-all"
+                    >
+                        <span className="font-semibold text-lg flex items-center gap-2">
+                            <BookOpen />
+                            {title}
+                        </span>
+                        {isOpen ? <ChevronDown /> : <ChevronRight />}
+                    </button>
+                    {isOpen && (
+                        <div className="p-6 space-y-4">
+                            {children}
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        const DefinitionBox = ({ title, children }) => (
+            <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-r">
+                <h4 className="font-bold text-yellow-800 mb-2">📌 {title}</h4>
+                <div className="text-gray-800 text-sm">{children}</div>
+            </div>
+        );
+
+        const ExampleBox = ({ title, children }) => (
+            <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r">
+                <h4 className="font-bold text-blue-800 mb-2">💡 {title}</h4>
+                <div className="text-gray-800 text-sm">{children}</div>
+            </div>
+        );
+
+        const FormulaBox = ({ title, children }) => (
+            <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded-r">
+                <h4 className="font-bold text-green-800 mb-2">📐 {title}</h4>
+                <div className="text-gray-800 text-sm">{children}</div>
+            </div>
+        );
+
+        const PropertyBox = ({ title, children }) => (
+            <div className="bg-purple-50 border-l-4 border-purple-500 p-4 rounded-r">
+                <h4 className="font-bold text-purple-800 mb-2">⭐ {title}</h4>
+                <div className="text-gray-800 text-sm">{children}</div>
+            </div>
+        );
+
+        const App = () => {
+            return (
+                <div className="min-h-screen py-8 px-4">
+                    <div className="max-w-5xl mx-auto">
+                        <header className="text-center mb-8 bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-8 rounded-lg shadow-xl">
+                            <h1 className="text-4xl font-bold mb-2">Unit-3: Theory of Logics & Predicate Logic</h1>
+                            <p className="text-xl">Comprehensive Exam Notes</p>
+                            <p className="text-sm mt-2 opacity-90">Propositional Logic • Inference Rules • Predicate Logic • Quick Revision</p>
+                        </header>
+
+                        {/* SECTION 1: PROPOSITIONS */}
+                        <Section title="1. Propositions & Logical Connectives" defaultOpen={true}>
+                            <DefinitionBox title="What is a Proposition?">
+                                <ul className="list-disc ml-6 space-y-1">
+                                    <li>Declarative statement that is either TRUE or FALSE (not both)</li>
+                                    <li>Must have definite truth value</li>
+                                    <li>Cannot be questions, commands, or exclamations</li>
+                                </ul>
+                            </DefinitionBox>
+
+                            <PropertyBox title="Types of Propositions">
+                                <div className="space-y-2">
+                                    <div>
+                                        <p className="font-bold">Simple/Atomic:</p>
+                                        <p className="ml-4">Cannot be broken down further. Example: "5 is odd"</p>
+                                    </div>
+                                    <div>
+                                        <p className="font-bold">Compound/Molecular:</p>
+                                        <p className="ml-4">Formed by combining propositions with connectives</p>
+                                    </div>
+                                </div>
+                            </PropertyBox>
+
+                            <FormulaBox title="Logical Connectives & Notation">
+                                <div className="space-y-2 text-sm">
+                                    <p><strong>Negation (¬):</strong> NOT p | Reverses truth value</p>
+                                    <p><strong>Conjunction (∧):</strong> p AND q | TRUE only when both TRUE</p>
+                                    <p><strong>Disjunction (∨):</strong> p OR q | FALSE only when both FALSE</p>
+                                    <p><strong>Implication (→):</strong> IF p THEN q | FALSE only when p=T, q=F</p>
+                                    <p><strong>Biconditional (↔):</strong> p IFF q | TRUE when same truth value</p>
+                                </div>
+                            </FormulaBox>
+
+                            <PropertyBox title="Precedence Order">
+                                <p className="text-center font-bold text-lg">¬ &gt; ∧ &gt; ∨ &gt; → &gt; ↔</p>
+                                <p className="text-xs text-gray-600 mt-2">Use parentheses to override</p>
+                            </PropertyBox>
+                        </Section>
+
+                        {/* SECTION 2: TRUTH TABLES */}
+                        <Section title="2. Truth Tables">
+                            <DefinitionBox title="Truth Table Definition">
+                                <p>Mathematical table showing all possible truth values of a logical expression for all possible input combinations. For n variables: 2ⁿ rows</p>
+                            </DefinitionBox>
+
+                            <ExampleBox title="Basic Truth Tables">
+                                <div className="space-y-3">
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold mb-1">Negation (¬p)</p>
+                                        <pre className="truth-table text-xs">p | ¬p
+--|---
+T | F
+F | T</pre>
+                                    </div>
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold mb-1">Conjunction (p ∧ q)</p>
+                                        <pre className="truth-table text-xs">p | q | p∧q
+--|---|----
+T | T | T
+T | F | F
+F | T | F
+F | F | F</pre>
+                                    </div>
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold mb-1">Implication (p → q)</p>
+                                        <pre className="truth-table text-xs">p | q | p→q
+--|---|----
+T | T | T
+T | F | F  ← KEY: Only FALSE here!
+F | T | T
+F | F | T</pre>
+                                    </div>
+                                </div>
+                            </ExampleBox>
+
+                            <PropertyBox title="Key Points">
+                                <ul className="list-disc ml-6 space-y-1 text-sm">
+                                    <li>Implication is FALSE only when antecedent TRUE, consequent FALSE</li>
+                                    <li>Biconditional TRUE when both same value</li>
+                                    <li>Disjunction FALSE only when both FALSE</li>
+                                    <li>Conjunction TRUE only when both TRUE</li>
+                                </ul>
+                            </PropertyBox>
+                        </Section>
+
+                        {/* SECTION 3: TAUTOLOGY, CONTRADICTION, SATISFIABILITY */}
+                        <Section title="3. Tautology, Contradiction & Satisfiability">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <DefinitionBox title="Tautology">
+                                    <p className="font-bold text-yellow-700 mb-1">ALWAYS TRUE</p>
+                                    <p>All rows have T in final column</p>
+                                    <p className="text-xs mt-1">Example: p ∨ ¬p</p>
+                                </DefinitionBox>
+
+                                <DefinitionBox title="Contradiction">
+                                    <p className="font-bold text-yellow-700 mb-1">ALWAYS FALSE</p>
+                                    <p>All rows have F in final column</p>
+                                    <p className="text-xs mt-1">Example: p ∧ ¬p</p>
+                                </DefinitionBox>
+
+                                <DefinitionBox title="Satisfiable">
+                                    <p className="font-bold text-yellow-700 mb-1">SOMETIMES TRUE</p>
+                                    <p>At least one T in final column</p>
+                                    <p className="text-xs mt-1">Example: p ∧ q</p>
+                                </DefinitionBox>
+                            </div>
+
+                            <ExampleBox title="Identifying Formula Types">
+                                <div className="space-y-2 text-sm">
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold">((p → q) ∧ p) → q</p>
+                                        <p className="text-xs text-gray-600">Tautology (Modus Ponens)</p>
+                                    </div>
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold">(p → q) ∧ (q → r) → (p → r)</p>
+                                        <p className="text-xs text-gray-600">Tautology (Hypothetical Syllogism)</p>
+                                    </div>
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold">(p ∨ q) ∧ ¬p ∧ ¬q</p>
+                                        <p className="text-xs text-gray-600">Contradiction (both true AND false)</p>
+                                    </div>
+                                </div>
+                            </ExampleBox>
+                        </Section>
+
+                        {/* SECTION 4: ALGEBRA OF PROPOSITIONS */}
+                        <Section title="4. Algebra of Propositions & Equivalences">
+                            <FormulaBox title="Most Important Equivalences ⭐">
+                                <div className="space-y-1 text-sm font-bold">
+                                    <p>🔴 p → q ≡ ¬p ∨ q (CRITICAL!)</p>
+                                    <p>🔴 p → q ≡ ¬q → ¬p (Contrapositive)</p>
+                                    <p>🔴 ¬(p ∧ q) ≡ ¬p ∨ ¬q (De Morgan's)</p>
+                                    <p>🔴 ¬(p ∨ q) ≡ ¬p ∧ ¬q (De Morgan's)</p>
+                                </div>
+                            </FormulaBox>
+
+                            <PropertyBox title="Fundamental Laws">
+                                <div className="space-y-2 text-sm">
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <div>
+                                            <p className="font-bold">Identity:</p>
+                                            <p>p ∧ T ≡ p</p>
+                                            <p>p ∨ F ≡ p</p>
+                                        </div>
+                                        <div>
+                                            <p className="font-bold">Domination:</p>
+                                            <p>p ∨ T ≡ T</p>
+                                            <p>p ∧ F ≡ F</p>
+                                        </div>
+                                        <div>
+                                            <p className="font-bold">Idempotent:</p>
+                                            <p>p ∨ p ≡ p</p>
+                                            <p>p ∧ p ≡ p</p>
+                                        </div>
+                                        <div>
+                                            <p className="font-bold">Negation:</p>
+                                            <p>p ∨ ¬p ≡ T</p>
+                                            <p>p ∧ ¬p ≡ F</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </PropertyBox>
+
+                            <PropertyBox title="More Laws">
+                                <div className="space-y-1 text-sm">
+                                    <p><strong>Commutative:</strong> p ∨ q ≡ q ∨ p | p ∧ q ≡ q ∧ p</p>
+                                    <p><strong>Associative:</strong> (p ∨ q) ∨ r ≡ p ∨ (q ∨ r)</p>
+                                    <p><strong>Distributive:</strong> p ∨ (q ∧ r) ≡ (p ∨ q) ∧ (p ∨ r)</p>
+                                    <p><strong>Absorption:</strong> p ∨ (p ∧ q) ≡ p</p>
+                                    <p><strong>Double Negation:</strong> ¬(¬p) ≡ p</p>
+                                </div>
+                            </PropertyBox>
+
+                            <ExampleBox title="Simplification Example">
+                                <div className="bg-white p-2 rounded text-sm">
+                                    <p className="font-bold">Simplify: (p ∧ q) ∨ (p ∧ ¬q)</p>
+                                    <p className="ml-4">=  p ∧ (q ∨ ¬q)  [Distributive]</p>
+                                    <p className="ml-4">=  p ∧ T  [q ∨ ¬q is Tautology]</p>
+                                    <p className="ml-4">=  p  [Identity]</p>
+                                </div>
+                            </ExampleBox>
+                        </Section>
+
+                        {/* SECTION 5: THEORY OF INFERENCE */}
+                        <Section title="5. Theory of Inference & Argument Validity">
+                            <DefinitionBox title="Key Concepts">
+                                <div className="space-y-1 text-sm">
+                                    <p><strong>Argument:</strong> Sequence of propositions (premises → conclusion)</p>
+                                    <p><strong>Valid Argument:</strong> If all premises TRUE, conclusion must be TRUE</p>
+                                    <p><strong>Notation:</strong> P₁, P₂, ..., Pₙ ⊢ Q</p>
+                                </div>
+                            </DefinitionBox>
+
+                            <FormulaBox title="Major Inference Rules ⭐">
+                                <div className="space-y-2 text-sm">
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold">1. Modus Ponens (Law of Detachment)</p>
+                                        <p className="text-xs">p → q,  p  ∴ q</p>
+                                    </div>
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold">2. Modus Tollens</p>
+                                        <p className="text-xs">p → q,  ¬q  ∴ ¬p</p>
+                                    </div>
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold">3. Hypothetical Syllogism</p>
+                                        <p className="text-xs">p → q,  q → r  ∴ p → r</p>
+                                    </div>
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold">4. Disjunctive Syllogism</p>
+                                        <p className="text-xs">p ∨ q,  ¬p  ∴ q</p>
+                                    </div>
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold">5. Resolution</p>
+                                        <p className="text-xs">p ∨ q,  ¬p ∨ r  ∴ q ∨ r</p>
+                                    </div>
+                                </div>
+                            </FormulaBox>
+
+                            <PropertyBox title="Testing Validity Methods">
+                                <ul className="list-disc ml-6 space-y-1 text-sm">
+                                    <li><strong>Truth Table:</strong> Check if conclusion TRUE when all premises TRUE</li>
+                                    <li><strong>Inference Rules:</strong> Apply rules step-by-step to derive conclusion</li>
+                                    <li><strong>Contradiction:</strong> Assume premises true & conclusion false; if contradiction, valid</li>
+                                </ul>
+                            </PropertyBox>
+
+                            <ExampleBox title="Valid vs Invalid Arguments">
+                                <div className="space-y-2 text-sm">
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold">✓ VALID: Modus Ponens</p>
+                                        <p>p → q, p ∴ q</p>
+                                    </div>
+                                    <div className="bg-white p-2 rounded border-2 border-red-300">
+                                        <p className="font-bold">✗ INVALID: Affirming Conclusion</p>
+                                        <p>p → q, q ∴ p (FALLACY!)</p>
+                                    </div>
+                                    <div className="bg-white p-2 rounded border-2 border-red-300">
+                                        <p className="font-bold">✗ INVALID: Denying Hypothesis</p>
+                                        <p>p → q, ¬p ∴ ¬q (FALLACY!)</p>
+                                    </div>
+                                </div>
+                            </ExampleBox>
+                        </Section>
+
+                        {/* SECTION 6: PREDICATE LOGIC */}
+                        <Section title="6. Introduction to Predicate Logic">
+                            <DefinitionBox title="What is Predicate Logic?">
+                                <div className="space-y-1 text-sm">
+                                    <p>Extension of propositional logic that deals with predicates and quantifiers</p>
+                                    <p>Also called <strong>First-Order Logic (FOL)</strong></p>
+                                    <p>Allows reasoning about objects, properties, and relationships</p>
+                                </div>
+                            </DefinitionBox>
+
+                            <PropertyBox title="Key Components">
+                                <div className="space-y-2 text-sm">
+                                    <div>
+                                        <p className="font-bold">Objects/Constants:</p>
+                                        <p className="ml-4">Specific entities (John, 5, Paris)</p>
+                                    </div>
+                                    <div>
+                                        <p className="font-bold">Variables:</p>
+                                        <p className="ml-4">Placeholders for objects (x, y, z)</p>
+                                    </div>
+                                    <div>
+                                        <p className="font-bold">Predicates:</p>
+                                        <p className="ml-4">Properties/relations (P(x), Student(x), Taller(x,y))</p>
+                                    </div>
+                                    <div>
+                                        <p className="font-bold">Functions:</p>
+                                        <p className="ml-4">Map objects to objects (father(x), sum(x,y))</p>
+                                    </div>
+                                </div>
+                            </PropertyBox>
+
+                            <ExampleBox title="Propositional vs Predicate Logic">
+                                <div className="space-y-2 text-sm bg-white p-2 rounded">
+                                    <p><strong>Statement:</strong> "All humans are mortal"</p>
+                                    <p><strong>Propositional:</strong> p (single unit)</p>
+                                    <p><strong>Predicate:</strong> ∀x (Human(x) → Mortal(x))</p>
+                                    <p className="text-xs text-gray-600 mt-1">→ Predicate logic is more expressive!</p>
+                                </div>
+                            </ExampleBox>
+                        </Section>
+
+                        {/* SECTION 7: QUANTIFIERS */}
+                        <Section title="7. Quantifiers & Quantifier Logic">
+                            <FormulaBox title="Universal Quantifier (∀) - For All">
+                                <div className="space-y-1 text-sm">
+                                    <p><strong>Notation:</strong> ∀x P(x)</p>
+                                    <p><strong>Meaning:</strong> P(x) is true for EVERY object x</p>
+                                    <p><strong>Example:</strong> ∀n (Prime(n) → n>1)</p>
+                                    <p className="text-xs text-red-600">TRUE if: All satisfy condition | FALSE if: Even ONE counterexample</p>
+                                </div>
+                            </FormulaBox>
+
+                            <FormulaBox title="Existential Quantifier (∃) - There Exists">
+                                <div className="space-y-1 text-sm">
+                                    <p><strong>Notation:</strong> ∃x P(x)</p>
+                                    <p><strong>Meaning:</strong> P(x) is true for AT LEAST ONE x</p>
+                                    <p><strong>Example:</strong> ∃x (Prime(x) ∧ x>100)</p>
+                                    <p className="text-xs text-red-600">TRUE if: At least ONE satisfies | FALSE if: NONE satisfy</p>
+                                </div>
+                            </FormulaBox>
+
+                            <PropertyBox title="Nested Quantifiers - ORDER MATTERS! ⚠️">
+                                <div className="space-y-2 text-sm bg-white p-2 rounded">
+                                    <div>
+                                        <p className="font-bold">∀x ∃y P(x,y)</p>
+                                        <p className="text-xs">"For each x, find some y" (easier to satisfy)</p>
+                                    </div>
+                                    <div>
+                                        <p className="font-bold">∃y ∀x P(x,y)</p>
+                                        <p className="text-xs">"Find one y that works for ALL x" (harder)</p>
+                                    </div>
+                                    <p className="font-bold text-red-600 mt-2">🔴 ∀x ∃y ≠ ∃y ∀x</p>
+                                </div>
+                            </PropertyBox>
+
+                            <FormulaBox title="Quantifier Negation - De Morgan's Laws ⭐">
+                                <div className="space-y-1 text-sm font-bold">
+                                    <p>¬(∀x P(x)) ≡ ∃x ¬P(x)</p>
+                                    <p className="text-xs font-normal">"Not all" = "Some don't"</p>
+                                    <br/>
+                                    <p>¬(∃x P(x)) ≡ ∀x ¬P(x)</p>
+                                    <p className="text-xs font-normal">"None exist" = "All don't"</p>
+                                </div>
+                            </FormulaBox>
+
+                            <ExampleBox title="Common Translations to Predicate Logic">
+                                <div className="space-y-2 text-sm bg-white p-2 rounded">
+                                    <div>
+                                        <p className="font-bold">"All A are B"</p>
+                                        <p className="text-xs">∀x (A(x) → B(x)) ← Use implication!</p>
+                                    </div>
+                                    <div>
+                                        <p className="font-bold">"Some A are B"</p>
+                                        <p className="text-xs">∃x (A(x) ∧ B(x)) ← Use conjunction!</p>
+                                    </div>
+                                    <div>
+                                        <p className="font-bold">"No A are B"</p>
+                                        <p className="text-xs">∀x (A(x) → ¬B(x)) or ¬∃x (A(x) ∧ B(x))</p>
+                                    </div>
+                                </div>
+                            </ExampleBox>
+                        </Section>
+
+                        {/* SECTION 8: WELL-FORMED FORMULAS */}
+                        <Section title="8. Well-Formed Formulas (WFF) of Predicate Logic">
+                            <DefinitionBox title="WFF Definition">
+                                <p>Syntactically correct formula in predicate logic following strict formation rules</p>
+                            </DefinitionBox>
+
+                            <PropertyBox title="Formation Rules">
+                                <div className="space-y-2 text-sm">
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold">Rule 1:</p>
+                                        <p className="text-xs">If P is predicate and t₁,...,tₙ are terms → P(t₁,...,tₙ) is WFF</p>
+                                    </div>
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold">Rule 2:</p>
+                                        <p className="text-xs">If α is WFF → ¬α is WFF</p>
+                                    </div>
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold">Rule 3:</p>
+                                        <p className="text-xs">If α, β are WFFs → (α ∧ β), (α ∨ β), (α → β), (α ↔ β) are WFFs</p>
+                                    </div>
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold">Rule 4:</p>
+                                        <p className="text-xs">If α is WFF and x is variable → (∀x α), (∃x α) are WFFs</p>
+                                    </div>
+                                </div>
+                            </PropertyBox>
+
+                            <ExampleBox title="WFF Examples">
+                                <div className="space-y-1 text-sm">
+                                    <p><span className="text-green-600 font-bold">✓</span> P(x)</p>
+                                    <p><span className="text-green-600 font-bold">✓</span> ∀x (P(x) → Q(x))</p>
+                                    <p><span className="text-green-600 font-bold">✓</span> ∃y (Q(y) ∧ R(y))</p>
+                                    <p><span className="text-red-600 font-bold">✗</span> P(x (missing parenthesis)</p>
+                                    <p><span className="text-red-600 font-bold">✗</span> ∀ P(x) (missing variable)</p>
+                                </div>
+                            </ExampleBox>
+
+                            <PropertyBox title="Bound vs Free Variables">
+                                <div className="space-y-2 text-sm">
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold">Bound Variable:</p>
+                                        <p className="text-xs">Governed by quantifier. In ∀x P(x), x is bound</p>
+                                    </div>
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold">Free Variable:</p>
+                                        <p className="text-xs">Not governed by quantifier. In P(x) ∧ ∀y Q(y), x is free</p>
+                                    </div>
+                                </div>
+                            </PropertyBox>
+
+                            <ExampleBox title="Closed vs Open Formulas">
+                                <div className="space-y-2 text-sm bg-white p-2 rounded">
+                                    <div>
+                                        <p className="font-bold">Closed (Sentence):</p>
+                                        <p className="text-xs">No free variables. Example: ∀x P(x)</p>
+                                    </div>
+                                    <div>
+                                        <p className="font-bold">Open:</p>
+                                        <p className="text-xs">Contains free variables. Example: P(x) ∧ Q(y)</p>
+                                    </div>
+                                </div>
+                            </ExampleBox>
+                        </Section>
+
+                        {/* SECTION 9: INFERENCE IN PREDICATE LOGIC */}
+                        <Section title="9. Inference Theory of Predicate Logic">
+                            <FormulaBox title="Quantifier Rules (Key!) ⭐">
+                                <div className="space-y-2 text-sm">
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold">Universal Instantiation (UI)</p>
+                                        <p className="text-xs">∀x P(x) ⊢ P(c)  where c is any constant</p>
+                                    </div>
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold">Universal Generalization (UG)</p>
+                                        <p className="text-xs">P(c) ⊢ ∀x P(x)  where c is arbitrary (NOT chosen)</p>
+                                    </div>
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold">Existential Instantiation (EI)</p>
+                                        <p className="text-xs">∃x P(x) ⊢ P(c)  where c is NEW constant ⚠️</p>
+                                    </div>
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold">Existential Generalization (EG)</p>
+                                        <p className="text-xs">P(c) ⊢ ∃x P(x)  (always valid)</p>
+                                    </div>
+                                </div>
+                            </FormulaBox>
+
+                            <PropertyBox title="CRITICAL RESTRICTIONS ⚠️">
+                                <div className="space-y-2 text-sm">
+                                    <div className="bg-white p-2 rounded border-2 border-red-300">
+                                        <p className="font-bold text-red-700">EI: Must use NEW constant</p>
+                                        <p className="text-xs">If ∃x P(x) and ∃x Q(x), use different constants!</p>
+                                    </div>
+                                    <div className="bg-white p-2 rounded border-2 border-red-300">
+                                        <p className="font-bold text-red-700">UG: c must be arbitrary</p>
+                                        <p className="text-xs">Cannot generalize from specific instances</p>
+                                    </div>
+                                </div>
+                            </PropertyBox>
+
+                            <ExampleBox title="Proof Example">
+                                <div className="bg-white p-3 rounded text-xs">
+                                    <p className="font-bold mb-2">Prove: ∀x (P(x) → Q(x)), P(a) ⊢ Q(a)</p>
+                                    <div className="font-mono space-y-1">
+                                        <p>1. ∀x (P(x) → Q(x))     [Premise]</p>
+                                        <p>2. P(a)                  [Premise]</p>
+                                        <p>3. P(a) → Q(a)           [UI from 1]</p>
+                                        <p>4. Q(a)                  [Modus Ponens on 2,3]</p>
+                                    </div>
+                                </div>
+                            </ExampleBox>
+
+                            <PropertyBox title="Proof Strategies">
+                                <ul className="list-disc ml-6 space-y-1 text-sm">
+                                    <li><strong>For ∀x P(x):</strong> Let x be arbitrary, prove P(x), then UG</li>
+                                    <li><strong>For ∃x P(x):</strong> Find witness c, prove P(c), then EG</li>
+                                    <li><strong>For p → q:</strong> Assume p, derive q</li>
+                                    <li><strong>For ¬p:</strong> Assume p, derive contradiction</li>
+                                </ul>
+                            </PropertyBox>
+                        </Section>
+
+                        {/* QUICK REVISION SUMMARY */}
+                        <div className="mt-8 bg-gradient-to-br from-red-50 to-pink-50 border-4 border-red-500 rounded-lg p-6 shadow-xl">
+                            <h2 className="text-3xl font-bold text-red-700 mb-6 flex items-center gap-3">
+                                <span className="text-4xl">🚀</span>
+                                QUICK REVISION SUMMARY
+                            </h2>
+
+                            <div className="space-y-6">
+                                {/* Critical Formulas */}
+                                <div className="bg-white p-4 rounded-lg shadow">
+                                    <h3 className="text-xl font-bold text-red-600 mb-3">🔥 MUST REMEMBER FORMULAS</h3>
+                                    <div className="space-y-2 text-sm font-bold">
+                                        <p className="bg-yellow-100 p-2 rounded">1. p → q ≡ ¬p ∨ q (TEST FAVORITE!)</p>
+                                        <p className="bg-yellow-100 p-2 rounded">2. ¬(p ∧ q) ≡ ¬p ∨ ¬q (De Morgan's)</p>
+                                        <p className="bg-yellow-100 p-2 rounded">3. ¬(p ∨ q) ≡ ¬p ∧ ¬q (De Morgan's)</p>
+                                        <p className="bg-yellow-100 p-2 rounded">4. ¬(∀x P(x)) ≡ ∃x ¬P(x)</p>
+                                        <p className="bg-yellow-100 p-2 rounded">5. ¬(∃x P(x)) ≡ ∀x ¬P(x)</p>
+                                    </div>
+                                </div>
+
+                                {/* Inference Rules Summary */}
+                                <div className="bg-white p-4 rounded-lg shadow">
+                                    <h3 className="text-xl font-bold text-red-600 mb-3">⚡ INFERENCE RULES (Propositional)</h3>
+                                    <div className="space-y-1 text-sm">
+                                        <p><strong>1. Modus Ponens:</strong> p→q, p ⊢ q ⭐</p>
+                                        <p><strong>2. Modus Tollens:</strong> p→q, ¬q ⊢ ¬p ⭐</p>
+                                        <p><strong>3. Hypothetical Syllogism:</strong> p→q, q→r ⊢ p→r</p>
+                                        <p><strong>4. Disjunctive Syllogism:</strong> p∨q, ¬p ⊢ q</p>
+                                        <p><strong>5. Resolution:</strong> p∨q, ¬p∨r ⊢ q∨r</p>
+                                    </div>
+                                </div>
+
+                                {/* Quantifier Rules */}
+                                <div className="bg-white p-4 rounded-lg shadow">
+                                    <h3 className="text-xl font-bold text-red-600 mb-3">🎓 PREDICATE LOGIC RULES</h3>
+                                    <div className="space-y-1 text-sm">
+                                        <p><strong>UI:</strong> ∀x P(x) ⊢ P(c) (any constant)</p>
+                                        <p><strong>UG:</strong> P(c) ⊢ ∀x P(x) (c arbitrary)</p>
+                                        <p><strong>EI:</strong> ∃x P(x) ⊢ P(c) (NEW constant!) ⚠️</p>
+                                        <p><strong>EG:</strong> P(c) ⊢ ∃x P(x) (always ok)</p>
+                                    </div>
+                                </div>
+
+                                {/* Key Definitions */}
+                                <div className="bg-white p-4 rounded-lg shadow">
+                                    <h3 className="text-xl font-bold text-red-600 mb-3">📚 KEY DEFINITIONS</h3>
+                                    <div className="grid grid-cols-2 gap-2 text-xs">
+                                        <div className="bg-yellow-50 p-2 rounded">
+                                            <p className="font-bold">Tautology</p>
+                                            <p>Always TRUE</p>
+                                        </div>
+                                        <div className="bg-yellow-50 p-2 rounded">
+                                            <p className="font-bold">Contradiction</p>
+                                            <p>Always FALSE</p>
+                                        </div>
+                                        <div className="bg-yellow-50 p-2 rounded">
+                                            <p className="font-bold">Satisfiable</p>
+                                            <p>Sometimes TRUE</p>
+                                        </div>
+                                        <div className="bg-yellow-50 p-2 rounded">
+                                            <p className="font-bold">Valid Arg.</p>
+                                            <p>Conclusion follows</p>
+                                        </div>
+                                        <div className="bg-yellow-50 p-2 rounded">
+                                            <p className="font-bold">WFF</p>
+                                            <p>Syntactically correct</p>
+                                        </div>
+                                        <div className="bg-yellow-50 p-2 rounded">
+                                            <p className="font-bold">Bound Var.</p>
+                                            <p>Has quantifier</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Memory Tricks */}
+                                <div className="bg-gradient-to-r from-purple-100 to-pink-100 p-4 rounded-lg shadow">
+                                    <h3 className="text-xl font-bold text-purple-700 mb-3">🧠 MEMORY TRICKS</h3>
+                                    <ul className="list-disc ml-6 space-y-1 text-sm">
+                                        <li><strong>"False implies anything"</strong> - F→T = T, F→F = T</li>
+                                        <li><strong>"Implication is OR"</strong> - p→q ≡ ¬p∨q</li>
+                                        <li><strong>"Break the bar, change op"</strong> - De Morgan's: AND↔OR</li>
+                                        <li><strong>"All = arrow, Some = AND"</strong> - ∀x(A→B), ∃x(A∧B)</li>
+                                        <li><strong>"Order matters!"</strong> - ∀∃ ≠ ∃∀</li>
+                                        <li><strong>"EI = new constant"</strong> - Don't reuse names!</li>
+                                    </ul>
+                                </div>
+
+                                {/* Common Exam Questions */}
+                                <div className="bg-gradient-to-r from-blue-100 to-cyan-100 p-4 rounded-lg shadow">
+                                    <h3 className="text-xl font-bold text-blue-700 mb-3">📝 COMMON EXAM QUESTIONS</h3>
+                                    <div className="space-y-2 text-sm">
+                                        <div className="bg-white p-2 rounded">
+                                            <p className="font-bold">Type 1: Truth Tables</p>
+                                            <p className="text-xs">Construct table, identify tautology/contradiction/satisfiable</p>
+                                        </div>
+                                        <div className="bg-white p-2 rounded">
+                                            <p className="font-bold">Type 2: Simplification</p>
+                                            <p className="text-xs">Simplify expression using laws (De Morgan's common)</p>
+                                        </div>
+                                        <div className="bg-white p-2 rounded">
+                                            <p className="font-bold">Type 3: Argument Validity</p>
+                                            <p className="text-xs">Test argument validity using truth table or rules</p>
+                                        </div>
+                                        <div className="bg-white p-2 rounded">
+                                            <p className="font-bold">Type 4: Translation</p>
+                                            <p className="text-xs">Convert English to predicate logic (watch all vs some!)</p>
+                                        </div>
+                                        <div className="bg-white p-2 rounded">
+                                            <p className="font-bold">Type 5: Inference Proof</p>
+                                            <p className="text-xs">Prove validity using rules (UI, UG, EI, EG)</p>
+                                        </div>
+                                        <div className="bg-white p-2 rounded">
+                                            <p className="font-bold">Type 6: WFF & Quantifier Negation</p>
+                                            <p className="text-xs">Identify WFF, negate quantifiers, bound/free variables</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Critical Pitfalls */}
+                                <div className="bg-gradient-to-r from-orange-100 to-red-100 p-4 rounded-lg shadow border-2 border-red-500">
+                                    <h3 className="text-xl font-bold text-red-700 mb-3">⚠️ AVOID THESE MISTAKES!</h3>
+                                    <ul className="list-disc ml-6 space-y-1 text-sm">
+                                        <li><span className="font-bold text-red-600">❌</span> Confusing AND with OR in "All A are B" (use →)</li>
+                                        <li><span className="font-bold text-red-600">❌</span> Using same constant in multiple EI statements</li>
+                                        <li><span className="font-bold text-red-600">❌</span> Forgetting De Morgan's applies to quantifiers too</li>
+                                        <li><span className="font-bold text-red-600">❌</span> Modus Ponens fallacy: p→q, q ⊢ p (INVALID!)</li>
+                                        <li><span className="font-bold text-red-600">❌</span> Assuming ∀x ∃y P(x,y) = ∃y ∀x P(x,y)</li>
+                                        <li><span className="font-bold text-red-600">❌</span> Generalizing from specific with UG (must be arbitrary)</li>
+                                    </ul>
+                                </div>
+
+                                {/* Final Tips */}
+                                <div className="bg-gradient-to-r from-green-100 to-emerald-100 p-4 rounded-lg shadow">
+                                    <h3 className="text-xl font-bold text-green-700 mb-3">✅ LAST-MINUTE TIPS</h3>
+                                    <ul className="list-disc ml-6 space-y-1 text-sm">
+                                        <li>For validity: Truth table or apply inference rules step-by-step</li>
+                                        <li>For simplification: Convert → to ¬∨, apply De Morgan's first</li>
+                                        <li>For predicates: Always specify domain (integers? people? real numbers?)</li>
+                                        <li>For proofs: UI first, then apply propositional rules, then UG/EG</li>
+                                        <li>For negations: ¬∀ ↔ ∃¬ and ¬∃ ↔ ∀¬ (flip quantifier!)</li>
+                                        <li>Practice identifying when p→q is the structure (not p∧q)</li>
+                                    </ul>
+                                </div>
+
+                                {/* Implication Truth Table */}
+                                <div className="bg-white p-4 rounded-lg shadow">
+                                    <h3 className="text-lg font-bold text-red-600 mb-3">🔴 IMPLICATION TRUTH TABLE (CRUCIAL!)</h3>
+                                    <pre className="truth-table text-sm bg-gray-100 p-3 rounded" style={{fontFamily: 'monospace', whiteSpace: 'pre'}}>
+                                        {`p | q | p→q
+--|---|----
+T | T | T
+T | F | F  ← ONLY FALSE CASE
+F | T | T  ← Key: False implies anything!
+F | F | T  ← Key: False implies anything!
+
+Remember: p→q ≡ ¬p ∨ q`}
+                                    </pre>
+                                </div>
+                            </div>
+                                            <div className="mt-6 p-4 bg-gradient-to-r from-red-600 to-pink-600 text-white rounded-lg text-center">
+                                                <p className="text-2xl font-bold">🎯 YOU'VE GOT THIS! 🎯</p>
+                                                <p className="text-sm mt-2">Focus on: Implication equivalence, De Morgan's, Quantifier negation, EI restrictions</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        };
+                
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
