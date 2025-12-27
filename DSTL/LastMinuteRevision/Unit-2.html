@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 5: Functions & Boolean Algebra - Exam Notes</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        .math {
+            font-family: 'Cambria Math', 'Times New Roman', serif;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        // Icon Components
+        const ChevronDown = () => (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+        );
+
+        const ChevronRight = () => (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+        );
+
+        const BookOpen = () => (
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+        );
+
+        const Section = ({ title, children, defaultOpen = false }) => {
+            const [isOpen, setIsOpen] = useState(defaultOpen);
+            
+            return (
+                <div className="mb-4 bg-white rounded-lg shadow-md overflow-hidden">
+                    <button
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="w-full px-6 py-4 flex items-center justify-between bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 transition-all"
+                    >
+                        <span className="font-semibold text-lg flex items-center gap-2">
+                            <BookOpen />
+                            {title}
+                        </span>
+                        {isOpen ? <ChevronDown /> : <ChevronRight />}
+                    </button>
+                    {isOpen && (
+                        <div className="p-6 space-y-4">
+                            {children}
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        const DefinitionBox = ({ title, children }) => (
+            <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-r">
+                <h4 className="font-bold text-yellow-800 mb-2">📌 {title}</h4>
+                <div className="text-gray-800">{children}</div>
+            </div>
+        );
+
+        const ExampleBox = ({ title, children }) => (
+            <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r">
+                <h4 className="font-bold text-blue-800 mb-2">💡 {title}</h4>
+                <div className="text-gray-800">{children}</div>
+            </div>
+        );
+
+        const FormulaBox = ({ title, children }) => (
+            <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded-r">
+                <h4 className="font-bold text-green-800 mb-2">📐 {title}</h4>
+                <div className="text-gray-800">{children}</div>
+            </div>
+        );
+
+        const PropertyBox = ({ title, children }) => (
+            <div className="bg-purple-50 border-l-4 border-purple-500 p-4 rounded-r">
+                <h4 className="font-bold text-purple-800 mb-2">⭐ {title}</h4>
+                <div className="text-gray-800">{children}</div>
+            </div>
+        );
+
+        const App = () => {
+            return (
+                <div className="min-h-screen py-8 px-4">
+                    <div className="max-w-5xl mx-auto">
+                        <header className="text-center mb-8 bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-8 rounded-lg shadow-xl">
+                            <h1 className="text-4xl font-bold mb-2">Unit 5: Exam Notes</h1>
+                            <p className="text-xl">Functions, Growth of Functions & Boolean Algebra</p>
+                            <p className="text-sm mt-2 opacity-90">Quick Revision Guide • Last Minute Prep</p>
+                        </header>
+
+                        {/* Section 1: Functions */}
+                        <Section title="1. Functions: Definition & Classification" defaultOpen={true}>
+                            <DefinitionBox title="Function Definition">
+                                <p className="mb-2"><strong>Function:</strong> A relation from set A to set B where each element in A is related to exactly one element in B.</p>
+                                <p className="font-mono">f: A → B</p>
+                                <ul className="list-disc ml-6 mt-2 space-y-1">
+                                    <li><strong>Domain:</strong> Set A (input values)</li>
+                                    <li><strong>Codomain:</strong> Set B (possible output values)</li>
+                                    <li><strong>Range:</strong> Actual output values in B</li>
+                                    <li><strong>Image:</strong> f(x) for a specific x ∈ A</li>
+                                </ul>
+                            </DefinitionBox>
+
+                            <PropertyBox title="Classification of Functions">
+                                <div className="space-y-3">
+                                    <div>
+                                        <p className="font-bold text-purple-900">1. One-to-One (Injective):</p>
+                                        <ul className="list-disc ml-6 mt-1">
+                                            <li>Different inputs → Different outputs</li>
+                                            <li>f(x₁) = f(x₂) ⇒ x₁ = x₂</li>
+                                            <li>No two elements map to same output</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <p className="font-bold text-purple-900">2. Onto (Surjective):</p>
+                                        <ul className="list-disc ml-6 mt-1">
+                                            <li>Every element in codomain has pre-image</li>
+                                            <li>Range = Codomain</li>
+                                            <li>For all y ∈ B, ∃ x ∈ A such that f(x) = y</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <p className="font-bold text-purple-900">3. Bijective (One-One & Onto):</p>
+                                        <ul className="list-disc ml-6 mt-1">
+                                            <li>Both injective and surjective</li>
+                                            <li>Perfect pairing between A and B</li>
+                                            <li>Has inverse function</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <p className="font-bold text-purple-900">4. Identity Function:</p>
+                                        <ul className="list-disc ml-6 mt-1">
+                                            <li>f(x) = x for all x</li>
+                                            <li>Returns same value as input</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <p className="font-bold text-purple-900">5. Constant Function:</p>
+                                        <ul className="list-disc ml-6 mt-1">
+                                            <li>f(x) = c for all x</li>
+                                            <li>Always returns same value</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </PropertyBox>
+
+                            <ExampleBox title="Examples of Function Types">
+                                <div className="space-y-3">
+                                    <div>
+                                        <p className="font-semibold">One-to-One: f(x) = 2x</p>
+                                        <p className="text-sm">Different inputs give different outputs</p>
+                                    </div>
+                                    <div>
+                                        <p className="font-semibold">Onto: f: ℝ → ℝ, f(x) = x³</p>
+                                        <p className="text-sm">Every real number has a cube root</p>
+                                    </div>
+                                    <div>
+                                        <p className="font-semibold">Bijective: f(x) = x + 5</p>
+                                        <p className="text-sm">Both one-to-one and onto</p>
+                                    </div>
+                                    <div>
+                                        <p className="font-semibold">NOT Injective: f(x) = x²</p>
+                                        <p className="text-sm">f(2) = f(-2) = 4 (two inputs, same output)</p>
+                                    </div>
+                                </div>
+                            </ExampleBox>
+
+                            <PropertyBox title="Operations on Functions">
+                                <div className="space-y-2">
+                                    <p className="font-bold">Given f: A → B and g: B → C:</p>
+                                    <div className="bg-white p-3 rounded space-y-2">
+                                        <p><strong>1. Composition (g ∘ f):</strong></p>
+                                        <ul className="list-disc ml-6">
+                                            <li>(g ∘ f)(x) = g(f(x))</li>
+                                            <li>Apply f first, then g</li>
+                                            <li>Domain: A, Codomain: C</li>
+                                        </ul>
+                                        
+                                        <p className="mt-3"><strong>2. Addition (f + g):</strong></p>
+                                        <ul className="list-disc ml-6">
+                                            <li>(f + g)(x) = f(x) + g(x)</li>
+                                        </ul>
+                                        
+                                        <p className="mt-3"><strong>3. Subtraction (f - g):</strong></p>
+                                        <ul className="list-disc ml-6">
+                                            <li>(f - g)(x) = f(x) - g(x)</li>
+                                        </ul>
+                                        
+                                        <p className="mt-3"><strong>4. Multiplication (f · g):</strong></p>
+                                        <ul className="list-disc ml-6">
+                                            <li>(f · g)(x) = f(x) · g(x)</li>
+                                        </ul>
+                                        
+                                        <p className="mt-3"><strong>5. Division (f / g):</strong></p>
+                                        <ul className="list-disc ml-6">
+                                            <li>(f / g)(x) = f(x) / g(x), where g(x) ≠ 0</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </PropertyBox>
+
+                            <ExampleBox title="Function Composition Example">
+                                <div className="bg-white p-3 rounded">
+                                    <p>Let f(x) = 2x + 1 and g(x) = x²</p>
+                                    <div className="mt-2 space-y-2">
+                                        <p><strong>(g ∘ f)(x) = g(f(x)):</strong></p>
+                                        <p className="ml-4">= g(2x + 1)</p>
+                                        <p className="ml-4">= (2x + 1)²</p>
+                                        <p className="ml-4">= 4x² + 4x + 1</p>
+                                        
+                                        <p className="mt-3"><strong>(f ∘ g)(x) = f(g(x)):</strong></p>
+                                        <p className="ml-4">= f(x²)</p>
+                                        <p className="ml-4">= 2(x²) + 1</p>
+                                        <p className="ml-4">= 2x² + 1</p>
+                                        
+                                        <p className="mt-2 text-red-600 font-semibold">Note: g ∘ f ≠ f ∘ g (Not commutative!)</p>
+                                    </div>
+                                </div>
+                            </ExampleBox>
+                        </Section>
+
+                        {/* Section 2: Growth of Functions */}
+                        <Section title="2. Growth of Functions (Asymptotic Notation)">
+                            <DefinitionBox title="Asymptotic Analysis">
+                                <p className="mb-2">Asymptotic analysis describes the behavior of functions as input size (n) approaches infinity.</p>
+                                <p>Used to analyze algorithm efficiency and compare performance.</p>
+                            </DefinitionBox>
+
+                            <FormulaBox title="Big-O Notation (Upper Bound)">
+                                <div className="space-y-2">
+                                    <p className="font-bold">O(g(n)) = {`{ f(n) : ∃ c > 0, n₀ > 0 such that 0 ≤ f(n) ≤ c·g(n) for all n ≥ n₀ }`}</p>
+                                    <ul className="list-disc ml-6 mt-2">
+                                        <li>f(n) grows <strong>no faster</strong> than g(n)</li>
+                                        <li>Worst-case time complexity</li>
+                                        <li>Example: f(n) = 3n² + 5n is O(n²)</li>
+                                    </ul>
+                                </div>
+                            </FormulaBox>
+
+                            <FormulaBox title="Big-Ω Notation (Lower Bound)">
+                                <div className="space-y-2">
+                                    <p className="font-bold">Ω(g(n)) = {`{ f(n) : ∃ c > 0, n₀ > 0 such that 0 ≤ c·g(n) ≤ f(n) for all n ≥ n₀ }`}</p>
+                                    <ul className="list-disc ml-6 mt-2">
+                                        <li>f(n) grows <strong>at least as fast</strong> as g(n)</li>
+                                        <li>Best-case time complexity</li>
+                                        <li>Example: f(n) = 5n² + 3n is Ω(n²)</li>
+                                    </ul>
+                                </div>
+                            </FormulaBox>
+
+                            <FormulaBox title="Big-Θ Notation (Tight Bound)">
+                                <div className="space-y-2">
+                                    <p className="font-bold">Θ(g(n)) = {`{ f(n) : ∃ c₁, c₂ > 0, n₀ > 0 such that 0 ≤ c₁·g(n) ≤ f(n) ≤ c₂·g(n) for all n ≥ n₀ }`}</p>
+                                    <ul className="list-disc ml-6 mt-2">
+                                        <li>f(n) grows <strong>at the same rate</strong> as g(n)</li>
+                                        <li>Both upper and lower bound</li>
+                                        <li>Θ(g(n)) = O(g(n)) ∩ Ω(g(n))</li>
+                                        <li>Example: f(n) = 4n² + 2n + 1 is Θ(n²)</li>
+                                    </ul>
+                                </div>
+                            </FormulaBox>
+
+                            <PropertyBox title="Common Growth Rates (Slowest to Fastest)">
+                                <div className="bg-white p-3 rounded">
+                                    <ol className="list-decimal ml-6 space-y-1">
+                                        <li><strong>O(1)</strong> - Constant time</li>
+                                        <li><strong>O(log n)</strong> - Logarithmic</li>
+                                        <li><strong>O(√n)</strong> - Square root</li>
+                                        <li><strong>O(n)</strong> - Linear</li>
+                                        <li><strong>O(n log n)</strong> - Linearithmic</li>
+                                        <li><strong>O(n²)</strong> - Quadratic</li>
+                                        <li><strong>O(n³)</strong> - Cubic</li>
+                                        <li><strong>O(2ⁿ)</strong> - Exponential</li>
+                                        <li><strong>O(n!)</strong> - Factorial</li>
+                                    </ol>
+                                    <p className="mt-3 text-sm text-gray-600">Remember: 1 &lt; log n &lt; n &lt; n log n &lt; n² &lt; n³ &lt; 2ⁿ &lt; n!</p>
+                                </div>
+                            </PropertyBox>
+
+                            <ExampleBox title="Growth Analysis Examples">
+                                <div className="space-y-3">
+                                    <div>
+                                        <p className="font-semibold">Example 1: f(n) = 5n³ + 2n² + 100</p>
+                                        <p className="ml-4">Dominant term: n³</p>
+                                        <p className="ml-4">Answer: O(n³), Ω(n³), Θ(n³)</p>
+                                    </div>
+                                    <div>
+                                        <p className="font-semibold">Example 2: f(n) = 2ⁿ + n¹⁰⁰</p>
+                                        <p className="ml-4">Dominant term: 2ⁿ (exponential beats polynomial)</p>
+                                        <p className="ml-4">Answer: O(2ⁿ), Θ(2ⁿ)</p>
+                                    </div>
+                                    <div>
+                                        <p className="font-semibold">Example 3: Binary Search</p>
+                                        <p className="ml-4">Divides problem in half each time</p>
+                                        <p className="ml-4">Answer: O(log n)</p>
+                                    </div>
+                                </div>
+                            </ExampleBox>
+
+                            <PropertyBox title="Important Rules">
+                                <ul className="list-disc ml-6 space-y-1">
+                                    <li>Drop constants: O(5n) = O(n)</li>
+                                    <li>Drop lower-order terms: O(n² + n) = O(n²)</li>
+                                    <li>Sum rule: O(f(n)) + O(g(n)) = O(max(f(n), g(n)))</li>
+                                    <li>Product rule: O(f(n)) × O(g(n)) = O(f(n) × g(n))</li>
+                                    <li>Reflexive: f(n) = O(f(n))</li>
+                                    <li>Transitive: If f = O(g) and g = O(h), then f = O(h)</li>
+                                </ul>
+                            </PropertyBox>
+                        </Section>
+
+                        {/* Section 3: Boolean Algebra Introduction */}
+                        <Section title="3. Boolean Algebra: Introduction & Axioms">
+                            <DefinitionBox title="Boolean Algebra Definition">
+                                <p className="mb-2"><strong>Boolean Algebra:</strong> Mathematical structure for dealing with binary values (0 and 1, TRUE and FALSE).</p>
+                                <ul className="list-disc ml-6 mt-2">
+                                    <li>Developed by George Boole (1854)</li>
+                                    <li>Foundation of digital logic and computer circuits</li>
+                                    <li>Operations: AND (·), OR (+), NOT (′ or ¯)</li>
+                                    <li>Variables: Can only be 0 or 1</li>
+                                </ul>
+                            </DefinitionBox>
+
+                            <PropertyBox title="Basic Operations">
+                                <div className="space-y-3">
+                                    <div>
+                                        <p className="font-bold text-purple-900">1. AND (·) - Multiplication:</p>
+                                        <div className="bg-white p-2 rounded mt-1">
+                                            <pre className="text-sm">
+  0 · 0 = 0
+  0 · 1 = 0
+  1 · 0 = 0
+  1 · 1 = 1
+                                            </pre>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p className="font-bold text-purple-900">2. OR (+) - Addition:</p>
+                                        <div className="bg-white p-2 rounded mt-1">
+                                            <pre className="text-sm">
+  0 + 0 = 0
+  0 + 1 = 1
+  1 + 0 = 1
+  1 + 1 = 1
+                                            </pre>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p className="font-bold text-purple-900">3. NOT (′) - Complement:</p>
+                                        <div className="bg-white p-2 rounded mt-1">
+                                            <pre className="text-sm">
+  0′ = 1
+  1′ = 0
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </PropertyBox>
+
+                            <FormulaBox title="Boolean Algebra Axioms (Huntington Postulates)">
+                                <div className="space-y-2">
+                                    <p className="font-bold">Identity Laws:</p>
+                                    <ul className="list-disc ml-6">
+                                        <li>A + 0 = A</li>
+                                        <li>A · 1 = A</li>
+                                    </ul>
+                                    
+                                    <p className="font-bold mt-3">Complement Laws:</p>
+                                    <ul className="list-disc ml-6">
+                                        <li>A + A′ = 1</li>
+                                        <li>A · A′ = 0</li>
+                                    </ul>
+                                    
+                                    <p className="font-bold mt-3">Commutative Laws:</p>
+                                    <ul className="list-disc ml-6">
+                                        <li>A + B = B + A</li>
+                                        <li>A · B = B · A</li>
+                                    </ul>
+                                    
+                                    <p className="font-bold mt-3">Distributive Laws:</p>
+                                    <ul className="list-disc ml-6">
+                                        <li>A + (B · C) = (A + B) · (A + C)</li>
+                                        <li>A · (B + C) = (A · B) + (A · C)</li>
+                                    </ul>
+                                </div>
+                            </FormulaBox>
+
+                            <FormulaBox title="Boolean Algebra Theorems">
+                                <div className="space-y-2">
+                                    <p className="font-bold">Null/Domination Laws:</p>
+                                    <ul className="list-disc ml-6">
+                                        <li>A + 1 = 1</li>
+                                        <li>A · 0 = 0</li>
+                                    </ul>
+                                    
+                                    <p className="font-bold mt-3">Idempotent Laws:</p>
+                                    <ul className="list-disc ml-6">
+                                        <li>A + A = A</li>
+                                        <li>A · A = A</li>
+                                    </ul>
+                                    
+                                    <p className="font-bold mt-3">Involution Law:</p>
+                                    <ul className="list-disc ml-6">
+                                        <li>(A′)′ = A</li>
+                                    </ul>
+                                    
+                                    <p className="font-bold mt-3">Absorption Laws:</p>
+                                    <ul className="list-disc ml-6">
+                                        <li>A + (A · B) = A</li>
+                                        <li>A · (A + B) = A</li>
+                                    </ul>
+                                    
+                                    <p className="font-bold mt-3">Associative Laws:</p>
+                                    <ul className="list-disc ml-6">
+                                        <li>A + (B + C) = (A + B) + C</li>
+                                        <li>A · (B · C) = (A · B) · C</li>
+                                    </ul>
+                                    
+                                    <p className="font-bold mt-3">De Morgan's Laws:</p>
+                                    <ul className="list-disc ml-6">
+                                        <li>(A + B)′ = A′ · B′</li>
+                                        <li>(A · B)′ = A′ + B′</li>
+                                    </ul>
+                                </div>
+                            </FormulaBox>
+
+                            <ExampleBox title="Simplification Examples Using Theorems">
+                                <div className="space-y-3">
+                                    <div>
+                                        <p className="font-semibold">Example 1: A + A · B</p>
+                                        <p className="ml-4">= A · 1 + A · B (Identity)</p>
+                                        <p className="ml-4">= A · (1 + B) (Distributive)</p>
+                                        <p className="ml-4">= A · 1 (Null law: 1 + B = 1)</p>
+                                        <p className="ml-4">= A (Identity)</p>
+                                    </div>
+                                    <div>
+                                        <p className="font-semibold">Example 2: (A + B) · (A + B′)</p>
+                                        <p className="ml-4">= A + (B · B′) (Distributive)</p>
+                                        <p className="ml-4">= A + 0 (Complement)</p>
+                                        <p className="ml-4">= A (Identity)</p>
+                                    </div>
+                                    <div>
+                                        <p className="font-semibold">Example 3: A′ · B + A · B</p>
+                                        <p className="ml-4">= B · (A′ + A) (Distributive)</p>
+                                        <p className="ml-4">= B · 1 (Complement)</p>
+                                        <p className="ml-4">= B (Identity)</p>
+                                    </div>
+                                </div>
+                            </ExampleBox>
+                        </Section>
+
+                        {/* Section 4: Algebraic Manipulation */}
+                        <Section title="4. Algebraic Manipulation of Boolean Expressions">
+                            <PropertyBox title="Manipulation Techniques">
+                                <ul className="list-disc ml-6 space-y-2">
+                                    <li><strong>Complementation:</strong> Use De Morgan's Laws to distribute complements</li>
+                                    <li><strong>Expansion:</strong> Use distributive law to expand expressions</li>
+                                    <li><strong>Factoring:</strong> Factor out common terms using distributive law</li>
+                                    <li><strong>Substitution:</strong> Replace parts of expression using theorems</li>
+                                    <li><strong>Elimination:</strong> Remove redundant terms using absorption</li>
+                                    <li><strong>Consensus Theorem:</strong> AB + A′C + BC = AB + A′C</li>
+                                </ul>
+                            </PropertyBox>
+
+                            <ExampleBox title="Step-by-Step Simplification">
+                                <div className="space-y-4">
+                                    <div>
+                                        <p className="font-bold">Problem: Simplify (A + B)(A + C)(B + C)</p>
+                                        <div className="bg-white p-3 rounded mt-2">
+                                            <p>Step 1: (A + B)(A + C)(B + C)</p>
+                                            <p className="ml-4">= (AA + AC + AB + BC)(B + C)</p>
+                                            <p className="ml-4">= (A + AC + AB + BC)(B + C) [A·A = A]</p>
+                                            <p className="ml-4">= (A(1 + C + B) + BC)(B + C)</p>
+                                            <p className="ml-4">= (A + BC)(B + C) [1 + anything = 1]</p>
+                                            <p className="ml-4">= AB + AC + BC·B + BC·C</p>
+                                            <p className="ml-4">= AB + AC + BC + BC</p>
+                                            <p className="ml-4">= AB + AC + BC</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <p className="font-bold">Problem: Prove (A + B′)(A′ + B) = 0 using De Morgan</p>
+                                        <div className="bg-white p-3 rounded mt-2">
+                                            <p>Method 1:</p>
+                                            <p className="ml-4">= AA′ + AB + A′B′ + B′B</p>
+                                            <p className="ml-4">= 0 + AB + A′B′ + 0</p>
+                                            <p className="ml-4">= AB + A′B′</p>
+                                            
+                                            <p className="mt-3">Method 2 (De Morgan):</p>
+                                            <p className="ml-4">[(A + B′)(A′ + B)]′ = 1</p>
+                                            <p className="ml-4">= (A + B′)′ + (A′ + B)′</p>
+                                            <p className="ml-4">= (A′ · B) + (A · B′)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ExampleBox>
+
+                            <FormulaBox title="Standard Forms">
+                                <div className="space-y-3">
+                                    <div>
+                                        <p className="font-bold">Sum of Products (SOP):</p>
+                                        <ul className="list-disc ml-6">
+                                            <li>Sum of minterms</li>
+                                            <li>Example: AB + A′C + BC′</li>
+                                            <li>Used for implementing with AND-OR gates</li>
+                                            <li>Each term is called a <strong>minterm</strong></li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div>
+                                        <p className="font-bold">Product of Sums (POS):</p>
+                                        <ul className="list-disc ml-6">
+                                            <li>Product of maxterms</li>
+                                            <li>Example: (A + B)(A′ + C)(B + C′)</li>
+                                            <li>Used for implementing with OR-AND gates</li>
+                                            <li>Each term is called a <strong>maxterm</strong></li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div>
+                                        <p className="font-bold">Canonical Forms:</p>
+                                        <ul className="list-disc ml-6">
+                                            <li><strong>Canonical SOP:</strong> All variables appear in each minterm</li>
+                                            <li><strong>Canonical POS:</strong> All variables appear in each maxterm</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </FormulaBox>
+
+                            <ExampleBox title="Converting to Standard Forms">
+                                <div className="bg-white p-3 rounded">
+                                    <p className="font-bold">Example: Convert F = A + BC to Canonical SOP</p>
+                                    <p className="mt-2">Variables: A, B, C</p>
+                                    <p className="mt-2">Term A is missing B and C:</p>
+                                    <p className="ml-4">A = A(B + B′)(C + C′)</p>
+                                    <p className="ml-4">= A(BC + BC′ + B′C + B′C′)</p>
+                                    <p className="ml-4">= ABC + ABC′ + AB′C + AB′C′</p>
+                                    
+                                    <p className="mt-2">Term BC is missing A:</p>
+                                    <p className="ml-4">BC = BC(A + A′)</p>
+                                    <p className="ml-4">= ABC + A′BC</p>
+                                    
+                                    <p className="mt-2 font-bold">Final Canonical SOP:</p>
+                                    <p className="ml-4">F = ABC + ABC′ + AB′C + AB′C′ + A′BC</p>
+                                    <p className="ml-4">(Remove duplicates if any)</p>
+                                </div>
+                            </ExampleBox>
+                        </Section>
+
+                        {/* Section 5: Karnaugh Maps */}
+                        <Section title="5. Simplification using Karnaugh Maps (K-Maps)">
+                            <DefinitionBox title="Karnaugh Map (K-Map)">
+                                <p className="mb-2"><strong>K-Map:</strong> Graphical method for simplifying Boolean expressions.</p>
+                                <ul className="list-disc ml-6 mt-2">
+                                    <li>Visual technique to minimize Boolean functions</li>
+                                    <li>Easier than algebraic manipulation for 2-6 variables</li>
+                                    <li>Based on Gray code (adjacent cells differ by 1 bit)</li>
+                                    <li>Groups of 1s (or 0s) represent simplified terms</li>
+                                </ul>
+                            </DefinitionBox>
+
+                            <PropertyBox title="K-Map Grouping Rules">
+                                <ul className="list-disc ml-6 space-y-1">
+                                    <li><strong>Group sizes:</strong> Must be powers of 2 (1, 2, 4, 8, 16)</li>
+                                    <li><strong>Shape:</strong> Groups must be rectangular</li>
+                                    <li><strong>Maximize:</strong> Make groups as large as possible</li>
+                                    <li><strong>Minimize:</strong> Use fewest number of groups</li>
+                                    <li><strong>Overlap:</strong> Groups can overlap</li>
+                                    <li><strong>Wrap-around:</strong> Edges wrap (top-bottom, left-right)</li>
+                                    <li><strong>All 1s:</strong> Every 1 must be in at least one group</li>
+                                    <li><strong>Don't cares (X):</strong> Can be included if helpful</li>
+                                </ul>
+                            </PropertyBox>
+
+                            <ExampleBox title="2-Variable K-Map">
+                                <div className="bg-white p-4 rounded">
+                                    <p className="font-bold mb-2">K-Map Structure for 2 variables (A, B):</p>
+                                    <pre className="bg-gray-100 p-3 rounded text-sm">
+       B
+     0   1
+   ┌───┬───┐
+A 0│ 0 │ 1 │
+   ├───┼───┤
+  1│ 2 │ 3 │
+   └───┴───┘
+                                    </pre>
+                                    <p className="mt-3">Cell 0: A′B′</p>
+                                    <p>Cell 1: A′B</p>
+                                    <p>Cell 2: AB′</p>
+                                    <p>Cell 3: AB</p>
+                                </div>
+                            </ExampleBox>
+
+                            <ExampleBox title="3-Variable K-Map">
+                                <div className="bg-white p-4 rounded">
+                                    <p className="font-bold mb-2">K-Map Structure for 3 variables (A, B, C):</p>
+                                    <pre className="bg-gray-100 p-3 rounded text-sm">
+        BC
+      00  01  11  10
+   ┌───┬───┬───┬───┐
+A 0│ 0 │ 1 │ 3 │ 2 │
+   ├───┼───┼───┼───┤
+  1│ 4 │ 5 │ 7 │ 6 │
+   └───┴───┴───┴───┘
+                                    </pre>
+                                    <p className="mt-3 text-sm">Note: BC order is 00, 01, 11, 10 (Gray code)</p>
+                                    <p className="text-sm">Cell 0: A′B′C′, Cell 1: A′B′C, Cell 2: A′BC′, etc.</p>
+                                </div>
+                            </ExampleBox>
+
+                            <ExampleBox title="4-Variable K-Map">
+                                <div className="bg-white p-4 rounded">
+                                    <p className="font-bold mb-2">K-Map Structure for 4 variables (A, B, C, D):</p>
+                                    <pre className="bg-gray-100 p-3 rounded text-sm">
+         CD
+       00  01  11  10
+    ┌───┬───┬───┬───┐
+AB 00│ 0 │ 1 │ 3 │ 2 │
+    ├───┼───┼───┼───┤
+   01│ 4 │ 5 │ 7 │ 6 │
+    ├───┼───┼───┼───┤
+   11│12 │13 │15 │14 │
+    ├───┼───┼───┼───┤
+   10│ 8 │ 9 │11 │10 │
+    └───┴───┴───┴───┘
+                                    </pre>
+                                    <p className="mt-3 text-sm">Both AB and CD use Gray code ordering</p>
+                                </div>
+                            </ExampleBox>
+
+                            <ExampleBox title="K-Map Simplification Example">
+                                <div className="space-y-3">
+                                    <div>
+                                        <p className="font-bold">Example: Simplify F(A,B,C) = Σm(0, 2, 4, 5, 6)</p>
+                                        <div className="bg-white p-3 rounded mt-2">
+                                            <pre className="bg-gray-100 p-3 rounded text-sm">
+        BC
+      00  01  11  10
+   ┌───┬───┬───┬───┐
+A 0│ 1 │ 0 │ 0 │ 1 │  ← Group 1: A′C′
+   ├───┼───┼───┼───┤
+  1│ 1 │ 1 │ 0 │ 1 │  ← Group 2: AB′
+   └───┴───┴───┴───┘
+    ↑       ↑
+    └───────┘
+   Group 3: AC′
+                                            </pre>
+                                            <p className="mt-3"><strong>Groups Identified:</strong></p>
+                                            <ul className="list-disc ml-6">
+                                                <li>Group 1 (cells 0,2): A′C′ (size 2, horizontal)</li>
+                                                <li>Group 2 (cells 4,5,6 with wrap): AB′ + AC′ (analyze carefully)</li>
+                                            </ul>
+                                            <p className="mt-2"><strong>Simplified: F = A′C′ + AB′ + AC′</strong></p>
+                                            <p className="text-sm">Or further: F = A′C′ + A(B′ + C′) = A′C′ + AB′ + AC′</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <p className="font-bold">Group Size Interpretation:</p>
+                                        <ul className="list-disc ml-6 text-sm">
+                                            <li>Group of 1: 3 literals (ABC′)</li>
+                                            <li>Group of 2: 2 literals (AB)</li>
+                                            <li>Group of 4: 1 literal (A)</li>
+                                            <li>Group of 8: 0 literals (constant 1)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </ExampleBox>
+
+                            <PropertyBox title="Don't Care Conditions">
+                                <p className="mb-2"><strong>Don't Cares (X or d):</strong> Output values that don't matter (can be 0 or 1)</p>
+                                <ul className="list-disc ml-6 space-y-1">
+                                    <li>Occur when certain input combinations never happen</li>
+                                    <li>Can be used as 0 or 1 to make larger groups</li>
+                                    <li>Marked as 'X' or 'd' in K-map</li>
+                                    <li>Not required to be grouped, but can be if beneficial</li>
+                                </ul>
+                                <div className="bg-white p-3 rounded mt-3">
+                                    <p className="font-semibold">Example: F(A,B,C) = Σm(1,3,5,7) + d(2,6)</p>
+                                    <p className="text-sm mt-1">Minterms 2 and 6 are don't cares - use them to make larger groups!</p>
+                                </div>
+                            </PropertyBox>
+
+                            <ExampleBox title="Product of Sums (POS) using K-Map">
+                                <div className="bg-white p-3 rounded">
+                                    <p className="mb-2">For POS, group the 0s instead of 1s:</p>
+                                    <ol className="list-decimal ml-6 space-y-1">
+                                        <li>Mark all 0s in K-map</li>
+                                        <li>Group the 0s following same rules</li>
+                                        <li>Read groups in complement form</li>
+                                        <li>Combine groups with AND (product)</li>
+                                    </ol>
+                                    <p className="mt-3 text-sm text-red-600">Remember: Grouping 0s gives maxterms (sums), which we multiply together</p>
+                                </div>
+                            </ExampleBox>
+                        </Section>
+
+                        {/* Quick Revision Summary */}
+                        <div className="mt-8 bg-gradient-to-br from-red-50 to-pink-50 border-4 border-red-500 rounded-lg p-6 shadow-xl">
+                            <h2 className="text-3xl font-bold text-red-700 mb-6 flex items-center gap-3">
+                                <span className="text-4xl">🎯</span>
+                                QUICK REVISION SUMMARY
+                            </h2>
+
+                            <div className="space-y-6">
+                                {/* Functions Quick Reference */}
+                                <div className="bg-white p-4 rounded-lg shadow">
+                                    <h3 className="text-xl font-bold text-red-600 mb-3">📚 Functions - Quick Points</h3>
+                                    <ul className="list-disc ml-6 space-y-1 text-sm">
+                                        <li><strong>Injective (1-1):</strong> f(x₁) = f(x₂) ⇒ x₁ = x₂</li>
+                                        <li><strong>Surjective (Onto):</strong> Range = Codomain</li>
+                                        <li><strong>Bijective:</strong> Both 1-1 and Onto (has inverse)</li>
+                                        <li><strong>Composition:</strong> (g ∘ f)(x) = g(f(x)) [NOT commutative!]</li>
+                                        <li><strong>Identity:</strong> f(x) = x</li>
+                                    </ul>
+                                </div>
+
+                                {/* Growth of Functions */}
+                                <div className="bg-white p-4 rounded-lg shadow">
+                                    <h3 className="text-xl font-bold text-red-600 mb-3">📈 Growth of Functions - Formulas</h3>
+                                    <div className="space-y-2 text-sm">
+                                        <p><strong>Big-O (Upper Bound):</strong> f(n) ≤ c·g(n)</p>
+                                        <p><strong>Big-Ω (Lower Bound):</strong> f(n) ≥ c·g(n)</p>
+                                        <p><strong>Big-Θ (Tight Bound):</strong> c₁·g(n) ≤ f(n) ≤ c₂·g(n)</p>
+                                        <p className="font-bold mt-2">Growth Order: O(1) &lt; O(log n) &lt; O(n) &lt; O(n log n) &lt; O(n²) &lt; O(2ⁿ) &lt; O(n!)</p>
+                                        <p className="text-red-600 font-bold">Drop constants & lower-order terms!</p>
+                                    </div>
+                                </div>
+
+                                {/* Boolean Algebra Laws */}
+                                <div className="bg-white p-4 rounded-lg shadow">
+                                    <h3 className="text-xl font-bold text-red-600 mb-3">⚡ Boolean Algebra - Key Laws</h3>
+                                    <div className="grid grid-cols-2 gap-3 text-sm">
+                                        <div>
+                                            <p className="font-bold">Identity:</p>
+                                            <p>A + 0 = A, A · 1 = A</p>
+                                        </div>
+                                        <div>
+                                            <p className="font-bold">Null:</p>
+                                            <p>A + 1 = 1, A · 0 = 0</p>
+                                        </div>
+                                        <div>
+                                            <p className="font-bold">Complement:</p>
+                                            <p>A + A′ = 1, A · A′ = 0</p>
+                                        </div>
+                                        <div>
+                                            <p className="font-bold">Idempotent:</p>
+                                            <p>A + A = A, A · A = A</p>
+                                        </div>
+                                        <div>
+                                            <p className="font-bold">Absorption:</p>
+                                            <p>A + AB = A, A(A + B) = A</p>
+                                        </div>
+                                        <div>
+                                            <p className="font-bold">Involution:</p>
+                                            <p>(A′)′ = A</p>
+                                        </div>
+                                    </div>
+                                    <div className="mt-3 p-2 bg-red-50 rounded">
+                                        <p className="font-bold text-red-700">De Morgan's Laws (MOST IMPORTANT!):</p>
+                                        <p>(A + B)′ = A′ · B′</p>
+                                        <p>(A · B)′ = A′ + B′</p>
+                                    </div>
+                                </div>
+
+                                {/* K-Map Rules */}
+                                <div className="bg-white p-4 rounded-lg shadow">
+                                    <h3 className="text-xl font-bold text-red-600 mb-3">🗺️ K-Map - Essential Rules</h3>
+                                    <ul className="list-disc ml-6 space-y-1 text-sm">
+                                        <li>Group sizes: 1, 2, 4, 8, 16 (powers of 2)</li>
+                                        <li>Make groups as LARGE as possible</li>
+                                        <li>Use FEWEST number of groups</li>
+                                        <li>Groups can overlap</li>
+                                        <li>Edges wrap around (top-bottom, left-right)</li>
+                                        <li>Gray code ordering: 00, 01, 11, 10</li>
+                                        <li>Group 1s for SOP, 0s for POS</li>
+                                        <li>Don't cares (X): Use if helpful, ignore if not</li>
+                                    </ul>
+                                    <div className="mt-2 p-2 bg-yellow-50 rounded">
+                                        <p className="font-bold">Group Size → Variables:</p>
+                                        <p className="text-xs">1 cell → 3 vars, 2 cells → 2 vars, 4 cells → 1 var, 8 cells → constant</p>
+                                    </div>
+                                </div>
+
+                                {/* Memory Tricks */}
+                                <div className="bg-gradient-to-r from-purple-100 to-pink-100 p-4 rounded-lg shadow">
+                                    <h3 className="text-xl font-bold text-purple-700 mb-3">🧠 Memory Tricks</h3>
+                                    <ul className="list-disc ml-6 space-y-1 text-sm">
+                                        <li><strong>Function types:</strong> "In Sur Bi" = Injective, Surjective, Bijective</li>
+                                        <li><strong>De Morgan:</strong> "Break the bar, change the operation" (complement distributes, AND↔OR)</li>
+                                        <li><strong>Absorption:</strong> "The bigger absorbs the smaller" (A absorbs AB)</li>
+                                        <li><strong>K-Map grouping:</strong> "Power of 2, Rectangle, Max size, Min groups"</li>
+                                        <li><strong>Complexity order:</strong> "C-L-N-NL-Q-E-F" (Constant-Log-Linear-NlogN-Quadratic-Exponential-Factorial)</li>
+                                        <li><strong>Gray code:</strong> "00-01-11-10" (only one bit changes at a time)</li>
+                                    </ul>
+                                </div>
+
+                                {/* Common Exam Questions */}
+                                <div className="bg-gradient-to-r from-blue-100 to-cyan-100 p-4 rounded-lg shadow">
+                                    <h3 className="text-xl font-bold text-blue-700 mb-3">📝 Common Exam Question Types</h3>
+                                    <div className="space-y-2 text-sm">
+                                        <div>
+                                            <p className="font-bold">1. Function Classification:</p>
+                                            <p className="ml-4">Given function, determine if injective/surjective/bijective</p>
+                                        </div>
+                                        <div>
+                                            <p className="font-bold">2. Function Composition:</p>
+                                            <p className="ml-4">Find (f ∘ g)(x) or (g ∘ f)(x); prove non-commutative</p>
+                                        </div>
+                                        <div>
+                                            <p className="font-bold">3. Complexity Analysis:</p>
+                                            <p className="ml-4">Find Big-O, Ω, Θ for given algorithm; compare growth rates</p>
+                                        </div>
+                                        <div>
+                                            <p className="font-bold">4. Boolean Simplification:</p>
+                                            <p className="ml-4">Simplify expression using laws; prove using theorems</p>
+                                        </div>
+                                        <div>
+                                            <p className="font-bold">5. De Morgan Application:</p>
+                                            <p className="ml-4">Convert NAND/NOR; find complement of expression</p>
+                                        </div>
+                                        <div>
+                                            <p className="font-bold">6. K-Map Minimization:</p>
+                                            <p className="ml-4">Given minterms/maxterms, draw K-map and simplify</p>
+                                        </div>
+                                        <div>
+                                            <p className="font-bold">7. Standard Forms:</p>
+                                            <p className="ml-4">Convert between SOP/POS; canonical forms</p>
+                                        </div>
+                                        <div>
+                                            <p className="font-bold">8. Don't Care Optimization:</p>
+                                            <p className="ml-4">Use don't cares to minimize function efficiently</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Last Minute Tips */}
+                                <div className="bg-gradient-to-r from-green-100 to-emerald-100 p-4 rounded-lg shadow">
+                                    <h3 className="text-xl font-bold text-green-700 mb-3">⚡ Last Minute Tips</h3>
+                                    <ul className="list-disc ml-6 space-y-1 text-sm">
+                                        <li>Always check if function is 1-1 by testing f(x₁) = f(x₂)</li>
+                                        <li>For Big-O, drop constants and keep only highest order term</li>
+                                        <li>In Boolean: 0 is strong for AND (kills), 1 is strong for OR (wins)</li>
+                                        <li>De Morgan: Complement of sum = product of complements</li>
+                                        <li>K-Map: Corner cells are adjacent (wrap-around!)</li>
+                                        <li>Absorption law is your friend for quick simplification</li>
+                                        <li>Double complement cancels: (A′)′ = A</li>
+                                        <li>SOP = OR of ANDs, POS = AND of ORs</li>
+                                        <li>Practice K-maps for 3-4 variables - most common in exams!</li>
+                                    </ul>
+                                </div>
+
+                                {/* Important Formulas Box */}
+                                <div className="bg-gradient-to-r from-orange-100 to-red-100 p-4 rounded-lg shadow border-2 border-orange-500">
+                                    <h3 className="text-xl font-bold text-orange-700 mb-3">📋 Must-Remember Formulas</h3>
+                                    <div className="grid grid-cols-2 gap-3 text-sm">
+                                        <div className="bg-white p-2 rounded">
+                                            <p className="font-bold">Distributive:</p>
+                                            <p className="text-xs">A + BC = (A+B)(A+C)</p>
+                                            <p className="text-xs">A(B+C) = AB + AC</p>
+                                        </div>
+                                        <div className="bg-white p-2 rounded">
+                                            <p className="font-bold">Consensus:</p>
+                                            <p className="text-xs">AB + A′C + BC = AB + A′C</p>
+                                        </div>
+                                        <div className="bg-white p-2 rounded">
+                                            <p className="font-bold">XOR:</p>
+                                            <p className="text-xs">A ⊕ B = AB′ + A′B</p>
+                                        </div>
+                                        <div className="bg-white p-2 rounded">
+                                            <p className="font-bold">XNOR:</p>
+                                            <p className="text-xs">A ⊙ B = AB + A′B′</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="mt-6 p-4 bg-red-600 text-white rounded-lg text-center">
+                                <p className="text-2xl font-bold">🎯 ALL THE BEST FOR YOUR EXAM! 🎯</p>
+                                <p className="text-sm mt-2">Practice K-Maps, memorize De Morgan's Laws, and stay calm!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
