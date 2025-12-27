@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit-5: Graphs & Combinatorics - Exam Notes</title>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>body{font-family:system-ui,sans-serif}.mono{font-family:monospace;white-space:pre}</style>
+</head>
+<body class="bg-gray-50">
+<div id="root"></div>
+<script type="text/babel">
+const {useState} = React;
+
+const ChevronDown = () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>;
+const ChevronRight = () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/></svg>;
+const BookOpen = () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>;
+
+const Sec = ({t, c, d=false, children}) => {
+  const [o, setO] = useState(d);
+  return (
+    <div className="mb-3 bg-white rounded-lg shadow-md overflow-hidden">
+      <button onClick={() => setO(!o)} className={`w-full px-5 py-3 flex items-center justify-between bg-gradient-to-r ${c} text-white hover:opacity-90`}>
+        <span className="font-bold flex items-center gap-2"><BookOpen/>{t}</span>
+        {o ? <ChevronDown/> : <ChevronRight/>}
+      </button>
+      {o && <div className="p-5 space-y-3">{children}</div>}
+    </div>
+  );
+};
+
+const Def = ({t, children}) => <div className="bg-yellow-50 border-l-4 border-yellow-500 p-3 rounded-r"><h4 className="font-bold text-yellow-800 text-sm mb-1">📌 {t}</h4><div className="text-gray-800 text-xs">{children}</div></div>;
+const Ex = ({t, children}) => <div className="bg-blue-50 border-l-4 border-blue-500 p-3 rounded-r"><h4 className="font-bold text-blue-800 text-sm mb-1">💡 {t}</h4><div className="text-gray-800 text-xs">{children}</div></div>;
+const Form = ({t, children}) => <div className="bg-green-50 border-l-4 border-green-500 p-3 rounded-r"><h4 className="font-bold text-green-800 text-sm mb-1">🔢 {t}</h4><div className="text-gray-800 text-xs">{children}</div></div>;
+const Prop = ({t, children}) => <div className="bg-purple-50 border-l-4 border-purple-500 p-3 rounded-r"><h4 className="font-bold text-purple-800 text-sm mb-1">⭐ {t}</h4><div className="text-gray-800 text-xs">{children}</div></div>;
+
+const App = () => (
+  <div className="min-h-screen py-6 px-3">
+    <div className="max-w-5xl mx-auto">
+      <header className="text-center mb-6 bg-gradient-to-r from-blue-600 to-indigo-600 p-6 rounded-xl shadow-xl text-white">
+        <h1 className="text-3xl font-bold">Unit-5: Graphs & Combinatorics</h1>
+        <p className="text-lg">Graph Theory • Counting • Exam Ready</p>
+        <p className="text-xs mt-1 opacity-90">Ultra-Dense Revision Guide</p>
+      </header>
+
+      <Sec t="1. Graph Terminology" c="from-blue-600 to-cyan-600" d={true}>
+        <Def t="Graph G = (V, E)">
+          <ul className="list-disc ml-5 space-y-0.5">
+            <li><strong>V:</strong> Set of vertices (nodes)</li>
+            <li><strong>E:</strong> Set of edges (connections)</li>
+            <li><strong>Order:</strong> |V| (number of vertices)</li>
+            <li><strong>Size:</strong> |E| (number of edges)</li>
+          </ul>
+        </Def>
+
+        <Def t="Key Terms">
+          <div className="space-y-1">
+            <p><strong>Adjacent vertices:</strong> Connected by edge</p>
+            <p><strong>Incident:</strong> Edge connects to vertex</p>
+            <p><strong>Degree deg(v):</strong> Number of edges at v</p>
+            <p><strong>Isolated vertex:</strong> deg(v) = 0</p>
+            <p><strong>Pendant vertex:</strong> deg(v) = 1</p>
+            <p><strong>Loop:</strong> Edge from v to itself</p>
+            <p><strong>Parallel edges:</strong> Multiple edges between same vertices</p>
+          </div>
+        </Def>
+
+        <Form t="Handshaking Theorem ⭐">
+          <p className="font-bold text-lg">∑<sub>v∈V</sub> deg(v) = 2|E|</p>
+          <p className="mt-1">Sum of all degrees = twice number of edges</p>
+          <p className="text-red-600 font-bold">Corollary: Number of odd-degree vertices is EVEN</p>
+        </Form>
+
+        <Def t="Graph Types">
+          <ul className="list-disc ml-5 space-y-0.5">
+            <li><strong>Simple Graph:</strong> No loops, no parallel edges</li>
+            <li><strong>Complete Graph Kₙ:</strong> Every pair connected, |E| = n(n-1)/2</li>
+            <li><strong>Cycle Cₙ:</strong> n vertices in closed path</li>
+            <li><strong>Path Pₙ:</strong> n vertices in open path</li>
+            <li><strong>Regular Graph:</strong> All vertices same degree</li>
+            <li><strong>Connected:</strong> Path exists between any two vertices</li>
+          </ul>
+        </Def>
+
+        <Ex t="Examples">
+          <div className="mono text-xs bg-gray-100 p-2 rounded">
+{`K₃ (Triangle):     K₄ (Tetrahedron):
+  1---2              1---2
+   \ /               |\ /|
+    3                | X |
+                     |/ \|
+                     3---4`}
+          </div>
+        </Ex>
+      </Sec>
+
+      <Sec t="2. Matrix Representations" c="from-green-600 to-emerald-600">
+        <Def t="Adjacency Matrix A">
+          <p>n×n matrix where A[i][j] = number of edges from vᵢ to vⱼ</p>
+          <ul className="list-disc ml-5 mt-1 space-y-0.5">
+            <li>Simple graph: entries are 0 or 1</li>
+            <li>Undirected: A is symmetric (A = Aᵀ)</li>
+            <li>Diagonal: A[i][i] = number of loops at vᵢ</li>
+            <li>deg(vᵢ) = sum of row i (undirected)</li>
+          </ul>
+        </Def>
+
+        <Ex t="Adjacency Matrix Example">
+          <div className="mono text-xs bg-gray-100 p-2 rounded">
+{`Graph:    1---2      Adjacency Matrix A:
+          |   |         v₁ v₂ v₃
+          3---+      v₁ [0  1  1]
+                    v₂ [1  0  1]
+                    v₃ [1  1  0]`}
+          </div>
+        </Ex>
+
+        <Def t="Incidence Matrix M">
+          <p>n×m matrix (n vertices, m edges) where M[i][j] = 1 if vᵢ is incident to eⱼ</p>
+          <ul className="list-disc ml-5 mt-1 space-y-0.5">
+            <li>Each column has exactly 2 ones (for simple graph)</li>
+            <li>Sum of row i = deg(vᵢ)</li>
+          </ul>
+        </Def>
+
+        <Prop t="Properties">
+          <ul className="list-disc ml-5 space-y-0.5">
+            <li>Aⁿ[i][j] = number of walks of length n from vᵢ to vⱼ</li>
+            <li>Trace(A) = number of loops</li>
+            <li>Adjacency preserves isomorphism (similar matrices for isomorphic graphs)</li>
+          </ul>
+        </Prop>
+      </Sec>
+
+      <Sec t="3. Multigraphs & Special Graphs" c="from-purple-600 to-pink-600">
+        <Def t="Multigraph">
+          <p>Graph allowing parallel edges (multiple edges between same vertices)</p>
+          <p className="mt-1"><strong>Pseudograph:</strong> Also allows loops</p>
+        </Def>
+
+        <Def t="Directed Graph (Digraph)">
+          <ul className="list-disc ml-5 space-y-0.5">
+            <li>Edges have direction (ordered pairs)</li>
+            <li><strong>In-degree:</strong> deg⁻(v) = edges into v</li>
+            <li><strong>Out-degree:</strong> deg⁺(v) = edges out of v</li>
+            <li>∑ deg⁻(v) = ∑ deg⁺(v) = |E|</li>
+          </ul>
+        </Def>
+
+        <Def t="Weighted Graph">
+          <p>Each edge has associated weight/cost w(e)</p>
+          <p className="mt-1">Used in shortest path, minimum spanning tree problems</p>
+        </Def>
+
+        <Form t="Special Complete Graphs">
+          <div className="space-y-1">
+            <p><strong>Kₙ:</strong> Complete graph on n vertices</p>
+            <p>• |E| = n(n-1)/2</p>
+            <p>• deg(v) = n-1 for all v</p>
+            <p className="mt-1"><strong>Kₘ,ₙ:</strong> Complete bipartite graph</p>
+            <p>• |V| = m+n, |E| = m·n</p>
+          </div>
+        </Form>
+      </Sec>
+
+      <Sec t="4. Bipartite Graphs" c="from-indigo-600 to-purple-600">
+        <Def t="Bipartite Graph">
+          <p>V can be partitioned into two disjoint sets V₁, V₂ where:</p>
+          <ul className="list-disc ml-5 mt-1 space-y-0.5">
+            <li>Every edge connects vertex in V₁ to vertex in V₂</li>
+            <li>No edges within V₁ or within V₂</li>
+          </ul>
+        </Def>
+
+        <Form t="Bipartite Test ⭐">
+          <p className="font-bold">G is bipartite ⟺ G has NO odd cycles</p>
+          <p className="text-xs mt-1">Use 2-coloring (BFS/DFS) to check</p>
+        </Form>
+
+        <Ex t="Bipartite Examples">
+          <div className="mono text-xs bg-gray-100 p-2 rounded">
+{`K₃,₃ (Utility Graph):   C₄ (Even cycle):
+  1   2   3               1---2
+  |\ /|\ /|               |   |
+  | X | X |               4---3
+  |/ \|/ \|              ✓ Bipartite
+  4   5   6`}
+          </div>
+          <p className="mt-1"><strong>✓ Bipartite:</strong> Trees, Even cycles, Kₘ,ₙ</p>
+          <p><strong>✗ NOT Bipartite:</strong> Odd cycles, K₃, K₅</p>
+        </Ex>
+
+        <Prop t="Properties">
+          <ul className="list-disc ml-5 space-y-0.5">
+            <li>Every tree is bipartite</li>
+            <li>K₃,₃ is smallest non-planar bipartite graph</li>
+            <li>Hall's Marriage Theorem applies to bipartite matching</li>
+          </ul>
+        </Prop>
+      </Sec>
+
+      <Sec t="5. Planar Graphs & Euler's Formula" c="from-red-600 to-orange-600">
+        <Def t="Planar Graph">
+          <p>Graph that can be drawn in plane with no edge crossings</p>
+          <p className="mt-1"><strong>Plane graph:</strong> Specific planar embedding</p>
+        </Def>
+
+        <Form t="Euler's Formula ⭐⭐⭐">
+          <div className="bg-white p-2 rounded space-y-1">
+            <p className="font-bold text-xl text-center">v - e + f = 2</p>
+            <p className="text-center">vertices - edges + faces = 2</p>
+            <p className="text-xs text-gray-600">(for connected planar graphs)</p>
+          </div>
+        </Form>
+
+        <Form t="Consequences of Euler's Formula">
+          <div className="space-y-1">
+            <p><strong>1. For simple planar graph (v ≥ 3):</strong></p>
+            <p className="ml-4 font-bold">e ≤ 3v - 6</p>
+            <p><strong>2. If no triangles (girth ≥ 4):</strong></p>
+            <p className="ml-4 font-bold">e ≤ 2v - 4</p>
+            <p><strong>3. At least one vertex with deg(v) ≤ 5</strong></p>
+          </div>
+        </Form>
+
+        <Prop t="Kuratowski's Theorem ⭐">
+          <p className="font-bold">G is planar ⟺ G contains no subdivision of K₅ or K₃,₃</p>
+          <p className="text-xs mt-1">K₅ and K₃,₃ are minimal non-planar graphs</p>
+        </Prop>
+
+        <Ex t="Non-Planar Proof">
+          <div className="space-y-1 text-xs">
+            <p><strong>K₅:</strong> v=5, e=10. Test: e ≤ 3v-6 → 10 ≤ 9? NO!</p>
+            <p><strong>K₃,₃:</strong> v=6, e=9, no triangles. Test: e ≤ 2v-4 → 9 ≤ 8? NO!</p>
+          </div>
+        </Ex>
+
+        <Def t="Faces">
+          <p>Regions divided by edges (including outer/infinite face)</p>
+          <p className="mt-1"><strong>Degree of face:</strong> Number of edges bounding it</p>
+          <p className="font-bold">∑ deg(f) = 2e (each edge borders 2 faces)</p>
+        </Def>
+      </Sec>
+
+      <Sec t="6. Graph Isomorphism" c="from-blue-600 to-cyan-600">
+        <Def t="Isomorphism">
+          <p>G₁ ≅ G₂ if ∃ bijection φ: V₁ → V₂ preserving adjacency</p>
+          <p className="mt-1">u-v edge in G₁ ⟺ φ(u)-φ(v) edge in G₂</p>
+        </Def>
+
+        <Form t="Isomorphism Invariants (Necessary Conditions)">
+          <ul className="list-disc ml-5 space-y-0.5">
+            <li>Same number of vertices: |V₁| = |V₂|</li>
+            <li>Same number of edges: |E₁| = |E₂|</li>
+            <li>Same degree sequence (sorted list of degrees)</li>
+            <li>Same number of cycles of each length</li>
+            <li>Same chromatic number</li>
+            <li>Both planar or both non-planar</li>
+          </ul>
+          <p className="text-red-600 font-bold mt-1">⚠️ These are necessary but NOT sufficient!</p>
+        </Form>
+
+        <Ex t="Isomorphism Check">
+          <div className="mono text-xs bg-gray-100 p-2 rounded">
+{`G₁:  1---2      G₂:  a---b
+     |\ /|           |   |
+     | 3 |           d---c
+     |/ \|
+     4---5
+
+Degree sequences:
+G₁: [2,3,3,3,3] ✓ Match!
+G₂: [2,2,2,2]   ✗ Different!
+→ NOT isomorphic`}
+          </div>
+        </Ex>
+
+        <Def t="Homeomorphism">
+          <p>G₁ homeomorphic to G₂ if both obtainable from same graph by:</p>
+          <ul className="list-disc ml-5 mt-1 space-y-0.5">
+            <li>Subdividing edges (adding degree-2 vertices)</li>
+            <li>Removing degree-2 vertices</li>
+          </ul>
+          <p className="text-xs mt-1">Used in planarity testing (Kuratowski's theorem)</p>
+        </Def>
+      </Sec>
+
+      <Sec t="7. Euler Paths & Circuits" c="from-green-600 to-emerald-600">
+        <Def t="Euler Path & Circuit">
+          <ul className="list-disc ml-5 space-y-0.5">
+            <li><strong>Euler Path:</strong> Traverses every edge exactly once</li>
+            <li><strong>Euler Circuit:</strong> Euler path that starts and ends at same vertex</li>
+          </ul>
+        </Def>
+
+        <Form t="Euler's Theorem ⭐⭐⭐">
+          <div className="bg-white p-2 rounded space-y-1">
+            <p className="font-bold">Connected graph G has:</p>
+            <p><strong>Euler Circuit ⟺ ALL vertices have even degree</strong></p>
+            <p><strong>Euler Path ⟺ EXACTLY 2 vertices have odd degree</strong></p>
+            <p className="text-xs text-gray-600 mt-1">(Path starts/ends at odd-degree vertices)</p>
+          </div>
+        </Form>
+
+        <Ex t="Seven Bridges of Königsberg">
+          <div className="mono text-xs bg-gray-100 p-2 rounded">
+{`Problem: Can you cross all 7 bridges exactly once?
+   
+    A ---bridge--- B
+    |     |  |     |
+    +--bridge--+   |
+    |     |  |     |
+    C ---bridge--- D
+
+All 4 regions have odd degree → NO Euler path!`}
+          </div>
+        </Ex>
+
+        <Prop t="Finding Euler Circuits">
+          <ul className="list-disc ml-5 space-y-0.5 text-xs">
+            <li><strong>Fleury's Algorithm:</strong> Never cross a bridge unless no choice</li>
+            <li><strong>Hierholzer's Algorithm:</strong> Build cycles, merge them</li>
+            <li>Time complexity: O(|E|)</li>
+          </ul>
+        </Prop>
+      </Sec>
+
+      <Sec t="8. Hamiltonian Paths & Circuits" c="from-purple-600 to-pink-600">
+        <Def t="Hamiltonian Path & Circuit">
+          <ul className="list-disc ml-5 space-y-0.5">
+            <li><strong>Hamiltonian Path:</strong> Visits every vertex exactly once</li>
+            <li><strong>Hamiltonian Circuit:</strong> Hamiltonian path that returns to start</li>
+          </ul>
+        </Def>
+
+        <Prop t="Key Differences: Euler vs Hamiltonian">
+          <div className="text-xs">
+            <p><strong>Euler:</strong> Every EDGE once, polynomial-time checkable</p>
+            <p><strong>Hamiltonian:</strong> Every VERTEX once, NP-complete problem</p>
+          </div>
+        </Prop>
+
+        <Form t="Sufficient Conditions (Not Necessary)">
+          <div className="space-y-1 text-xs">
+            <p><strong>Dirac's Theorem:</strong></p>
+            <p className="ml-4">If n ≥ 3 and deg(v) ≥ n/2 ∀v → Has Hamiltonian circuit</p>
+            <p><strong>Ore's Theorem:</strong></p>
+            <p className="ml-4">If n ≥ 3 and deg(u)+deg(v) ≥ n for all non-adjacent u,v → Has Hamiltonian circuit</p>
+          </div>
+        </Form>
+
+        <Ex t="Examples">
+          <div className="space-y-1">
+            <p><strong>✓ Has Hamiltonian:</strong> Complete graphs Kₙ (n≥3), Cycles Cₙ</p>
+            <p><strong>✗ No Hamiltonian:</strong> K₂,₃ (bipartite with unequal parts), Peterson graph</p>
+            <p><strong>TSP:</strong> Finding shortest Hamiltonian circuit (NP-hard)</p>
+          </div>
+        </Ex>
+
+        <Prop t="Necessary Conditions">
+          <ul className="list-disc ml-5 space-y-0.5 text-xs">
+            <li>Removing k vertices removes at most k components</li>
+            <li>Must have at least 3 vertices</li>
+            <li>No cut vertex in Hamiltonian circuit</li>
+          </ul>
+        </Prop>
+      </Sec>
+
+      <Sec t="9. Graph Coloring" c="from-indigo-600 to-purple-600">
+        <Def t="Vertex Coloring">
+          <p>Assignment of colors to vertices such that adjacent vertices have different colors</p>
+          <p className="mt-1"><strong>Chromatic number χ(G):</strong> Minimum colors needed</p>
+        </Def>
+
+        <Form t="Chromatic Number Bounds">
+          <div className="space-y-1">
+            <p><strong>Lower bound:</strong> χ(G) ≥ ω(G)</p>
+            <p className="text-xs ml-4">where ω(G) = size of largest clique</p>
+            <p><strong>Upper bound:</strong> χ(G) ≤ Δ(G) + 1</p>
+            <p className="text-xs ml-4">where Δ(G) = maximum degree</p>
+            <p className="mt-1"><strong>Brooks' Theorem:</strong> χ(G) ≤ Δ(G) unless G is complete or odd cycle</p>
+          </div>
+        </Form>
+
+        <Form t="Special Chromatic Numbers">
+          <ul className="list-disc ml-5 space-y-0.5">
+            <li>χ(Kₙ) = n</li>
+            <li>χ(Cₙ) = 2 if n even, 3 if n odd</li>
+            <li>χ(tree) = 2 (bipartite)</li>
+            <li>χ(bipartite) = 2</li>
+            <li>χ(planar) ≤ 4 (Four Color Theorem)</li>
+          </ul>
+        </Form>
+
+        <Prop t="Four Color Theorem ⭐">
+          <p className="font-bold">Every planar graph can be colored with at most 4 colors</p>
+          <p className="text-xs mt-1">Proved by computer in 1976 (Appel & Haken)</p>
+        </Prop>
+
+        <Ex t="Coloring Example">
+          <div className="mono text-xs bg-gray-100 p-2 rounded">
+{`C₅ (Pentagon):
+    1(R)
+   / \
+  5   2(B)
+  |\ /|
+  | X |
+  |/ \|
+  4   3(R)
+ (B) 
+
+χ(C₅) = 3 (odd cycle)`}
+          </div>
+        </Ex>
+
+        <Def t="Edge Coloring">
+          <p><strong>Edge chromatic number χ'(G):</strong> Min colors for edges (no adjacent edges same color)</p>
+          <p className="mt-1"><strong>Vizing's Theorem:</strong> Δ(G) ≤ χ'(G) ≤ Δ(G) + 1</p>
+        </Def>
+      </Sec>
+
+      <Sec t="10. Counting: Permutations & Combinations" c="from-red-600 to-orange-600">
+        <Form t="Fundamental Counting Principles">
+          <div className="space-y-1">
+            <p><strong>Product Rule:</strong> If task A in m ways, task B in n ways → A∧B in m·n ways</p>
+            <p><strong>Sum Rule:</strong> If A in m ways, B in n ways (disjoint) → A∨B in m+n ways</p>
+          </div>
+        </Form>
+
+        <Form t="Permutations P(n,r)">
+          <div className="bg-white p-2 rounded space-y-1">
+            <p><strong>Ordered arrangements of r objects from n distinct objects:</strong></p>
+            <p className="font-bold text-lg text-center">P(n,r) = n!/(n-r)!</p>
+            <p className="text-xs">= n·(n-1)·(n-2)·...·(n-r+1)</p>
+            <p className="mt-1"><strong>Special case:</strong> P(n,n) = n!</p>
+          </div>
+        </Form>
+
+        <Form t="Combinations C(n,r) or (ⁿᵣ)">
+          <div className="bg-white p-2 rounded space-y-1">
+            <p><strong>Unordered selections of r objects from n distinct objects:</strong></p>
+            <p className="font-bold text-lg text-center">C(n,r) = n!/(r!(n-r)!)</p>
+            <p className="text-xs">Also written as (ⁿᵣ) or "n choose r"</p>
+          </div>
+        </Form>
+
+        <Prop t="Binomial Properties">
+          <ul className="list-disc ml-5 space-y-0.5 text-xs">
+            <li>C(n,r) = C(n,n-r)</li>
+            <li>C(n,0) = C(n,n) = 1</li>
+            <li>C(n,r) + C(n,r+1) = C(n+1,r+1) (Pascal's identity)</li>
+            <li>∑ C(n,r) = 2ⁿ (sum of row in Pascal's triangle)</li>
+            <li>(x+y)ⁿ = ∑ C(n,r)xʳyⁿ⁻ʳ (Binomial theorem)</li>
+          </ul>
+        </Prop>
+
+        <Ex t="Examples">
+          <div className="space-y-1 text-xs">
+            <p><strong>Ex 1:</strong> Arrange 5 books: 5! = 120 ways</p>
+            <p><strong>Ex 2:</strong> Choose 3 from 10: C(10,3) = 120 ways</p>
+            <p><strong>Ex 3:</strong> 5-letter "words" from 26 letters: 26⁵ = 11,881,376</p>
+            <p><strong>Ex 4:</strong> Passwords (8 chars, no repeat): P(26,8) = 62,990,928,000</p>
+          </div>
+        </Ex>
+
+        <Form t="Permutations with Repetition">
+          <div className="space-y-1">
+            <p><strong>n objects with repetitions n₁, n₂, ..., nₖ:</strong></p>
+            <p className="font-bold text-center">n!/(n₁!·n₂!·...·nₖ!)</p>
+            <p className="text-xs">Example: MISSISSIPPI has 11!/(4!·4!·2!) arrangements</p>
+          </div>
+        </Form>
+
+        <Form t="Combinations with Repetition">
+          <div className="space-y-1">
+            <p><strong>Select r objects from n types (repetition allowed):</strong></p>
+            <p className="font-bold text-center">C(n+r-1, r) = C(n+r-1, n-1)</p>
+            <p className="text-xs">Example: 5 identical balls into 3 boxes: C(3+5-1,5) = C(7,5) = 21</p>
+          </div>
+        </Form>
+      </Sec>
+
+      <Sec t="11. Pigeonhole Principle" c="from-blue-600 to-cyan-600">
+        <Form t="Pigeonhole Principle ⭐">
+          <div className="bg-white p-2 rounded space-y-1">
+            <p className="font-bold text-lg">If n+1 pigeons in n holes, at least one hole has ≥2 pigeons</p>
+            <p className="text-xs">Simple but powerful counting principle</p>
+          </div>
+        </Form>
+
+        <Form t="Generalized Pigeonhole Principle">
+          <div className="space-y-1">
+            <p><strong>If n objects placed in k boxes, then:</strong></p>
+            <p className="font-bold text-center">At least one box contains ≥⌈n/k⌉ objects</p>
+            <p className="text-xs">(⌈x⌉ = ceiling function = smallest integer ≥ x)</p>
+          </div>
+        </Form>
+
+        <Ex t="Applications">
+          <div className="space-y-2 text-xs">
+            <div className="bg-gray-100 p-2 rounded">
+              <p className="font-bold">Ex 1: Birthday Problem</p>
+              <p>In group of 367 people, at least 2 share birthday (366 possible days)</p>
+            </div>
+            <div className="bg-gray-100 p-2 rounded">
+              <p className="font-bold">Ex 2: Socks in Drawer</p>
+              <p>10 pairs (5 colors). Draw 6 socks → at least 1 matching pair (by PHP)</p>
+            </div>
+            <div className="bg-gray-100 p-2 rounded">
+              <p className="font-bold">Ex 3: Subset Sum</p>
+              <p>Any 6 numbers from 1-10: at least 2 have same remainder mod 5</p>
+            </div>
+            <div className="bg-gray-100 p-2 rounded">
+              <p className="font-bold">Ex 4: Graph Theory</p>
+              <p>In graph with n vertices, at least 2 vertices have same degree (n+1 pigeons, n holes)</p>
+            </div>
+          </div>
+        </Ex>
+
+        <Prop t="Problem-Solving Strategy">
+          <ul className="list-disc ml-5 space-y-0.5 text-xs">
+            <li><strong>Step 1:</strong> Identify pigeons (objects to be placed)</li>
+            <li><strong>Step 2:</strong> Identify pigeonholes (categories/boxes)</li>
+            <li><strong>Step 3:</strong> Count: pigeons &gt; holes → conclusion</li>
+            <li><strong>Step 4:</strong> Apply generalized version if needed</li>
+          </ul>
+        </Prop>
+      </Sec>
+
+      {/* QUICK REVISION SUMMARY */}
+      <div className="mt-6 bg-gradient-to-br from-red-50 to-pink-50 border-4 border-red-500 rounded-xl p-5 shadow-2xl">
+        <h2 className="text-2xl font-bold text-red-700 mb-4 flex items-center gap-2">
+          <span className="text-3xl">🚀</span>QUICK FORMULA SHEET
+        </h2>
+
+        <div className="space-y-3">
+          {/* Graph Formulas */}
+          <div className="bg-white p-3 rounded-lg shadow">
+            <h3 className="text-lg font-bold text-blue-600 mb-2">📊 GRAPH THEORY FORMULAS</h3>
+            <div className="text-xs space-y-1 font-bold">
+              <p className="text-red-600">1. Handshaking: ∑ deg(v) = 2|E|</p>
+              <p className="text-red-600">2. Euler's Formula: v - e + f = 2 (planar)</p>
+              <p>3. Planar bound: e ≤ 3v - 6</p>
+              <p>4. No triangles: e ≤ 2v - 4</p>
+              <p>5. Complete graph: |E(Kₙ)| = n(n-1)/2</p>
+              <p>6. Complete bipartite: |E(Kₘ,ₙ)| = m·n</p>
+              <p>7. Euler circuit ⟺ all even degrees</p>
+              <p>8. Euler path ⟺ exactly 2 odd degrees</p>
+              <p>9. χ(G) ≤ Δ(G) + 1 (chromatic upper bound)</p>
+              <p>10. χ(planar) ≤ 4 (Four Color Theorem)</p>
+            </div>
+          </div>
+
+          {/* Counting Formulas */}
+          <div className="bg-white p-3 rounded-lg shadow">
+            <h3 className="text-lg font-bold text-green-600 mb-2">🔢 COUNTING FORMULAS</h3>
+            <div className="text-xs space-y-1 font-bold">
+              <p className="text-red-600">1. Permutations: P(n,r) = n!/(n-r)!</p>
+              <p className="text-red-600">2. Combinations: C(n,r) = n!/(r!(n-r)!)</p>
+              <p>3. With repetition: n!/(n₁!·n₂!·...·nₖ!)</p>
+              <p>4. Combinations w/ rep: C(n+r-1, r)</p>
+              <p>5. Binomial: (x+y)ⁿ = ∑ C(n,r)xʳyⁿ⁻ʳ</p>
+              <p>6. Pascal's identity: C(n,r) + C(n,r+1) = C(n+1,r+1)</p>
+              <p>7. Sum of row: ∑ C(n,r) = 2ⁿ</p>
+              <p>8. Pigeonhole: ⌈n/k⌉ objects in some box</p>
+            </div>
+          </div>
+
+          {/* Key Definitions */}
+          <div className="bg-white p-3 rounded-lg shadow">
+            <h3 className="text-lg font-bold text-yellow-600 mb-2">📌 KEY DEFINITIONS</h3>
+            <div className="grid grid-cols-2 gap-2 text-xs">
+              <div>
+                <p><strong>deg(v):</strong> Degree of vertex</p>
+                <p><strong>Kₙ:</strong> Complete graph</p>
+                <p><strong>Cₙ:</strong> Cycle</p>
+                <p><strong>Pₙ:</strong> Path</p>
+                <p><strong>Kₘ,ₙ:</strong> Complete bipartite</p>
+              </div>
+              <div>
+                <p><strong>χ(G):</strong> Chromatic number</p>
+                <p><strong>ω(G):</strong> Clique number</p>
+                <p><strong>Δ(G):</strong> Max degree</p>
+                <p><strong>G₁ ≅ G₂:</strong> Isomorphic</p>
+                <p><strong>v-e+f:</strong> Euler formula</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Quick Tests */}
+          <div className="bg-white p-3 rounded-lg shadow">
+            <h3 className="text-lg font-bold text-purple-600 mb-2">⚡ QUICK TESTS</h3>
+            <div className="space-y-1 text-xs">
+              <p><strong>Bipartite?</strong> No odd cycles (2-color test)</p>
+              <p><strong>Planar?</strong> e ≤ 3v-6 and no K₅/K₃,₃ subdivision</p>
+              <p><strong>Isomorphic?</strong> Same |V|, |E|, degree sequence (necessary but not sufficient)</p>
+              <p><strong>Euler circuit?</strong> All even degrees</p>
+              <p><strong>Hamiltonian?</strong> No simple test (NP-complete)</p>
+              <p><strong>Tree?</strong> Connected, e = v-1, no cycles</p>
+            </div>
+          </div>
+
+          {/* Typical Exam Questions */}
+          <div className="bg-gradient-to-r from-blue-100 to-cyan-100 p-3 rounded-lg">
+            <h3 className="text-lg font-bold text-blue-700 mb-2">📝 TYPICAL EXAM QUESTIONS</h3>
+            <div className="space-y-2 text-xs">
+              <div className="bg-white p-2 rounded">
+                <p className="font-bold">Q1: Handshaking Application</p>
+                <p>Prove number of odd-degree vertices is even</p>
+              </div>
+              <div className="bg-white p-2 rounded">
+                <p className="font-bold">Q2: Matrix Representation</p>
+                <p>Draw graph from adjacency matrix, find degrees</p>
+              </div>
+              <div className="bg-white p-2 rounded">
+                <p className="font-bold">Q3: Bipartite Test</p>
+                <p>Determine if graph is bipartite (check odd cycles)</p>
+              </div>
+              <div className="bg-white p-2 rounded">
+                <p className="font-bold">Q4: Planarity</p>
+                <p>Use v-e+f=2 or e≤3v-6 to prove (non-)planarity</p>
+              </div>
+              <div className="bg-white p-2 rounded">
+                <p className="font-bold">Q5: Isomorphism Check</p>
+                <p>Compare degree sequences, cycle structure</p>
+              </div>
+              <div className="bg-white p-2 rounded">
+                <p className="font-bold">Q6: Euler Path/Circuit</p>
+                <p>Check degrees, construct path if exists</p>
+              </div>
+              <div className="bg-white p-2 rounded">
+                <p className="font-bold">Q7: Hamiltonian</p>
+                <p>Apply Dirac's/Ore's theorem or prove non-existence</p>
+              </div>
+              <div className="bg-white p-2 rounded">
+                <p className="font-bold">Q8: Graph Coloring</p>
+                <p>Find χ(G), prove lower/upper bounds</p>
+              </div>
+              <div className="bg-white p-2 rounded">
+                <p className="font-bold">Q9: Permutations/Combinations</p>
+                <p>Word arrangements, committee selection problems</p>
+              </div>
+              <div className="bg-white p-2 rounded">
+                <p className="font-bold">Q10: Pigeonhole Principle</p>
+                <p>Prove existence result using counting argument</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Memory Tricks */}
+          <div className="bg-gradient-to-r from-purple-100 to-pink-100 p-3 rounded-lg">
+            <h3 className="text-lg font-bold text-purple-700 mb-2">🧠 MEMORY TRICKS</h3>
+            <ul className="list-disc ml-5 text-xs space-y-0.5">
+              <li><strong>"Handshake counts twice":</strong> Each edge counted at both endpoints</li>
+              <li><strong>"v-e+f=2":</strong> Vertices minus Edges plus Faces = 2 (planar)</li>
+              <li><strong>"K₅ and K₃,₃":</strong> Minimal non-planar graphs (Kuratowski)</li>
+              <li><strong>"Even degrees = Euler circuit":</strong> All vertices even → circuit exists</li>
+              <li><strong>"Exactly 2 odd = Euler path":</strong> Start and end at odd vertices</li>
+              <li><strong>"No odd cycles = Bipartite":</strong> Can 2-color iff no odd cycles</li>
+              <li><strong>"P = order, C = unordered":</strong> Permutation vs Combination</li>
+              <li><strong>"n+1 pigeons, n holes":</strong> At least one hole has 2+ pigeons</li>
+              <li><strong>"4 colors enough":</strong> Every planar graph is 4-colorable</li>
+            </ul>
+          </div>
+
+          {/* Important Theorems */}
+          <div className="bg-gradient-to-r from-green-100 to-emerald-100 p-3 rounded-lg">
+            <h3 className="text-lg font-bold text-green-700 mb-2">⭐ MUST-KNOW THEOREMS</h3>
+            <div className="space-y-1 text-xs">
+              <p><strong>1. Handshaking Theorem:</strong> Sum of degrees = 2|E|</p>
+              <p><strong>2. Euler's Formula:</strong> v - e + f = 2 (connected planar)</p>
+              <p><strong>3. Kuratowski's Theorem:</strong> Planar iff no K₅/K₃,₃ subdivision</p>
+              <p><strong>4. Euler Circuit Theorem:</strong> Exists iff all even degrees</p>
+              <p><strong>5. Dirac's Theorem:</strong> deg(v) ≥ n/2 → Hamiltonian circuit</p>
+              <p><strong>6. Four Color Theorem:</strong> χ(planar) ≤ 4</p>
+              <p><strong>7. Brooks' Theorem:</strong> χ(G) ≤ Δ(G) except complete/odd cycle</p>
+              <p><strong>8. Vizing's Theorem:</strong> Δ(G) ≤ χ'(G) ≤ Δ(G)+1</p>
+            </div>
+          </div>
+
+          {/* Common Mistakes */}
+          <div className="bg-red-100 border-2 border-red-500 p-3 rounded-lg">
+            <h3 className="text-lg font-bold text-red-700 mb-2">❌ COMMON MISTAKES</h3>
+            <ul className="list-disc ml-5 text-xs space-y-0.5 text-red-800">
+              <li>Confusing Euler (edges) with Hamiltonian (vertices)</li>
+              <li>Forgetting outer face in face count (v-e+f=2)</li>
+              <li>Using isomorphism invariants as sufficient conditions</li>
+              <li>Assuming Hamiltonian test is polynomial-time (it's NP-complete!)</li>
+              <li>Mixing up P(n,r) and C(n,r) formulas</li>
+              <li>Forgetting n! in permutations with repetition denominator</li>
+              <li>Not using ceiling in generalized pigeonhole</li>
+              <li>Thinking χ(G) = Δ(G)+1 always (Brooks' exceptions!)</li>
+            </ul>
+          </div>
+
+          {/* Graph Examples Reference */}
+          <div className="bg-white p-3 rounded-lg shadow">
+            <h3 className="text-lg font-bold text-indigo-600 mb-2">📚 STANDARD GRAPHS</h3>
+            <div className="grid grid-cols-2 gap-2 text-xs">
+              <div>
+                <p><strong>K₃:</strong> Triangle, χ=3, planar</p>
+                <p><strong>K₄:</strong> Tetrahedron, χ=4, planar</p>
+                <p><strong>K₅:</strong> χ=5, NOT planar</p>
+                <p><strong>C₃:</strong> Triangle, χ=3</p>
+                <p><strong>C₄:</strong> Square, χ=2, bipartite</p>
+              </div>
+              <div>
+                <p><strong>K₂,₃:</strong> Bipartite, planar</p>
+                <p><strong>K₃,₃:</strong> Bipartite, NOT planar</p>
+                <p><strong>Petersen:</strong> Not Hamiltonian</p>
+                <p><strong>Trees:</strong> χ=2, bipartite, planar</p>
+                <p><strong>Wheels:</strong> Hamiltonian, planar</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-4 p-3 bg-gradient-to-r from-red-600 to-pink-600 rounded-lg text-center text-white">
+          <p className="text-xl font-bold">🎯 EXAM READY! 🎯</p>
+          <p className="text-xs mt-1">Master: Euler's formula, Handshaking, Euler/Hamiltonian conditions, P(n,r)/C(n,r), Pigeonhole</p>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+ReactDOM.render(<App />, document.getElementById('root'));
+</script>
+</body>
+</html>
