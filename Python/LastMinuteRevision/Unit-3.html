@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Unit-3: Complex Data Types & Functions - Last Minute Revision</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+        .output-block {
+            background: #0f172a;
+            color: #10b981;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+        .syntax-block {
+            background: #312e81;
+            color: #c7d2fe;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            margin-bottom: 0.75rem;
+        }
+        .formula-box {
+            background: #064e3b;
+            color: #d1fae5;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            font-weight: bold;
+            text-align: center;
+            margin: 0.75rem 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        // Icon Components
+        const ChevronDown = () => (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+        );
+
+        const ChevronRight = () => (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+        );
+
+        const BookOpen = () => (
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+        );
+
+        const Code = () => (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+            </svg>
+        );
+
+        const Database = () => (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+            </svg>
+        );
+
+        // Collapsible Section Component
+        const Section = ({ title, children, defaultOpen = false, icon }) => {
+            const [isOpen, setIsOpen] = useState(defaultOpen);
+
+            return (
+                <div className="mb-4 bg-white rounded-lg shadow-md overflow-hidden">
+                    <button
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="w-full px-6 py-4 flex items-center justify-between bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700 transition-all"
+                    >
+                        <div className="flex items-center gap-3">
+                            {icon}
+                            <span className="font-semibold text-lg">{title}</span>
+                        </div>
+                        {isOpen ? <ChevronDown /> : <ChevronRight />}
+                    </button>
+                    {isOpen && (
+                        <div className="p-6">
+                            {children}
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        // Main Component
+        const PythonUnit3Notes = () => {
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-100 py-8 px-4">
+                    <div className="max-w-5xl mx-auto">
+                        {/* Header */}
+                        <div className="bg-white rounded-xl shadow-xl p-8 mb-8 border-t-4 border-purple-600">
+                            <div className="flex items-center gap-4 mb-4">
+                                <BookOpen />
+                                <h1 className="text-4xl font-bold text-gray-800">Python Unit-3</h1>
+                            </div>
+                            <p className="text-xl text-gray-600 mb-2">Complex Data Types & Functions</p>
+                            <p className="text-sm text-gray-500 italic">Last Minute Revision Notes</p>
+                            <div className="mt-4 flex flex-wrap gap-3 text-sm">
+                                <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full">Strings</span>
+                                <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full">Lists</span>
+                                <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full">Tuples</span>
+                                <span className="bg-pink-100 text-pink-800 px-3 py-1 rounded-full">Dictionaries</span>
+                                <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full">Functions</span>
+                            </div>
+                        </div>
+
+                        {/* Section 1: Strings */}
+                        <Section title="1. String Data Type" defaultOpen={true} icon={<Code />}>
+                            <div className="space-y-4">
+                                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                                    <h3 className="font-bold text-yellow-800 mb-2">📌 Definition</h3>
+                                    <p className="text-gray-700"><strong>String:</strong> Immutable sequence of characters. Created with single (''), double (""), or triple quotes (''' ''').</p>
+                                </div>
+
+                                {/* Slicing Formula */}
+                                <div className="bg-green-50 border-l-4 border-green-400 p-4">
+                                    <h3 className="font-bold text-green-800 mb-3">📐 String Slicing Formula</h3>
+                                    <div className="formula-box">
+string[start:stop:step]
+                                    </div>
+                                    <ul className="space-y-2 text-sm text-gray-700 mt-3">
+                                        <li>• <strong>start:</strong> Starting index (inclusive, default: 0)</li>
+                                        <li>• <strong>stop:</strong> Ending index (exclusive, default: len)</li>
+                                        <li>• <strong>step:</strong> Increment (default: 1)</li>
+                                        <li>• <strong>Negative indices:</strong> Count from end (-1 = last char)</li>
+                                    </ul>
+                                </div>
+
+                                {/* Slicing Examples */}
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                    <h3 className="font-bold text-blue-800 mb-2">💡 Slicing Examples</h3>
+                                    <div className="code-block">
+text = "Python Programming"<br/>
+<br/>
+# Indexing<br/>
+text[0]      # 'P' (first)<br/>
+text[-1]     # 'g' (last)<br/>
+<br/>
+# Slicing<br/>
+text[0:6]    # 'Python' (0 to 5)<br/>
+text[7:]     # 'Programming' (7 to end)<br/>
+text[:6]     # 'Python' (start to 5)<br/>
+text[::2]    # 'Pto rgamn' (every 2nd)<br/>
+text[::-1]   # 'gnimmargorP nohtyP' (reverse)
+                                    </div>
+                                </div>
+
+                                {/* String Methods */}
+                                <div className="bg-purple-50 border-l-4 border-purple-400 p-4">
+                                    <h3 className="font-bold text-purple-800 mb-3">🔧 Essential String Methods</h3>
+                                    <div className="grid md:grid-cols-2 gap-3">
+                                        <div className="bg-white p-3 rounded shadow">
+                                            <strong className="text-sm">Case Methods:</strong>
+                                            <div className="code-block text-xs mt-2">
+s = "hello"<br/>
+s.upper()      # "HELLO"<br/>
+s.lower()      # "hello"<br/>
+s.capitalize() # "Hello"<br/>
+s.title()      # "Hello World"
+                                            </div>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow">
+                                            <strong className="text-sm">Search Methods:</strong>
+                                            <div className="code-block text-xs mt-2">
+s = "Python"<br/>
+s.find("th")      # 2 (index)<br/>
+s.find("Java")    # -1 (not found)<br/>
+s.count("o")      # 1<br/>
+s.startswith("Py") # True<br/>
+s.endswith("on")   # True
+                                            </div>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow">
+                                            <strong className="text-sm">Split & Join:</strong>
+                                            <div className="code-block text-xs mt-2">
+# split()<br/>
+"a,b,c".split(',')  # ['a','b','c']<br/>
+"hi world".split()  # ['hi','world']<br/>
+<br/>
+# join()<br/>
+','.join(['a','b']) # "a,b"<br/>
+' '.join(['hi'])    # "hi"
+                                            </div>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow">
+                                            <strong className="text-sm">Trim Methods:</strong>
+                                            <div className="code-block text-xs mt-2">
+s = "  hello  "<br/>
+s.strip()   # "hello" (both)<br/>
+s.lstrip()  # "hello  " (left)<br/>
+s.rstrip()  # "  hello" (right)<br/>
+<br/>
+# replace()<br/>
+"hi".replace("i","ello") # "hello"
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* String Formatting */}
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                    <h3 className="font-bold text-blue-800 mb-2">💡 String Formatting</h3>
+                                    <div className="grid md:grid-cols-3 gap-3">
+                                        <div>
+                                            <h4 className="font-semibold text-xs mb-1">Old Style:</h4>
+                                            <div className="code-block text-xs">
+"Name: %s" % "Alice"<br/>
+"Age: %d" % 25
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h4 className="font-semibold text-xs mb-1">.format():</h4>
+                                            <div className="code-block text-xs">
+"Name: {`{}`}".format("Bob")<br/>
+"{`{0}`} {`{1}`}".format("Hi","Bob")
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h4 className="font-semibold text-xs mb-1">f-strings (Best):</h4>
+                                            <div className="code-block text-xs">
+name = "Eve"<br/>
+f"Name: {`{name}`}"<br/>
+f"Age: {`{20+5}`}"
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Section>
+
+                        {/* Section 2: Lists */}
+                        <Section title="2. List Data Type" icon={<Database />}>
+                            <div className="space-y-4">
+                                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                                    <h3 className="font-bold text-yellow-800 mb-2">📌 Definition</h3>
+                                    <p className="text-gray-700"><strong>List:</strong> Mutable, ordered sequence. Can contain mixed types. Syntax: <code>[item1, item2, ...]</code></p>
+                                </div>
+
+                                {/* Slicing */}
+                                <div className="bg-green-50 border-l-4 border-green-400 p-4">
+                                    <h3 className="font-bold text-green-800 mb-3">📐 List Slicing (Same as String)</h3>
+                                    <div className="formula-box">
+list[start:stop:step]
+                                    </div>
+                                    <div className="bg-blue-50 border-l-4 border-blue-400 p-3 mt-3">
+                                        <div className="code-block text-xs">
+fruits = ["apple", "banana", "cherry", "date"]<br/>
+<br/>
+fruits[0]     # "apple"<br/>
+fruits[-1]    # "date"<br/>
+fruits[1:3]   # ["banana", "cherry"]<br/>
+fruits[:2]    # ["apple", "banana"]<br/>
+fruits[::2]   # ["apple", "cherry"]<br/>
+fruits[::-1]  # reverse
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* List Methods */}
+                                <div className="bg-purple-50 border-l-4 border-purple-400 p-4">
+                                    <h3 className="font-bold text-purple-800 mb-3">🔧 Essential List Methods</h3>
+                                    <div className="grid md:grid-cols-2 gap-3">
+                                        <div className="bg-white p-3 rounded shadow">
+                                            <strong className="text-sm">Adding Elements:</strong>
+                                            <div className="code-block text-xs mt-2">
+L = [1, 2]<br/>
+<br/>
+# append() - add one at end<br/>
+L.append(3)  # [1, 2, 3]<br/>
+<br/>
+# insert() - add at position<br/>
+L.insert(1, 5)  # [1, 5, 2, 3]<br/>
+<br/>
+# extend() - add multiple<br/>
+L.extend([4, 5])  # [1, 5, 2, 3, 4, 5]
+                                            </div>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow">
+                                            <strong className="text-sm">Removing Elements:</strong>
+                                            <div className="code-block text-xs mt-2">
+L = [1, 2, 3, 2, 4]<br/>
+<br/>
+# remove() - first occurrence<br/>
+L.remove(2)  # [1, 3, 2, 4]<br/>
+<br/>
+# pop() - by index (default: last)<br/>
+L.pop()    # 4, L=[1,3,2]<br/>
+L.pop(1)   # 3, L=[1,2]<br/>
+<br/>
+# clear() - remove all<br/>
+L.clear()  # []
+                                            </div>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow">
+                                            <strong className="text-sm">Sorting & Reversing:</strong>
+                                            <div className="code-block text-xs mt-2">
+L = [3, 1, 4, 1, 5]<br/>
+<br/>
+# sort() - in-place<br/>
+L.sort()           # [1,1,3,4,5]<br/>
+L.sort(reverse=True) # [5,4,3,1,1]<br/>
+<br/>
+# sorted() - new list<br/>
+sorted(L)  # returns new<br/>
+<br/>
+# reverse() - in-place<br/>
+L.reverse()  # [5,1,4,1,3]
+                                            </div>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow">
+                                            <strong className="text-sm">Other Methods:</strong>
+                                            <div className="code-block text-xs mt-2">
+L = [1, 2, 3, 2]<br/>
+<br/>
+# count() - occurrences<br/>
+L.count(2)  # 2<br/>
+<br/>
+# index() - first position<br/>
+L.index(3)  # 2<br/>
+<br/>
+# copy() - shallow copy<br/>
+L2 = L.copy()
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* List Comprehension */}
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                    <h3 className="font-bold text-blue-800 mb-2">💡 List Comprehension</h3>
+                                    <div className="code-block">
+# Basic: [expression for item in iterable]<br/>
+squares = [x**2 for x in range(5)]<br/>
+# [0, 1, 4, 9, 16]<br/>
+<br/>
+# With condition: [expression for item in iterable if condition]<br/>
+evens = [x for x in range(10) if x % 2 == 0]<br/>
+# [0, 2, 4, 6, 8]<br/>
+<br/>
+# With if-else: [expr1 if condition else expr2 for item in iterable]<br/>
+labels = ["Even" if x%2==0 else "Odd" for x in range(5)]<br/>
+# ['Even', 'Odd', 'Even', 'Odd', 'Even']
+                                    </div>
+                                </div>
+                            </div>
+                        </Section>
+
+                        {/* Section 3: Tuples */}
+                        <Section title="3. Tuple Data Type" icon={<Database />}>
+                            <div className="space-y-4">
+                                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                                    <h3 className="font-bold text-yellow-800 mb-2">📌 Definition</h3>
+                                    <p className="text-gray-700"><strong>Tuple:</strong> Immutable, ordered sequence. Syntax: <code>(item1, item2, ...)</code>. Single element needs comma: <code>(1,)</code></p>
+                                </div>
+
+                                {/* Key Concept */}
+                                <div className="bg-purple-50 border-l-4 border-purple-400 p-4">
+                                    <h3 className="font-bold text-purple-800 mb-3">🔑 Key Concept: Immutability</h3>
+                                    <ul className="space-y-2 text-sm text-gray-700">
+                                        <li>✓ <strong>Cannot modify:</strong> No append, remove, insert, or item assignment</li>
+                                        <li>✓ <strong>Faster than lists:</strong> Due to immutability</li>
+                                        <li>✓ <strong>Only 2 methods:</strong> count() and index()</li>
+                                        <li>✓ <strong>Use case:</strong> Fixed data that shouldn't change</li>
+                                    </ul>
+                                </div>
+
+                                {/* Operations */}
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                    <h3 className="font-bold text-blue-800 mb-2">💡 Tuple Operations</h3>
+                                    <div className="grid md:grid-cols-2 gap-3">
+                                        <div className="code-block text-xs">
+t = (1, 2, 3, 2, 4)<br/>
+<br/>
+# Indexing & Slicing (same as list)<br/>
+t[0]      # 1<br/>
+t[-1]     # 4<br/>
+t[1:3]    # (2, 3)<br/>
+t[::-1]   # (4, 2, 3, 2, 1)<br/>
+<br/>
+# Concatenation<br/>
+(1, 2) + (3, 4)  # (1, 2, 3, 4)
+                                        </div>
+                                        <div className="code-block text-xs">
+# Methods<br/>
+t.count(2)  # 2 (occurrences)<br/>
+t.index(3)  # 2 (position)<br/>
+<br/>
+# Cannot modify<br/>
+# t[0] = 5  # TypeError!<br/>
+# t.append(6)  # AttributeError!<br/>
+<br/>
+# Can convert<br/>
+list(t)   # to list<br/>
+tuple(L)  # to tuple
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Tuple Unpacking */}
+                                <div className="bg-green-50 border-l-4 border-green-400 p-4">
+                                    <h3 className="font-bold text-green-800 mb-2">🎁 Tuple Unpacking (Important!)</h3>
+                                    <div className="code-block">
+# Basic unpacking<br/>
+point = (10, 20)<br/>
+x, y = point  # x=10, y=20<br/>
+<br/>
+# Swapping variables<br/>
+a, b = 5, 10<br/>
+a, b = b, a  # a=10, b=5<br/>
+<br/>
+# With * (collect remaining)<br/>
+numbers = (1, 2, 3, 4, 5)<br/>
+first, *middle, last = numbers<br/>
+# first=1, middle=[2,3,4], last=5<br/>
+<br/>
+# Multiple return values (functions return tuples)<br/>
+def min_max(nums):<br/>
+    return min(nums), max(nums)<br/>
+<br/>
+minimum, maximum = min_max([1, 5, 3])
+                                    </div>
+                                </div>
+                            </div>
+                        </Section>
+
+                        {/* Section 4: Dictionaries */}
+                        <Section title="4. Dictionary Data Type" icon={<Database />}>
+                            <div className="space-y-4">
+                                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                                    <h3 className="font-bold text-yellow-800 mb-2">📌 Definition</h3>
+                                    <p className="text-gray-700"><strong>Dictionary:</strong> Mutable, unordered collection of key-value pairs. Syntax: <code>{`{key1: value1, key2: value2}`}</code></p>
+                                </div>
+
+                                {/* Access Methods */}
+                                <div className="bg-green-50 border-l-4 border-green-400 p-4">
+                                    <h3 className="font-bold text-green-800 mb-3">🔑 Accessing Dictionary Elements</h3>
+                                    <div className="code-block">
+student = {`{"name": "Alice", "age": 20, "grade": "A"}`}<br/>
+<br/>
+# Direct access (KeyError if missing)<br/>
+student["name"]  # "Alice"<br/>
+# student["city"]  # KeyError!<br/>
+<br/>
+# Using get() (safer - returns None if missing)<br/>
+student.get("name")        # "Alice"<br/>
+student.get("city")        # None<br/>
+student.get("city", "NYC") # "NYC" (default)
+                                    </div>
+                                </div>
+
+                                {/* Dictionary Methods */}
+                                <div className="bg-purple-50 border-l-4 border-purple-400 p-4">
+                                    <h3 className="font-bold text-purple-800 mb-3">🔧 Essential Dictionary Methods</h3>
+                                    <div className="grid md:grid-cols-2 gap-3">
+                                        <div className="bg-white p-3 rounded shadow">
+                                            <strong className="text-sm">Add/Update/Delete:</strong>
+                                            <div className="code-block text-xs mt-2">
+d = {`{"a": 1, "b": 2}`}<br/>
+<br/>
+# Add/Update<br/>
+d["c"] = 3    # add new<br/>
+d["a"] = 10   # update<br/>
+<br/>
+# Delete<br/>
+d.pop("b")    # remove & return<br/>
+del d["a"]    # remove<br/>
+d.clear()     # remove all
+                                            </div>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow">
+                                            <strong className="text-sm">View Methods:</strong>
+                                            <div className="code-block text-xs mt-2">
+d = {`{"a": 1, "b": 2, "c": 3}`}<br/>
+<br/>
+# keys()<br/>
+d.keys()    # dict_keys(['a','b','c'])<br/>
+<br/>
+# values()<br/>
+d.values()  # dict_values([1, 2, 3])<br/>
+<br/>
+# items() - key-value pairs<br/>
+d.items()   # [('a',1),('b',2),('c',3)]
+                                            </div>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow">
+                                            <strong className="text-sm">Other Methods:</strong>
+                                            <div className="code-block text-xs mt-2">
+d1 = {`{"a": 1}`}<br/>
+d2 = {`{"b": 2, "c": 3}`}<br/>
+<br/>
+# update() - merge<br/>
+d1.update(d2)<br/>
+# {`{"a": 1, "b": 2, "c": 3}`}<br/>
+<br/>
+# copy() - shallow copy<br/>
+d_copy = d1.copy()
+                                            </div>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow">
+                                            <strong className="text-sm">Check Membership:</strong>
+                                            <div className="code-block text-xs mt-2">
+d = {`{"a": 1, "b": 2}`}<br/>
+<br/>
+# Check key exists<br/>
+"a" in d       # True<br/>
+"c" in d       # False<br/>
+"c" not in d   # True
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Iteration */}
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                    <h3 className="font-bold text-blue-800 mb-2">💡 Iterating Through Dictionary</h3>
+                                    <div className="code-block">
+student = {`{"name": "Bob", "age": 21, "grade": "B"}`}<br/>
+<br/>
+# Iterate keys (default)<br/>
+for key in student:<br/>
+    print(key)  # name, age, grade<br/>
+<br/>
+# Iterate values<br/>
+for value in student.values():<br/>
+    print(value)  # Bob, 21, B<br/>
+<br/>
+# Iterate key-value pairs (BEST WAY)<br/>
+for key, value in student.items():<br/>
+    print(f"{`{key}`}: {`{value}`}")<br/>
+# Output:<br/>
+# name: Bob<br/>
+# age: 21<br/>
+# grade: B
+                                    </div>
+                                </div>
+
+                                {/* Dict Comprehension */}
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                    <h3 className="font-bold text-blue-800 mb-2">💡 Dictionary Comprehension</h3>
+                                    <div className="code-block">
+# Basic: {`{key_expr: value_expr for item in iterable}`}<br/>
+squares = {`{x: x**2 for x in range(5)}`}<br/>
+# {`{0: 0, 1: 1, 2: 4, 3: 9, 4: 16}`}<br/>
+<br/>
+# From two lists using zip()<br/>
+keys = ["a", "b", "c"]<br/>
+values = [1, 2, 3]<br/>
+d = {`{k: v for k, v in zip(keys, values)}`}<br/>
+# {`{"a": 1, "b": 2, "c": 3}`}<br/>
+<br/>
+# With condition<br/>
+even_squares = {`{x: x**2 for x in range(10) if x % 2 == 0}`}<br/>
+# {`{0: 0, 2: 4, 4: 16, 6: 36, 8: 64}`}
+                                    </div>
+                                </div>
+                            </div>
+                        </Section>
+
+                        {/* Section 5: Functions */}
+                        <Section title="5. Python Functions" icon={<Code />}>
+                            <div className="space-y-4">
+                                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                                    <h3 className="font-bold text-yellow-800 mb-2">📌 Definition</h3>
+                                    <p className="text-gray-700"><strong>Function:</strong> Reusable block of code that performs a specific task. Defined using <code>def</code> keyword.</p>
+                                </div>
+
+                                {/* Function Syntax */}
+                                <div className="bg-green-50 border-l-4 border-green-400 p-4">
+                                    <h3 className="font-bold text-green-800 mb-3">📐 Function Syntax</h3>
+                                    <div className="syntax-block">
+def function_name(parameter1, parameter2, ...):<br/>
+    """Docstring (optional)"""<br/>
+    # Function body<br/>
+    return result  # optional
+                                    </div>
+                                    <div className="bg-blue-50 border-l-4 border-blue-400 p-3 mt-3">
+                                        <h4 className="font-semibold text-xs mb-2">Basic Example:</h4>
+                                        <div className="code-block text-xs">
+# Simple function<br/>
+def greet():<br/>
+    print("Hello!")<br/>
+<br/>
+greet()  # Hello!<br/>
+<br/>
+# With parameters<br/>
+def add(a, b):<br/>
+    return a + b<br/>
+<br/>
+result = add(5, 3)  # 8
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Function Parameters */}
+                                <div className="bg-purple-50 border-l-4 border-purple-400 p-4">
+                                    <h3 className="font-bold text-purple-800 mb-3">🔧 Function Parameters</h3>
+                                    <div className="grid md:grid-cols-2 gap-3">
+                                        <div className="bg-white p-3 rounded shadow">
+                                            <strong className="text-sm">Default Parameters:</strong>
+                                            <div className="code-block text-xs mt-2">
+def greet(name="Guest"):<br/>
+    print(f"Hello, {`{name}`}!")<br/>
+<br/>
+greet()          # Hello, Guest!<br/>
+greet("Alice")   # Hello, Alice!<br/>
+<br/>
+def power(base, exp=2):<br/>
+    return base ** exp<br/>
+<br/>
+power(5)      # 25 (5^2)<br/>
+power(5, 3)   # 125 (5^3)
+                                            </div>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow">
+                                            <strong className="text-sm">Keyword Arguments:</strong>
+                                            <div className="code-block text-xs mt-2">
+def info(name, age):<br/>
+    print(f"{`{name}`}, {`{age}`}")<br/>
+<br/>
+# Positional<br/>
+info("Alice", 25)<br/>
+<br/>
+# Keyword (order doesn't matter)<br/>
+info(age=25, name="Alice")<br/>
+info(name="Bob", age=30)
+                                            </div>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow">
+                                            <strong className="text-sm">*args (Variable Positional):</strong>
+                                            <div className="code-block text-xs mt-2">
+# Accept any number of arguments<br/>
+def sum_all(*numbers):<br/>
+    total = 0<br/>
+    for num in numbers:<br/>
+        total += num<br/>
+    return total<br/>
+<br/>
+sum_all(1, 2, 3)     # 6<br/>
+sum_all(1, 2, 3, 4, 5) # 15
+                                            </div>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow">
+                                            <strong className="text-sm">**kwargs (Variable Keyword):</strong>
+                                            <div className="code-block text-xs mt-2">
+# Accept any number of keyword args<br/>
+def print_info(**info):<br/>
+    for k, v in info.items():<br/>
+        print(f"{`{k}`}: {`{v}`}")<br/>
+<br/>
+print_info(name="Alice", age=25)<br/>
+# Output:<br/>
+# name: Alice<br/>
+# age: 25
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Return Statement */}
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                    <h3 className="font-bold text-blue-800 mb-2">💡 Return Statement</h3>
+                                    <div className="code-block">
+# Single return<br/>
+def square(x):<br/>
+    return x ** 2<br/>
+<br/>
+# Multiple return (returns tuple)<br/>
+def min_max(nums):<br/>
+    return min(nums), max(nums)<br/>
+<br/>
+minimum, maximum = min_max([1, 5, 3])<br/>
+# minimum=1, maximum=5<br/>
+<br/>
+# No return (returns None)<br/>
+def print_msg(msg):<br/>
+    print(msg)<br/>
+<br/>
+result = print_msg("Hi")  # result = None
+                                    </div>
+                                </div>
+
+                                {/* Lambda Functions */}
+                                <div className="bg-green-50 border-l-4 border-green-400 p-4">
+                                    <h3 className="font-bold text-green-800 mb-3">⚡ Lambda Functions (Anonymous)</h3>
+                                    <div className="formula-box">
+lambda arguments: expression
+                                    </div>
+                                    <div className="code-block mt-3">
+# Basic lambda<br/>
+square = lambda x: x ** 2<br/>
+print(square(5))  # 25<br/>
+<br/>
+# Multiple parameters<br/>
+add = lambda a, b: a + b<br/>
+print(add(3, 4))  # 7<br/>
+<br/>
+# With map() - apply to all<br/>
+nums = [1, 2, 3, 4, 5]<br/>
+squares = list(map(lambda x: x**2, nums))<br/>
+# [1, 4, 9, 16, 25]<br/>
+<br/>
+# With filter() - select items<br/>
+evens = list(filter(lambda x: x%2==0, nums))<br/>
+# [2, 4]<br/>
+<br/>
+# With sorted() - sort by key<br/>
+students = [{`{"name": "Bob", "age": 20}`}, {`{"name": "Alice", "age": 22}`}]<br/>
+sorted(students, key=lambda s: s["age"])
+                                    </div>
+                                </div>
+                            </div>
+                        </Section>
+
+                        {/* Quick Revision Summary */}
+                        <div className="bg-gradient-to-r from-red-500 to-pink-600 rounded-xl shadow-2xl p-8 text-white mt-8">
+                            <h2 className="text-3xl font-bold mb-6 flex items-center gap-3">
+                                <span>🎯</span>
+                                QUICK REVISION SUMMARY
+                            </h2>
+
+                            {/* Slicing Cheat Sheet */}
+                            <div className="bg-white bg-opacity-20 rounded-lg p-4 mb-4">
+                                <h3 className="text-xl font-bold mb-3">📐 Universal Slicing Formula</h3>
+                                <div className="bg-black bg-opacity-40 p-4 rounded text-center">
+                                    <div className="text-2xl font-bold mb-2">sequence[start:stop:step]</div>
+                                    <div className="grid md:grid-cols-3 gap-2 text-sm mt-3">
+                                        <div>
+                                            <strong>s[a:b]</strong><br/>
+                                            a to b-1
+                                        </div>
+                                        <div>
+                                            <strong>s[:b]</strong><br/>
+                                            start to b-1
+                                        </div>
+                                        <div>
+                                            <strong>s[a:]</strong><br/>
+                                            a to end
+                                        </div>
+                                        <div>
+                                            <strong>s[::k]</strong><br/>
+                                            every kth item
+                                        </div>
+                                        <div>
+                                            <strong>s[::-1]</strong><br/>
+                                            reverse
+                                        </div>
+                                        <div>
+                                            <strong>s[-n]</strong><br/>
+                                            nth from end
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Data Type Comparison */}
+                            <div className="bg-white bg-opacity-20 rounded-lg p-4 mb-4">
+                                <h3 className="text-xl font-bold mb-3">📊 Data Type Comparison Table</h3>
+                                <div className="overflow-x-auto">
+                                    <table className="min-w-full text-sm">
+                                        <thead className="bg-black bg-opacity-30">
+                                            <tr>
+                                                <th className="px-3 py-2 text-left">Feature</th>
+                                                <th className="px-3 py-2 text-left">List</th>
+                                                <th className="px-3 py-2 text-left">Tuple</th>
+                                                <th className="px-3 py-2 text-left">Set</th>
+                                                <th className="px-3 py-2 text-left">Dict</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="text-xs">
+                                            <tr className="border-b border-white border-opacity-20">
+                                                <td className="px-3 py-2 font-semibold">Syntax</td>
+                                                <td className="px-3 py-2"><code>[1,2,3]</code></td>
+                                                <td className="px-3 py-2"><code>(1,2,3)</code></td>
+                                                <td className="px-3 py-2"><code>{`{1,2,3}`}</code></td>
+                                                <td className="px-3 py-2"><code>{`{"a":1}`}</code></td>
+                                            </tr>
+                                            <tr className="border-b border-white border-opacity-20">
+                                                <td className="px-3 py-2 font-semibold">Mutable</td>
+                                                <td className="px-3 py-2">✓ Yes</td>
+                                                <td className="px-3 py-2">✗ No</td>
+                                                <td className="px-3 py-2">✓ Yes</td>
+                                                <td className="px-3 py-2">✓ Yes</td>
+                                            </tr>
+                                            <tr className="border-b border-white border-opacity-20">
+                                                <td className="px-3 py-2 font-semibold">Ordered</td>
+                                                <td className="px-3 py-2">✓ Yes</td>
+                                                <td className="px-3 py-2">✓ Yes</td>
+                                                <td className="px-3 py-2">✗ No</td>
+                                                <td className="px-3 py-2">✓ Yes (3.7+)</td>
+                                            </tr>
+                                            <tr className="border-b border-white border-opacity-20">
+                                                <td className="px-3 py-2 font-semibold">Indexed</td>
+                                                <td className="px-3 py-2">By int</td>
+                                                <td className="px-3 py-2">By int</td>
+                                                <td className="px-3 py-2">No</td>
+                                                <td className="px-3 py-2">By key</td>
+                                            </tr>
+                                            <tr className="border-b border-white border-opacity-20">
+                                                <td className="px-3 py-2 font-semibold">Duplicates</td>
+                                                <td className="px-3 py-2">✓ Yes</td>
+                                                <td className="px-3 py-2">✓ Yes</td>
+                                                <td className="px-3 py-2">✗ No</td>
+                                                <td className="px-3 py-2">Keys: No<br/>Values: Yes</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="px-3 py-2 font-semibold">Use Case</td>
+                                                <td className="px-3 py-2">Dynamic data</td>
+                                                <td className="px-3 py-2">Fixed data</td>
+                                                <td className="px-3 py-2">Unique items</td>
+                                                <td className="px-3 py-2">Key-value</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            {/* Key Methods Summary */}
+                            <div className="bg-white bg-opacity-20 rounded-lg p-4 mb-4">
+                                <h3 className="text-xl font-bold mb-3">🔧 Essential Methods Quick Reference</h3>
+                                <div className="grid md:grid-cols-2 gap-3 text-sm">
+                                    <div>
+                                        <strong>String:</strong>
+                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 text-xs font-mono">
+split(), join(), strip()<br/>
+upper(), lower(), replace()<br/>
+find(), count(), startswith()
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <strong>List:</strong>
+                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 text-xs font-mono">
+append(), extend(), insert()<br/>
+remove(), pop(), clear()<br/>
+sort(), reverse(), count()
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <strong>Tuple:</strong>
+                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 text-xs font-mono">
+count(), index()<br/>
+(Only 2 methods - immutable!)
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <strong>Dictionary:</strong>
+                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 text-xs font-mono">
+keys(), values(), items()<br/>
+get(), pop(), update()<br/>
+clear(), copy()
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Memory Tricks */}
+                            <div className="bg-white bg-opacity-20 rounded-lg p-4 mb-4">
+                                <h3 className="text-xl font-bold mb-3">🧠 Memory Tricks & Mnemonics</h3>
+                                <ul className="space-y-2 text-sm">
+                                    <li><strong>🔢 Slicing:</strong> <em>"Start is IN, Stop is OUT"</em> (s[0:3] → indices 0,1,2)</li>
+                                    <li><strong>📝 String split/join:</strong> <em>"Split BREAKS string to list, Join BUILDS string from list"</em></li>
+                                    <li><strong>➕ append vs extend:</strong> <em>"append adds ONE, extend adds MANY"</em></li>
+                                    <li><strong>🔒 Tuple immutability:</strong> <em>"Tuple = Frozen List (can't change)"</em></li>
+                                    <li><strong>📚 Dict iteration:</strong> <em>"Use .items() to get BOTH key and value"</em></li>
+                                    <li><strong>⚙️ Function parameters:</strong> <em>"*args = LIST of args, **kwargs = DICT of args"</em></li>
+                                    <li><strong>⚡ Lambda:</strong> <em>"lambda = mini function (one line only)"</em></li>
+                                    <li><strong>🔍 get() vs []:</strong> <em>"get() is SAFE (no error), [] can CRASH"</em></li>
+                                </ul>
+                            </div>
+
+                            {/* Common Exam Questions */}
+                            <div className="bg-white bg-opacity-20 rounded-lg p-4">
+                                <h3 className="text-xl font-bold mb-3">🎓 Common Exam Question Types</h3>
+                                <div className="space-y-3 text-sm">
+                                    <div>
+                                        <strong>Type 1: Explain Immutability</strong>
+                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 text-xs">
+<strong>Q:</strong> Why can't we modify tuples?<br/>
+<strong>A:</strong> Tuples are immutable - once created, elements cannot be changed, added, or removed. Use lists for mutable sequences.
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <strong>Type 2: append() vs extend()</strong>
+                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 font-mono text-xs">
+L = [1, 2]<br/>
+L.append([3, 4])   # [1, 2, [3, 4]] - adds ONE item<br/>
+L = [1, 2]<br/>
+L.extend([3, 4])   # [1, 2, 3, 4] - adds MULTIPLE items
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <strong>Type 3: Slicing Output</strong>
+                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 font-mono text-xs">
+s = "Python"<br/>
+s[1:4]    # "yth" (indices 1,2,3)<br/>
+s[::-1]   # "nohtyP" (reverse)<br/>
+s[::2]    # "Pto" (every 2nd char)
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <strong>Type 4: Dictionary Iteration</strong>
+                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 font-mono text-xs">
+d = {`{"a": 1, "b": 2}`}<br/>
+for k, v in d.items():  # BEST WAY<br/>
+    print(k, v)<br/>
+# Output: a 1 / b 2
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <strong>Type 5: *args and **kwargs</strong>
+                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 font-mono text-xs">
+def func(*args, **kwargs):<br/>
+    print(args)    # tuple of positional args<br/>
+    print(kwargs)  # dict of keyword args<br/>
+<br/>
+func(1, 2, a=3, b=4)<br/>
+# args = (1, 2)<br/>
+# kwargs = {`{"a": 3, "b": 4}`}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <strong>Type 6: Lambda with map/filter</strong>
+                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 font-mono text-xs">
+nums = [1, 2, 3, 4, 5]<br/>
+<br/>
+# map - apply to all<br/>
+list(map(lambda x: x**2, nums))  # [1,4,9,16,25]<br/>
+<br/>
+# filter - select matching<br/>
+list(filter(lambda x: x%2==0, nums))  # [2,4]
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Pre-Exam Checklist */}
+                            <div className="bg-white bg-opacity-20 rounded-lg p-4 mt-4">
+                                <h3 className="text-xl font-bold mb-3">✅ Pre-Exam Checklist</h3>
+                                <div className="grid md:grid-cols-3 gap-2 text-sm">
+                                    <div><input type="checkbox" className="mr-2" />String slicing [start:stop:step]</div>
+                                    <div><input type="checkbox" className="mr-2" />split() and join() methods</div>
+                                    <div><input type="checkbox" className="mr-2" />String formatting (f-strings)</div>
+                                    <div><input type="checkbox" className="mr-2" />List methods (10+)</div>
+                                    <div><input type="checkbox" className="mr-2" />append vs extend</div>
+                                    <div><input type="checkbox" className="mr-2" />List comprehension</div>
+                                    <div><input type="checkbox" className="mr-2" />Tuple immutability</div>
+                                    <div><input type="checkbox" className="mr-2" />Tuple unpacking</div>
+                                    <div><input type="checkbox" className="mr-2" />Dict keys(), values(), items()</div>
+                                    <div><input type="checkbox" className="mr-2" />Dict get() vs []</div>
+                                    <div><input type="checkbox" className="mr-2" />Dict iteration patterns</div>
+                                    <div><input type="checkbox" className="mr-2" />Function def syntax</div>
+                                    <div><input type="checkbox" className="mr-2" />Default parameters</div>
+                                    <div><input type="checkbox" className="mr-2" />*args and **kwargs</div>
+                                    <div><input type="checkbox" className="mr-2" />Lambda functions</div>
+                                    <div><input type="checkbox" className="mr-2" />map() and filter()</div>
+                                </div>
+                            </div>
+
+                            {/* Last Minute Tips */}
+                            <div className="mt-4 bg-yellow-400 text-gray-900 rounded-lg p-4">
+                                <h3 className="text-lg font-bold mb-2">⏰ Last Minute Exam Tips:</h3>
+                                <ol className="space-y-1 text-sm list-decimal list-inside">
+                                    <li><strong>Slicing stop is exclusive:</strong> [0:3] gives indices 0,1,2 (NOT 3)</li>
+                                    <li><strong>Strings are immutable:</strong> Can't do s[0]='A', must create new string</li>
+                                    <li><strong>append() adds ONE item:</strong> Even if it's a list! Use extend() for multiple</li>
+                                    <li><strong>Tuples need comma for single element:</strong> (1,) not (1)</li>
+                                    <li><strong>Dict get() is safer:</strong> Returns None instead of KeyError</li>
+                                    <li><strong>Always use .items() for dict iteration:</strong> Gives both key and value</li>
+                                    <li><strong>Functions without return give None:</strong> Default return value</li>
+                                    <li><strong>*args is tuple, **kwargs is dict:</strong> Inside function</li>
+                                    <li><strong>Lambda is single expression:</strong> No statements, no multiple lines</li>
+                                    <li><strong>map() applies function to ALL:</strong> filter() selects MATCHING items</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        {/* Footer */}
+                        <div className="text-center mt-8 text-gray-600">
+                            <p className="text-sm">Best of luck with your exam! 🌟</p>
+                            <p className="text-xs mt-2">Python Unit-3 - Complex Data Types & Functions - Last Minute Revision</p>
+                        </div>
+
+                        {/* ZenYukti Branding */}
+                        <div className="text-center mt-6 pt-4 border-t border-gray-300">
+                            <p className="text-sm text-gray-700 mb-2">
+                                Crafted with 💙 by <a href="https://zenyukti.in" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:text-blue-800 underline">ZenYukti</a>
+                            </p>
+                            <p className="text-xs text-gray-500 italic">Learn. Build. Share.</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Render the app
+        ReactDOM.render(<PythonUnit3Notes />, document.getElementById('root'));
+    </script>
+</body>
+</html>
