@@ -1,6 +1,6 @@
 # 📚 MyNotes - Comprehensive Study Repository
 
-> **Semester 2 AKTU CSE** | Exam Notes • Quick Revision Guides • Interactive HTML Notes
+> **Semester 3 AKTU CSE** | Exam Notes • Quick Revision Guides • Interactive HTML Notes
 
 <div align="center">
 
@@ -9,7 +9,7 @@
 *Learn. Build. Share.*
 
 ![Study Status](https://img.shields.io/badge/Status-Active-success)
-![Semester](https://img.shields.io/badge/Semester-2-blue)
+![Semester](https://img.shields.io/badge/Semester-3-blue)
 ![University](https://img.shields.io/badge/University-AKTU-orange)
 ![Last Updated](https://img.shields.io/badge/Updated-December%202025-blue)
 ![Notes Count](https://img.shields.io/badge/Subjects-6-orange)
@@ -27,9 +27,9 @@
 
 Welcome to **MyNotes** - a comprehensive collection of study materials, revision guides, and interactive HTML notes for Computer Science & Engineering courses. Created and maintained by **[ZenYukti](https://zenyukti.in)** community, this repository embodies our vision of **"Learn. Build. Share."**
 
-### 🎓 Semester 2 - AKTU Syllabus Focused
+### 🎓 Semester 3 - AKTU Syllabus Focused
 
-This repository specifically covers **Semester 2** subjects as per the **AKTU (Dr. A.P.J. Abdul Kalam Technical University)** syllabus for Computer Science & Engineering (CSE) students. All notes are aligned with the official AKTU curriculum.
+This repository specifically covers **Semester 3** subjects as per the **AKTU (Dr. A.P.J. Abdul Kalam Technical University)** syllabus for Computer Science & Engineering (CSE) students. All notes are aligned with the official AKTU curriculum.
 
 **Covered Subjects:**
 - 📐 **DSTL** - Discrete Structures & Theory of Logic
@@ -44,7 +44,7 @@ This repository contains both detailed markdown notes for in-depth learning and 
 ### 🚀 Future Plans
 
 We're continuously expanding! **Coming soon:**
-- 📚 **More Semesters** - Notes for Semester 1, 3, 4, and beyond
+- 📚 **More Semesters** - Notes for Semester 1, 2, 4, and beyond
 - 📖 **All Subjects** - Complete coverage of all AKTU CSE subjects
 - 🎯 **More Universities** - Expanding to other university syllabi
 
