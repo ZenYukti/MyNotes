@@ -144,7 +144,7 @@ MyNotes/
 
 #### ⚡ LastMinuteRevision (Interactive HTML)
 
-| Unit | Topic | 🌐 Live Preview | Quick Revision | Detailed Notes |
+| Unit | Topic | 🌐 Live Preview (Summarised) | Quick Revision | Detailed Notes |
 |------|-------|----------------|----------------|----------------|
 | **Unit 1** | Set Theory & Relations | [🔗 Live](https://zenyukti.github.io/MyNotes/DSTL/LastMinuteRevision/Unit-1.html) | [📱 HTML](DSTL/LastMinuteRevision/Unit-1.html) | [📄 Markdown](DSTL/Unit-1.md) |
 | **Unit 2** | Functions & Boolean Algebra | [🔗 Live](https://zenyukti.github.io/MyNotes/DSTL/LastMinuteRevision/Unit-2.html) | [📱 HTML](DSTL/LastMinuteRevision/Unit-2.html) | [📄 Markdown](DSTL/Unit-2.md) |
@@ -215,7 +215,7 @@ MyNotes/
 
 #### ⚡ LastMinuteRevision (Interactive HTML)
 
-| Unit | Topic | 🌐 Live Preview | Quick Revision | Detailed Notes |
+| Unit | Topic | 🌐 Live Preview (Summarised) | Quick Revision | Detailed Notes |
 |------|-------|----------------|----------------|----------------|
 | **Unit 1** | Python Basics: Variables, Operators, Data Types | [🔗 Live](https://zenyukti.github.io/MyNotes/Python/LastMinuteRevision/Unit-1.html) | [📱 HTML](Python/LastMinuteRevision/Unit-1.html) | [📄 Markdown](Python/Unit-1.md) |
 | **Unit 2** | Flow Control: Conditionals, Loops | [🔗 Live](https://zenyukti.github.io/MyNotes/Python/LastMinuteRevision/Unit-2.html) | [📱 HTML](Python/LastMinuteRevision/Unit-2.html) | [📄 Markdown](Python/Unit-2.md) |
