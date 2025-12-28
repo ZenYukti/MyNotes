@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Structures Notes - ZenYukti</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-bottom: 5px solid #f093fb;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-left: 5px solid #667eea;
+        }
+        
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #764ba2;
+            padding-bottom: 10px;
+        }
+        
+        .section h3 {
+            color: #764ba2;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.4em;
+        }
+        
+        .definition {
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #f093fb;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #68d391;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            white-space: pre;
+            line-height: 1.6;
+        }
+        
+        .code-block code {
+            color: #68d391;
+            white-space: pre;
+        }
+        
+        .key-points {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .key-points ul {
+            margin-left: 20px;
+        }
+        
+        .key-points li {
+            margin: 8px 0;
+        }
+        
+        .complexity {
+            display: inline-block;
+            background: #e7f3ff;
+            padding: 5px 15px;
+            border-radius: 5px;
+            margin: 5px 0;
+            color: #0066cc;
+            font-weight: bold;
+        }
+        
+        .footer {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            border-top: 5px solid #f093fb;
+        }
+        
+        .footer p {
+            margin: 5px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .viva-section {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+            border-left: 5px solid #ff6b6b;
+        }
+        
+        .viva-section h2 {
+            color: #c92a2a;
+            margin-bottom: 20px;
+        }
+        
+        .viva-qa {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #ff6b6b;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .viva-qa strong {
+            color: #c92a2a;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .viva-qa p {
+            color: #333;
+            margin: 0;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><a href="https://zenyukti.in">🎓 ZenYukti</a></h1>
+            <p>Data Structures: Queues, Searching & Sorting</p>
+        </div>
+        
+        <div class="content">
+            <!-- QUEUES SECTION -->
+            <div class="section">
+                <h2>📋 QUEUES</h2>
+                
+                <div class="definition">
+                    <strong>Definition:</strong> A Queue is a linear data structure following FIFO (First In First Out) principle. Elements are added at the rear and removed from the front.
+                </div>
+                
+                <h3>Queue Operations</h3>
+                <div class="key-points">
+                    <ul>
+                        <li><strong>Create:</strong> Initialize an empty queue</li>
+                        <li><strong>Enqueue (Add):</strong> Insert element at rear</li>
+                        <li><strong>Dequeue (Delete):</strong> Remove element from front</li>
+                        <li><strong>IsFull:</strong> Check if queue is full</li>
+                        <li><strong>IsEmpty:</strong> Check if queue is empty</li>
+                        <li><strong>Peek/Front:</strong> View front element without removing</li>
+                    </ul>
+                </div>
+                
+                <h3>Array Implementation of Queue</h3>
+                <div class="code-block"><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#define MAX 5
+
+int queue[MAX];
+int front = -1, rear = -1;
+
+int isFull() {
+    return rear == MAX - 1;
+}
+
+int isEmpty() {
+    return front == -1 || front > rear;
+}
+
+void enqueue(int value) {
+    if (isFull()) {
+        printf("Queue Overflow!\n");
+        return;
+    }
+    if (front == -1) front = 0;
+    queue[++rear] = value;
+    printf("Inserted %d\n", value);
+}
+
+int dequeue() {
+    if (isEmpty()) {
+        printf("Queue Underflow!\n");
+        return -1;
+    }
+    return queue[front++];
+}
+
+void display() {
+    if (isEmpty()) {
+        printf("Queue is empty\n");
+        return;
+    }
+    printf("Queue: ");
+    for (int i = front; i <= rear; i++)
+        printf("%d ", queue[i]);
+    printf("\n");
+}</code></div>
+
+                <h3>Circular Queue</h3>
+                <div class="definition">
+                    <strong>Circular Queue:</strong> A queue where the last position connects back to the first, utilizing memory efficiently by reusing vacant spaces.
+                </div>
+                
+                <div class="code-block"><code>#define MAX 5
+int cqueue[MAX];
+int front = -1, rear = -1;
+
+int isFull() {
+    return (rear + 1) % MAX == front;
+}
+
+int isEmpty() {
+    return front == -1;
+}
+
+void enqueue(int value) {
+    if (isFull()) {
+        printf("Queue is Full!\n");
+        return;
+    }
+    if (front == -1) front = 0;
+    rear = (rear + 1) % MAX;
+    cqueue[rear] = value;
+}
+
+int dequeue() {
+    if (isEmpty()) {
+        printf("Queue is Empty!\n");
+        return -1;
+    }
+    int val = cqueue[front];
+    if (front == rear) {
+        front = rear = -1;
+    } else {
+        front = (front + 1) % MAX;
+    }
+    return val;
+}</code></div>
+
+                <h3>Linked List Implementation</h3>
+                <div class="code-block"><code>struct Node {
+    int data;
+    struct Node* next;
+};
+
+struct Node *front = NULL, *rear = NULL;
+
+void enqueue(int value) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = value;
+    newNode->next = NULL;
+    
+    if (rear == NULL) {
+        front = rear = newNode;
+        return;
+    }
+    rear->next = newNode;
+    rear = newNode;
+}
+
+int dequeue() {
+    if (front == NULL) {
+        printf("Queue is Empty!\n");
+        return -1;
+    }
+    struct Node* temp = front;
+    int val = temp->data;
+    front = front->next;
+    
+    if (front == NULL) rear = NULL;
+    
+    free(temp);
+    return val;
+}</code></div>
+
+                <h3>Dequeue (Double-Ended Queue)</h3>
+                <div class="definition">
+                    <strong>Dequeue:</strong> Elements can be inserted or deleted from both front and rear ends.
+                    <br><strong>Types:</strong> Input-restricted (insertion only at rear), Output-restricted (deletion only at front)
+                </div>
+                
+                <h3>Priority Queue</h3>
+                <div class="definition">
+                    <strong>Priority Queue:</strong> Each element has a priority. Higher priority elements are dequeued before lower priority ones.
+                    <br><strong>Types:</strong> Ascending (min priority first), Descending (max priority first)
+                </div>
+                
+                <div class="code-block"><code>struct PQNode {
+    int data;
+    int priority;
+};
+
+void enqueue(struct PQNode pq[], int *n, int value, int priority) {
+    pq[*n].data = value;
+    pq[*n].priority = priority;
+    (*n)++;
+}
+
+int dequeue(struct PQNode pq[], int *n) {
+    int highestPriority = 0;
+    for (int i = 1; i < *n; i++) {
+        if (pq[i].priority > pq[highestPriority].priority)
+            highestPriority = i;
+    }
+    int val = pq[highestPriority].data;
+    
+    // Shift elements
+    for (int i = highestPriority; i < *n - 1; i++) {
+        pq[i] = pq[i + 1];
+    }
+    (*n)--;
+    return val;
+}</code></div>
+            </div>
+
+            <!-- SEARCHING SECTION -->
+            <div class="section">
+                <h2>🔍 SEARCHING</h2>
+                
+                <h3>1. Sequential (Linear) Search</h3>
+                <div class="definition">
+                    Search element by traversing array from start to end.
+                    <br><span class="complexity">Time: O(n)</span> <span class="complexity">Space: O(1)</span>
+                </div>
+                
+                <div class="code-block"><code>int linearSearch(int arr[], int n, int key) {
+    for (int i = 0; i < n; i++) {
+        if (arr[i] == key)
+            return i;  // Return index
+    }
+    return -1;  // Not found
+}</code></div>
+
+                <h3>2. Binary Search</h3>
+                <div class="definition">
+                    Efficient search on <strong>sorted arrays</strong>. Divides search space in half each iteration.
+                    <br><span class="complexity">Time: O(log n)</span> <span class="complexity">Space: O(1)</span>
+                </div>
+                
+                <div class="code-block"><code>int binarySearch(int arr[], int n, int key) {
+    int low = 0, high = n - 1;
+    
+    while (low <= high) {
+        int mid = low + (high - low) / 2;
+        
+        if (arr[mid] == key)
+            return mid;
+        else if (arr[mid] < key)
+            low = mid + 1;
+        else
+            high = mid - 1;
+    }
+    return -1;
+}
+
+// Recursive Version
+int binarySearchRecursive(int arr[], int low, int high, int key) {
+    if (low > high) return -1;
+    
+    int mid = low + (high - low) / 2;
+    
+    if (arr[mid] == key) return mid;
+    if (arr[mid] > key)
+        return binarySearchRecursive(arr, low, mid - 1, key);
+    return binarySearchRecursive(arr, mid + 1, high, key);
+}</code></div>
+
+                <h3>3. Index Sequential Search</h3>
+                <div class="definition">
+                    Combines indexing with sequential search. Creates an index table for blocks, then searches within the block.
+                    <br><strong>Process:</strong> Search index → Identify block → Sequential search in block
+                </div>
+
+                <h3>Hashing</h3>
+                <div class="definition">
+                    <strong>Hashing:</strong> Technique to map data to fixed-size values using a hash function. Enables O(1) average-case search.
+                    <br><strong>Hash Function:</strong> h(key) = key % tableSize
+                </div>
+                
+                <div class="key-points">
+                    <strong>Example:</strong> Hash Table Size = 10
+                    <ul>
+                        <li>Insert 25: h(25) = 25 % 10 = 5 → Store at index 5</li>
+                        <li>Insert 42: h(42) = 42 % 10 = 2 → Store at index 2</li>
+                        <li>Insert 35: h(35) = 35 % 10 = 5 → <strong>Collision!</strong> (index 5 occupied)</li>
+                    </ul>
+                </div>
+                
+                <h3>Collision Resolution Techniques</h3>
+                <table>
+                    <tr>
+                        <th>Technique</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Chaining</strong></td>
+                        <td>Each slot contains a linked list of colliding elements</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Linear Probing</strong></td>
+                        <td>h'(key) = (h(key) + i) % size, probe sequentially</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Quadratic Probing</strong></td>
+                        <td>h'(key) = (h(key) + i²) % size</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Double Hashing</strong></td>
+                        <td>h'(key) = (h1(key) + i * h2(key)) % size</td>
+                    </tr>
+                </table>
+                
+                <h3>1. Chaining Example</h3>
+                <div class="definition">
+                    <strong>Scenario:</strong> Insert 15, 25, 35, 45 with table size = 10
+                    <br><br>
+                    <strong>Hash Values:</strong>
+                    <br>• 15 % 10 = 5 → Index 5
+                    <br>• 25 % 10 = 5 → Index 5 (Collision! Add to chain)
+                    <br>• 35 % 10 = 5 → Index 5 (Collision! Add to chain)
+                    <br>• 45 % 10 = 5 → Index 5 (Collision! Add to chain)
+                    <br><br>
+                    <strong>Result:</strong> Index 5 → [15] → [25] → [35] → [45] → NULL
+                </div>
+                
+                <div class="code-block"><code>#define SIZE 10
+
+struct Node {
+    int key;
+    struct Node* next;
+};
+
+struct Node* hashTable[SIZE] = {NULL};
+
+void insertChaining(int key) {
+    int index = key % SIZE;
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->key = key;
+    newNode->next = hashTable[index];
+    hashTable[index] = newNode;
+}
+
+int searchChaining(int key) {
+    int index = key % SIZE;
+    struct Node* temp = hashTable[index];
+    while (temp != NULL) {
+        if (temp->key == key) return 1;
+        temp = temp->next;
+    }
+    return 0;
+}</code></div>
+
+                <h3>2. Linear Probing Example</h3>
+                <div class="definition">
+                    <strong>Scenario:</strong> Insert 15, 25, 35, 45 with table size = 10
+                    <br><br>
+                    <strong>Insertion Process:</strong>
+                    <br>• 15: h(15) = 5 → Store at index 5
+                    <br>• 25: h(25) = 5 (occupied) → Try (5+1)%10 = 6 → Store at index 6
+                    <br>• 35: h(35) = 5 (occupied) → Try 6 (occupied) → Try 7 → Store at index 7
+                    <br>• 45: h(45) = 5 (occupied) → Try 6, 7 (occupied) → Try 8 → Store at index 8
+                    <br><br>
+                    <strong>Table:</strong> [-, -, -, -, -, 15, 25, 35, 45, -]
+                </div>
+                
+                <div class="code-block"><code>int hashTable[SIZE];
+int isOccupied[SIZE] = {0};
+
+void insertLinearProbing(int key) {
+    int index = key % SIZE;
+    int i = 0;
+    
+    while (isOccupied[(index + i) % SIZE]) {
+        i++;
+        if (i == SIZE) {
+            printf("Hash table is full!\n");
+            return;
+        }
+    }
+    
+    int finalIndex = (index + i) % SIZE;
+    hashTable[finalIndex] = key;
+    isOccupied[finalIndex] = 1;
+}</code></div>
+
+                <h3>3. Quadratic Probing Example</h3>
+                <div class="definition">
+                    <strong>Scenario:</strong> Insert 15, 25, 35 with table size = 10
+                    <br><br>
+                    <strong>Insertion Process:</strong>
+                    <br>• 15: h(15) = 5 → Store at index 5
+                    <br>• 25: h(25) = 5 (occupied) → Try (5+1²)%10 = 6 → Store at index 6
+                    <br>• 35: h(35) = 5 (occupied) → Try (5+1²)%10 = 6 (occupied) → Try (5+2²)%10 = 9 → Store at 9
+                    <br><br>
+                    <strong>Formula:</strong> h'(key) = (h(key) + i²) % size
+                </div>
+                
+                <h3>4. Double Hashing Example</h3>
+                <div class="definition">
+                    <strong>Hash Functions:</strong>
+                    <br>• h1(key) = key % 10
+                    <br>• h2(key) = 7 - (key % 7)
+                    <br><br>
+                    <strong>Scenario:</strong> Insert 15, 25 with table size = 10
+                    <br><br>
+                    <strong>Insertion Process:</strong>
+                    <br>• 15: h1(15) = 5 → Store at index 5
+                    <br>• 25: h1(25) = 5 (occupied)
+                    <br>  - h2(25) = 7 - (25 % 7) = 7 - 4 = 3
+                    <br>  - Try (5 + 1×3) % 10 = 8 → Store at index 8
+                </div>
+            </div>
+
+            <!-- SORTING SECTION -->
+            <div class="section">
+                <h2>📊 SORTING</h2>
+                
+                <h3>1. Bubble Sort</h3>
+                <div class="definition">
+                    Repeatedly swaps adjacent elements if in wrong order. Largest element "bubbles up" to end.
+                    <br><span class="complexity">Time: O(n²)</span> <span class="complexity">Space: O(1)</span>
+                </div>
+                
+                <div class="code-block"><code>void bubbleSort(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}</code></div>
+
+                <h3>2. Selection Sort</h3>
+                <div class="definition">
+                    Selects minimum element and places it at beginning. Repeat for remaining array.
+                    <br><span class="complexity">Time: O(n²)</span> <span class="complexity">Space: O(1)</span>
+                </div>
+                
+                <div class="code-block"><code>void selectionSort(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        int minIdx = i;
+        for (int j = i + 1; j < n; j++) {
+            if (arr[j] < arr[minIdx])
+                minIdx = j;
+        }
+        int temp = arr[minIdx];
+        arr[minIdx] = arr[i];
+        arr[i] = temp;
+    }
+}</code></div>
+
+                <h3>3. Insertion Sort</h3>
+                <div class="definition">
+                    Builds sorted array one element at a time. Insert each element into correct position.
+                    <br><span class="complexity">Time: O(n²)</span> <span class="complexity">Space: O(1)</span>
+                </div>
+                
+                <div class="code-block"><code>void insertionSort(int arr[], int n) {
+    for (int i = 1; i < n; i++) {
+        int key = arr[i];
+        int j = i - 1;
+        
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        arr[j + 1] = key;
+    }
+}</code></div>
+
+                <h3>4. Quick Sort</h3>
+                <div class="definition">
+                    Divide-and-conquer algorithm. Pick pivot, partition array, recursively sort subarrays.
+                    <br><span class="complexity">Time: O(n log n) average</span> <span class="complexity">Space: O(log n)</span>
+                </div>
+                
+                <div class="code-block"><code>int partition(int arr[], int low, int high) {
+    int pivot = arr[high];
+    int i = low - 1;
+    
+    for (int j = low; j < high; j++) {
+        if (arr[j] < pivot) {
+            i++;
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+    }
+    int temp = arr[i + 1];
+    arr[i + 1] = arr[high];
+    arr[high] = temp;
+    return i + 1;
+}
+
+void quickSort(int arr[], int low, int high) {
+    if (low < high) {
+        int pi = partition(arr, low, high);
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}</code></div>
+
+                <h3>5. Merge Sort</h3>
+                <div class="definition">
+                    Divide array into halves, sort them, then merge. Stable sorting algorithm.
+                    <br><span class="complexity">Time: O(n log n)</span> <span class="complexity">Space: O(n)</span>
+                </div>
+                
+                <div class="code-block"><code>void merge(int arr[], int l, int m, int r) {
+    int n1 = m - l + 1;
+    int n2 = r - m;
+    int L[n1], R[n2];
+    
+    for (int i = 0; i < n1; i++) L[i] = arr[l + i];
+    for (int j = 0; j < n2; j++) R[j] = arr[m + 1 + j];
+    
+    int i = 0, j = 0, k = l;
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j])
+            arr[k++] = L[i++];
+        else
+            arr[k++] = R[j++];
+    }
+    
+    while (i < n1) arr[k++] = L[i++];
+    while (j < n2) arr[k++] = R[j++];
+}
+
+void mergeSort(int arr[], int l, int r) {
+    if (l < r) {
+        int m = l + (r - l) / 2;
+        mergeSort(arr, l, m);
+        mergeSort(arr, m + 1, r);
+        merge(arr, l, m, r);
+    }
+}</code></div>
+
+                <h3>6. Heap Sort</h3>
+                <div class="definition">
+                    Uses binary heap data structure. Build max heap, then extract elements.
+                    <br><span class="complexity">Time: O(n log n)</span> <span class="complexity">Space: O(1)</span>
+                </div>
+                
+                <div class="code-block"><code>void heapify(int arr[], int n, int i) {
+    int largest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+    
+    if (left < n && arr[left] > arr[largest])
+        largest = left;
+    if (right < n && arr[right] > arr[largest])
+        largest = right;
+    
+    if (largest != i) {
+        int temp = arr[i];
+        arr[i] = arr[largest];
+        arr[largest] = temp;
+        heapify(arr, n, largest);
+    }
+}
+
+void heapSort(int arr[], int n) {
+    for (int i = n / 2 - 1; i >= 0; i--)
+        heapify(arr, n, i);
+    
+    for (int i = n - 1; i > 0; i--) {
+        int temp = arr[0];
+        arr[0] = arr[i];
+        arr[i] = temp;
+        heapify(arr, i, 0);
+    }
+}</code></div>
+
+                <h3>7. Radix Sort</h3>
+                <div class="definition">
+                    Non-comparative sorting. Sorts digit by digit starting from least significant.
+                    <br><span class="complexity">Time: O(d × n)</span> where d = number of digits
+                </div>
+                
+                <div class="code-block"><code>int getMax(int arr[], int n) {
+    int max = arr[0];
+    for (int i = 1; i < n; i++)
+        if (arr[i] > max) max = arr[i];
+    return max;
+}
+
+void countSort(int arr[], int n, int exp) {
+    int output[n];
+    int count[10] = {0};
+    
+    for (int i = 0; i < n; i++)
+        count[(arr[i] / exp) % 10]++;
+    
+    for (int i = 1; i < 10; i++)
+        count[i] += count[i - 1];
+    
+    for (int i = n - 1; i >= 0; i--) {
+        output[count[(arr[i] / exp) % 10] - 1] = arr[i];
+        count[(arr[i] / exp) % 10]--;
+    }
+    
+    for (int i = 0; i < n; i++)
+        arr[i] = output[i];
+}
+
+void radixSort(int arr[], int n) {
+    int max = getMax(arr, n);
+    for (int exp = 1; max / exp > 0; exp *= 10)
+        countSort(arr, n, exp);
+}</code></div>
+
+                <h3>Sorting Comparison Table</h3>
+                <table>
+                    <tr>
+                        <th>Algorithm</th>
+                        <th>Best Case</th>
+                        <th>Average Case</th>
+                        <th>Worst Case</th>
+                        <th>Space</th>
+                        <th>Stable</th>
+                    </tr>
+                    <tr>
+                        <td>Bubble Sort</td>
+                        <td>O(n)</td>
+                        <td>O(n²)</td>
+                        <td>O(n²)</td>
+                        <td>O(1)</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Selection Sort</td>
+                        <td>O(n²)</td>
+                        <td>O(n²)</td>
+                        <td>O(n²)</td>
+                        <td>O(1)</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td>Insertion Sort</td>
+                        <td>O(n)</td>
+                        <td>O(n²)</td>
+                        <td>O(n²)</td>
+                        <td>O(1)</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Quick Sort</td>
+                        <td>O(n log n)</td>
+                        <td>O(n log n)</td>
+                        <td>O(n²)</td>
+                        <td>O(log n)</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td>Merge Sort</td>
+                        <td>O(n log n)</td>
+                        <td>O(n log n)</td>
+                        <td>O(n log n)</td>
+                        <td>O(n)</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Heap Sort</td>
+                        <td>O(n log n)</td>
+                        <td>O(n log n)</td>
+                        <td>O(n log n)</td>
+                        <td>O(1)</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td>Radix Sort</td>
+                        <td>O(d × n)</td>
+                        <td>O(d × n)</td>
+                        <td>O(d × n)</td>
+                        <td>O(n + k)</td>
+                        <td>Yes</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- TOWER OF HANOI SECTION -->
+            <div class="section">
+                <h2>🗼 TOWER OF HANOI</h2>
+                
+                <div class="definition">
+                    <strong>Problem:</strong> Move n disks from source rod to destination rod using auxiliary rod.
+                    <br><strong>Rules:</strong> Only one disk at a time, larger disk cannot be on smaller disk
+                    <br><strong>Recurrence:</strong> T(n) = 2T(n-1) + 1
+                    <br><span class="complexity">Time: O(2ⁿ)</span> <span class="complexity">Moves: 2ⁿ - 1</span>
+                </div>
+                
+                <div class="code-block"><code>void towerOfHanoi(int n, char source, char dest, char aux) {
+    if (n == 1) {
+        printf("Move disk 1 from %c to %c\n", source, dest);
+        return;
+    }
+    
+    towerOfHanoi(n - 1, source, aux, dest);
+    printf("Move disk %d from %c to %c\n", n, source, dest);
+    towerOfHanoi(n - 1, aux, dest, source);
+}</code></div>
+
+                <h3>Dry Run for n = 3</h3>
+                <div class="key-points">
+                    <strong>Objective:</strong> Move 3 disks from Rod A to Rod C using Rod B
+                    <br><strong>Initial Configuration:</strong>
+                    <pre style="background: white; padding: 10px; border-radius: 5px; margin: 10px 0;">
+    Rod A        Rod B        Rod C
+    -----                              
+     ---                               
+      -                                
+   -------    -------    -------       
+      A          B          C          
+                    </pre>
+                    
+                    <strong>Step-by-Step Execution:</strong>
+                    <ul>
+                        <li><strong>Move 1:</strong> Disk 1: A → C
+                            <pre style="background: white; padding: 5px; border-radius: 5px; margin: 5px 0;">
+    -----                       -
+     ---                               
+   -------    -------    -------</pre>
+                        </li>
+                        <li><strong>Move 2:</strong> Disk 2: A → B
+                            <pre style="background: white; padding: 5px; border-radius: 5px; margin: 5px 0;">
+    -----        ---          -
+                                        
+   -------    -------    -------</pre>
+                        </li>
+                        <li><strong>Move 3:</strong> Disk 1: C → B
+                            <pre style="background: white; padding: 5px; border-radius: 5px; margin: 5px 0;">
+    -----         -                
+                 ---                    
+   -------    -------    -------</pre>
+                        </li>
+                        <li><strong>Move 4:</strong> Disk 3: A → C
+                            <pre style="background: white; padding: 5px; border-radius: 5px; margin: 5px 0;">
+                  -         -----
+                 ---                    
+   -------    -------    -------</pre>
+                        </li>
+                        <li><strong>Move 5:</strong> Disk 1: B → A
+                            <pre style="background: white; padding: 5px; border-radius: 5px; margin: 5px 0;">
+      -                    -----
+                 ---                    
+   -------    -------    -------</pre>
+                        </li>
+                        <li><strong>Move 6:</strong> Disk 2: B → C
+                            <pre style="background: white; padding: 5px; border-radius: 5px; margin: 5px 0;">
+      -          -         -----
+                          ---           
+   -------    -------    -------</pre>
+                        </li>
+                        <li><strong>Move 7:</strong> Disk 1: A → C (COMPLETE!)
+                            <pre style="background: white; padding: 5px; border-radius: 5px; margin: 5px 0;">
+                             -
+                 -         -----        
+                           ---          
+   -------    -------    -------</pre>
+                        </li>
+                    </ul>
+                    <strong>✅ Total Moves Required: 2³ - 1 = 7 moves</strong>
+                </div>
+                
+                <div class="definition">
+                    <strong>Recursive Call Tree Visualization:</strong>
+                    <pre style="background: white; padding: 15px; border-radius: 5px; margin: 10px 0; font-size: 0.95em; color: #333;">
+TOH(3, A→C, aux=B)  [Move 3 disks from A to C]
+│
+├─── TOH(2, A→B, aux=C)  [Move 2 smaller disks to B]
+│    │
+│    ├─── TOH(1, A→C, aux=B)
+│    │    └─── <strong style="color: #e53e3e;">MOVE disk 1: A → C</strong>
+│    │
+│    ├─── <strong style="color: #e53e3e;">MOVE disk 2: A → B</strong>
+│    │
+│    └─── TOH(1, C→B, aux=A)
+│         └─── <strong style="color: #e53e3e;">MOVE disk 1: C → B</strong>
+│
+├─── <strong style="color: #e53e3e;">MOVE disk 3: A → C</strong>  [Move largest disk]
+│
+└─── TOH(2, B→C, aux=A)  [Move 2 disks from B to C]
+     │
+     ├─── TOH(1, B→A, aux=C)
+     │    └─── <strong style="color: #e53e3e;">MOVE disk 1: B → A</strong>
+     │
+     ├─── <strong style="color: #e53e3e;">MOVE disk 2: B → C</strong>
+     │
+     └─── TOH(1, A→C, aux=B)
+          └─── <strong style="color: #e53e3e;">MOVE disk 1: A → C</strong>
+                    </pre>
+                    
+                    <strong>Key Insight:</strong> To move n disks:
+                    <br>1. Move (n-1) disks to auxiliary rod
+                    <br>2. Move largest disk to destination
+                    <br>3. Move (n-1) disks from auxiliary to destination
+                </div>
+            </div>
+
+            <!-- VIVA QUESTIONS SECTION -->
+            <div class="viva-section">
+                <h2>🎤 VIVA VOICE QUESTIONS & ANSWERS</h2>
+                
+                <div class="viva-qa">
+                    <strong>Q1. What is the main difference between Stack and Queue?</strong>
+                    <p>Stack follows LIFO (Last In First Out) principle where insertion and deletion happen at the same end, while Queue follows FIFO (First In First Out) where insertion at rear and deletion at front.</p>
+                </div>
+                
+                <div class="viva-qa">
+                    <strong>Q2. Why do we need Circular Queue?</strong>
+                    <p>In linear queue, even after dequeue operations, front elements' space cannot be reused, leading to overflow. Circular queue reuses empty spaces by connecting rear to front, utilizing memory efficiently.</p>
+                </div>
+                
+                <div class="viva-qa">
+                    <strong>Q3. What is the advantage of linked list implementation over array implementation of queue?</strong>
+                    <p>Linked list implementation has dynamic size with no overflow issue, while array implementation has fixed size. However, array implementation has better cache locality and less memory overhead.</p>
+                </div>
+                
+                <div class="viva-qa">
+                    <strong>Q4. Explain Priority Queue with real-life example.</strong>
+                    <p>Priority Queue processes elements based on priority, not insertion order. Real-life example: Hospital emergency room where critical patients are treated first regardless of arrival time.</p>
+                </div>
+                
+                <div class="viva-qa">
+                    <strong>Q5. When should we use Binary Search over Linear Search?</strong>
+                    <p>Binary Search should be used when data is sorted, providing O(log n) time complexity. For unsorted data or small datasets, Linear Search with O(n) is more practical as sorting overhead isn't justified.</p>
+                </div>
+                
+                <div class="viva-qa">
+                    <strong>Q6. What is hashing and why is it faster than other search techniques?</strong>
+                    <p>Hashing maps keys to array indices using hash function, providing O(1) average search time. It's faster because it directly computes the location instead of comparing elements sequentially or through binary divisions.</p>
+                </div>
+                
+                <div class="viva-qa">
+                    <strong>Q7. What is a collision in hashing? Name two resolution techniques.</strong>
+                    <p>Collision occurs when two keys hash to the same index. Common resolution techniques are: (1) Chaining - store colliding elements in linked lists, (2) Open Addressing - probe for next empty slot (Linear/Quadratic probing).</p>
+                </div>
+                
+                <div class="viva-qa">
+                    <strong>Q8. What is the difference between Linear Probing and Quadratic Probing?</strong>
+                    <p>Linear Probing checks next consecutive slots (i, i+1, i+2...) causing clustering. Quadratic Probing uses quadratic function (i, i+1², i+2²...) reducing primary clustering but may cause secondary clustering.</p>
+                </div>
+                
+                <div class="viva-qa">
+                    <strong>Q9. Which sorting algorithm is best for large datasets and why?</strong>
+                    <p>Merge Sort or Quick Sort are best for large datasets with O(n log n) time complexity. Merge Sort is preferred when stability is required; Quick Sort is faster in practice with good cache performance.</p>
+                </div>
+                
+                <div class="viva-qa">
+                    <strong>Q10. Explain the stability of a sorting algorithm with example.</strong>
+                    <p>A stable sort maintains relative order of equal elements. Example: Sorting [(3,a), (3,b), (1,c)] by number gives [(1,c), (3,a), (3,b)] in stable sort but may give [(1,c), (3,b), (3,a)] in unstable sort.</p>
+                </div>
+                
+                <div class="viva-qa">
+                    <strong>Q11. Why is Quick Sort called "quick"? What is its worst case?</strong>
+                    <p>It's called quick because it's very fast in practice with average O(n log n) time due to good cache locality and in-place sorting. Worst case O(n²) occurs when pivot is always smallest/largest element (already sorted array).</p>
+                </div>
+                
+                <div class="viva-qa">
+                    <strong>Q12. What is the advantage of Merge Sort over Quick Sort?</strong>
+                    <p>Merge Sort guarantees O(n log n) time in all cases (no worst case degradation), is stable, and works well with linked lists. Disadvantage is O(n) extra space requirement.</p>
+                </div>
+                
+                <div class="viva-qa">
+                    <strong>Q13. When would you use Insertion Sort over other algorithms?</strong>
+                    <p>Insertion Sort is best for small datasets (n<50), nearly sorted data, or online sorting (processing stream). It has O(n) best case for sorted data and is adaptive with low overhead.</p>
+                </div>
+                
+                <div class="viva-qa">
+                    <strong>Q14. What is the specialty of Radix Sort?</strong>
+                    <p>Radix Sort is non-comparative and sorts by processing individual digits. Time complexity O(d×n) where d is number of digits, making it faster than O(n log n) comparison sorts for fixed-length integer keys.</p>
+                </div>
+                
+                <div class="viva-qa">
+                    <strong>Q15. Explain Tower of Hanoi recurrence relation.</strong>
+                    <p>Recurrence: T(n) = 2T(n-1) + 1, where T(n-1) moves n-1 disks to auxiliary, +1 for moving largest disk, and T(n-1) again to move from auxiliary to destination. Total moves = 2ⁿ - 1.</p>
+                </div>
+                
+                <div class="viva-qa">
+                    <strong>Q16. What is the time complexity of searching in a circular queue?</strong>
+                    <p>Searching requires traversing all elements, so time complexity is O(n). However, enqueue and dequeue operations are O(1) as we maintain front and rear pointers.</p>
+                </div>
+                
+                <div class="viva-qa">
+                    <strong>Q17. Can we implement queue using two stacks? How?</strong>
+                    <p>Yes. Use stack1 for enqueue (push). For dequeue, if stack2 is empty, pop all from stack1 and push to stack2, then pop from stack2. This makes dequeue amortized O(1).</p>
+                </div>
+                
+                <div class="viva-qa">
+                    <strong>Q18. What is the difference between Heap Sort and Priority Queue?</strong>
+                    <p>Heap Sort is a sorting algorithm using heap data structure with O(n log n) time. Priority Queue is an ADT (Abstract Data Type) that can be implemented using heap, giving O(log n) insertion and deletion.</p>
+                </div>
+                
+                <div class="viva-qa">
+                    <strong>Q19. Why is Binary Search recursive in nature?</strong>
+                    <p>Binary Search divides problem into smaller subproblems (search left or right half), which is the essence of recursion. However, it can be implemented iteratively as well with while loop for better space efficiency.</p>
+                </div>
+                
+                <div class="viva-qa">
+                    <strong>Q20. What is the main disadvantage of chaining in hash tables?</strong>
+                    <p>Chaining requires extra memory for pointers/references in linked lists. Worst case search becomes O(n) if all keys hash to same index. Also has poor cache performance due to non-contiguous memory access.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <h2><a href="https://zenyukti.in">🎓 ZenYukti</a></h2>
+            <p>Excellence in Education | Data Structures & Algorithms</p>
+            <p>© 2025 ZenYukti | All concepts covered comprehensively</p>
+        </div>
+    </div>
+</body>
+</html>
