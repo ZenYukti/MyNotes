@@ -263,7 +263,7 @@ MyNotes/
 ## 🎯 How to Use This Repository
 
 ### For Last-Minute Revision (Exam in Few Hours)
-1. Navigate to the **LastMinuteRevision** folder for your subject
+1. Navigate to the **Live Preview (Summarised)** colums for your subject, in this readme.
 2. Open the HTML file for the relevant unit
 3. Use expandable sections to focus on specific topics
 4. Scroll to **Quick Revision Summary** at the bottom
@@ -280,7 +280,7 @@ MyNotes/
 2. Use React 18, Tailwind CSS via CDN
 3. No build process required
 4. Directly deployable to GitHub Pages or any static host
-5. **Live Site**: [https://zenyukti.github.io/MyNotes/](https://zenyukti.github.io/MyNotes/)
+5. **Live Site**: 🔜 Coming Soon
 6. Access individual units via: `/Subject/LastMinuteRevision/Unit-X.html`
 
 ---
@@ -438,7 +438,7 @@ This repository contains educational notes for personal study purposes.
 ## 📬 Contact & Updates
 
 - **Repository**: [MyNotes](https://github.com/zenyukti/MyNotes)
-- **Live Site**: [https://zenyukti.github.io/MyNotes/](https://zenyukti.github.io/MyNotes/)
+- **Live Site**: 🔜 Coming Soon
 - **Last Updated**: December 28, 2025
 - **Status**: Active Development
 
