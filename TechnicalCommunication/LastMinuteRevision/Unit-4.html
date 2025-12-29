@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Communication Unit-4: Leadership & Emotional Intelligence - Last Minute Revision</title>
+    <meta name="description" content="Leadership & Emotional Intelligence Quick Revision Guide">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .gradient-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-purple-50 to-indigo-100 min-h-screen">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        // Icons
+        const ChevronDownIcon = () => (
+            <svg className="w-5 h-5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+        );
+
+        const ChevronUpIcon = () => (
+            <svg className="w-5 h-5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+            </svg>
+        );
+
+        // Collapsible Section Component
+        const Section = ({ title, children, defaultOpen = false }) => {
+            const [isOpen, setIsOpen] = useState(defaultOpen);
+
+            return (
+                <div className="mb-4 bg-white rounded-lg shadow-md overflow-hidden">
+                    <button
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="w-full px-6 py-4 flex items-center justify-between gradient-header text-white hover:opacity-90 transition-all"
+                    >
+                        <span className="text-lg font-semibold">{title}</span>
+                        {isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                    </button>
+                    {isOpen && (
+                        <div className="p-6">
+                            {children}
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        // Content Box Component
+        const Box = ({ title, children, color = "blue" }) => {
+            const colorClasses = {
+                yellow: "bg-yellow-50 border-yellow-400",
+                blue: "bg-blue-50 border-blue-400",
+                green: "bg-green-50 border-green-400",
+                purple: "bg-purple-50 border-purple-400",
+                red: "bg-red-50 border-red-400"
+            };
+
+            return (
+                <div className={`${colorClasses[color]} border-l-4 p-4 mb-4 rounded-r-lg`}>
+                    {title && <h4 className="font-bold text-gray-800 mb-2">{title}</h4>}
+                    {children}
+                </div>
+            );
+        };
+
+        // Main App Component
+        const App = () => {
+            return (
+                <div className="container mx-auto px-4 py-8 max-w-6xl">
+                    {/* Header */}
+                    <div className="gradient-header text-white p-8 rounded-lg shadow-xl mb-8">
+                        <h1 className="text-4xl font-bold mb-2">🧠 Leadership & Emotional Intelligence: Unit-4</h1>
+                        <p className="text-xl">Communication & Leadership Development</p>
+                        <p className="text-sm mt-2 opacity-90">Last Minute Revision Guide • AKTU Semester 3</p>
+                    </div>
+
+                    {/* Section 1: Leadership & Social Competence */}
+                    <Section title="1️⃣ Leadership Communication & Social Competence" defaultOpen={true}>
+                        <Box title="📊 Leader vs Manager Communication" color="yellow">
+                            <table className="w-full text-sm border-collapse">
+                                <thead>
+                                    <tr className="bg-gray-100">
+                                        <th className="border p-2 text-left">Aspect</th>
+                                        <th className="border p-2 text-left">Manager</th>
+                                        <th className="border p-2 text-left">Leader</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Focus</td>
+                                        <td className="border p-2">Tasks, processes</td>
+                                        <td className="border p-2">Vision, inspiration</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Direction</td>
+                                        <td className="border p-2">Top-down orders</td>
+                                        <td className="border p-2">Collaborative dialogue</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Purpose</td>
+                                        <td className="border p-2">Control, compliance</td>
+                                        <td className="border p-2">Empower, motivate</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Style</td>
+                                        <td className="border p-2">Transactional</td>
+                                        <td className="border p-2">Transformational</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Questions</td>
+                                        <td className="border p-2">"How & when?"</td>
+                                        <td className="border p-2">"Why & what if?"</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </Box>
+
+                        <Box title="🎯 The Four Pillars of Social Competence" color="purple">
+                            <div className="space-y-3">
+                                <div className="bg-gradient-to-r from-blue-100 to-cyan-100 p-4 rounded">
+                                    <p className="font-bold text-lg mb-2">1️⃣ CONTEXT (Situational Awareness)</p>
+                                    <ul className="list-disc pl-5 text-sm space-y-1">
+                                        <li>Where am I? (Physical environment)</li>
+                                        <li>Who is present? (Audience analysis)</li>
+                                        <li>What are social norms? (Cultural context)</li>
+                                        <li>What's appropriate? (Behavioral expectations)</li>
+                                    </ul>
+                                    <p className="text-xs mt-2 italic">Example: Job interview → Formal. Friend's party → Casual.</p>
+                                </div>
+
+                                <div className="bg-gradient-to-r from-green-100 to-emerald-100 p-4 rounded">
+                                    <p className="font-bold text-lg mb-2">2️⃣ FEELINGS (Emotional Intelligence)</p>
+                                    <ul className="list-disc pl-5 text-sm space-y-1">
+                                        <li>What am I feeling? (Self-awareness)</li>
+                                        <li>What are others feeling? (Empathy)</li>
+                                        <li>How do emotions affect communication?</li>
+                                        <li>Can I manage emotions appropriately? (Regulation)</li>
+                                    </ul>
+                                    <p className="text-xs mt-2 italic">Example: Colleague upset → "You seem stressed. Want to talk?"</p>
+                                </div>
+
+                                <div className="bg-gradient-to-r from-yellow-100 to-orange-100 p-4 rounded">
+                                    <p className="font-bold text-lg mb-2">3️⃣ INTENTIONS (Understanding Motives)</p>
+                                    <ul className="list-disc pl-5 text-sm space-y-1">
+                                        <li>What do I want to achieve? (My goals)</li>
+                                        <li>What are others' goals? (Their agenda)</li>
+                                        <li>Are there hidden agendas? (Underlying motives)</li>
+                                        <li>How can I align interests? (Win-win)</li>
+                                    </ul>
+                                    <p className="text-xs mt-2 italic">Example: Boss criticizes → Intention: Help improve (not attack).</p>
+                                </div>
+
+                                <div className="bg-gradient-to-r from-purple-100 to-pink-100 p-4 rounded">
+                                    <p className="font-bold text-lg mb-2">4️⃣ BEHAVIORS (Action & Adaptation)</p>
+                                    <ul className="list-disc pl-5 text-sm space-y-1">
+                                        <li>What behaviors are appropriate? (Context-fit)</li>
+                                        <li>How should I respond? (Reaction choice)</li>
+                                        <li>Can I adapt my style? (Flexibility)</li>
+                                        <li>What are the consequences? (Impact awareness)</li>
+                                    </ul>
+                                    <p className="text-xs mt-2 italic">Example: Presenting to executives → Data-driven, concise, ROI-focused.</p>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="🔄 Situational Leadership Communication Styles" color="blue">
+                            <div className="grid md:grid-cols-2 gap-3 text-xs">
+                                <div className="bg-red-50 p-3 rounded">
+                                    <p className="font-bold">Level 1: DIRECTING</p>
+                                    <p><strong>Team:</strong> Low competence, high commitment</p>
+                                    <p><strong>Style:</strong> Specific instructions, close supervision</p>
+                                    <p className="italic">"Here are the steps. I'll check hourly."</p>
+                                </div>
+                                <div className="bg-orange-50 p-3 rounded">
+                                    <p className="font-bold">Level 2: COACHING</p>
+                                    <p><strong>Team:</strong> Some competence, low commitment</p>
+                                    <p><strong>Style:</strong> Explain decisions, encourage input</p>
+                                    <p className="italic">"Let me explain why. What challenges?"</p>
+                                </div>
+                                <div className="bg-green-50 p-3 rounded">
+                                    <p className="font-bold">Level 3: SUPPORTING</p>
+                                    <p><strong>Team:</strong> High competence, variable commitment</p>
+                                    <p><strong>Style:</strong> Collaborative, listen actively</p>
+                                    <p className="italic">"What's your approach? How can I help?"</p>
+                                </div>
+                                <div className="bg-blue-50 p-3 rounded">
+                                    <p className="font-bold">Level 4: DELEGATING</p>
+                                    <p><strong>Team:</strong> High competence, high commitment</p>
+                                    <p><strong>Style:</strong> Empower fully, minimal supervision</p>
+                                    <p className="italic">"You've got this. Update at milestone."</p>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="🚨 Crisis Communication Protocol" color="blue">
+                            <div className="text-sm space-y-2">
+                                <p className="font-bold text-center mb-2">6-Step Crisis Response:</p>
+                                <div className="flex items-center gap-2">
+                                    <div className="bg-red-500 text-white px-3 py-1 rounded font-bold">1</div>
+                                    <span><strong>ACKNOWLEDGE:</strong> "I know this is difficult"</span>
+                                </div>
+                                <div className="text-center">↓</div>
+                                <div className="flex items-center gap-2">
+                                    <div className="bg-orange-500 text-white px-3 py-1 rounded font-bold">2</div>
+                                    <span><strong>INFORM:</strong> Share facts, be transparent</span>
+                                </div>
+                                <div className="text-center">↓</div>
+                                <div className="flex items-center gap-2">
+                                    <div className="bg-yellow-500 text-white px-3 py-1 rounded font-bold">3</div>
+                                    <span><strong>EMPATHIZE:</strong> Recognize emotions</span>
+                                </div>
+                                <div className="text-center">↓</div>
+                                <div className="flex items-center gap-2">
+                                    <div className="bg-green-500 text-white px-3 py-1 rounded font-bold">4</div>
+                                    <span><strong>PROVIDE DIRECTION:</strong> Clear next steps</span>
+                                </div>
+                                <div className="text-center">↓</div>
+                                <div className="flex items-center gap-2">
+                                    <div className="bg-blue-500 text-white px-3 py-1 rounded font-bold">5</div>
+                                    <span><strong>REASSURE:</strong> Confidence in resolution</span>
+                                </div>
+                                <div className="text-center">↓</div>
+                                <div className="flex items-center gap-2">
+                                    <div className="bg-purple-500 text-white px-3 py-1 rounded font-bold">6</div>
+                                    <span><strong>FOLLOW UP:</strong> Regular updates</span>
+                                </div>
+                            </div>
+                        </Box>
+                    </Section>
+
+                    {/* Section 2: Feedback & Tact vs Intelligence */}
+                    <Section title="2️⃣ Providing/Receiving Feedback & Tact vs Intelligence">
+                        <Box title="📝 The SBI Feedback Model (Situation-Behavior-Impact)" color="green">
+                            <div className="space-y-3">
+                                <div className="bg-gradient-to-r from-blue-100 to-blue-200 p-3 rounded">
+                                    <p className="font-bold">S = SITUATION</p>
+                                    <p className="text-sm">When/Where did it happen? (Provide context, be specific)</p>
+                                </div>
+                                <div className="text-center text-2xl">↓</div>
+                                <div className="bg-gradient-to-r from-green-100 to-green-200 p-3 rounded">
+                                    <p className="font-bold">B = BEHAVIOR</p>
+                                    <p className="text-sm">What exactly did the person do/say? (Observable actions, not judgments)</p>
+                                </div>
+                                <div className="text-center text-2xl">↓</div>
+                                <div className="bg-gradient-to-r from-purple-100 to-purple-200 p-3 rounded">
+                                    <p className="font-bold">I = IMPACT</p>
+                                    <p className="text-sm">What was the effect/consequence? (How it affected you/team/project)</p>
+                                </div>
+                            </div>
+                            <div className="mt-4 bg-white p-3 rounded text-xs">
+                                <p className="font-bold mb-1">Example (Positive):</p>
+                                <p><strong>S:</strong> "In yesterday's client meeting,"</p>
+                                <p><strong>B:</strong> "you proactively addressed security concerns with a detailed solution,"</p>
+                                <p><strong>I:</strong> "which built confidence. They signed the contract. Your prep made the difference."</p>
+                            </div>
+                        </Box>
+
+                        <Box title="🥪 The Feedback Sandwich (Use Cautiously)" color="green">
+                            <div className="grid grid-cols-3 gap-2 text-center text-sm">
+                                <div className="bg-green-100 p-3 rounded">
+                                    <p className="font-bold">🍞 POSITIVE</p>
+                                    <p className="text-xs">Start with praise</p>
+                                </div>
+                                <div className="bg-yellow-100 p-3 rounded">
+                                    <p className="font-bold">🥩 CONSTRUCTIVE</p>
+                                    <p className="text-xs">Core feedback</p>
+                                </div>
+                                <div className="bg-green-100 p-3 rounded">
+                                    <p className="font-bold">🍞 POSITIVE</p>
+                                    <p className="text-xs">End with hope</p>
+                                </div>
+                            </div>
+                            <p className="text-xs mt-2 text-red-600">⚠️ Warning: Overuse diminishes impact. Use authentically, not formulaically.</p>
+                        </Box>
+
+                        <Box title="📥 Receiving Feedback Gracefully (6 Steps)" color="blue">
+                            <ol className="list-decimal pl-5 text-sm space-y-1">
+                                <li><strong>LISTEN ACTIVELY:</strong> Don't interrupt, nod, eye contact</li>
+                                <li><strong>DON'T GET DEFENSIVE:</strong> Pause, breathe, resist justifying</li>
+                                <li><strong>CLARIFY:</strong> Ask questions to understand fully</li>
+                                <li><strong>ACKNOWLEDGE:</strong> Thank the person for feedback</li>
+                                <li><strong>REFLECT:</strong> Consider validity, identify truth</li>
+                                <li><strong>ACT:</strong> Create plan, implement changes</li>
+                            </ol>
+                        </Box>
+
+                        <Box title="🤝 Tact vs Intelligence: Key Differences" color="yellow">
+                            <table className="w-full text-sm border-collapse mb-3">
+                                <thead>
+                                    <tr className="bg-gray-100">
+                                        <th className="border p-2 text-left">Aspect</th>
+                                        <th className="border p-2 text-left">Tact</th>
+                                        <th className="border p-2 text-left">Intelligence</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Nature</td>
+                                        <td className="border p-2">Social/Emotional skill</td>
+                                        <td className="border p-2">Cognitive ability</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Focus</td>
+                                        <td className="border p-2">How you say it</td>
+                                        <td className="border p-2">What you know</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Goal</td>
+                                        <td className="border p-2">Maintain harmony</td>
+                                        <td className="border p-2">Solve problems</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Measurement</td>
+                                        <td className="border p-2">Social success</td>
+                                        <td className="border p-2">IQ tests, grades</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Development</td>
+                                        <td className="border p-2">Practice, experience</td>
+                                        <td className="border p-2">Education, training</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Application</td>
+                                        <td className="border p-2">Interpersonal situations</td>
+                                        <td className="border p-2">Technical/academic tasks</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div className="bg-white p-3 rounded text-xs">
+                                <p className="font-bold mb-2">The Ideal Combination:</p>
+                                <ul className="list-disc pl-5 space-y-1">
+                                    <li><strong>Intelligence WITHOUT Tact:</strong> Smart but alienating ("Brilliant jerk")</li>
+                                    <li><strong>Tact WITHOUT Intelligence:</strong> Nice but ineffective (Avoids tough issues)</li>
+                                    <li><strong>BOTH Together:</strong> Effective leadership (Solve problems diplomatically)</li>
+                                </ul>
+                            </div>
+                        </Box>
+
+                        <Box title="💬 Example: Colleague's Flawed Idea" color="blue">
+                            <div className="space-y-2 text-xs">
+                                <div className="bg-red-50 p-2 rounded">
+                                    <p className="font-bold">❌ High Intelligence, Low Tact:</p>
+                                    <p>"That idea is stupid. Won't work because X, Y, Z."</p>
+                                    <p className="italic">Result: Correct but offensive. Relationship damaged.</p>
+                                </div>
+                                <div className="bg-yellow-50 p-2 rounded">
+                                    <p className="font-bold">❌ High Tact, Low Intelligence:</p>
+                                    <p>"Interesting idea! Sounds promising!"</p>
+                                    <p className="italic">Result: Polite but doesn't identify flaw. Problem proceeds.</p>
+                                </div>
+                                <div className="bg-green-50 p-2 rounded">
+                                    <p className="font-bold">✅ High Tact, High Intelligence:</p>
+                                    <p>"I appreciate your thinking! I see potential. I have concerns about X, Y, Z. What if we adjusted to address these?"</p>
+                                    <p className="italic">Result: Maintains relationship + Improves idea.</p>
+                                </div>
+                            </div>
+                        </Box>
+                    </Section>
+
+                    {/* Section 3: Emotional Intelligence */}
+                    <Section title="3️⃣ Emotional Intelligence (EI)">
+                        <Box title="🧠 Definition: Emotional Intelligence" color="yellow">
+                            <p className="text-sm"><strong>Emotional Intelligence:</strong> Ability to recognize, understand, manage, and effectively use emotions in oneself and others.</p>
+                        </Box>
+
+                        <Box title="🎯 Daniel Goleman's 5 Components of EI (S.S.M.E.S)" color="purple">
+                            <div className="space-y-3">
+                                <div className="bg-gradient-to-r from-blue-100 to-blue-200 p-3 rounded">
+                                    <p className="font-bold text-lg">1️⃣ S = SELF-AWARENESS</p>
+                                    <ul className="text-sm list-disc pl-5">
+                                        <li>Emotional awareness (Know your feelings)</li>
+                                        <li>Accurate self-assessment (Know strengths/weaknesses)</li>
+                                        <li>Self-confidence (Trust in abilities)</li>
+                                    </ul>
+                                </div>
+
+                                <div className="bg-gradient-to-r from-green-100 to-green-200 p-3 rounded">
+                                    <p className="font-bold text-lg">2️⃣ S = SELF-REGULATION</p>
+                                    <ul className="text-sm list-disc pl-5">
+                                        <li>Self-control (Manage disruptive emotions)</li>
+                                        <li>Trustworthiness (Maintain integrity)</li>
+                                        <li>Conscientiousness (Take responsibility)</li>
+                                        <li>Adaptability (Flexible to change)</li>
+                                        <li>Innovation (Comfortable with new ideas)</li>
+                                    </ul>
+                                </div>
+
+                                <div className="bg-gradient-to-r from-yellow-100 to-yellow-200 p-3 rounded">
+                                    <p className="font-bold text-lg">3️⃣ M = MOTIVATION</p>
+                                    <ul className="text-sm list-disc pl-5">
+                                        <li>Achievement drive (Strive to improve)</li>
+                                        <li>Commitment (Align with group goals)</li>
+                                        <li>Initiative (Act on opportunities)</li>
+                                        <li>Optimism (Persistence despite obstacles)</li>
+                                    </ul>
+                                </div>
+
+                                <div className="bg-gradient-to-r from-purple-100 to-purple-200 p-3 rounded">
+                                    <p className="font-bold text-lg">4️⃣ E = EMPATHY</p>
+                                    <ul className="text-sm list-disc pl-5">
+                                        <li>Understanding others (Sense feelings/perspectives)</li>
+                                        <li>Developing others (Recognize development needs)</li>
+                                        <li>Service orientation (Anticipate/meet needs)</li>
+                                        <li>Leveraging diversity (Cultivate opportunities)</li>
+                                        <li>Political awareness (Read power dynamics)</li>
+                                    </ul>
+                                </div>
+
+                                <div className="bg-gradient-to-r from-pink-100 to-pink-200 p-3 rounded">
+                                    <p className="font-bold text-lg">5️⃣ S = SOCIAL SKILLS</p>
+                                    <ul className="text-sm list-disc pl-5">
+                                        <li>Influence (Persuade effectively)</li>
+                                        <li>Communication (Send clear messages)</li>
+                                        <li>Conflict management (Resolve disagreements)</li>
+                                        <li>Leadership (Inspire and guide)</li>
+                                        <li>Change catalyst (Initiate/manage change)</li>
+                                        <li>Building bonds (Nurture relationships)</li>
+                                        <li>Collaboration & Teamwork (Work toward shared goals)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="🤝 Building Trust Through Communication" color="green">
+                            <div className="bg-gradient-to-r from-indigo-100 to-purple-100 p-4 rounded mb-3">
+                                <p className="font-bold text-center text-lg mb-2">Trust Formula</p>
+                                <p className="text-center font-mono text-sm">
+                                    Trust = (Credibility + Reliability + Intimacy) ÷ Self-Orientation
+                                </p>
+                                <ul className="text-xs mt-2 space-y-1">
+                                    <li><strong>Credibility:</strong> Competence, expertise</li>
+                                    <li><strong>Reliability:</strong> Consistency, follow-through</li>
+                                    <li><strong>Intimacy:</strong> Open, authentic communication</li>
+                                    <li><strong>Self-Orientation:</strong> Focus on others (low = better)</li>
+                                </ul>
+                            </div>
+
+                            <p className="font-bold mb-2">5 Trust-Building Practices:</p>
+                            <ol className="list-decimal pl-5 text-sm space-y-2">
+                                <li><strong>TRANSPARENCY:</strong> Share openly, admit mistakes, explain reasoning
+                                    <p className="text-xs italic">"I made an error. Here's what happened and how I'm fixing it."</p>
+                                </li>
+                                <li><strong>CONSISTENCY:</strong> Match words with actions, deliver on promises
+                                    <p className="text-xs italic">Say "I'll respond by tomorrow" → Do it</p>
+                                </li>
+                                <li><strong>VULNERABILITY:</strong> Share challenges, ask for help, admit unknowns
+                                    <p className="text-xs italic">"I'm struggling. Can anyone help me think through this?"</p>
+                                </li>
+                                <li><strong>ACTIVE LISTENING:</strong> Full attention, validate feelings, don't interrupt
+                                    <p className="text-xs italic">"So you're concerned about X. Tell me more."</p>
+                                </li>
+                                <li><strong>FOLLOW-THROUGH:</strong> Keep commitments, meet deadlines, update on progress
+                                    <p className="text-xs italic">"I committed to the report by Friday. It's ready."</p>
+                                </li>
+                            </ol>
+
+                            <div className="mt-3 bg-red-50 p-2 rounded">
+                                <p className="font-bold text-sm">❌ Trust Destroyers:</p>
+                                <p className="text-xs">Gossip • Broken promises • Taking credit • Inconsistency • Hiding info • Blaming • Not listening</p>
+                            </div>
+                        </Box>
+                    </Section>
+
+                    {/* Section 4: Thinking Skills */}
+                    <Section title="4️⃣ Thinking Skills">
+                        <Box title="🧩 Types of Thinking Skills" color="purple">
+                            <table className="w-full text-sm border-collapse">
+                                <thead>
+                                    <tr className="bg-gray-100">
+                                        <th className="border p-2 text-left">Type</th>
+                                        <th className="border p-2 text-left">Definition</th>
+                                        <th className="border p-2 text-left">Key Feature</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Critical Thinking</td>
+                                        <td className="border p-2">Objective analysis and evaluation of an issue to form judgment</td>
+                                        <td className="border p-2">Evaluate evidence, identify bias, logical reasoning</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Creative Thinking</td>
+                                        <td className="border p-2">Generating novel, innovative ideas and solutions</td>
+                                        <td className="border p-2">Challenge assumptions, connect unrelated concepts</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Analytical Thinking</td>
+                                        <td className="border p-2">Breaking down complex information into smaller parts</td>
+                                        <td className="border p-2">Decompose problems, identify patterns, relationships</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Reflective Thinking</td>
+                                        <td className="border p-2">Thinking about your own thought processes and experiences</td>
+                                        <td className="border p-2">Learn from experience, self-improvement, metacognition</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Divergent Thinking</td>
+                                        <td className="border p-2">Exploring many possible solutions (brainstorming)</td>
+                                        <td className="border p-2">Generate multiple ideas, "thinking outside the box"</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Convergent Thinking</td>
+                                        <td className="border p-2">Finding the single best solution to a problem</td>
+                                        <td className="border p-2">Narrow down options, logical deduction, "right answer"</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </Box>
+
+                        <Box title="🔍 Critical Thinking Process (5 Steps)" color="blue">
+                            <ol className="list-decimal pl-5 text-sm space-y-1">
+                                <li><strong>Identify Issue/Claim:</strong> What's the statement?</li>
+                                <li><strong>Gather Information:</strong> What data supports it?</li>
+                                <li><strong>Evaluate Evidence:</strong> Is it reliable? Biased? Relevant?</li>
+                                <li><strong>Consider Alternatives:</strong> What other explanations exist?</li>
+                                <li><strong>Draw Conclusion:</strong> What's the reasoned judgment?</li>
+                            </ol>
+                            <div className="mt-2 bg-white p-2 rounded text-xs">
+                                <p className="font-bold">Example:</p>
+                                <p><strong>Claim:</strong> "AI will replace all programmers by 2030."</p>
+                                <p><strong>Critical Analysis:</strong> Examine evidence, source credibility, logic, assumptions, counterevidence.</p>
+                                <p><strong>Conclusion:</strong> "AI will automate routine tasks, but complex problem-solving still requires humans. Full replacement unlikely."</p>
+                            </div>
+                        </Box>
+
+                        <Box title="💡 Creative Thinking Techniques" color="green">
+                            <div className="grid md:grid-cols-2 gap-3 text-xs">
+                                <div className="bg-yellow-50 p-3 rounded">
+                                    <p className="font-bold">1. BRAINSTORMING</p>
+                                    <ul className="list-disc pl-4">
+                                        <li>Generate many ideas</li>
+                                        <li>No judgment initially</li>
+                                        <li>Build on others' ideas</li>
+                                        <li>Encourage wild ideas</li>
+                                    </ul>
+                                </div>
+                                <div className="bg-blue-50 p-3 rounded">
+                                    <p className="font-bold">2. LATERAL THINKING</p>
+                                    <ul className="list-disc pl-4">
+                                        <li>Challenge assumptions</li>
+                                        <li>Explore unconventional paths</li>
+                                        <li>Connect unrelated concepts</li>
+                                        <li>Ask "What if?"</li>
+                                    </ul>
+                                </div>
+                                <div className="bg-green-50 p-3 rounded">
+                                    <p className="font-bold">3. MIND MAPPING</p>
+                                    <ul className="list-disc pl-4">
+                                        <li>Central idea in center</li>
+                                        <li>Branch out with associations</li>
+                                        <li>Visual connections</li>
+                                        <li>Nonlinear exploration</li>
+                                    </ul>
+                                </div>
+                                <div className="bg-purple-50 p-3 rounded">
+                                    <p className="font-bold">4. SCAMPER</p>
+                                    <ul className="list-disc pl-4">
+                                        <li>Substitute</li>
+                                        <li>Combine</li>
+                                        <li>Adapt</li>
+                                        <li>Modify / Put to other use</li>
+                                        <li>Eliminate / Reverse</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="🔄 Reflective Thinking: Gibbs' Cycle" color="purple">
+                            <div className="space-y-2 text-sm">
+                                <div className="flex items-center gap-2">
+                                    <div className="bg-purple-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">1</div>
+                                    <span><strong>DESCRIPTION:</strong> What happened?</span>
+                                </div>
+                                <div className="text-center">↓</div>
+                                <div className="flex items-center gap-2">
+                                    <div className="bg-purple-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">2</div>
+                                    <span><strong>FEELINGS:</strong> What were you thinking?</span>
+                                </div>
+                                <div className="text-center">↓</div>
+                                <div className="flex items-center gap-2">
+                                    <div className="bg-purple-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">3</div>
+                                    <span><strong>EVALUATION:</strong> What was good/bad?</span>
+                                </div>
+                                <div className="text-center">↓</div>
+                                <div className="flex items-center gap-2">
+                                    <div className="bg-purple-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">4</div>
+                                    <span><strong>ANALYSIS:</strong> What sense can you make?</span>
+                                </div>
+                                <div className="text-center">↓</div>
+                                <div className="flex items-center gap-2">
+                                    <div className="bg-purple-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">5</div>
+                                    <span><strong>CONCLUSION:</strong> What else could you do?</span>
+                                </div>
+                                <div className="text-center">↓</div>
+                                <div className="flex items-center gap-2">
+                                    <div className="bg-purple-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">6</div>
+                                    <span><strong>ACTION PLAN:</strong> What will you do next time?</span>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="↔️ Divergent vs Convergent Thinking" color="blue">
+                            <div className="grid md:grid-cols-2 gap-3 text-sm">
+                                <div className="bg-orange-50 p-3 rounded">
+                                    <p className="font-bold text-lg mb-2">DIVERGENT ↗️</p>
+                                    <p className="text-xs mb-2">Expand possibilities, brainstorm</p>
+                                    <ul className="list-disc pl-4 text-xs">
+                                        <li>Multiple solutions</li>
+                                        <li>Open-ended</li>
+                                        <li>Creative, exploratory</li>
+                                        <li>No "right" answer</li>
+                                    </ul>
+                                    <p className="text-xs mt-2 italic">Example: "How might we reduce plastic waste?" (100+ ideas)</p>
+                                </div>
+                                <div className="bg-blue-50 p-3 rounded">
+                                    <p className="font-bold text-lg mb-2">CONVERGENT ↘️</p>
+                                    <p className="text-xs mb-2">Narrow down, decide</p>
+                                    <ul className="list-disc pl-4 text-xs">
+                                        <li>Single best solution</li>
+                                        <li>Focused</li>
+                                        <li>Logical, analytical</li>
+                                        <li>Clear "right" answer</li>
+                                    </ul>
+                                    <p className="text-xs mt-2 italic">Example: "What's 2+2?" (4 - definite answer)</p>
+                                </div>
+                            </div>
+                        </Box>
+                    </Section>
+
+                    {/* Quick Revision Section */}
+                    <Section title="🚀 QUICK REVISION SUMMARY" defaultOpen={true}>
+                        <Box title="🧠 S.S.M.E.S Mnemonic: Goleman's EI Components" color="red">
+                            <div className="bg-gradient-to-r from-purple-100 to-pink-100 p-4 rounded">
+                                <p className="text-center font-bold text-xl mb-3">S.S.M.E.S</p>
+                                <div className="grid md:grid-cols-5 gap-2 text-xs text-center">
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold text-blue-600">S</p>
+                                        <p>Self-Awareness</p>
+                                    </div>
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold text-green-600">S</p>
+                                        <p>Self-Regulation</p>
+                                    </div>
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold text-yellow-600">M</p>
+                                        <p>Motivation</p>
+                                    </div>
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold text-purple-600">E</p>
+                                        <p>Empathy</p>
+                                    </div>
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold text-pink-600">S</p>
+                                        <p>Social Skills</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="🎯 Four Pillars of Social Competence" color="red">
+                            <div className="flex items-center justify-center gap-3 text-sm font-bold">
+                                <div className="bg-blue-100 px-4 py-2 rounded">CONTEXT</div>
+                                <span>→</span>
+                                <div className="bg-green-100 px-4 py-2 rounded">FEELINGS</div>
+                                <span>→</span>
+                                <div className="bg-yellow-100 px-4 py-2 rounded">INTENTIONS</div>
+                                <span>→</span>
+                                <div className="bg-purple-100 px-4 py-2 rounded">BEHAVIORS</div>
+                            </div>
+                        </Box>
+
+                        <Box title="📝 Feedback Models" color="red">
+                            <div className="grid md:grid-cols-2 gap-3 text-xs">
+                                <div className="bg-blue-50 p-3 rounded">
+                                    <p className="font-bold text-center mb-2">SBI MODEL</p>
+                                    <p className="text-center">S = Situation</p>
+                                    <p className="text-center">B = Behavior</p>
+                                    <p className="text-center">I = Impact</p>
+                                </div>
+                                <div className="bg-green-50 p-3 rounded">
+                                    <p className="font-bold text-center mb-2">SANDWICH MODEL</p>
+                                    <p className="text-center">🍞 Positive</p>
+                                    <p className="text-center">🥩 Constructive</p>
+                                    <p className="text-center">🍞 Positive</p>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="🤝 Trust Formula" color="red">
+                            <div className="bg-gradient-to-r from-indigo-100 to-purple-100 p-4 rounded text-center">
+                                <p className="font-bold text-lg mb-2">Trust Equation</p>
+                                <p className="font-mono text-sm">Trust = (C + R + I) ÷ S</p>
+                                <p className="text-xs mt-2">C = Credibility | R = Reliability | I = Intimacy | S = Self-Orientation (lower is better)</p>
+                            </div>
+                        </Box>
+
+                        <Box title="💭 Quick Thinking Types Reference" color="red">
+                            <ul className="list-disc pl-5 text-sm space-y-1">
+                                <li><strong>Critical:</strong> Analyze & evaluate evidence objectively</li>
+                                <li><strong>Creative:</strong> Generate novel ideas & solutions</li>
+                                <li><strong>Analytical:</strong> Break down complex info into parts</li>
+                                <li><strong>Reflective:</strong> Think about thought processes (metacognition)</li>
+                                <li><strong>Divergent:</strong> Explore many possible solutions</li>
+                                <li><strong>Convergent:</strong> Find single best solution</li>
+                            </ul>
+                        </Box>
+
+                        <Box title="📚 Top 5 Exam Questions" color="red">
+                            <ol className="list-decimal pl-5 space-y-2 text-sm">
+                                <li><strong>Explain the four pillars of social competence with examples.</strong>
+                                    <p className="text-xs ml-4">Answer: Context (situational awareness), Feelings (emotional intelligence), Intentions (understanding motives), Behaviors (adaptation). Provide examples for each.</p>
+                                </li>
+                                <li><strong>Differentiate between Tact and Intelligence.</strong>
+                                    <p className="text-xs ml-4">Answer: Tact = Social skill (how you say it), Intelligence = Cognitive ability (what you know). Use comparison table. Best leadership = both together.</p>
+                                </li>
+                                <li><strong>What is Emotional Intelligence? Explain Goleman's five components.</strong>
+                                    <p className="text-xs ml-4">Answer: Define EI. S.S.M.E.S = Self-Awareness, Self-Regulation, Motivation, Empathy, Social Skills. Explain each component.</p>
+                                </li>
+                                <li><strong>Describe the SBI model for providing feedback.</strong>
+                                    <p className="text-xs ml-4">Answer: Situation (when/where), Behavior (what they did - observable), Impact (effect/consequence). Provide positive and constructive examples.</p>
+                                </li>
+                                <li><strong>Explain the types of thinking skills.</strong>
+                                    <p className="text-xs ml-4">Answer: Critical (evaluate), Creative (generate ideas), Analytical (break down), Reflective (learn from experience), Divergent (multiple solutions), Convergent (single solution).</p>
+                                </li>
+                            </ol>
+                        </Box>
+
+                        <Box title="⚡ Last-Minute Power Tips" color="red">
+                            <ul className="list-disc pl-5 space-y-1 text-sm">
+                                <li><strong>Leadership Communication:</strong> Transformational (inspire) > Transactional (command)</li>
+                                <li><strong>Situational Leadership:</strong> Directing → Coaching → Supporting → Delegating (adapt to team maturity)</li>
+                                <li><strong>Crisis Communication:</strong> Acknowledge → Inform → Empathize → Direct → Reassure → Follow-up (6 steps)</li>
+                                <li><strong>Social Competence:</strong> Context → Feelings → Intentions → Behaviors (CFIB sequence)</li>
+                                <li><strong>Feedback Giving:</strong> Use SBI model. Be specific, observable, non-judgmental</li>
+                                <li><strong>Feedback Receiving:</strong> Listen → Don't Defend → Clarify → Acknowledge → Reflect → Act</li>
+                                <li><strong>Tact + Intelligence:</strong> Both needed for effective leadership. Tact alone = ineffective. Intelligence alone = alienating</li>
+                                <li><strong>EI Mnemonic:</strong> S.S.M.E.S (Self-Awareness, Self-Regulation, Motivation, Empathy, Social Skills)</li>
+                                <li><strong>Trust Building:</strong> Transparency, Consistency, Vulnerability, Active Listening, Follow-Through</li>
+                                <li><strong>Critical Thinking:</strong> Identify → Gather → Evaluate → Alternatives → Conclude (5 steps)</li>
+                                <li><strong>Creative Techniques:</strong> Brainstorming, Lateral Thinking, Mind Mapping, SCAMPER</li>
+                                <li><strong>Divergent vs Convergent:</strong> Divergent = many solutions (creative). Convergent = one solution (analytical)</li>
+                            </ul>
+                        </Box>
+                    </Section>
+
+                    {/* Footer */}
+                    <div className="mt-8 p-6 gradient-header text-white rounded-lg text-center">
+                        <p className="text-sm">🧠 Last Minute Revision Guide • Leadership & Emotional Intelligence Unit-4</p>
+                        <p className="text-xs mt-2 opacity-90">Communication & Leadership Development • AKTU Semester 3</p>
+                        <div className="mt-4 pt-4 border-t border-white/30">
+                            <p className="text-sm font-semibold">Brought to you by ZenYukti 💙</p>
+                            <p className="text-xs mt-1 italic">Learn. Build. Share.</p>
+                            <p className="text-xs mt-2">🌐 zenyukti.in | 💬 Discord: go.zenyukti.in/discord</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Render the app
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
