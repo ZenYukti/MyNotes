@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Communication Unit-3: Professional Presentation - Last Minute Revision</title>
+    <meta name="description" content="Professional Presentation Skills Quick Revision Guide">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .gradient-header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        .flow-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-orange-50 to-red-100 min-h-screen">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        // Icons
+        const ChevronDownIcon = () => (
+            <svg className="w-5 h-5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+        );
+
+        const ChevronUpIcon = () => (
+            <svg className="w-5 h-5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+            </svg>
+        );
+
+        // Collapsible Section Component
+        const Section = ({ title, children, defaultOpen = false }) => {
+            const [isOpen, setIsOpen] = useState(defaultOpen);
+
+            return (
+                <div className="mb-4 bg-white rounded-lg shadow-md overflow-hidden">
+                    <button
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="w-full px-6 py-4 flex items-center justify-between gradient-header text-white hover:opacity-90 transition-all"
+                    >
+                        <span className="text-lg font-semibold">{title}</span>
+                        {isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                    </button>
+                    {isOpen && (
+                        <div className="p-6">
+                            {children}
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        // Content Box Component
+        const Box = ({ title, children, color = "blue" }) => {
+            const colorClasses = {
+                yellow: "bg-yellow-50 border-yellow-400",
+                blue: "bg-blue-50 border-blue-400",
+                green: "bg-green-50 border-green-400",
+                purple: "bg-purple-50 border-purple-400",
+                red: "bg-red-50 border-red-400"
+            };
+
+            return (
+                <div className={`${colorClasses[color]} border-l-4 p-4 mb-4 rounded-r-lg`}>
+                    {title && <h4 className="font-bold text-gray-800 mb-2">{title}</h4>}
+                    {children}
+                </div>
+            );
+        };
+
+        // Main App Component
+        const App = () => {
+            return (
+                <div className="container mx-auto px-4 py-8 max-w-6xl">
+                    {/* Header */}
+                    <div className="gradient-header text-white p-8 rounded-lg shadow-xl mb-8">
+                        <h1 className="text-4xl font-bold mb-2">🎤 Professional Presentation: Unit-3</h1>
+                        <p className="text-xl">Writing, Designing & Speaking Skills</p>
+                        <p className="text-sm mt-2 opacity-90">Last Minute Revision Guide • AKTU Semester 3</p>
+                    </div>
+
+                    {/* Section 1: Thesis & Project Report Writing */}
+                    <Section title="1️⃣ Thesis & Project Report Writing" defaultOpen={true}>
+                        <Box title="📊 Thesis vs Project Report: Key Differences" color="yellow">
+                            <table className="w-full text-sm border-collapse">
+                                <thead>
+                                    <tr className="bg-gray-100">
+                                        <th className="border p-2 text-left">Aspect</th>
+                                        <th className="border p-2 text-left">Thesis</th>
+                                        <th className="border p-2 text-left">Project Report</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Purpose</td>
+                                        <td className="border p-2">Original research contribution</td>
+                                        <td className="border p-2">Document implementation</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Scope</td>
+                                        <td className="border p-2">Theoretical + Experimental</td>
+                                        <td className="border p-2">Practical application</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Length</td>
+                                        <td className="border p-2">100-300 pages</td>
+                                        <td className="border p-2">50-100 pages</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Timeline</td>
+                                        <td className="border p-2">1-5 years</td>
+                                        <td className="border p-2">3-6 months</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Audience</td>
+                                        <td className="border p-2">Academic committee</td>
+                                        <td className="border p-2">Faculty + Industry</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Focus</td>
+                                        <td className="border p-2">"Why" and "How"</td>
+                                        <td className="border p-2">"What" and "How"</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Used For</td>
+                                        <td className="border p-2">Masters/PhD</td>
+                                        <td className="border p-2">UG/PG final year</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </Box>
+
+                        <Box title="📑 Project Report Standard Structure" color="blue">
+                            <div className="space-y-2 text-sm">
+                                <div className="bg-gradient-to-r from-indigo-100 to-purple-100 p-3 rounded">
+                                    <p className="font-bold">PRELIMINARY PAGES</p>
+                                    <ul className="text-xs list-disc pl-5">
+                                        <li>Cover Page</li>
+                                        <li>Certificate</li>
+                                        <li>Acknowledgement</li>
+                                        <li>Abstract (200-250 words)</li>
+                                        <li>Table of Contents</li>
+                                        <li>List of Figures & Tables</li>
+                                    </ul>
+                                </div>
+                                
+                                <div className="bg-gradient-to-r from-blue-100 to-cyan-100 p-3 rounded">
+                                    <p className="font-bold">CHAPTER 1: INTRODUCTION</p>
+                                    <ul className="text-xs list-disc pl-5">
+                                        <li>Background</li>
+                                        <li>Problem Statement</li>
+                                        <li>Objectives</li>
+                                        <li>Scope & Limitations</li>
+                                        <li>Organization of Report</li>
+                                    </ul>
+                                </div>
+
+                                <div className="bg-gradient-to-r from-green-100 to-emerald-100 p-3 rounded">
+                                    <p className="font-bold">CHAPTER 2: LITERATURE REVIEW</p>
+                                    <ul className="text-xs list-disc pl-5">
+                                        <li>Existing Solutions</li>
+                                        <li>Related Work (10-15 papers)</li>
+                                        <li>Comparison Table</li>
+                                        <li>Research Gap</li>
+                                    </ul>
+                                </div>
+
+                                <div className="bg-gradient-to-r from-yellow-100 to-orange-100 p-3 rounded">
+                                    <p className="font-bold">CHAPTER 3: SYSTEM ANALYSIS</p>
+                                    <ul className="text-xs list-disc pl-5">
+                                        <li>Requirements (Functional & Non-Functional)</li>
+                                        <li>Feasibility Study</li>
+                                        <li>Constraints</li>
+                                    </ul>
+                                </div>
+
+                                <div className="bg-gradient-to-r from-pink-100 to-rose-100 p-3 rounded">
+                                    <p className="font-bold">CHAPTER 4: SYSTEM DESIGN</p>
+                                    <ul className="text-xs list-disc pl-5">
+                                        <li>Architecture Design</li>
+                                        <li>Module Design</li>
+                                        <li>Database Design (ER Diagram, Schema)</li>
+                                        <li>UML Diagrams (Use Case, Class, Sequence)</li>
+                                        <li>Interface Design (UI/UX)</li>
+                                    </ul>
+                                </div>
+
+                                <div className="bg-gradient-to-r from-purple-100 to-violet-100 p-3 rounded">
+                                    <p className="font-bold">CHAPTER 5: IMPLEMENTATION</p>
+                                    <ul className="text-xs list-disc pl-5">
+                                        <li>Technologies Used (Languages, Frameworks, Tools)</li>
+                                        <li>Module Implementation</li>
+                                        <li>Code Snippets (Key algorithms)</li>
+                                        <li>Development Environment</li>
+                                    </ul>
+                                </div>
+
+                                <div className="bg-gradient-to-r from-red-100 to-orange-100 p-3 rounded">
+                                    <p className="font-bold">CHAPTER 6: TESTING</p>
+                                    <ul className="text-xs list-disc pl-5">
+                                        <li>Testing Strategy</li>
+                                        <li>Test Cases</li>
+                                        <li>Test Results</li>
+                                        <li>Bug Fixes</li>
+                                    </ul>
+                                </div>
+
+                                <div className="bg-gradient-to-r from-teal-100 to-cyan-100 p-3 rounded">
+                                    <p className="font-bold">CHAPTER 7: RESULTS & DISCUSSION</p>
+                                    <ul className="text-xs list-disc pl-5">
+                                        <li>System Features</li>
+                                        <li>Screenshots/Output</li>
+                                        <li>Performance Analysis</li>
+                                        <li>Comparison with Existing Systems</li>
+                                    </ul>
+                                </div>
+
+                                <div className="bg-gradient-to-r from-gray-100 to-slate-100 p-3 rounded">
+                                    <p className="font-bold">CHAPTER 8: CONCLUSION & FUTURE WORK</p>
+                                    <ul className="text-xs list-disc pl-5">
+                                        <li>Summary</li>
+                                        <li>Achievements</li>
+                                        <li>Limitations</li>
+                                        <li>Future Enhancements</li>
+                                    </ul>
+                                </div>
+
+                                <div className="bg-gradient-to-r from-amber-100 to-yellow-100 p-3 rounded">
+                                    <p className="font-bold">BACK MATTER</p>
+                                    <ul className="text-xs list-disc pl-5">
+                                        <li>References (IEEE/APA Style)</li>
+                                        <li>Appendices (Source Code, User Manual)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="📝 Abstract Structure (200-250 words)" color="blue">
+                            <div className="space-y-2 text-sm">
+                                <p><strong>1. Context/Background (2 sentences):</strong> Set the domain context</p>
+                                <p><strong>2. Problem (1-2 sentences):</strong> What problem exists?</p>
+                                <p><strong>3. Solution/Approach (2-3 sentences):</strong> Your methodology</p>
+                                <p><strong>4. Results/Outcome (2-3 sentences):</strong> Key findings (quantified)</p>
+                                <p><strong>5. Conclusion/Impact (1-2 sentences):</strong> Significance</p>
+                            </div>
+                        </Box>
+
+                        <Box title="📚 Citation Styles" color="yellow">
+                            <div className="grid md:grid-cols-2 gap-4 text-xs">
+                                <div>
+                                    <p className="font-bold mb-2">IEEE Style (Engineering):</p>
+                                    <div className="bg-white p-2 rounded space-y-1">
+                                        <p><strong>Journal:</strong></p>
+                                        <p className="italic">[1] A. Kumar, "Title," IEEE Trans., vol. 15, no. 3, pp. 234-245, 2021.</p>
+                                        <p><strong>Conference:</strong></p>
+                                        <p className="italic">[2] S. Patel, "Title," in Proc. Conf., 2022, pp. 45-52.</p>
+                                        <p><strong>Book:</strong></p>
+                                        <p className="italic">[3] J. Smith, Book Title, 2nd ed. McGraw-Hill, 2020.</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p className="font-bold mb-2">APA Style:</p>
+                                    <div className="bg-white p-2 rounded space-y-1">
+                                        <p><strong>Journal:</strong></p>
+                                        <p className="italic">Kumar, A. (2021). Title. IEEE Transactions, 15(3), 234-245.</p>
+                                        <p><strong>Book:</strong></p>
+                                        <p className="italic">Smith, J. (2020). Book title (2nd ed.). McGraw-Hill.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </Box>
+                    </Section>
+
+                    {/* Section 2: Technical Proposal Writing */}
+                    <Section title="2️⃣ Technical Proposal Writing">
+                        <Box title="📋 What is a Technical Proposal?" color="yellow">
+                            <p className="text-sm mb-2"><strong>Definition:</strong> Document that proposes a technical solution to a problem, seeking approval and funding</p>
+                            <div className="grid grid-cols-4 gap-2 text-xs text-center">
+                                <div className="bg-white p-2 rounded">
+                                    <p className="font-bold">Solicited</p>
+                                    <p>Response to RFP</p>
+                                </div>
+                                <div className="bg-white p-2 rounded">
+                                    <p className="font-bold">Unsolicited</p>
+                                    <p>Your idea</p>
+                                </div>
+                                <div className="bg-white p-2 rounded">
+                                    <p className="font-bold">Internal</p>
+                                    <p>Within company</p>
+                                </div>
+                                <div className="bg-white p-2 rounded">
+                                    <p className="font-bold">External</p>
+                                    <p>To clients</p>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="📄 Technical Proposal Structure" color="blue">
+                            <ol className="list-decimal pl-5 space-y-2 text-sm">
+                                <li><strong>Cover Page:</strong> Title, Submitted to/by, Date</li>
+                                <li><strong>Executive Summary (1 page):</strong> Problem overview, solution brief, benefits, cost & timeline</li>
+                                <li><strong>Introduction:</strong> Background, problem statement, purpose</li>
+                                <li><strong>Current Situation/Problem Analysis:</strong> Detailed problem, impact, why current solution fails</li>
+                                <li><strong>Proposed Solution:</strong> Technical approach, architecture, technologies, diagrams</li>
+                                <li><strong>Benefits & Advantages:</strong> Technical benefits, business benefits, ROI, comparison</li>
+                                <li><strong>Implementation Plan:</strong> Phases/milestones, timeline (Gantt chart), resources, risk mitigation</li>
+                                <li><strong>Budget & Cost Analysis:</strong> Itemized costs, payment schedule, cost-benefit</li>
+                                <li><strong>Team Qualifications:</strong> Profiles, experience, past projects</li>
+                                <li><strong>Conclusion:</strong> Summary, call to action, contact info</li>
+                                <li><strong>Appendices:</strong> Technical specs, sample outputs, references</li>
+                            </ol>
+                        </Box>
+
+                        <Box title="💰 Budget Breakdown Example" color="blue">
+                            <table className="w-full text-xs border-collapse">
+                                <thead>
+                                    <tr className="bg-gray-100">
+                                        <th className="border p-2 text-left">Item</th>
+                                        <th className="border p-2 text-right">Cost ($)</th>
+                                        <th className="border p-2 text-right">%</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td className="border p-2">Development (600 hrs @ $50)</td>
+                                        <td className="border p-2 text-right">30,000</td>
+                                        <td className="border p-2 text-right">37.5%</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2">Testing & QA</td>
+                                        <td className="border p-2 text-right">8,000</td>
+                                        <td className="border p-2 text-right">10%</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2">Infrastructure Setup</td>
+                                        <td className="border p-2 text-right">5,000</td>
+                                        <td className="border p-2 text-right">6.25%</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2">Training & Documentation</td>
+                                        <td className="border p-2 text-right">3,000</td>
+                                        <td className="border p-2 text-right">3.75%</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2">Contingency (10%)</td>
+                                        <td className="border p-2 text-right">7,000</td>
+                                        <td className="border p-2 text-right">8.75%</td>
+                                    </tr>
+                                    <tr className="bg-gray-100 font-bold">
+                                        <td className="border p-2">TOTAL</td>
+                                        <td className="border p-2 text-right">80,000</td>
+                                        <td className="border p-2 text-right">100%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </Box>
+
+                        <Box title="📊 ROI Analysis Formula" color="yellow">
+                            <div className="bg-white p-3 rounded text-sm">
+                                <p className="font-bold mb-2">Return on Investment (ROI) Calculation:</p>
+                                <p className="text-center text-lg font-mono bg-gray-100 p-2 rounded">ROI = (Benefits - Investment) / Investment × 100%</p>
+                                <p className="text-xs mt-2"><strong>Example:</strong> Investment: $80,000 | Annual Benefits: $450,000</p>
+                                <p className="text-xs">ROI = (450,000 - 80,000) / 80,000 × 100 = 462.5%</p>
+                                <p className="text-xs mt-1"><strong>Payback Period:</strong> 80,000 / (450,000/12) = 2.1 months</p>
+                            </div>
+                        </Box>
+                    </Section>
+
+                    {/* Section 3: How to Pitch an Idea */}
+                    <Section title="3️⃣ How to Pitch an Idea">
+                        <Box title="🎯 Types of Pitches" color="yellow">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+                                <div className="bg-white p-3 rounded text-center">
+                                    <p className="font-bold">Elevator Pitch</p>
+                                    <p className="text-2xl my-2">⏱️</p>
+                                    <p>30-60 seconds</p>
+                                </div>
+                                <div className="bg-white p-3 rounded text-center">
+                                    <p className="font-bold">Investor Pitch</p>
+                                    <p className="text-2xl my-2">💼</p>
+                                    <p>3-10 minutes</p>
+                                </div>
+                                <div className="bg-white p-3 rounded text-center">
+                                    <p className="font-bold">Sales Pitch</p>
+                                    <p className="text-2xl my-2">💰</p>
+                                    <p>15-30 minutes</p>
+                                </div>
+                                <div className="bg-white p-3 rounded text-center">
+                                    <p className="font-bold">Internal Pitch</p>
+                                    <p className="text-2xl my-2">🏢</p>
+                                    <p>Varies</p>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="🚀 Elevator Pitch Structure (30-60 seconds)" color="green">
+                            <div className="space-y-3">
+                                <div className="flex items-center gap-3">
+                                    <div className="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">1</div>
+                                    <div className="flex-grow">
+                                        <p className="font-bold">Hook (5 sec)</p>
+                                        <p className="text-xs">Attention-grabbing statement/question</p>
+                                    </div>
+                                </div>
+                                <div className="flow-arrow">↓</div>
+                                <div className="flex items-center gap-3">
+                                    <div className="bg-orange-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">2</div>
+                                    <div className="flex-grow">
+                                        <p className="font-bold">Problem (10 sec)</p>
+                                        <p className="text-xs">What problem are you solving?</p>
+                                    </div>
+                                </div>
+                                <div className="flow-arrow">↓</div>
+                                <div className="flex items-center gap-3">
+                                    <div className="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">3</div>
+                                    <div className="flex-grow">
+                                        <p className="font-bold">Solution (15 sec)</p>
+                                        <p className="text-xs">Your product/idea</p>
+                                    </div>
+                                </div>
+                                <div className="flow-arrow">↓</div>
+                                <div className="flex items-center gap-3">
+                                    <div className="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">4</div>
+                                    <div className="flex-grow">
+                                        <p className="font-bold">Value (15 sec)</p>
+                                        <p className="text-xs">Why it matters, unique benefit</p>
+                                    </div>
+                                </div>
+                                <div className="flow-arrow">↓</div>
+                                <div className="flex items-center gap-3">
+                                    <div className="bg-purple-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">5</div>
+                                    <div className="flex-grow">
+                                        <p className="font-bold">Call to Action (10 sec)</p>
+                                        <p className="text-xs">What do you want from listener?</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="💼 Investor Pitch Deck (10-15 slides)" color="green">
+                            <div className="grid md:grid-cols-2 gap-2 text-xs">
+                                <div className="bg-white p-2 rounded">1. <strong>Title:</strong> Company, tagline, contact</div>
+                                <div className="bg-white p-2 rounded">2. <strong>Problem:</strong> Pain point, market gap</div>
+                                <div className="bg-white p-2 rounded">3. <strong>Solution:</strong> Your product/service</div>
+                                <div className="bg-white p-2 rounded">4. <strong>Product Demo:</strong> Screenshots, video</div>
+                                <div className="bg-white p-2 rounded">5. <strong>Market:</strong> TAM, SAM, SOM</div>
+                                <div className="bg-white p-2 rounded">6. <strong>Business Model:</strong> Revenue streams</div>
+                                <div className="bg-white p-2 rounded">7. <strong>Traction:</strong> Users, revenue, growth</div>
+                                <div className="bg-white p-2 rounded">8. <strong>Competition:</strong> Landscape, differentiation</div>
+                                <div className="bg-white p-2 rounded">9. <strong>Go-to-Market:</strong> Acquisition strategy</div>
+                                <div className="bg-white p-2 rounded">10. <strong>Team:</strong> Founders, advisors</div>
+                                <div className="bg-white p-2 rounded">11. <strong>Financials:</strong> Projections, burn rate</div>
+                                <div className="bg-white p-2 rounded">12. <strong>Funding Ask:</strong> Amount, use of funds</div>
+                                <div className="bg-white p-2 rounded">13. <strong>Vision:</strong> Long-term goal, impact</div>
+                            </div>
+                        </Box>
+
+                        <Box title="🎬 Pitch Preparation Cycle" color="blue">
+                            <div className="bg-gradient-to-r from-purple-100 to-pink-100 p-4 rounded-lg">
+                                <div className="grid md:grid-cols-3 gap-4 text-sm">
+                                    <div className="text-center">
+                                        <p className="font-bold mb-2">Week 1: Research</p>
+                                        <ul className="text-xs text-left list-disc pl-5">
+                                            <li>Understand audience</li>
+                                            <li>Gather data/metrics</li>
+                                            <li>Create outline</li>
+                                            <li>Draft slides</li>
+                                        </ul>
+                                    </div>
+                                    <div className="text-center">
+                                        <p className="font-bold mb-2">Week 2: Design</p>
+                                        <ul className="text-xs text-left list-disc pl-5">
+                                            <li>Design pitch deck</li>
+                                            <li>Write script</li>
+                                            <li>Practice 5+ times</li>
+                                            <li>Get feedback</li>
+                                        </ul>
+                                    </div>
+                                    <div className="text-center">
+                                        <p className="font-bold mb-2">Week 3: Refine</p>
+                                        <ul className="text-xs text-left list-disc pl-5">
+                                            <li>Incorporate feedback</li>
+                                            <li>Rehearse with timer</li>
+                                            <li>Prepare Q&A</li>
+                                            <li>Final polish</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="📖 Storytelling in Pitches" color="green">
+                            <p className="text-sm mb-2"><strong>Hero's Journey for Pitches:</strong></p>
+                            <div className="flex items-center gap-2 text-xs">
+                                <div className="bg-blue-100 p-2 rounded flex-1 text-center">
+                                    <p className="font-bold">Status Quo</p>
+                                    <p>World before</p>
+                                </div>
+                                <span>→</span>
+                                <div className="bg-red-100 p-2 rounded flex-1 text-center">
+                                    <p className="font-bold">Problem</p>
+                                    <p>Challenge</p>
+                                </div>
+                                <span>→</span>
+                                <div className="bg-green-100 p-2 rounded flex-1 text-center">
+                                    <p className="font-bold">Journey</p>
+                                    <p>Your solution</p>
+                                </div>
+                                <span>→</span>
+                                <div className="bg-yellow-100 p-2 rounded flex-1 text-center">
+                                    <p className="font-bold">Resolution</p>
+                                    <p>Success story</p>
+                                </div>
+                            </div>
+                        </Box>
+                    </Section>
+
+                    {/* Section 4: Speech Delivery - PPI */}
+                    <Section title="4️⃣ Speech Delivery: The Three P's (PPI)">
+                        <Box title="🎭 The Three Pillars of Speech Delivery" color="yellow">
+                            <div className="grid md:grid-cols-3 gap-4 text-sm">
+                                <div className="bg-red-100 p-4 rounded text-center">
+                                    <p className="text-3xl mb-2">🔥</p>
+                                    <p className="font-bold text-lg">PASSION</p>
+                                    <p className="text-xs">Enthusiasm, Energy, Emotion</p>
+                                </div>
+                                <div className="bg-blue-100 p-4 rounded text-center">
+                                    <p className="text-3xl mb-2">🧘</p>
+                                    <p className="font-bold text-lg">POISE</p>
+                                    <p className="text-xs">Confidence, Composure, Control</p>
+                                </div>
+                                <div className="bg-green-100 p-4 rounded text-center">
+                                    <p className="text-3xl mb-2">📊</p>
+                                    <p className="font-bold text-lg">ILLUSTRATIONS</p>
+                                    <p className="text-xs">Examples, Stories, Visuals</p>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="🔥 1. PASSION: Show Enthusiasm" color="purple">
+                            <div className="space-y-3 text-sm">
+                                <div>
+                                    <p className="font-bold">Voice Modulation:</p>
+                                    <ul className="list-disc pl-5 text-xs">
+                                        <li>Vary pitch (high/low for emphasis)</li>
+                                        <li>Change volume (loud for excitement, soft for intimacy)</li>
+                                        <li>Adjust pace (fast for energy, slow for importance)</li>
+                                        <li>Use strategic pauses (build anticipation)</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p className="font-bold">Body Language:</p>
+                                    <ul className="list-disc pl-5 text-xs">
+                                        <li>✓ Energetic gestures (open arms, movements)</li>
+                                        <li>✓ Animated facial expressions</li>
+                                        <li>✓ Eye contact (connect with individuals)</li>
+                                        <li>✓ Move around stage (dynamic presence)</li>
+                                        <li>✗ Avoid: Standing rigid, monotone, reading slides</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="🧘 2. POISE: Maintain Composure" color="purple">
+                            <div className="space-y-3 text-sm">
+                                <div>
+                                    <p className="font-bold">Body Language:</p>
+                                    <div className="bg-white p-3 rounded">
+                                        <ul className="list-disc pl-5 text-xs space-y-1">
+                                            <li><strong>Posture:</strong> Stand tall, shoulders back, head up</li>
+                                            <li><strong>Stance:</strong> Weight evenly distributed, feet shoulder-width</li>
+                                            <li><strong>Gestures:</strong> Calm, purposeful hand movements</li>
+                                            <li><strong>Eye Contact:</strong> 70-80% of the time</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p className="font-bold">Voice Control:</p>
+                                    <ul className="list-disc pl-5 text-xs">
+                                        <li>Clear articulation (enunciate words)</li>
+                                        <li>Appropriate volume (audible to back row)</li>
+                                        <li>Steady pace (not too fast)</li>
+                                        <li>Minimize fillers ("um," "uh," "like")</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p className="font-bold">Managing Nervousness:</p>
+                                    <div className="grid md:grid-cols-2 gap-2 text-xs">
+                                        <div className="bg-green-50 p-2 rounded">
+                                            <p className="font-bold">Before:</p>
+                                            <ul className="list-disc pl-4">
+                                                <li>Deep breathing (4-7-8)</li>
+                                                <li>Power poses (2 min)</li>
+                                                <li>Positive visualization</li>
+                                            </ul>
+                                        </div>
+                                        <div className="bg-blue-50 p-2 rounded">
+                                            <p className="font-bold">During:</p>
+                                            <ul className="list-disc pl-4">
+                                                <li>Pause vs. fillers</li>
+                                                <li>Focus on friendly faces</li>
+                                                <li>Slow down if rushed</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="📊 3. ILLUSTRATIONS: Use Examples & Visuals" color="purple">
+                            <div className="space-y-2 text-sm">
+                                <div className="grid md:grid-cols-2 gap-3">
+                                    <div className="bg-white p-3 rounded">
+                                        <p className="font-bold mb-2">Stories (Most Powerful):</p>
+                                        <ul className="text-xs list-disc pl-5">
+                                            <li>Personal experiences</li>
+                                            <li>Customer success stories</li>
+                                            <li>Hero's journey structure</li>
+                                            <li>Emotional connection</li>
+                                        </ul>
+                                    </div>
+                                    <div className="bg-white p-3 rounded">
+                                        <p className="font-bold mb-2">Examples:</p>
+                                        <ul className="text-xs list-disc pl-5">
+                                            <li>Real-world instances</li>
+                                            <li>Concrete data points</li>
+                                            <li>Before-after comparisons</li>
+                                            <li>Case studies</li>
+                                        </ul>
+                                    </div>
+                                    <div className="bg-white p-3 rounded">
+                                        <p className="font-bold mb-2">Analogies:</p>
+                                        <ul className="text-xs list-disc pl-5">
+                                            <li>Simplify complex ideas</li>
+                                            <li>Compare to known concepts</li>
+                                            <li>Make relatable</li>
+                                            <li>Aid understanding</li>
+                                        </ul>
+                                    </div>
+                                    <div className="bg-white p-3 rounded">
+                                        <p className="font-bold mb-2">Visuals:</p>
+                                        <ul className="text-xs list-disc pl-5">
+                                            <li>Charts/graphs (trends)</li>
+                                            <li>Diagrams (processes)</li>
+                                            <li>Images (emotion)</li>
+                                            <li>Videos/demos (product)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="📉📈 Statistics Usage" color="yellow">
+                            <div className="text-sm">
+                                <p className="font-bold mb-2">Guidelines for Using Statistics:</p>
+                                <ul className="list-disc pl-5 text-xs space-y-1">
+                                    <li>✓ Use round numbers: 89% → "nearly 90%"</li>
+                                    <li>✓ Make relatable: "1 in 3 people" vs "33.3%"</li>
+                                    <li>✓ Use visuals for complex data</li>
+                                    <li>✓ Cite sources: "According to WHO..."</li>
+                                    <li>✗ Don't overload with numbers</li>
+                                </ul>
+                            </div>
+                        </Box>
+
+                        <Box title="🎬 Non-Verbal Communication" color="purple">
+                            <table className="w-full text-xs border-collapse">
+                                <thead>
+                                    <tr className="bg-gray-100">
+                                        <th className="border p-2 text-left">Element</th>
+                                        <th className="border p-2 text-left">Positive</th>
+                                        <th className="border p-2 text-left">Negative</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Posture</td>
+                                        <td className="border p-2">Stand tall, shoulders back</td>
+                                        <td className="border p-2">Slouching, hunched</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Gestures</td>
+                                        <td className="border p-2">Open arms, purposeful</td>
+                                        <td className="border p-2">Crossed arms, fidgeting</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Eye Contact</td>
+                                        <td className="border p-2">70-80%, scan audience</td>
+                                        <td className="border p-2">Staring down, avoiding</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Facial Expression</td>
+                                        <td className="border p-2">Smile, animated</td>
+                                        <td className="border p-2">Flat, no expression</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Movement</td>
+                                        <td className="border p-2">Purposeful, dynamic</td>
+                                        <td className="border p-2">Pacing, swaying</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </Box>
+                    </Section>
+
+                    {/* Quick Revision Section */}
+                    <Section title="🚀 QUICK REVISION SUMMARY" defaultOpen={true}>
+                        <Box title="📚 Report Structure: Front → Main → Back" color="red">
+                            <div className="grid md:grid-cols-3 gap-3 text-xs">
+                                <div className="bg-blue-50 p-3 rounded">
+                                    <p className="font-bold mb-2">FRONT MATTER:</p>
+                                    <ul className="list-disc pl-4">
+                                        <li>Cover Page</li>
+                                        <li>Certificate</li>
+                                        <li>Acknowledgement</li>
+                                        <li>Abstract (200-250 words)</li>
+                                        <li>Table of Contents</li>
+                                        <li>Lists (Figures, Tables)</li>
+                                    </ul>
+                                </div>
+                                <div className="bg-green-50 p-3 rounded">
+                                    <p className="font-bold mb-2">MAIN BODY:</p>
+                                    <ul className="list-disc pl-4">
+                                        <li>Ch 1: Introduction</li>
+                                        <li>Ch 2: Literature Review</li>
+                                        <li>Ch 3: System Analysis</li>
+                                        <li>Ch 4: System Design</li>
+                                        <li>Ch 5: Implementation</li>
+                                        <li>Ch 6: Testing</li>
+                                        <li>Ch 7: Results</li>
+                                        <li>Ch 8: Conclusion</li>
+                                    </ul>
+                                </div>
+                                <div className="bg-yellow-50 p-3 rounded">
+                                    <p className="font-bold mb-2">BACK MATTER:</p>
+                                    <ul className="list-disc pl-4">
+                                        <li>References (IEEE/APA)</li>
+                                        <li>Appendices</li>
+                                        <li>Source Code</li>
+                                        <li>User Manual</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="💼 Technical Proposal Essentials" color="red">
+                            <div className="grid md:grid-cols-2 gap-3 text-xs">
+                                <div className="bg-white p-3 rounded">
+                                    <p className="font-bold mb-2">Must-Have Components:</p>
+                                    <ul className="list-decimal pl-5 space-y-1">
+                                        <li>Executive Summary (1 page)</li>
+                                        <li>Problem Analysis (quantified)</li>
+                                        <li>Proposed Solution (technical)</li>
+                                        <li>Benefits & ROI (numbers!)</li>
+                                        <li>Implementation Plan (timeline)</li>
+                                        <li>Budget (itemized)</li>
+                                        <li>Team Qualifications</li>
+                                    </ul>
+                                </div>
+                                <div className="bg-white p-3 rounded">
+                                    <p className="font-bold mb-2">Key Formulas:</p>
+                                    <p className="bg-gray-100 p-2 rounded text-center my-2">ROI = (Benefits - Cost) / Cost × 100%</p>
+                                    <p className="bg-gray-100 p-2 rounded text-center">Payback = Investment / (Benefits/12)</p>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="🎯 Elevator Pitch Formula (30-60 sec)" color="red">
+                            <div className="bg-gradient-to-r from-red-100 to-orange-100 p-4 rounded">
+                                <p className="font-bold text-center mb-3">Hook → Problem → Solution → Value → Ask</p>
+                                <div className="grid grid-cols-5 gap-2 text-xs text-center">
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold">Hook</p>
+                                        <p>5 sec</p>
+                                    </div>
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold">Problem</p>
+                                        <p>10 sec</p>
+                                    </div>
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold">Solution</p>
+                                        <p>15 sec</p>
+                                    </div>
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold">Value</p>
+                                        <p>15 sec</p>
+                                    </div>
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold">CTA</p>
+                                        <p>10 sec</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="🎭 The Three P's of Speech Delivery" color="red">
+                            <div className="space-y-3">
+                                <div className="bg-red-50 p-3 rounded">
+                                    <p className="font-bold text-lg mb-2">1️⃣ PASSION 🔥</p>
+                                    <ul className="text-xs list-disc pl-5">
+                                        <li>Voice modulation (pitch, volume, pace)</li>
+                                        <li>Energetic gestures & facial expressions</li>
+                                        <li>Eye contact & stage movement</li>
+                                        <li>Emotional connection to topic</li>
+                                    </ul>
+                                </div>
+                                <div className="bg-blue-50 p-3 rounded">
+                                    <p className="font-bold text-lg mb-2">2️⃣ POISE 🧘</p>
+                                    <ul className="text-xs list-disc pl-5">
+                                        <li>Confident posture (shoulders back, head up)</li>
+                                        <li>Controlled breathing & clear articulation</li>
+                                        <li>Pause instead of fillers ("um," "uh")</li>
+                                        <li>Graceful mistake recovery</li>
+                                    </ul>
+                                </div>
+                                <div className="bg-green-50 p-3 rounded">
+                                    <p className="font-bold text-lg mb-2">3️⃣ ILLUSTRATIONS 📊</p>
+                                    <ul className="text-xs list-disc pl-5">
+                                        <li>Stories (emotional, relatable)</li>
+                                        <li>Examples (concrete, specific)</li>
+                                        <li>Analogies (simplify complex ideas)</li>
+                                        <li>Visuals (charts, diagrams, videos)</li>
+                                        <li>Statistics (round numbers, cite sources)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="🎓 Top 5 Exam Questions" color="red">
+                            <ol className="list-decimal pl-5 space-y-2 text-sm">
+                                <li><strong>Differentiate between Thesis and Project Report.</strong>
+                                    <p className="text-xs ml-4">Answer: Thesis = Research-based, 100-300 pages, 1-5 years, Masters/PhD, "Why & How". Project Report = Implementation, 50-100 pages, 3-6 months, UG/PG, "What & How".</p>
+                                </li>
+                                <li><strong>What are the essential parts of a Technical Proposal?</strong>
+                                    <p className="text-xs ml-4">Answer: Executive Summary, Problem Analysis, Proposed Solution, Benefits & ROI, Implementation Plan, Budget, Team Qualifications, Conclusion, Appendices.</p>
+                                </li>
+                                <li><strong>Explain the structure of an Elevator Pitch with an example.</strong>
+                                    <p className="text-xs ml-4">Answer: Hook (5s - grab attention) → Problem (10s - pain point) → Solution (15s - your product) → Value (15s - unique benefit) → CTA (10s - what you want). Total: 30-60 seconds.</p>
+                                </li>
+                                <li><strong>What is the importance of 'Poise' in public speaking?</strong>
+                                    <p className="text-xs ml-4">Answer: Poise = Confidence and composure. Includes confident posture, controlled voice, steady pace, clear articulation, managing nervousness, graceful mistake recovery. Shows credibility and professionalism.</p>
+                                </li>
+                                <li><strong>Describe the three pillars of speech delivery (PPI).</strong>
+                                    <p className="text-xs ml-4">Answer: PASSION (enthusiasm, energy, voice modulation), POISE (confidence, composure, body control), ILLUSTRATIONS (stories, examples, analogies, visuals, statistics).</p>
+                                </li>
+                            </ol>
+                        </Box>
+
+                        <Box title="💡 Last-Minute Power Tips" color="red">
+                            <ul className="list-disc pl-5 space-y-1 text-sm">
+                                <li><strong>Abstract:</strong> 200-250 words = Background + Problem + Solution + Results + Impact</li>
+                                <li><strong>Project Report:</strong> 8 chapters (Intro, Lit Review, Analysis, Design, Implementation, Testing, Results, Conclusion)</li>
+                                <li><strong>Proposal ROI:</strong> Always quantify! "(Benefits - Cost) / Cost × 100%"</li>
+                                <li><strong>Elevator Pitch:</strong> Practice with timer! Must be 30-60 seconds exactly</li>
+                                <li><strong>Investor Pitch:</strong> 10-15 slides covering Problem, Solution, Market, Traction, Team, Ask</li>
+                                <li><strong>Storytelling:</strong> Hero's Journey = Status Quo → Problem → Journey → Resolution</li>
+                                <li><strong>Passion:</strong> Vary pitch, volume, pace! Use strategic pauses</li>
+                                <li><strong>Poise:</strong> Stand tall, shoulders back, minimize "um/uh"</li>
+                                <li><strong>Illustrations:</strong> Stories > Examples > Analogies > Statistics (in order of impact)</li>
+                                <li><strong>Non-Verbal:</strong> Eye contact 70-80%, open gestures, smile!</li>
+                                <li><strong>Nervousness:</strong> Deep breathing (4-7-8), power poses 2 min before, focus on friendly faces</li>
+                                <li><strong>Citation:</strong> IEEE format for engineering: [1] Author, "Title," Journal, vol. X, pp. Y-Z, Year</li>
+                            </ul>
+                        </Box>
+                    </Section>
+
+                    {/* Footer */}
+                    <div className="mt-8 p-6 gradient-header text-white rounded-lg text-center">
+                        <p className="text-sm">🎤 Last Minute Revision Guide • Professional Presentation Unit-3</p>
+                        <p className="text-xs mt-2 opacity-90">Writing, Designing & Speaking • AKTU Semester 3</p>
+                        <div className="mt-4 pt-4 border-t border-white/30">
+                            <p className="text-sm font-semibold">Brought to you by ZenYukti 💙</p>
+                            <p className="text-xs mt-1 italic">Learn. Build. Share.</p>
+                            <p className="text-xs mt-2">🌐 zenyukti.in | 💬 Discord: go.zenyukti.in/discord</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Render the app
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
