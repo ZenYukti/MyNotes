@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Unit-5: Libraries, GUI & IDEs - Last Minute Revision</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+        .output-block {
+            background: #0f172a;
+            color: #10b981;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        // SVG Icons
+        const ChevronDown = () => (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+        );
+
+        const ChevronRight = () => (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+        );
+
+        const PackageIcon = () => (
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+            </svg>
+        );
+
+        // Section Component
+        const Section = ({ title, children, defaultOpen = false }) => {
+            const [isOpen, setIsOpen] = useState(defaultOpen);
+
+            return (
+                <div className="mb-4 border border-gray-300 rounded-lg overflow-hidden bg-white shadow-sm">
+                    <button
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="w-full px-4 py-3 bg-gradient-to-r from-purple-500 to-pink-600 text-white font-semibold flex items-center justify-between hover:from-purple-600 hover:to-pink-700 transition-all"
+                    >
+                        <span className="flex items-center gap-2">
+                            <PackageIcon />
+                            {title}
+                        </span>
+                        {isOpen ? <ChevronDown /> : <ChevronRight />}
+                    </button>
+                    {isOpen && (
+                        <div className="p-4 bg-gray-50">
+                            {children}
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        // Main Component
+        const PythonUnit5Notes = () => {
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 p-4 md:p-8">
+                    <div className="max-w-5xl mx-auto">
+                        {/* Header */}
+                        <div className="text-center mb-8">
+                            <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-3">
+                                Python Unit-5
+                            </h1>
+                            <h2 className="text-2xl md:text-3xl font-semibold text-gray-700 mb-2">
+                                Libraries, GUI & IDEs
+                            </h2>
+                            <p className="text-gray-600 text-lg">⚡ Last Minute Revision Guide</p>
+                        </div>
+
+                        {/* Section 1: Data Libraries */}
+                        <Section title="1. Data Libraries - NumPy, Pandas, Matplotlib" defaultOpen={true}>
+                            <div className="space-y-4">
+                                {/* Overview */}
+                                <div className="bg-purple-50 border-l-4 border-purple-400 p-4 rounded">
+                                    <h3 className="font-bold text-purple-800 mb-3">📦 Python Data Science Stack</h3>
+                                    <div className="grid md:grid-cols-3 gap-3">
+                                        <div className="bg-white p-3 rounded shadow-sm">
+                                            <h4 className="font-bold text-purple-700 mb-1">NumPy</h4>
+                                            <p className="text-sm text-gray-700">Numerical Computing</p>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow-sm">
+                                            <h4 className="font-bold text-purple-700 mb-1">Pandas</h4>
+                                            <p className="text-sm text-gray-700">Data Analysis</p>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow-sm">
+                                            <h4 className="font-bold text-purple-700 mb-1">Matplotlib</h4>
+                                            <p className="text-sm text-gray-700">Data Visualization</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* NumPy */}
+                                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
+                                    <h3 className="font-bold text-yellow-800 mb-2">📌 NumPy - Numerical Python</h3>
+                                    <p className="text-gray-700 mb-2"><strong>Purpose:</strong> Fast numerical operations on multi-dimensional arrays</p>
+                                    <ul className="list-disc list-inside text-gray-700 space-y-1 mb-3">
+                                        <li>Provides ndarray (n-dimensional array) object</li>
+                                        <li>Faster than Python lists (uses C internally)</li>
+                                        <li>Mathematical operations on entire arrays</li>
+                                        <li>Broadcasting: operations on different sized arrays</li>
+                                    </ul>
+                                    <p className="text-gray-700 mb-2"><strong>Installation:</strong> <code className="bg-yellow-100 px-2 py-1 rounded">pip install numpy</code></p>
+                                </div>
+
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+                                    <h3 className="font-bold text-blue-800 mb-3">💡 NumPy Example</h3>
+                                    <div className="code-block text-xs mb-2">
+import numpy as np<br/>
+<br/>
+# Create array from list<br/>
+arr = np.array([1, 2, 3, 4, 5])<br/>
+print(arr)<br/>
+print(type(arr))<br/>
+<br/>
+# Array operations<br/>
+print(arr * 2)      # Multiply all by 2<br/>
+print(arr + 10)     # Add 10 to all<br/>
+<br/>
+# 2D array (matrix)<br/>
+matrix = np.array([[1, 2, 3], [4, 5, 6]])<br/>
+print(matrix)<br/>
+print(matrix.shape)  # (2, 3) - 2 rows, 3 cols<br/>
+<br/>
+# Useful functions<br/>
+print(np.mean(arr))  # Average: 3.0<br/>
+print(np.sum(arr))   # Sum: 15<br/>
+print(np.max(arr))   # Maximum: 5
+                                    </div>
+                                    <div className="output-block text-xs">
+[1 2 3 4 5]<br/>
+{`<class 'numpy.ndarray'>`}<br/>
+[ 2  4  6  8 10]<br/>
+[11 12 13 14 15]<br/>
+[[1 2 3]<br/>
+ [4 5 6]]<br/>
+(2, 3)<br/>
+3.0<br/>
+15<br/>
+5
+                                    </div>
+                                </div>
+
+                                {/* Pandas */}
+                                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
+                                    <h3 className="font-bold text-yellow-800 mb-2">📌 Pandas - Panel Data</h3>
+                                    <p className="text-gray-700 mb-2"><strong>Purpose:</strong> Data manipulation and analysis (like Excel in Python)</p>
+                                    <ul className="list-disc list-inside text-gray-700 space-y-1 mb-3">
+                                        <li><strong>Series:</strong> 1D labeled array (like a column)</li>
+                                        <li><strong>DataFrame:</strong> 2D table with rows & columns</li>
+                                        <li>Read/write CSV, Excel, SQL databases</li>
+                                        <li>Data cleaning, filtering, grouping</li>
+                                    </ul>
+                                    <p className="text-gray-700 mb-2"><strong>Installation:</strong> <code className="bg-yellow-100 px-2 py-1 rounded">pip install pandas</code></p>
+                                </div>
+
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+                                    <h3 className="font-bold text-blue-800 mb-3">💡 Pandas Example</h3>
+                                    <div className="code-block text-xs mb-2">
+import pandas as pd<br/>
+<br/>
+# Create Series (1D)<br/>
+s = pd.Series([10, 20, 30, 40], index=['a', 'b', 'c', 'd'])<br/>
+print(s)<br/>
+print(s['b'])  # Access by label: 20<br/>
+<br/>
+# Create DataFrame (2D table)<br/>
+data = {`{`}<br/>
+    'Name': ['Alice', 'Bob', 'Charlie'],<br/>
+    'Age': [25, 30, 35],<br/>
+    'City': ['NYC', 'LA', 'SF']<br/>
+{`}`}<br/>
+df = pd.DataFrame(data)<br/>
+print(df)<br/>
+<br/>
+# Access columns<br/>
+print(df['Name'])<br/>
+<br/>
+# Filter rows<br/>
+print(df[df['Age'] {'>'} 28])<br/>
+<br/>
+# Read CSV file<br/>
+# df = pd.read_csv('data.csv')<br/>
+# df.to_csv('output.csv', index=False)
+                                    </div>
+                                    <div className="output-block text-xs">
+a    10<br/>
+b    20<br/>
+c    30<br/>
+d    40<br/>
+20<br/>
+      Name  Age City<br/>
+0    Alice   25  NYC<br/>
+1      Bob   30   LA<br/>
+2  Charlie   35   SF<br/>
+      Name  Age City<br/>
+1      Bob   30   LA<br/>
+2  Charlie   35   SF
+                                    </div>
+                                </div>
+
+                                {/* Matplotlib */}
+                                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
+                                    <h3 className="font-bold text-yellow-800 mb-2">📌 Matplotlib - Data Visualization</h3>
+                                    <p className="text-gray-700 mb-2"><strong>Purpose:</strong> Create charts, graphs, and plots</p>
+                                    <ul className="list-disc list-inside text-gray-700 space-y-1 mb-3">
+                                        <li>Line plots, bar charts, scatter plots, histograms</li>
+                                        <li>Customize colors, labels, legends</li>
+                                        <li>Most commonly used: <code>pyplot</code> module</li>
+                                        <li>Always call <code>plt.show()</code> to display plot</li>
+                                    </ul>
+                                    <p className="text-gray-700 mb-2"><strong>Installation:</strong> <code className="bg-yellow-100 px-2 py-1 rounded">pip install matplotlib</code></p>
+                                </div>
+
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+                                    <h3 className="font-bold text-blue-800 mb-3">💡 Matplotlib Example</h3>
+                                    <div className="code-block text-xs">
+import matplotlib.pyplot as plt<br/>
+<br/>
+# Data<br/>
+x = [1, 2, 3, 4, 5]<br/>
+y = [2, 4, 6, 8, 10]<br/>
+<br/>
+# Create line plot<br/>
+plt.plot(x, y, marker='o', color='blue', label='Line 1')<br/>
+<br/>
+# Add labels and title<br/>
+plt.xlabel('X-axis')<br/>
+plt.ylabel('Y-axis')<br/>
+plt.title('Simple Line Plot')<br/>
+plt.legend()<br/>
+plt.grid(True)<br/>
+<br/>
+# Display plot<br/>
+plt.show()<br/>
+<br/>
+# Bar chart<br/>
+categories = ['A', 'B', 'C', 'D']<br/>
+values = [10, 25, 15, 30]<br/>
+plt.bar(categories, values, color='green')<br/>
+plt.title('Bar Chart')<br/>
+plt.show()
+                                    </div>
+                                    <p className="text-sm text-gray-700 mt-2 italic">📊 This will open a window showing the graph</p>
+                                </div>
+                            </div>
+                        </Section>
+
+                        {/* Section 2: Tkinter Foundations */}
+                        <Section title="2. Tkinter Foundations - GUI Basics">
+                            <div className="space-y-4">
+                                {/* Definition */}
+                                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
+                                    <h3 className="font-bold text-yellow-800 mb-2">📌 What is Tkinter?</h3>
+                                    <ul className="list-disc list-inside text-gray-700 space-y-1">
+                                        <li><strong>Tkinter</strong> = Tk interface (GUI toolkit for Python)</li>
+                                        <li>Standard library (no installation needed)</li>
+                                        <li>Cross-platform (Windows, Mac, Linux)</li>
+                                        <li>Create windows, buttons, labels, text boxes, etc.</li>
+                                        <li>Used for simple desktop applications</li>
+                                    </ul>
+                                </div>
+
+                                {/* Basic Structure */}
+                                <div className="bg-purple-50 border-l-4 border-purple-400 p-4 rounded">
+                                    <h3 className="font-bold text-purple-800 mb-3">🏗️ Tkinter Application Structure</h3>
+                                    <div className="bg-white p-3 rounded border-2 border-purple-300">
+                                        <div className="text-center space-y-2">
+                                            <div className="bg-purple-100 p-2 rounded font-mono text-sm">1. Import tkinter</div>
+                                            <div className="text-purple-600 font-bold">↓</div>
+                                            <div className="bg-purple-100 p-2 rounded font-mono text-sm">2. Create root window (Tk())</div>
+                                            <div className="text-purple-600 font-bold">↓</div>
+                                            <div className="bg-purple-100 p-2 rounded font-mono text-sm">3. Add widgets (Label, Button, etc.)</div>
+                                            <div className="text-purple-600 font-bold">↓</div>
+                                            <div className="bg-purple-100 p-2 rounded font-mono text-sm">4. Use geometry manager (pack/grid/place)</div>
+                                            <div className="text-purple-600 font-bold">↓</div>
+                                            <div className="bg-purple-100 p-2 rounded font-mono text-sm">5. Start event loop (mainloop())</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Key Components */}
+                                <div className="bg-green-50 border-l-4 border-green-400 p-4 rounded">
+                                    <h3 className="font-bold text-green-800 mb-3">🔑 Essential Components</h3>
+                                    <div className="grid md:grid-cols-2 gap-3">
+                                        <div className="bg-white p-3 rounded shadow-sm">
+                                            <h4 className="font-bold text-green-700 mb-1 font-mono">Tk()</h4>
+                                            <p className="text-sm text-gray-700">Creates main window (root)</p>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow-sm">
+                                            <h4 className="font-bold text-green-700 mb-1 font-mono">mainloop()</h4>
+                                            <p className="text-sm text-gray-700">Keeps window open (event loop)</p>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow-sm">
+                                            <h4 className="font-bold text-green-700 mb-1 font-mono">title()</h4>
+                                            <p className="text-sm text-gray-700">Sets window title</p>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow-sm">
+                                            <h4 className="font-bold text-green-700 mb-1 font-mono">geometry()</h4>
+                                            <p className="text-sm text-gray-700">Sets window size</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Hello World Example */}
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+                                    <h3 className="font-bold text-blue-800 mb-3">💡 Hello World GUI</h3>
+                                    <div className="code-block text-xs">
+import tkinter as tk<br/>
+<br/>
+# Step 1: Create root window<br/>
+root = tk.Tk()<br/>
+<br/>
+# Step 2: Configure window<br/>
+root.title("My First GUI")<br/>
+root.geometry("400x300")  # Width x Height<br/>
+<br/>
+# Step 3: Add a label<br/>
+label = tk.Label(root, text="Hello, World!", <br/>
+                 font=("Arial", 24), fg="blue")<br/>
+label.pack(pady=20)  # Add padding<br/>
+<br/>
+# Step 4: Start event loop<br/>
+root.mainloop()
+                                    </div>
+                                    <p className="text-sm text-gray-700 mt-2 italic">🪟 This creates a 400x300 window with "Hello, World!" text</p>
+                                </div>
+
+                                {/* Geometry Managers */}
+                                <div className="bg-purple-50 border-l-4 border-purple-400 p-4 rounded">
+                                    <h3 className="font-bold text-purple-800 mb-3">📐 Geometry Managers</h3>
+                                    <div className="overflow-x-auto">
+                                        <table className="min-w-full text-sm border-collapse">
+                                            <thead className="bg-purple-100">
+                                                <tr>
+                                                    <th className="border border-purple-300 px-3 py-2 text-left font-semibold">Manager</th>
+                                                    <th className="border border-purple-300 px-3 py-2 text-left font-semibold">Description</th>
+                                                    <th className="border border-purple-300 px-3 py-2 text-left font-semibold">Use When</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="text-gray-700">
+                                                <tr>
+                                                    <td className="border border-purple-200 px-3 py-2 font-mono font-semibold">pack()</td>
+                                                    <td className="border border-purple-200 px-3 py-2">Simple stacking (top/bottom/left/right)</td>
+                                                    <td className="border border-purple-200 px-3 py-2">Simple layouts</td>
+                                                </tr>
+                                                <tr className="bg-purple-50">
+                                                    <td className="border border-purple-200 px-3 py-2 font-mono font-semibold">grid()</td>
+                                                    <td className="border border-purple-200 px-3 py-2">Table-like layout (rows & columns)</td>
+                                                    <td className="border border-purple-200 px-3 py-2">Forms, complex UIs</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="border border-purple-200 px-3 py-2 font-mono font-semibold">place()</td>
+                                                    <td className="border border-purple-200 px-3 py-2">Absolute positioning (x, y coordinates)</td>
+                                                    <td className="border border-purple-200 px-3 py-2">Precise control</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                {/* Geometry Manager Examples */}
+                                <div className="bg-green-50 border-l-4 border-green-400 p-4 rounded">
+                                    <h3 className="font-bold text-green-800 mb-3">📦 Geometry Manager Examples</h3>
+                                    <div className="space-y-3">
+                                        <div>
+                                            <p className="font-semibold text-green-800 mb-2">1. pack() - Simple Stacking</p>
+                                            <div className="code-block text-xs">
+label1.pack(side="top")     # Stack vertically<br/>
+label2.pack(side="left")    # Stack horizontally<br/>
+label3.pack(pady=10)        # Add vertical padding
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p className="font-semibold text-green-800 mb-2">2. grid() - Table Layout</p>
+                                            <div className="code-block text-xs">
+label1.grid(row=0, column=0)      # First row, first column<br/>
+label2.grid(row=0, column=1)      # First row, second column<br/>
+button.grid(row=1, column=0, columnspan=2)  # Span 2 columns
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p className="font-semibold text-green-800 mb-2">3. place() - Absolute Position</p>
+                                            <div className="code-block text-xs">
+label.place(x=50, y=100)   # 50 pixels from left, 100 from top
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Section>
+
+                        {/* Section 3: Tkinter Widgets */}
+                        <Section title="3. Tkinter Widgets & Event Handling">
+                            <div className="space-y-4">
+                                {/* Common Widgets */}
+                                <div className="bg-purple-50 border-l-4 border-purple-400 p-4 rounded">
+                                    <h3 className="font-bold text-purple-800 mb-3">🧩 Common Widgets</h3>
+                                    <div className="grid md:grid-cols-2 gap-3">
+                                        <div className="bg-white p-3 rounded shadow-sm">
+                                            <h4 className="font-bold text-purple-700 mb-1 font-mono">Label</h4>
+                                            <p className="text-sm text-gray-700">Display text or images</p>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow-sm">
+                                            <h4 className="font-bold text-purple-700 mb-1 font-mono">Button</h4>
+                                            <p className="text-sm text-gray-700">Clickable button with action</p>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow-sm">
+                                            <h4 className="font-bold text-purple-700 mb-1 font-mono">Entry</h4>
+                                            <p className="text-sm text-gray-700">Single-line text input</p>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow-sm">
+                                            <h4 className="font-bold text-purple-700 mb-1 font-mono">Text</h4>
+                                            <p className="text-sm text-gray-700">Multi-line text input</p>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow-sm">
+                                            <h4 className="font-bold text-purple-700 mb-1 font-mono">Checkbutton</h4>
+                                            <p className="text-sm text-gray-700">Checkbox (on/off)</p>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow-sm">
+                                            <h4 className="font-bold text-purple-700 mb-1 font-mono">Radiobutton</h4>
+                                            <p className="text-sm text-gray-700">Select one from multiple</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Label Widget */}
+                                <div className="bg-green-50 border-l-4 border-green-400 p-4 rounded">
+                                    <h3 className="font-bold text-green-800 mb-2">📝 Label Widget</h3>
+                                    <div className="code-block text-xs">
+label = tk.Label(root, <br/>
+                 text="Welcome!", <br/>
+                 font=("Arial", 16),<br/>
+                 fg="blue",           # Foreground (text color)<br/>
+                 bg="yellow",         # Background color<br/>
+                 padx=10, pady=5)     # Padding<br/>
+label.pack()
+                                    </div>
+                                </div>
+
+                                {/* Button Widget */}
+                                <div className="bg-green-50 border-l-4 border-green-400 p-4 rounded">
+                                    <h3 className="font-bold text-green-800 mb-2">🔘 Button Widget with Event</h3>
+                                    <div className="code-block text-xs">
+def on_click():<br/>
+    print("Button clicked!")<br/>
+    label.config(text="Button was clicked")<br/>
+<br/>
+button = tk.Button(root, <br/>
+                   text="Click Me",<br/>
+                   command=on_click,    # Function to call<br/>
+                   bg="green",<br/>
+                   fg="white",<br/>
+                   font=("Arial", 12))<br/>
+button.pack(pady=10)
+                                    </div>
+                                </div>
+
+                                {/* Entry Widget */}
+                                <div className="bg-green-50 border-l-4 border-green-400 p-4 rounded">
+                                    <h3 className="font-bold text-green-800 mb-2">✏️ Entry Widget (Text Input)</h3>
+                                    <div className="code-block text-xs">
+def get_input():<br/>
+    user_text = entry.get()  # Get text from Entry<br/>
+    print(f"You entered: {`{user_text}`}")<br/>
+    label.config(text=user_text)<br/>
+<br/>
+entry = tk.Entry(root, width=30, font=("Arial", 12))<br/>
+entry.pack(pady=5)<br/>
+<br/>
+button = tk.Button(root, text="Submit", command=get_input)<br/>
+button.pack(pady=5)
+                                    </div>
+                                </div>
+
+                                {/* Complete Example */}
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+                                    <h3 className="font-bold text-blue-800 mb-3">💡 Complete Interactive GUI</h3>
+                                    <div className="code-block text-xs">
+import tkinter as tk<br/>
+<br/>
+def greet():<br/>
+    name = name_entry.get()<br/>
+    greeting = f"Hello, {`{name}`}!"<br/>
+    result_label.config(text=greeting)<br/>
+<br/>
+# Create window<br/>
+root = tk.Tk()<br/>
+root.title("Greeting App")<br/>
+root.geometry("400x200")<br/>
+<br/>
+# Title label<br/>
+title = tk.Label(root, text="Enter Your Name:", <br/>
+                 font=("Arial", 14, "bold"))<br/>
+title.pack(pady=10)<br/>
+<br/>
+# Entry field<br/>
+name_entry = tk.Entry(root, width=30, font=("Arial", 12))<br/>
+name_entry.pack(pady=5)<br/>
+<br/>
+# Button<br/>
+greet_btn = tk.Button(root, text="Greet Me!", <br/>
+                      command=greet, bg="blue", <br/>
+                      fg="white", font=("Arial", 12))<br/>
+greet_btn.pack(pady=10)<br/>
+<br/>
+# Result label<br/>
+result_label = tk.Label(root, text="", <br/>
+                        font=("Arial", 14), fg="green")<br/>
+result_label.pack(pady=10)<br/>
+<br/>
+root.mainloop()
+                                    </div>
+                                    <p className="text-sm text-gray-700 mt-2 italic">🎯 This creates a name input app that greets the user</p>
+                                </div>
+                            </div>
+                        </Section>
+
+                        {/* Section 4: IDEs */}
+                        <Section title="4. Integrated Development Environments (IDEs)">
+                            <div className="space-y-4">
+                                {/* Definition */}
+                                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
+                                    <h3 className="font-bold text-yellow-800 mb-2">📌 What is an IDE?</h3>
+                                    <p className="text-gray-700 mb-2"><strong>IDE</strong> = Integrated Development Environment</p>
+                                    <ul className="list-disc list-inside text-gray-700 space-y-1">
+                                        <li>Software application for writing, testing, and debugging code</li>
+                                        <li>All-in-one tool for development</li>
+                                        <li>More features than simple text editors</li>
+                                    </ul>
+                                </div>
+
+                                {/* IDE vs Text Editor */}
+                                <div className="bg-purple-50 border-l-4 border-purple-400 p-4 rounded">
+                                    <h3 className="font-bold text-purple-800 mb-3">⚖️ IDE vs Text Editor</h3>
+                                    <div className="overflow-x-auto">
+                                        <table className="min-w-full text-sm border-collapse">
+                                            <thead className="bg-purple-100">
+                                                <tr>
+                                                    <th className="border border-purple-300 px-3 py-2 text-left font-semibold">Feature</th>
+                                                    <th className="border border-purple-300 px-3 py-2 text-left font-semibold">IDE</th>
+                                                    <th className="border border-purple-300 px-3 py-2 text-left font-semibold">Text Editor</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="text-gray-700">
+                                                <tr>
+                                                    <td className="border border-purple-200 px-3 py-2 font-semibold">Code Completion</td>
+                                                    <td className="border border-purple-200 px-3 py-2">✅ Built-in</td>
+                                                    <td className="border border-purple-200 px-3 py-2">❌ Limited/Plugin</td>
+                                                </tr>
+                                                <tr className="bg-purple-50">
+                                                    <td className="border border-purple-200 px-3 py-2 font-semibold">Debugger</td>
+                                                    <td className="border border-purple-200 px-3 py-2">✅ Integrated</td>
+                                                    <td className="border border-purple-200 px-3 py-2">❌ No</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="border border-purple-200 px-3 py-2 font-semibold">Run Code</td>
+                                                    <td className="border border-purple-200 px-3 py-2">✅ One-click</td>
+                                                    <td className="border border-purple-200 px-3 py-2">❌ Terminal needed</td>
+                                                </tr>
+                                                <tr className="bg-purple-50">
+                                                    <td className="border border-purple-200 px-3 py-2 font-semibold">Project Management</td>
+                                                    <td className="border border-purple-200 px-3 py-2">✅ Built-in</td>
+                                                    <td className="border border-purple-200 px-3 py-2">❌ Manual</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="border border-purple-200 px-3 py-2 font-semibold">Resource Usage</td>
+                                                    <td className="border border-purple-200 px-3 py-2">Heavy</td>
+                                                    <td className="border border-purple-200 px-3 py-2">Lightweight</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                {/* Popular Python IDEs */}
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+                                    <h3 className="font-bold text-blue-800 mb-3">🛠️ Popular Python IDEs</h3>
+                                    <div className="space-y-3">
+                                        <div className="bg-white p-3 rounded shadow-sm">
+                                            <h4 className="font-bold text-blue-700 mb-1">1. PyCharm (JetBrains)</h4>
+                                            <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
+                                                <li>Professional Python IDE</li>
+                                                <li>Excellent code completion and debugging</li>
+                                                <li>Free Community Edition available</li>
+                                                <li>Best for large projects</li>
+                                            </ul>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow-sm">
+                                            <h4 className="font-bold text-blue-700 mb-1">2. Visual Studio Code (Microsoft)</h4>
+                                            <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
+                                                <li>Lightweight but powerful</li>
+                                                <li>Python extension adds IDE features</li>
+                                                <li>Free and open-source</li>
+                                                <li>Most popular among developers</li>
+                                            </ul>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow-sm">
+                                            <h4 className="font-bold text-blue-700 mb-1">3. IDLE (Python's Built-in)</h4>
+                                            <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
+                                                <li>Comes with Python installation</li>
+                                                <li>Simple and beginner-friendly</li>
+                                                <li>Good for learning and small scripts</li>
+                                                <li>Limited features compared to others</li>
+                                            </ul>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow-sm">
+                                            <h4 className="font-bold text-blue-700 mb-1">4. Jupyter Notebook</h4>
+                                            <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
+                                                <li>Web-based interactive environment</li>
+                                                <li>Best for data science and ML</li>
+                                                <li>Run code in cells, see outputs inline</li>
+                                                <li>Popular in scientific computing</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* IDE Features */}
+                                <div className="bg-green-50 border-l-4 border-green-400 p-4 rounded">
+                                    <h3 className="font-bold text-green-800 mb-3">✨ Key IDE Features</h3>
+                                    <div className="grid md:grid-cols-2 gap-3">
+                                        <div className="bg-white p-3 rounded shadow-sm">
+                                            <h4 className="font-bold text-green-700 mb-1">Syntax Highlighting</h4>
+                                            <p className="text-sm text-gray-700">Colors keywords, variables, strings</p>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow-sm">
+                                            <h4 className="font-bold text-green-700 mb-1">Auto-Completion</h4>
+                                            <p className="text-sm text-gray-700">Suggests code as you type</p>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow-sm">
+                                            <h4 className="font-bold text-green-700 mb-1">Debugging Tools</h4>
+                                            <p className="text-sm text-gray-700">Breakpoints, step through code</p>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow-sm">
+                                            <h4 className="font-bold text-green-700 mb-1">Error Detection</h4>
+                                            <p className="text-sm text-gray-700">Shows errors before running</p>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow-sm">
+                                            <h4 className="font-bold text-green-700 mb-1">Version Control</h4>
+                                            <p className="text-sm text-gray-700">Git integration</p>
+                                        </div>
+                                        <div className="bg-white p-3 rounded shadow-sm">
+                                            <h4 className="font-bold text-green-700 mb-1">Package Management</h4>
+                                            <p className="text-sm text-gray-700">Install libraries easily</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Section>
+
+                        {/* Quick Revision Summary */}
+                        <div className="bg-gradient-to-r from-red-500 to-pink-600 text-white rounded-lg p-6 mt-6">
+                            <h2 className="text-2xl font-bold mb-4 text-center">🔥 QUICK REVISION SUMMARY</h2>
+                            
+                            <div className="space-y-4">
+                                {/* Library Comparison */}
+                                <div className="bg-white bg-opacity-20 rounded-lg p-4">
+                                    <h3 className="text-xl font-bold mb-3">📚 Data Library Comparison</h3>
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full text-sm">
+                                            <thead className="bg-black bg-opacity-30">
+                                                <tr>
+                                                    <th className="px-3 py-2 text-left">Library</th>
+                                                    <th className="px-3 py-2 text-left">Purpose</th>
+                                                    <th className="px-3 py-2 text-left">Main Data Structure</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr className="border-t border-white border-opacity-20">
+                                                    <td className="px-3 py-2 font-mono font-bold">NumPy</td>
+                                                    <td className="px-3 py-2">Numerical computing</td>
+                                                    <td className="px-3 py-2 font-mono">ndarray (n-D array)</td>
+                                                </tr>
+                                                <tr className="border-t border-white border-opacity-20">
+                                                    <td className="px-3 py-2 font-mono font-bold">Pandas</td>
+                                                    <td className="px-3 py-2">Data analysis & manipulation</td>
+                                                    <td className="px-3 py-2 font-mono">Series, DataFrame</td>
+                                                </tr>
+                                                <tr className="border-t border-white border-opacity-20">
+                                                    <td className="px-3 py-2 font-mono font-bold">Matplotlib</td>
+                                                    <td className="px-3 py-2">Data visualization</td>
+                                                    <td className="px-3 py-2 font-mono">Plots/Charts</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                {/* Tkinter Flow */}
+                                <div className="bg-white bg-opacity-20 rounded-lg p-4">
+                                    <h3 className="text-xl font-bold mb-3">🪟 Tkinter Application Flow</h3>
+                                    <div className="bg-black bg-opacity-20 p-3 rounded text-center space-y-2 font-mono text-sm">
+                                        <div>1. import tkinter as tk</div>
+                                        <div className="text-2xl">↓</div>
+                                        <div>2. root = tk.Tk()</div>
+                                        <div className="text-2xl">↓</div>
+                                        <div>3. Create widgets (Label, Button, Entry)</div>
+                                        <div className="text-2xl">↓</div>
+                                        <div>4. Use geometry manager (pack/grid/place)</div>
+                                        <div className="text-2xl">↓</div>
+                                        <div>5. root.mainloop()</div>
+                                    </div>
+                                </div>
+
+                                {/* Geometry Managers */}
+                                <div className="bg-white bg-opacity-20 rounded-lg p-4">
+                                    <h3 className="text-xl font-bold mb-3">📐 Geometry Manager Cheat Sheet</h3>
+                                    <div className="grid md:grid-cols-3 gap-2 text-sm">
+                                        <div className="bg-black bg-opacity-20 p-3 rounded">
+                                            <strong className="font-mono">pack()</strong><br/>
+                                            Simple stacking<br/>
+                                            side='top/bottom/left/right'
+                                        </div>
+                                        <div className="bg-black bg-opacity-20 p-3 rounded">
+                                            <strong className="font-mono">grid()</strong><br/>
+                                            Table layout<br/>
+                                            row=, column=
+                                        </div>
+                                        <div className="bg-black bg-opacity-20 p-3 rounded">
+                                            <strong className="font-mono">place()</strong><br/>
+                                            Absolute position<br/>
+                                            x=, y=
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Essential Imports */}
+                                <div className="bg-white bg-opacity-20 rounded-lg p-4">
+                                    <h3 className="text-xl font-bold mb-3">📦 Essential Import Statements</h3>
+                                    <div className="bg-black bg-opacity-20 p-3 rounded font-mono text-sm space-y-1">
+                                        <div>import numpy as np</div>
+                                        <div>import pandas as pd</div>
+                                        <div>import matplotlib.pyplot as plt</div>
+                                        <div>import tkinter as tk</div>
+                                    </div>
+                                </div>
+
+                                {/* Common Exam Questions */}
+                                <div className="bg-white bg-opacity-20 rounded-lg p-4">
+                                    <h3 className="text-xl font-bold mb-3">❓ Common Exam Questions</h3>
+                                    <div className="space-y-2 text-sm">
+                                        <div className="bg-black bg-opacity-20 p-3 rounded">
+                                            <strong>Q1: What is mainloop() in Tkinter?</strong><br/>
+                                            A: Event loop that keeps window open and responds to events (clicks, key presses). Without it, window closes immediately.
+                                        </div>
+                                        <div className="bg-black bg-opacity-20 p-3 rounded">
+                                            <strong>Q2: Difference between Series and DataFrame in Pandas?</strong><br/>
+                                            A: Series is 1D (single column), DataFrame is 2D (table with rows & columns). DataFrame is collection of Series.
+                                        </div>
+                                        <div className="bg-black bg-opacity-20 p-3 rounded">
+                                            <strong>Q3: Advantages of using an IDE?</strong><br/>
+                                            A: Code completion, integrated debugger, error detection, one-click run, project management, better productivity.
+                                        </div>
+                                        <div className="bg-black bg-opacity-20 p-3 rounded">
+                                            <strong>Q4: Why use NumPy arrays instead of Python lists?</strong><br/>
+                                            A: Faster (uses C internally), less memory, supports vectorized operations, built-in math functions.
+                                        </div>
+                                        <div className="bg-black bg-opacity-20 p-3 rounded">
+                                            <strong>Q5: What does plt.show() do in Matplotlib?</strong><br/>
+                                            A: Displays the plot in a window. Without it, plot is created but not shown.
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Last Minute Tips */}
+                                <div className="bg-yellow-400 text-gray-900 rounded-lg p-4">
+                                    <h3 className="text-lg font-bold mb-2">⏰ Last Minute Tips:</h3>
+                                    <ul className="space-y-1 text-sm list-disc list-inside">
+                                        <li><strong>NumPy import:</strong> Always use 'import numpy as np' (standard convention)</li>
+                                        <li><strong>Pandas read_csv():</strong> Most common way to load data from files</li>
+                                        <li><strong>Matplotlib must show():</strong> plt.show() is required to display plots</li>
+                                        <li><strong>Tkinter mainloop():</strong> Last line in GUI code, keeps window alive</li>
+                                        <li><strong>Entry.get():</strong> Use to retrieve text from Entry widget</li>
+                                        <li><strong>command= parameter:</strong> Connects button to function (no parentheses!)</li>
+                                        <li><strong>Don't mix geometry managers:</strong> Use only pack OR grid in same container</li>
+                                        <li><strong>IDE vs Editor:</strong> IDE has debugger, editor doesn't</li>
+                                        <li><strong>IDLE comes with Python:</strong> No separate installation needed</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Footer */}
+                        <div className="text-center mt-8 text-gray-600">
+                            <p className="text-sm">Best of luck with your exam! 🌟</p>
+                            <p className="text-xs mt-2">Python Unit-5 - Libraries, GUI & IDEs - Last Minute Revision</p>
+                        </div>
+
+                        {/* ZenYukti Branding */}
+                        <div className="text-center mt-6 pt-4 border-t border-gray-300">
+                            <p className="text-sm text-gray-700 mb-2">
+                                Crafted with 💙 by <a href="https://zenyukti.in" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:text-blue-800 underline">ZenYukti</a>
+                            </p>
+                            <p className="text-xs text-gray-500 italic">Learn. Build. Share.</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Render the app
+        ReactDOM.render(<PythonUnit5Notes />, document.getElementById('root'));
+    </script>
+</body>
+</html>
