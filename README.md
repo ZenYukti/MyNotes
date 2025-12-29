@@ -217,10 +217,10 @@ MyNotes/
 
 | Unit | Topic | 🌐 Live Minute Prep. (Summarised) | Detailed Notes |
 |------|-------|----------------|----------------|
-| **Unit 1** | Introduction to Python: Variables, Operators, Blocks, Numeric Data Types (int, float) | [🔗 Live](https://zenyukti.github.io/MyNotes/Python/LastMinuteRevision/Unit-1.html) | [📄 Markdown](Python/Unit-1.md) |
-| **Unit 2** | Flow Control: if/elif/else, for/while Loops, Loop Manipulation (pass, continue, break) | [🔗 Live](https://zenyukti.github.io/MyNotes/Python/LastMinuteRevision/Unit-2.html) | [📄 Markdown](Python/Unit-2.md) |
+| **Unit 1** | Introduction to Python | [🔗 Live](https://zenyukti.github.io/MyNotes/Python/LastMinuteRevision/Unit-1.html) | [📄 Markdown](Python/Unit-1.md) |
+| **Unit 2** | Python Program Flow Control Conditional blocks | [🔗 Live](https://zenyukti.github.io/MyNotes/Python/LastMinuteRevision/Unit-2.html) | [📄 Markdown](Python/Unit-2.md) |
 | **Unit 3** | Complex Data Types: Strings, Lists, Tuples, Dictionaries, Functions & Manipulations | [🔗 Live](https://zenyukti.github.io/MyNotes/Python/LastMinuteRevision/Unit-3.html) | [📄 Markdown](Python/Unit-3.md) |
-| **Unit 4** | File Operations: Reading/Writing Files, read(), readline(), readlines(), write(), seek() | [🔗 Live](https://zenyukti.github.io/MyNotes/Python/LastMinuteRevision/Unit-4.html) | [📄 Markdown](Python/Unit-4.md) |
+| **Unit 4** | File Operations: (File Handling in Python) | [🔗 Live](https://zenyukti.github.io/MyNotes/Python/LastMinuteRevision/Unit-4.html) | [📄 Markdown](Python/Unit-4.md) |
 | **Unit 5** | Python Packages: matplotlib, numpy, pandas. GUI Programming: Tkinter, IDE | [🔗 Live](https://zenyukti.github.io/MyNotes/Python/LastMinuteRevision/Unit-5.html) | [📄 Markdown](Python/Unit-5.md) |
 
 **Python Coverage:**
