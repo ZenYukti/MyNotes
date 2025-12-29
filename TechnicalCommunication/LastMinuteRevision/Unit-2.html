@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Communication Unit-2: Career Building Skills - Last Minute Revision</title>
+    <meta name="description" content="Career Communication Skills Quick Revision Guide">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .gradient-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .checklist-item {
+            display: flex;
+            align-items: start;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-purple-50 to-pink-100 min-h-screen">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        // Icons
+        const ChevronDownIcon = () => (
+            <svg className="w-5 h-5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+        );
+
+        const ChevronUpIcon = () => (
+            <svg className="w-5 h-5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+            </svg>
+        );
+
+        const CheckIcon = () => (
+            <svg className="w-4 h-4 text-green-600 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+        );
+
+        // Collapsible Section Component
+        const Section = ({ title, children, defaultOpen = false }) => {
+            const [isOpen, setIsOpen] = useState(defaultOpen);
+
+            return (
+                <div className="mb-4 bg-white rounded-lg shadow-md overflow-hidden">
+                    <button
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="w-full px-6 py-4 flex items-center justify-between gradient-header text-white hover:opacity-90 transition-all"
+                    >
+                        <span className="text-lg font-semibold">{title}</span>
+                        {isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                    </button>
+                    {isOpen && (
+                        <div className="p-6">
+                            {children}
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        // Content Box Component
+        const Box = ({ title, children, color = "blue" }) => {
+            const colorClasses = {
+                yellow: "bg-yellow-50 border-yellow-400",
+                blue: "bg-blue-50 border-blue-400",
+                green: "bg-green-50 border-green-400",
+                purple: "bg-purple-50 border-purple-400",
+                red: "bg-red-50 border-red-400"
+            };
+
+            return (
+                <div className={`${colorClasses[color]} border-l-4 p-4 mb-4 rounded-r-lg`}>
+                    {title && <h4 className="font-bold text-gray-800 mb-2">{title}</h4>}
+                    {children}
+                </div>
+            );
+        };
+
+        // Main App Component
+        const App = () => {
+            return (
+                <div className="container mx-auto px-4 py-8 max-w-6xl">
+                    {/* Header */}
+                    <div className="gradient-header text-white p-8 rounded-lg shadow-xl mb-8">
+                        <h1 className="text-4xl font-bold mb-2">💼 Career Communication: Unit-2</h1>
+                        <p className="text-xl">Communication Skills for Career Building</p>
+                        <p className="text-sm mt-2 opacity-90">Last Minute Revision Guide • AKTU Semester 3</p>
+                    </div>
+
+                    {/* Section 1: CV/Résumé & SOP */}
+                    <Section title="1️⃣ CV, Résumé & Statement of Purpose" defaultOpen={true}>
+                        <Box title="📊 CV vs Résumé: Key Differences" color="yellow">
+                            <table className="w-full text-sm border-collapse">
+                                <thead>
+                                    <tr className="bg-gray-100">
+                                        <th className="border p-2 text-left">Aspect</th>
+                                        <th className="border p-2 text-left">CV (Curriculum Vitae)</th>
+                                        <th className="border p-2 text-left">Résumé</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Length</td>
+                                        <td className="border p-2">2-10+ pages</td>
+                                        <td className="border p-2">1-2 pages</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Purpose</td>
+                                        <td className="border p-2">Academic positions, research</td>
+                                        <td className="border p-2">Job applications (industry)</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Content</td>
+                                        <td className="border p-2">Complete career history</td>
+                                        <td className="border p-2">Relevant experience only</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Updates</td>
+                                        <td className="border p-2">Add as you progress</td>
+                                        <td className="border p-2">Customize per job</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Focus</td>
+                                        <td className="border p-2">Chronological, comprehensive</td>
+                                        <td className="border p-2">Achievement-oriented</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Used In</td>
+                                        <td className="border p-2">Europe, Academia, Research</td>
+                                        <td className="border p-2">North America, Industry</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </Box>
+
+                        <Box title="📝 CV/Résumé Structure" color="purple">
+                            <ol className="list-decimal pl-5 space-y-1 text-sm">
+                                <li><strong>Personal Information</strong>: Name, contact, LinkedIn, GitHub</li>
+                                <li><strong>Professional Summary/Objective</strong>: 2-3 lines (your value proposition)</li>
+                                <li><strong>Education</strong>: Degree, institution, CGPA, year</li>
+                                <li><strong>Work Experience</strong>: Company, role, dates, achievements (quantified)</li>
+                                <li><strong>Technical Skills</strong>: Languages, frameworks, tools (categorized)</li>
+                                <li><strong>Projects</strong>: Title, tech stack, impact, links</li>
+                                <li><strong>Certifications</strong>: Name, issuer, date</li>
+                                <li><strong>Awards & Achievements</strong>: Honors, competitions</li>
+                                <li><strong>Publications</strong> (if applicable): Papers, articles</li>
+                                <li><strong>References</strong>: "Available upon request"</li>
+                            </ol>
+                        </Box>
+
+                        <Box title="✅ CV/Résumé Writing Checklist" color="blue">
+                            <div className="space-y-1">
+                                <div className="checklist-item">
+                                    <CheckIcon />
+                                    <span className="text-sm"><strong>Use action verbs:</strong> Led, Developed, Achieved, Optimized, Increased</span>
+                                </div>
+                                <div className="checklist-item">
+                                    <CheckIcon />
+                                    <span className="text-sm"><strong>Quantify achievements:</strong> "Increased sales by 40%" not "Improved sales"</span>
+                                </div>
+                                <div className="checklist-item">
+                                    <CheckIcon />
+                                    <span className="text-sm"><strong>Customize for each job:</strong> Match keywords from job description</span>
+                                </div>
+                                <div className="checklist-item">
+                                    <CheckIcon />
+                                    <span className="text-sm"><strong>Keep formatting consistent:</strong> Same font, spacing, bullet style</span>
+                                </div>
+                                <div className="checklist-item">
+                                    <CheckIcon />
+                                    <span className="text-sm"><strong>Proofread thoroughly:</strong> Zero typos and grammatical errors</span>
+                                </div>
+                                <div className="checklist-item">
+                                    <CheckIcon />
+                                    <span className="text-sm"><strong>Use professional email:</strong> firstname.lastname@email.com</span>
+                                </div>
+                                <div className="checklist-item">
+                                    <CheckIcon />
+                                    <span className="text-sm"><strong>Save as PDF:</strong> Preserves formatting across devices</span>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="📄 Statement of Purpose (SOP) Structure" color="purple">
+                            <p className="text-sm mb-3"><strong>Length:</strong> 800-1000 words | <strong>Purpose:</strong> Higher studies application</p>
+                            <div className="space-y-3">
+                                <div className="bg-white p-3 rounded border-l-4 border-indigo-500">
+                                    <p className="font-bold text-sm">1. Introduction (100-150 words)</p>
+                                    <p className="text-xs">Hook + Brief background + Why this field interests you</p>
+                                </div>
+                                <div className="bg-white p-3 rounded border-l-4 border-blue-500">
+                                    <p className="font-bold text-sm">2. Academic Background (150-200 words)</p>
+                                    <p className="text-xs">Education, achievements, relevant coursework, projects</p>
+                                </div>
+                                <div className="bg-white p-3 rounded border-l-4 border-green-500">
+                                    <p className="font-bold text-sm">3. Professional Experience (150-200 words)</p>
+                                    <p className="text-xs">Work, internships, impact (quantified), skills gained</p>
+                                </div>
+                                <div className="bg-white p-3 rounded border-l-4 border-yellow-500">
+                                    <p className="font-bold text-sm">4. Why This Program? (200-250 words)</p>
+                                    <p className="text-xs">Specific courses, professors, research labs, unique offerings</p>
+                                </div>
+                                <div className="bg-white p-3 rounded border-l-4 border-orange-500">
+                                    <p className="font-bold text-sm">5. Career Goals (100-150 words)</p>
+                                    <p className="text-xs">Short-term (2-3 years) and long-term (5-10 years) plans</p>
+                                </div>
+                                <div className="bg-white p-3 rounded border-l-4 border-red-500">
+                                    <p className="font-bold text-sm">6. Conclusion (50-100 words)</p>
+                                    <p className="text-xs">Summarize fit, express enthusiasm, final pitch</p>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="🎯 Professional Profile Optimization" color="green">
+                            <p className="font-bold mb-2">LinkedIn Profile Essentials:</p>
+                            <ul className="list-disc pl-5 space-y-1 text-sm">
+                                <li><strong>Professional photo:</strong> High-quality headshot, neutral background</li>
+                                <li><strong>Headline:</strong> Not just job title - include skills & value (e.g., "Full-Stack Developer | Python, React, AWS | AI Enthusiast")</li>
+                                <li><strong>About section:</strong> Your story, achievements, passion, call-to-action</li>
+                                <li><strong>Experience:</strong> Use bullet points, quantify impact</li>
+                                <li><strong>Skills:</strong> Top 10-15 relevant skills, get endorsements</li>
+                                <li><strong>Recommendations:</strong> Request 3-5 from colleagues/managers</li>
+                            </ul>
+                        </Box>
+                    </Section>
+
+                    {/* Section 2: Interview Skills */}
+                    <Section title="2️⃣ Interview Skills: Pre, During & Post">
+                        <Box title="📋 Pre-Interview Preparation Checklist" color="blue">
+                            <div className="grid md:grid-cols-2 gap-4">
+                                <div>
+                                    <p className="font-bold text-sm mb-2">Company Research:</p>
+                                    <ul className="list-disc pl-5 text-xs space-y-1">
+                                        <li>Mission, vision, values</li>
+                                        <li>Recent news & products</li>
+                                        <li>Company culture</li>
+                                        <li>Key competitors</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p className="font-bold text-sm mb-2">Role Understanding:</p>
+                                    <ul className="list-disc pl-5 text-xs space-y-1">
+                                        <li>Job description requirements</li>
+                                        <li>Required skills match</li>
+                                        <li>Team structure</li>
+                                        <li>Growth opportunities</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p className="font-bold text-sm mb-2">Practice Questions:</p>
+                                    <ul className="list-disc pl-5 text-xs space-y-1">
+                                        <li>Tell me about yourself</li>
+                                        <li>Strengths & weaknesses</li>
+                                        <li>Why this company?</li>
+                                        <li>Where in 5 years?</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p className="font-bold text-sm mb-2">Logistics:</p>
+                                    <ul className="list-disc pl-5 text-xs space-y-1">
+                                        <li>Confirm date, time, location</li>
+                                        <li>Test tech (for virtual)</li>
+                                        <li>Professional attire</li>
+                                        <li>Multiple CV copies</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="⭐ STAR Method for Behavioral Questions" color="purple">
+                            <div className="bg-gradient-to-r from-blue-100 to-purple-100 p-4 rounded-lg mb-3">
+                                <p className="font-bold text-center mb-2">STAR = Situation → Task → Action → Result</p>
+                                <div className="grid grid-cols-4 gap-2 text-center text-xs">
+                                    <div>
+                                        <p className="font-bold">Situation</p>
+                                        <p>Context</p>
+                                    </div>
+                                    <div>
+                                        <p className="font-bold">Task</p>
+                                        <p>Your goal</p>
+                                    </div>
+                                    <div>
+                                        <p className="font-bold">Action</p>
+                                        <p>What you did</p>
+                                    </div>
+                                    <div>
+                                        <p className="font-bold">Result</p>
+                                        <p>Outcome</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <p className="text-sm mb-2"><strong>Example Question:</strong> "Tell me about a time you faced a challenge"</p>
+                            <div className="text-xs space-y-2">
+                                <p><strong>S:</strong> "Lead developer left 3 weeks before product launch, 50% backend incomplete"</p>
+                                <p><strong>T:</strong> "As senior dev, ensure on-time launch without compromising quality"</p>
+                                <p><strong>A:</strong> "Assessed work, redistributed tasks, took complex modules, daily standups"</p>
+                                <p><strong>R:</strong> "Launched on time, 4.5/5 rating, promoted to Tech Lead within 2 months"</p>
+                            </div>
+                        </Box>
+
+                        <Box title="💡 Common Interview Questions & Approach" color="yellow">
+                            <div className="space-y-2 text-sm">
+                                <div>
+                                    <p className="font-bold">1. "Tell me about yourself"</p>
+                                    <p className="text-xs">Formula: Present (current role) → Past (key achievements) → Future (why this role)</p>
+                                    <p className="text-xs italic">Duration: 60-90 seconds</p>
+                                </div>
+                                <div>
+                                    <p className="font-bold">2. "What are your strengths?"</p>
+                                    <p className="text-xs">Link to job requirements + Provide evidence/example</p>
+                                </div>
+                                <div>
+                                    <p className="font-bold">3. "What is your weakness?"</p>
+                                    <p className="text-xs">Real weakness + Actions taken to improve + Progress made</p>
+                                </div>
+                                <div>
+                                    <p className="font-bold">4. "Why this company?"</p>
+                                    <p className="text-xs">Research + Alignment + What you can contribute (specific project/product)</p>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="✅ Interview Do's & Don'ts" color="green">
+                            <div className="grid md:grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <p className="font-bold text-green-700 mb-2">✓ DO's:</p>
+                                    <ul className="space-y-1 text-xs">
+                                        <li>✓ Firm handshake, eye contact (70-80%)</li>
+                                        <li>✓ Smile genuinely, sit upright</li>
+                                        <li>✓ Listen actively, ask clarifying questions</li>
+                                        <li>✓ Quantify achievements with numbers</li>
+                                        <li>✓ Prepare questions for interviewer</li>
+                                        <li>✓ Send thank-you email within 24 hours</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p className="font-bold text-red-700 mb-2">✗ DON'Ts:</p>
+                                    <ul className="space-y-1 text-xs">
+                                        <li>✗ Arrive late or unprepared</li>
+                                        <li>✗ Speak negatively about past employers</li>
+                                        <li>✗ Check phone during interview</li>
+                                        <li>✗ Slouch, cross arms, fidget</li>
+                                        <li>✗ Say "I don't know" without trying</li>
+                                        <li>✗ Ask about salary in first interview</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="❓ Questions to Ask the Interviewer" color="blue">
+                            <div className="grid md:grid-cols-2 gap-3 text-xs">
+                                <div>
+                                    <p className="font-bold">About the Role:</p>
+                                    <ul className="list-disc pl-5">
+                                        <li>What does a typical day look like?</li>
+                                        <li>What are immediate priorities?</li>
+                                        <li>How is success measured?</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p className="font-bold">About Growth:</p>
+                                    <ul className="list-disc pl-5">
+                                        <li>Professional development opportunities?</li>
+                                        <li>Typical career path for this role?</li>
+                                        <li>Support for certifications/training?</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </Box>
+                    </Section>
+
+                    {/* Section 3: Group Discussion */}
+                    <Section title="3️⃣ Group Discussion (GD) Strategies">
+                        <Box title="📌 What is Group Discussion?" color="yellow">
+                            <p className="text-sm mb-2"><strong>Definition:</strong> Structured discussion where 8-12 participants discuss a topic for 15-20 minutes</p>
+                            <p className="text-sm"><strong>Evaluation:</strong> Content (30%), Communication (25%), Critical Thinking (20%), Leadership (15%), Team Spirit (10%)</p>
+                        </Box>
+
+                        <Box title="🎭 Functional Roles in GD" color="purple">
+                            <table className="w-full text-sm border-collapse">
+                                <thead>
+                                    <tr className="bg-gray-100">
+                                        <th className="border p-2 text-left">Role</th>
+                                        <th className="border p-2 text-left">Behavior</th>
+                                        <th className="border p-2 text-left">Impact</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Initiator</td>
+                                        <td className="border p-2">Starts discussion with clear opening</td>
+                                        <td className="border p-2">✓ Sets agenda, shows confidence</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Contributor</td>
+                                        <td className="border p-2">Adds facts, examples, new perspectives</td>
+                                        <td className="border p-2">✓ Adds value with data</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Moderator</td>
+                                        <td className="border p-2">Keeps discussion on track, involves others</td>
+                                        <td className="border p-2">✓ Shows leadership</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Summarizer</td>
+                                        <td className="border p-2">Concludes with key points</td>
+                                        <td className="border p-2">✓ Demonstrates listening skills</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold text-red-600">Aggressor</td>
+                                        <td className="border p-2">Dominates, interrupts, aggressive</td>
+                                        <td className="border p-2">✗ Negative impression</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold text-red-600">Silent Observer</td>
+                                        <td className="border p-2">Doesn't participate</td>
+                                        <td className="border p-2">✗ Seen as disinterested</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </Box>
+
+                        <Box title="📊 Types of GD Topics" color="blue">
+                            <div className="grid md:grid-cols-2 gap-3 text-sm">
+                                <div>
+                                    <p className="font-bold">Factual Topics:</p>
+                                    <p className="text-xs">Use facts, statistics, examples</p>
+                                    <p className="text-xs italic">Example: "Impact of AI on Employment"</p>
+                                </div>
+                                <div>
+                                    <p className="font-bold">Controversial Topics:</p>
+                                    <p className="text-xs">Present balanced view, acknowledge both sides</p>
+                                    <p className="text-xs italic">Example: "Social Media: Boon or Bane?"</p>
+                                </div>
+                                <div>
+                                    <p className="font-bold">Abstract Topics:</p>
+                                    <p className="text-xs">Interpret meaning, give real-life examples</p>
+                                    <p className="text-xs italic">Example: "Empty vessels make the most noise"</p>
+                                </div>
+                                <div>
+                                    <p className="font-bold">Case Study:</p>
+                                    <p className="text-xs">Analyze situation, propose solutions</p>
+                                    <p className="text-xs italic">Example: "Company layoffs - how to handle?"</p>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="✅ GD Do's & Don'ts" color="green">
+                            <div className="grid md:grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <p className="font-bold text-green-700 mb-2">✓ DO's:</p>
+                                    <ul className="space-y-1 text-xs">
+                                        <li>✓ Initiate if you have good opening</li>
+                                        <li>✓ Listen actively to others</li>
+                                        <li>✓ Build on others' points</li>
+                                        <li>✓ Use facts and examples</li>
+                                        <li>✓ Maintain eye contact with group</li>
+                                        <li>✓ Be respectful of opinions</li>
+                                        <li>✓ Speak clearly and audibly</li>
+                                        <li>✓ Summarize if opportunity arises</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p className="font-bold text-red-700 mb-2">✗ DON'Ts:</p>
+                                    <ul className="space-y-1 text-xs">
+                                        <li>✗ Speak just to speak (no substance)</li>
+                                        <li>✗ Interrupt others mid-sentence</li>
+                                        <li>✗ Repeat same points</li>
+                                        <li>✗ Make baseless claims</li>
+                                        <li>✗ Look only at one person</li>
+                                        <li>✗ Get aggressive or personal</li>
+                                        <li>✗ Dominate entire discussion</li>
+                                        <li>✗ Force your opinion on others</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="🎯 GD Time Structure" color="purple">
+                            <div className="space-y-2 text-sm">
+                                <div className="flex items-center gap-2">
+                                    <span className="font-bold w-40">1. Thinking (1-2 min):</span>
+                                    <span className="text-xs">Read topic, organize thoughts</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <span className="font-bold w-40">2. Initial (5 min):</span>
+                                    <span className="text-xs">Each member introduces ideas</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <span className="font-bold w-40">3. Main (8-10 min):</span>
+                                    <span className="text-xs">Debate, analyze, exchange views</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <span className="font-bold w-40">4. Conclusion (2-3 min):</span>
+                                    <span className="text-xs">Summarize key points</span>
+                                </div>
+                            </div>
+                        </Box>
+                    </Section>
+
+                    {/* Section 4: Networking */}
+                    <Section title="4️⃣ Professional Networking & Relationships">
+                        <Box title="🤝 Why Networking Matters" color="yellow">
+                            <div className="grid md:grid-cols-3 gap-3 text-sm">
+                                <div className="bg-white p-3 rounded">
+                                    <p className="font-bold">85%</p>
+                                    <p className="text-xs">Jobs filled through networking</p>
+                                </div>
+                                <div className="bg-white p-3 rounded">
+                                    <p className="font-bold">70%</p>
+                                    <p className="text-xs">Jobs never advertised publicly</p>
+                                </div>
+                                <div className="bg-white p-3 rounded">
+                                    <p className="font-bold">60%</p>
+                                    <p className="text-xs">Hiring managers prefer referrals</p>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="🎯 The 30-Second Elevator Pitch" color="purple">
+                            <p className="text-sm mb-3"><strong>Formula:</strong> Who You Are + What You Do + Value You Offer + Call to Action</p>
+                            <div className="bg-gradient-to-r from-purple-100 to-pink-100 p-4 rounded-lg">
+                                <p className="font-bold text-sm mb-2">Example:</p>
+                                <p className="text-xs italic">"Hi, I'm Rahul, a Full-Stack Developer with 3 years of experience building scalable cloud applications. I recently helped my company reduce system latency by 45%, improving user experience for 100K+ daily users. I'm passionate about AI and always looking to connect with fellow developers. Would you like to exchange LinkedIn contacts?"</p>
+                            </div>
+                            <p className="text-xs mt-2">⏱️ Practice to deliver naturally in 30 seconds</p>
+                        </Box>
+
+                        <Box title="💬 Networking Conversation Starters" color="blue">
+                            <div className="space-y-2 text-sm">
+                                <p className="font-bold">At Professional Events:</p>
+                                <ul className="list-disc pl-5 text-xs space-y-1">
+                                    <li>"What brought you to this event?"</li>
+                                    <li>"What do you do at [Company]?"</li>
+                                    <li>"What are you currently working on?"</li>
+                                    <li>"How did you get into [Industry]?"</li>
+                                    <li>"What's been your biggest challenge this year?"</li>
+                                </ul>
+                                <p className="font-bold text-red-600 mt-3">❌ Avoid:</p>
+                                <ul className="list-disc pl-5 text-xs space-y-1">
+                                    <li>✗ "Can you give me a job?" (too direct)</li>
+                                    <li>✗ Talking only about yourself without asking</li>
+                                    <li>✗ Personal/inappropriate topics</li>
+                                </ul>
+                            </div>
+                        </Box>
+
+                        <Box title="📱 Online vs Offline Networking" color="green">
+                            <div className="grid md:grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <p className="font-bold mb-2">Online Platforms:</p>
+                                    <ul className="list-disc pl-5 text-xs space-y-1">
+                                        <li><strong>LinkedIn:</strong> Professional networking</li>
+                                        <li><strong>Twitter/X:</strong> Thought leadership</li>
+                                        <li><strong>GitHub:</strong> Developer community</li>
+                                        <li><strong>Discord/Slack:</strong> Community groups</li>
+                                        <li><strong>Alumni networks:</strong> College connections</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p className="font-bold mb-2">Offline Opportunities:</p>
+                                    <ul className="list-disc pl-5 text-xs space-y-1">
+                                        <li>Industry conferences</li>
+                                        <li>Workshops and seminars</li>
+                                        <li>Alumni meetups</li>
+                                        <li>Professional associations</li>
+                                        <li>Co-working spaces</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="🔄 Maintaining Relationships" color="purple">
+                            <ul className="list-disc pl-5 space-y-1 text-sm">
+                                <li><strong>Regular check-ins:</strong> Message every 2-3 months</li>
+                                <li><strong>Share relevant content:</strong> Articles they'd find interesting</li>
+                                <li><strong>Offer help first:</strong> Give before you ask</li>
+                                <li><strong>Celebrate their wins:</strong> Comment on promotions, achievements</li>
+                                <li><strong>Meet periodically:</strong> Coffee/lunch every 3-6 months</li>
+                            </ul>
+                        </Box>
+                    </Section>
+
+                    {/* Section 5: Technical Writing & Presentations */}
+                    <Section title="5️⃣ Technical Writing & Expert Presentations">
+                        <Box title="📄 Conference Paper Structure" color="purple">
+                            <div className="space-y-2">
+                                <div className="bg-indigo-100 p-3 rounded">
+                                    <p className="font-bold text-sm">1. Title</p>
+                                    <p className="text-xs">Clear, concise, descriptive (10-15 words)</p>
+                                </div>
+                                <div className="bg-blue-100 p-3 rounded">
+                                    <p className="font-bold text-sm">2. Abstract (150-250 words)</p>
+                                    <p className="text-xs">Background → Problem → Methodology → Results → Conclusion</p>
+                                </div>
+                                <div className="bg-green-100 p-3 rounded">
+                                    <p className="font-bold text-sm">3. Keywords (5-7 keywords)</p>
+                                    <p className="text-xs">Relevant terms for searchability</p>
+                                </div>
+                                <div className="bg-yellow-100 p-3 rounded">
+                                    <p className="font-bold text-sm">4. Introduction</p>
+                                    <p className="text-xs">Background, problem statement, objectives, contribution</p>
+                                </div>
+                                <div className="bg-orange-100 p-3 rounded">
+                                    <p className="font-bold text-sm">5. Literature Review/Related Work</p>
+                                    <p className="text-xs">Existing research, gaps, how your work differs</p>
+                                </div>
+                                <div className="bg-red-100 p-3 rounded">
+                                    <p className="font-bold text-sm">6. Methodology</p>
+                                    <p className="text-xs">Research design, data collection, analysis techniques</p>
+                                </div>
+                                <div className="bg-purple-100 p-3 rounded">
+                                    <p className="font-bold text-sm">7. Results & Discussion</p>
+                                    <p className="text-xs">Findings, analysis, comparison with existing work</p>
+                                </div>
+                                <div className="bg-pink-100 p-3 rounded">
+                                    <p className="font-bold text-sm">8. Conclusion & Future Work</p>
+                                    <p className="text-xs">Summary, implications, limitations, future directions</p>
+                                </div>
+                                <div className="bg-gray-100 p-3 rounded">
+                                    <p className="font-bold text-sm">9. Acknowledgments + References</p>
+                                    <p className="text-xs">Thank contributors, cite all sources</p>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="🎤 Technical Presentation Structure" color="blue">
+                            <div className="space-y-2 text-sm">
+                                <div>
+                                    <p className="font-bold">Introduction (5 min):</p>
+                                    <ul className="list-disc pl-5 text-xs">
+                                        <li>Hook/attention grabber</li>
+                                        <li>Introduce yourself & topic</li>
+                                        <li>State objectives</li>
+                                        <li>Agenda/outline</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p className="font-bold">Main Content (35-40 min):</p>
+                                    <ul className="list-disc pl-5 text-xs">
+                                        <li>Point 1 with examples</li>
+                                        <li>Point 2 with demos</li>
+                                        <li>Point 3 with case studies</li>
+                                        <li>Interactive activities/Q&A</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p className="font-bold">Conclusion (5 min):</p>
+                                    <ul className="list-disc pl-5 text-xs">
+                                        <li>Summarize key takeaways</li>
+                                        <li>Call to action</li>
+                                        <li>Open Q&A session</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="🎨 Slide Design Principles" color="green">
+                            <div className="grid md:grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <p className="font-bold text-green-700 mb-2">✓ Effective Slides:</p>
+                                    <ul className="space-y-1 text-xs">
+                                        <li>✓ Bullet points (5-7 max per slide)</li>
+                                        <li>✓ Consistent theme & fonts</li>
+                                        <li>✓ White space for readability</li>
+                                        <li>✓ High-resolution visuals</li>
+                                        <li>✓ Simple, clear diagrams</li>
+                                        <li>✓ Slides support speech (not replace)</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p className="font-bold text-red-700 mb-2">✗ Poor Slides:</p>
+                                    <ul className="space-y-1 text-xs">
+                                        <li>✗ Paragraphs of text</li>
+                                        <li>✗ Multiple fonts/colors</li>
+                                        <li>✗ Cluttered layout</li>
+                                        <li>✗ Low-quality images</li>
+                                        <li>✗ Complex, confusing charts</li>
+                                        <li>✗ Reading slides verbatim</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="📝 Seminar Paper Writing Tips" color="yellow">
+                            <ul className="list-disc pl-5 space-y-1 text-sm">
+                                <li><strong>Title:</strong> Clear, specific, includes main keywords</li>
+                                <li><strong>Abstract:</strong> Standalone summary (reader should understand without reading full paper)</li>
+                                <li><strong>Introduction:</strong> Set context, state problem clearly, explain significance</li>
+                                <li><strong>Methodology:</strong> Detailed enough for replication</li>
+                                <li><strong>Results:</strong> Use tables, graphs for clarity; don't interpret here</li>
+                                <li><strong>Discussion:</strong> Interpret results, compare with existing work</li>
+                                <li><strong>Conclusion:</strong> Answer research questions, state limitations, suggest future work</li>
+                                <li><strong>References:</strong> Follow citation style consistently (APA, IEEE, etc.)</li>
+                            </ul>
+                        </Box>
+                    </Section>
+
+                    {/* Quick Revision Section */}
+                    <Section title="🚀 QUICK REVISION SUMMARY" defaultOpen={true}>
+                        <Box title="📊 CV vs Résumé Quick Comparison" color="red">
+                            <div className="grid md:grid-cols-2 gap-4 text-sm">
+                                <div className="bg-white p-3 rounded">
+                                    <p className="font-bold">CV:</p>
+                                    <ul className="text-xs space-y-1">
+                                        <li>• 2-10+ pages</li>
+                                        <li>• Complete career history</li>
+                                        <li>• Academic/Research focus</li>
+                                        <li>• Used in Europe, Academia</li>
+                                    </ul>
+                                </div>
+                                <div className="bg-white p-3 rounded">
+                                    <p className="font-bold">Résumé:</p>
+                                    <ul className="text-xs space-y-1">
+                                        <li>• 1-2 pages</li>
+                                        <li>• Relevant experience only</li>
+                                        <li>• Job-specific, customized</li>
+                                        <li>• Used in North America, Industry</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="⭐ STAR Method Cheat Sheet" color="red">
+                            <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-4 rounded-lg">
+                                <p className="font-bold text-center mb-3">Situation → Task → Action → Result</p>
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold">Situation</p>
+                                        <p>Set context (when, where, challenge)</p>
+                                    </div>
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold">Task</p>
+                                        <p>Your responsibility/goal</p>
+                                    </div>
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold">Action</p>
+                                        <p>Steps you took (specific)</p>
+                                    </div>
+                                    <div className="bg-white p-2 rounded">
+                                        <p className="font-bold">Result</p>
+                                        <p>Outcome (quantified)</p>
+                                    </div>
+                                </div>
+                                <p className="text-xs mt-3 italic">✨ Always end with what you learned!</p>
+                            </div>
+                        </Box>
+
+                        <Box title="🎯 30-Second Elevator Pitch Template" color="red">
+                            <div className="bg-yellow-50 p-3 rounded">
+                                <p className="font-bold text-sm mb-2">Formula:</p>
+                                <ol className="list-decimal pl-5 text-xs space-y-1">
+                                    <li><strong>Who you are:</strong> Name + Current role</li>
+                                    <li><strong>What you do:</strong> Key expertise/specialization</li>
+                                    <li><strong>Value you offer:</strong> Impact/achievement (quantified)</li>
+                                    <li><strong>Call to action:</strong> What you're seeking/offer</li>
+                                </ol>
+                                <p className="text-xs mt-2 italic">Practice until it sounds natural, not rehearsed!</p>
+                            </div>
+                        </Box>
+
+                        <Box title="📄 SOP 6-Paragraph Structure" color="red">
+                            <div className="space-y-1 text-xs">
+                                <p><strong>1.</strong> Introduction (Hook + Why this field)</p>
+                                <p><strong>2.</strong> Academic Background (Education + Projects)</p>
+                                <p><strong>3.</strong> Professional Experience (Work + Impact)</p>
+                                <p><strong>4.</strong> Why This Program? (Specific courses, professors, labs)</p>
+                                <p><strong>5.</strong> Career Goals (Short-term + Long-term)</p>
+                                <p><strong>6.</strong> Conclusion (Summarize fit + Express enthusiasm)</p>
+                            </div>
+                        </Box>
+
+                        <Box title="📝 Conference Paper Structure Flow" color="red">
+                            <div className="bg-gradient-to-r from-indigo-50 to-purple-50 p-3 rounded text-xs">
+                                <p className="text-center font-bold mb-2">Title → Abstract → Keywords → Introduction → Literature Review → Methodology → Results → Discussion → Conclusion → References</p>
+                                <p className="text-center mt-2"><strong>Remember:</strong> Abstract = Mini version of entire paper (150-250 words)</p>
+                            </div>
+                        </Box>
+
+                        <Box title="🎓 Top 5 Exam Questions" color="red">
+                            <ol className="list-decimal pl-5 space-y-2 text-sm">
+                                <li><strong>Differentiate between CV and Résumé with examples.</strong>
+                                    <p className="text-xs ml-4">Answer: CV = 2-10+ pages, comprehensive, academic focus, used in Europe/Academia. Résumé = 1-2 pages, job-specific, achievement-oriented, used in North America/Industry.</p>
+                                </li>
+                                <li><strong>Explain the STAR method for behavioral interviews.</strong>
+                                    <p className="text-xs ml-4">Answer: Situation (context) → Task (your goal) → Action (steps taken) → Result (outcome with numbers). Example: Led team through crisis, delivered project on time, promoted within 2 months.</p>
+                                </li>
+                                <li><strong>What are the essential parts of a seminar/conference paper?</strong>
+                                    <p className="text-xs ml-4">Answer: Title, Abstract, Keywords, Introduction, Literature Review, Methodology, Results & Discussion, Conclusion, References. Abstract should be 150-250 words and standalone.</p>
+                                </li>
+                                <li><strong>Strategies to handle conflict in a Group Discussion.</strong>
+                                    <p className="text-xs ml-4">Answer: Listen actively, acknowledge other's point, present counter-argument with facts respectfully, find common ground, agree to disagree politely. Never get personal or aggressive.</p>
+                                </li>
+                                <li><strong>Write the structure of a Statement of Purpose (SOP).</strong>
+                                    <p className="text-xs ml-4">Answer: 6 sections - Introduction (hook), Academic Background, Professional Experience, Why This Program (specific), Career Goals (short & long-term), Conclusion. Total: 800-1000 words.</p>
+                                </li>
+                            </ol>
+                        </Box>
+
+                        <Box title="💡 Last-Minute Power Tips" color="red">
+                            <ul className="list-disc pl-5 space-y-1 text-sm">
+                                <li><strong>CV Writing:</strong> Quantify everything! "Increased by 40%" beats "Improved performance"</li>
+                                <li><strong>Interview:</strong> "Tell me about yourself" = Present → Past → Future (60-90 seconds)</li>
+                                <li><strong>Weakness Question:</strong> Real weakness + Action taken + Progress shown</li>
+                                <li><strong>GD Roles:</strong> Initiator (confident start), Contributor (add facts), Moderator (leadership), Summarizer (listening)</li>
+                                <li><strong>Avoid in GD:</strong> Aggressor (dominating), Silent Observer (no participation)</li>
+                                <li><strong>Networking:</strong> 85% jobs through networking! Give before you ask</li>
+                                <li><strong>LinkedIn Headline:</strong> Job + Skills + Value (not just "Software Engineer at XYZ")</li>
+                                <li><strong>SOP Key:</strong> Be specific! Mention exact courses, professors, research labs</li>
+                                <li><strong>Conference Paper:</strong> Abstract = Standalone mini-paper (Background → Results → Conclusion)</li>
+                                <li><strong>Presentation:</strong> 5-7 bullets max per slide, use visuals, don't read slides</li>
+                            </ul>
+                        </Box>
+                    </Section>
+
+                    {/* Footer */}
+                    <div className="mt-8 p-6 gradient-header text-white rounded-lg text-center">
+                        <p className="text-sm">💼 Last Minute Revision Guide • Career Communication Unit-2</p>
+                        <p className="text-xs mt-2 opacity-90">Communication Skills for Career Building • AKTU Semester 3</p>
+                        <div className="mt-4 pt-4 border-t border-white/30">
+                            <p className="text-sm font-semibold">Brought to you by ZenYukti 💙</p>
+                            <p className="text-xs mt-1 italic">Learn. Build. Share.</p>
+                            <p className="text-xs mt-2">🌐 zenyukti.in | 💬 Discord: go.zenyukti.in/discord</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Render the app
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
