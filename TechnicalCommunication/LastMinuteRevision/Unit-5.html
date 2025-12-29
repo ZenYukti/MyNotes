@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Communication Unit-5: Digital Comm & Personality - Last Minute Revision</title>
+    <meta name="description" content="Digital Communication & Personality Development Quick Revision Guide">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .gradient-header {
+            background: linear-gradient(135deg, #FA8BFF 0%, #2BD2FF 52%, #2BFF88 90%);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-cyan-50 to-blue-100 min-h-screen">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        // Icons
+        const ChevronDownIcon = () => (
+            <svg className="w-5 h-5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+        );
+
+        const ChevronUpIcon = () => (
+            <svg className="w-5 h-5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+            </svg>
+        );
+
+        // Collapsible Section Component
+        const Section = ({ title, children, defaultOpen = false }) => {
+            const [isOpen, setIsOpen] = useState(defaultOpen);
+
+            return (
+                <div className="mb-4 bg-white rounded-lg shadow-md overflow-hidden">
+                    <button
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="w-full px-6 py-4 flex items-center justify-between gradient-header text-white hover:opacity-90 transition-all"
+                    >
+                        <span className="text-lg font-semibold">{title}</span>
+                        {isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                    </button>
+                    {isOpen && (
+                        <div className="p-6">
+                            {children}
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        // Content Box Component
+        const Box = ({ title, children, color = "blue" }) => {
+            const colorClasses = {
+                yellow: "bg-yellow-50 border-yellow-400",
+                blue: "bg-blue-50 border-blue-400",
+                green: "bg-green-50 border-green-400",
+                purple: "bg-purple-50 border-purple-400",
+                red: "bg-red-50 border-red-400"
+            };
+
+            return (
+                <div className={`${colorClasses[color]} border-l-4 p-4 mb-4 rounded-r-lg`}>
+                    {title && <h4 className="font-bold text-gray-800 mb-2">{title}</h4>}
+                    {children}
+                </div>
+            );
+        };
+
+        // Main App Component
+        const App = () => {
+            return (
+                <div className="container mx-auto px-4 py-8 max-w-6xl">
+                    {/* Header */}
+                    <div className="gradient-header text-white p-8 rounded-lg shadow-xl mb-8">
+                        <h1 className="text-4xl font-bold mb-2">📱 Digital Comm & Personality: Unit-5</h1>
+                        <p className="text-xl">Digital Communication & Personality Development</p>
+                        <p className="text-sm mt-2 opacity-90">Last Minute Revision Guide • AKTU Semester 3</p>
+                    </div>
+
+                    {/* Section 1: Digital Content Creation */}
+                    <Section title="1️⃣ Digital Content Creation" defaultOpen={true}>
+                        <Box title="📧 Professional Email Structure" color="blue">
+                            <ul className="list-disc pl-5 text-sm space-y-1">
+                                <li><strong>To/Cc:</strong> Recipient email addresses</li>
+                                <li><strong>Subject:</strong> Clear, specific (8-10 words)</li>
+                                <li><strong>Salutation:</strong> Dear/Hi [Name],</li>
+                                <li><strong>Opening:</strong> State purpose clearly (1-2 sentences)</li>
+                                <li><strong>Body:</strong> Main message, organized paragraphs, bullet points</li>
+                                <li><strong>Call to Action:</strong> What you need from recipient</li>
+                                <li><strong>Closing:</strong> Thank you, Best regards</li>
+                                <li><strong>Signature:</strong> Name, Title, Contact info</li>
+                            </ul>
+                        </Box>
+
+                        <Box title="✅ Email Best Practices" color="blue">
+                            <div className="grid md:grid-cols-2 gap-3 text-xs">
+                                <div className="bg-green-50 p-3 rounded">
+                                    <p className="font-bold mb-2">✓ DO:</p>
+                                    <ul className="list-disc pl-4 space-y-1">
+                                        <li>Clear subject line</li>
+                                        <li>Professional greeting</li>
+                                        <li>Get to point quickly</li>
+                                        <li>Proper grammar</li>
+                                        <li>Proofread before sending</li>
+                                        <li>Use bullet points</li>
+                                        <li>Reply within 24 hours</li>
+                                    </ul>
+                                </div>
+                                <div className="bg-red-50 p-3 rounded">
+                                    <p className="font-bold mb-2">✗ DON'T:</p>
+                                    <ul className="list-disc pl-4 space-y-1">
+                                        <li>Vague subjects ("Hello")</li>
+                                        <li>Too casual ("Hey dude")</li>
+                                        <li>Long-winded intro</li>
+                                        <li>Typos, text speak</li>
+                                        <li>Send without review</li>
+                                        <li>Long paragraphs</li>
+                                        <li>CC entire company</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="🎥 Webinar Structure (60 minutes)" color="blue">
+                            <ul className="list-disc pl-5 text-sm space-y-1">
+                                <li><strong>0-5 min:</strong> Welcome, housekeeping, agenda</li>
+                                <li><strong>5-10 min:</strong> Context setting, learning objectives, poll</li>
+                                <li><strong>10-35 min:</strong> Main content (3-4 sections with examples/demos)</li>
+                                <li><strong>35-45 min:</strong> Practical application, step-by-step walkthrough</li>
+                                <li><strong>45-55 min:</strong> Q&A session from chat</li>
+                                <li><strong>55-60 min:</strong> Summary, resources, call to action</li>
+                            </ul>
+                            <p className="text-xs mt-2 font-bold">Best Practices:</p>
+                            <ul className="text-xs list-disc pl-5">
+                                <li>Test tech 30 min early</li>
+                                <li>Interact every 5-7 min (polls)</li>
+                                <li>Send recording within 24 hours</li>
+                            </ul>
+                        </Box>
+
+                        <Box title="🎙️ Podcast Episode Structure" color="blue">
+                            <div className="space-y-2 text-sm">
+                                <div className="bg-gradient-to-r from-purple-100 to-pink-100 p-2 rounded">
+                                    <p className="font-bold">INTRO (30-60 sec):</p>
+                                    <ul className="text-xs list-disc pl-5">
+                                        <li>Music jingle</li>
+                                        <li>Podcast name + host intro</li>
+                                        <li>Brief episode teaser</li>
+                                    </ul>
+                                </div>
+                                <div className="bg-gradient-to-r from-blue-100 to-cyan-100 p-2 rounded">
+                                    <p className="font-bold">MAIN CONTENT (15-40 min):</p>
+                                    <ul className="text-xs list-disc pl-5">
+                                        <li>Guest intro (2 min)</li>
+                                        <li>Discussion/Q&A (25-35 min)</li>
+                                        <li>Examples and anecdotes</li>
+                                    </ul>
+                                </div>
+                                <div className="bg-gradient-to-r from-green-100 to-emerald-100 p-2 rounded">
+                                    <p className="font-bold">OUTRO (30-60 sec):</p>
+                                    <ul className="text-xs list-disc pl-5">
+                                        <li>Summarize takeaways</li>
+                                        <li>Call to action (subscribe)</li>
+                                        <li>Tease next episode</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="📝 Blog Post Anatomy" color="blue">
+                            <ol className="list-decimal pl-5 text-sm space-y-1">
+                                <li><strong>Catchy Title (8-12 words):</strong> Use numbers, power words, keywords</li>
+                                <li><strong>Introduction (50-100 words):</strong> Hook, problem, what reader learns</li>
+                                <li><strong>Main Body (1000-2000 words):</strong> Subheadings, short paragraphs, bullet points, images</li>
+                                <li><strong>Conclusion (50-100 words):</strong> Summary, call to action</li>
+                                <li><strong>Metadata:</strong> Meta description (150-160 chars), tags, featured image</li>
+                            </ol>
+                            <p className="text-xs mt-2 italic">Example Title: "7 Python Tips to Double Your Productivity"</p>
+                        </Box>
+
+                        <Box title="🎬 Content Creation Formula: Hook-Value-CTA" color="green">
+                            <div className="flex items-center gap-3 text-sm">
+                                <div className="bg-red-100 px-4 py-2 rounded flex-1 text-center">
+                                    <p className="font-bold">HOOK</p>
+                                    <p className="text-xs">Grab attention</p>
+                                </div>
+                                <span className="text-2xl">→</span>
+                                <div className="bg-blue-100 px-4 py-2 rounded flex-1 text-center">
+                                    <p className="font-bold">VALUE</p>
+                                    <p className="text-xs">Deliver content</p>
+                                </div>
+                                <span className="text-2xl">→</span>
+                                <div className="bg-green-100 px-4 py-2 rounded flex-1 text-center">
+                                    <p className="font-bold">CTA</p>
+                                    <p className="text-xs">Action step</p>
+                                </div>
+                            </div>
+                        </Box>
+                    </Section>
+
+                    {/* Section 2: Social Media Ethics */}
+                    <Section title="2️⃣ Effective & Ethical Use of Social Media">
+                        <Box title="📱 Platform-Specific Best Practices" color="blue">
+                            <div className="grid md:grid-cols-2 gap-3 text-xs">
+                                <div className="bg-blue-50 p-3 rounded">
+                                    <p className="font-bold">LINKEDIN (Professional)</p>
+                                    <ul className="list-disc pl-4">
+                                        <li>Industry insights, articles</li>
+                                        <li>Professional tone</li>
+                                        <li>Best: Tue-Thu, 7-8 AM</li>
+                                    </ul>
+                                </div>
+                                <div className="bg-sky-50 p-3 rounded">
+                                    <p className="font-bold">TWITTER/X (Real-time)</p>
+                                    <ul className="list-disc pl-4">
+                                        <li>News, quick tips (280 chars)</li>
+                                        <li>Conversational, witty</li>
+                                        <li>Best: Mon-Fri, 12-1 PM</li>
+                                    </ul>
+                                </div>
+                                <div className="bg-pink-50 p-3 rounded">
+                                    <p className="font-bold">INSTAGRAM (Visual)</p>
+                                    <ul className="list-disc pl-4">
+                                        <li>Behind-scenes, lifestyle</li>
+                                        <li>Authentic, creative</li>
+                                        <li>Best: Wed, 11 AM - 1 PM</li>
+                                    </ul>
+                                </div>
+                                <div className="bg-red-50 p-3 rounded">
+                                    <p className="font-bold">YOUTUBE (Video)</p>
+                                    <ul className="list-disc pl-4">
+                                        <li>Tutorials, reviews (7-15 min)</li>
+                                        <li>Educational, entertaining</li>
+                                        <li>Best: Fri-Sat, 6-9 PM</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="📊 The 4-1-1 Content Rule" color="green">
+                            <p className="text-sm mb-2">For every 6 posts:</p>
+                            <div className="grid grid-cols-3 gap-3 text-center text-sm">
+                                <div className="bg-blue-100 p-3 rounded">
+                                    <p className="text-3xl font-bold">4</p>
+                                    <p className="text-xs">Curate<br/>(Share others)</p>
+                                </div>
+                                <div className="bg-purple-100 p-3 rounded">
+                                    <p className="text-3xl font-bold">1</p>
+                                    <p className="text-xs">Self-Promote<br/>(Your content)</p>
+                                </div>
+                                <div className="bg-green-100 p-3 rounded">
+                                    <p className="text-3xl font-bold">1</p>
+                                    <p className="text-xs">Personal<br/>(Humanize)</p>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="✨ 5 Ethical Guidelines (Golden Rules)" color="yellow">
+                            <div className="space-y-2">
+                                <div className="bg-white p-3 rounded">
+                                    <p className="font-bold">1️⃣ AUTHENTICITY</p>
+                                    <ul className="text-xs list-disc pl-5">
+                                        <li>✓ Be yourself, admit mistakes</li>
+                                        <li>✗ Buy followers, misrepresent achievements</li>
+                                    </ul>
+                                </div>
+                                <div className="bg-white p-3 rounded">
+                                    <p className="font-bold">2️⃣ TRANSPARENCY</p>
+                                    <ul className="text-xs list-disc pl-5">
+                                        <li>✓ Disclose sponsored content (#ad)</li>
+                                        <li>✗ Hide conflicts of interest</li>
+                                    </ul>
+                                </div>
+                                <div className="bg-white p-3 rounded">
+                                    <p className="font-bold">3️⃣ RESPECT</p>
+                                    <ul className="text-xs list-disc pl-5">
+                                        <li>✓ Disagree respectfully, credit creators</li>
+                                        <li>✗ Engage in trolling, share confidential info</li>
+                                    </ul>
+                                </div>
+                                <div className="bg-white p-3 rounded">
+                                    <p className="font-bold">4️⃣ ACCURACY</p>
+                                    <ul className="text-xs list-disc pl-5">
+                                        <li>✓ Fact-check before sharing, verify sources</li>
+                                        <li>✗ Spread misinformation, share clickbait</li>
+                                    </ul>
+                                </div>
+                                <div className="bg-white p-3 rounded">
+                                    <p className="font-bold">5️⃣ PRIVACY</p>
+                                    <ul className="text-xs list-disc pl-5">
+                                        <li>✓ Respect privacy, get permission to tag</li>
+                                        <li>✗ Share personal info without consent, dox</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="🚫 Professional Boundaries Checklist" color="blue">
+                            <div className="grid md:grid-cols-2 gap-3 text-xs">
+                                <div className="bg-green-50 p-3 rounded">
+                                    <p className="font-bold mb-2">✓ DO POST:</p>
+                                    <ul className="list-disc pl-4">
+                                        <li>Industry insights</li>
+                                        <li>Professional achievements</li>
+                                        <li>Thought leadership</li>
+                                        <li>Behind-scenes (appropriate)</li>
+                                        <li>Helpful resources</li>
+                                    </ul>
+                                </div>
+                                <div className="bg-red-50 p-3 rounded">
+                                    <p className="font-bold mb-2">✗ DON'T POST:</p>
+                                    <ul className="list-disc pl-4">
+                                        <li>Confidential company info</li>
+                                        <li>Negative employer comments</li>
+                                        <li>Controversial politics (if rep company)</li>
+                                        <li>Excessive personal drama</li>
+                                        <li>Discriminatory content</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </Box>
+                    </Section>
+
+                    {/* Section 3: Personality Theories */}
+                    <Section title="3️⃣ Personality Theories & Analysis">
+                        <Box title="🔺 Maslow's Hierarchy of Needs (5 Levels)" color="yellow">
+                            <div className="bg-gradient-to-b from-purple-100 via-blue-100 to-green-100 p-4 rounded">
+                                <div className="text-center space-y-2">
+                                    <div className="bg-purple-200 p-2 rounded max-w-xs mx-auto">
+                                        <p className="font-bold">5. Self-Actualization</p>
+                                        <p className="text-xs">Full potential, creativity, growth</p>
+                                    </div>
+                                    <div className="bg-blue-200 p-2 rounded max-w-sm mx-auto">
+                                        <p className="font-bold">4. Esteem Needs</p>
+                                        <p className="text-xs">Recognition, achievement, respect</p>
+                                    </div>
+                                    <div className="bg-cyan-200 p-2 rounded max-w-md mx-auto">
+                                        <p className="font-bold">3. Love & Belonging</p>
+                                        <p className="text-xs">Friendship, family, intimacy</p>
+                                    </div>
+                                    <div className="bg-green-200 p-2 rounded max-w-lg mx-auto">
+                                        <p className="font-bold">2. Safety Needs</p>
+                                        <p className="text-xs">Security, health, employment stability</p>
+                                    </div>
+                                    <div className="bg-yellow-200 p-2 rounded max-w-xl mx-auto">
+                                        <p className="font-bold">1. Physiological Needs</p>
+                                        <p className="text-xs">Food, water, sleep, shelter</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="🧠 Freud's Personality Structure" color="yellow">
+                            <div className="grid md:grid-cols-3 gap-3 text-sm">
+                                <div className="bg-red-100 p-4 rounded text-center">
+                                    <p className="font-bold text-lg mb-2">ID</p>
+                                    <p className="text-xs mb-2">(Unconscious)</p>
+                                    <ul className="text-xs text-left list-disc pl-4">
+                                        <li>Primitive desires</li>
+                                        <li>"I want it NOW"</li>
+                                        <li>Pleasure principle</li>
+                                    </ul>
+                                    <p className="text-xs mt-2 italic">Example: Steal food when hungry</p>
+                                </div>
+                                <div className="bg-green-100 p-4 rounded text-center">
+                                    <p className="font-bold text-lg mb-2">EGO</p>
+                                    <p className="text-xs mb-2">(Conscious)</p>
+                                    <ul className="text-xs text-left list-disc pl-4">
+                                        <li>Rational, logical</li>
+                                        <li>Mediates ID & reality</li>
+                                        <li>Reality principle</li>
+                                    </ul>
+                                    <p className="text-xs mt-2 italic">Example: Buy food or wait</p>
+                                </div>
+                                <div className="bg-blue-100 p-4 rounded text-center">
+                                    <p className="font-bold text-lg mb-2">SUPEREGO</p>
+                                    <p className="text-xs mb-2">(Moral Conscience)</p>
+                                    <ul className="text-xs text-left list-disc pl-4">
+                                        <li>Moral standards</li>
+                                        <li>"What's right/wrong?"</li>
+                                        <li>Morality principle</li>
+                                    </ul>
+                                    <p className="text-xs mt-2 italic">Example: Share food with homeless</p>
+                                </div>
+                            </div>
+                            <p className="text-xs mt-2 text-center font-bold">✓ Healthy Personality = Strong EGO balancing ID and SUPEREGO</p>
+                        </Box>
+
+                        <Box title="🕉️ Vivekananda's Four Yogas (Paths)" color="yellow">
+                            <div className="grid md:grid-cols-2 gap-3 text-xs">
+                                <div className="bg-orange-50 p-3 rounded">
+                                    <p className="font-bold">KARMA YOGA (Action)</p>
+                                    <ul className="list-disc pl-4">
+                                        <li>Personality: Doer, activist</li>
+                                        <li>Approach: Serve others selflessly</li>
+                                        <li>Example: Social workers</li>
+                                        <li>Communication: Direct, task-focused</li>
+                                    </ul>
+                                </div>
+                                <div className="bg-pink-50 p-3 rounded">
+                                    <p className="font-bold">BHAKTI YOGA (Devotion)</p>
+                                    <ul className="list-disc pl-4">
+                                        <li>Personality: Emotional, devoted</li>
+                                        <li>Approach: Love and compassion</li>
+                                        <li>Example: Caregivers</li>
+                                        <li>Communication: Warm, empathetic</li>
+                                    </ul>
+                                </div>
+                                <div className="bg-blue-50 p-3 rounded">
+                                    <p className="font-bold">JNANA YOGA (Knowledge)</p>
+                                    <ul className="list-disc pl-4">
+                                        <li>Personality: Thinker, philosopher</li>
+                                        <li>Approach: Study, contemplation</li>
+                                        <li>Example: Researchers</li>
+                                        <li>Communication: Logical, detailed</li>
+                                    </ul>
+                                </div>
+                                <div className="bg-purple-50 p-3 rounded">
+                                    <p className="font-bold">RAJA YOGA (Meditation)</p>
+                                    <ul className="list-disc pl-4">
+                                        <li>Personality: Contemplative</li>
+                                        <li>Approach: Mind control, meditation</li>
+                                        <li>Example: Spiritual leaders</li>
+                                        <li>Communication: Calm, measured</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="⚡ Jung's Typology & MBTI" color="purple">
+                            <div className="space-y-3">
+                                <div className="bg-gradient-to-r from-purple-100 to-pink-100 p-3 rounded">
+                                    <p className="font-bold text-center mb-2">4 Dichotomies = 16 Personality Types</p>
+                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs text-center">
+                                        <div className="bg-white p-2 rounded">
+                                            <p className="font-bold">E/I</p>
+                                            <p>Extraversion/<br/>Introversion</p>
+                                        </div>
+                                        <div className="bg-white p-2 rounded">
+                                            <p className="font-bold">S/N</p>
+                                            <p>Sensing/<br/>Intuition</p>
+                                        </div>
+                                        <div className="bg-white p-2 rounded">
+                                            <p className="font-bold">T/F</p>
+                                            <p>Thinking/<br/>Feeling</p>
+                                        </div>
+                                        <div className="bg-white p-2 rounded">
+                                            <p className="font-bold">J/P</p>
+                                            <p>Judging/<br/>Perceiving</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="grid md:grid-cols-2 gap-2 text-xs">
+                                    <div className="bg-blue-50 p-3 rounded">
+                                        <p className="font-bold">INTJ (Architect)</p>
+                                        <ul className="list-disc pl-4">
+                                            <li>Strategic, analytical</li>
+                                            <li>Example: Scientists, engineers</li>
+                                            <li>Comm: Concise, logical</li>
+                                        </ul>
+                                    </div>
+                                    <div className="bg-orange-50 p-3 rounded">
+                                        <p className="font-bold">ENFP (Campaigner)</p>
+                                        <ul className="list-disc pl-4">
+                                            <li>Enthusiastic, creative</li>
+                                            <li>Example: Marketers, counselors</li>
+                                            <li>Comm: Energetic, inspiring</li>
+                                        </ul>
+                                    </div>
+                                    <div className="bg-green-50 p-3 rounded">
+                                        <p className="font-bold">ISTJ (Logistician)</p>
+                                        <ul className="list-disc pl-4">
+                                            <li>Practical, reliable</li>
+                                            <li>Example: Accountants, admins</li>
+                                            <li>Comm: Structured, detailed</li>
+                                        </ul>
+                                    </div>
+                                    <div className="bg-pink-50 p-3 rounded">
+                                        <p className="font-bold">ESFJ (Consul)</p>
+                                        <ul className="list-disc pl-4">
+                                            <li>Caring, social</li>
+                                            <li>Example: Teachers, nurses</li>
+                                            <li>Comm: Warm, supportive</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="📊 Personality Theory Comparison Table" color="green">
+                            <table className="w-full text-xs border-collapse">
+                                <thead>
+                                    <tr className="bg-gray-100">
+                                        <th className="border p-2 text-left">Theory</th>
+                                        <th className="border p-2 text-left">Core Concept</th>
+                                        <th className="border p-2 text-left">Key Elements</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Maslow</td>
+                                        <td className="border p-2">Hierarchy of Needs</td>
+                                        <td className="border p-2">5 levels: Physiological → Safety → Belonging → Esteem → Self-Actualization</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Freud</td>
+                                        <td className="border p-2">Psychoanalytic Structure</td>
+                                        <td className="border p-2">ID (pleasure) + EGO (reality) + SUPEREGO (morality)</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Vivekananda</td>
+                                        <td className="border p-2">Four Paths (Yogas)</td>
+                                        <td className="border p-2">Karma (action), Bhakti (devotion), Jnana (knowledge), Raja (meditation)</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Jung</td>
+                                        <td className="border p-2">Psychological Typology</td>
+                                        <td className="border p-2">E/I + S/N + T/F + J/P = 16 MBTI types</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </Box>
+                    </Section>
+
+                    {/* Section 4: Speech & Personality Assessment */}
+                    <Section title="4️⃣ Speech-Personality Link & Assessment">
+                        <Box title="🗣️ How Speech Reveals Personality" color="purple">
+                            <table className="w-full text-xs border-collapse">
+                                <thead>
+                                    <tr className="bg-gray-100">
+                                        <th className="border p-2 text-left">Speech Element</th>
+                                        <th className="border p-2 text-left">Personality Indicator</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Tone</td>
+                                        <td className="border p-2">Warm → Friendly | Harsh → Aggressive | Monotone → Reserved</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Volume</td>
+                                        <td className="border p-2">Loud → Confident | Soft → Shy | Varies → Expressive</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Pace</td>
+                                        <td className="border p-2">Fast → Energetic/Nervous | Slow → Thoughtful | Varied → Dynamic</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Word Choice</td>
+                                        <td className="border p-2">Complex → Intellectual | Simple → Practical | Jargon → Specialized</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border p-2 font-bold">Listening Style</td>
+                                        <td className="border p-2">Active → Empathetic | Interrupts → Impatient | Distracted → Self-centered</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </Box>
+
+                        <Box title="🎯 Developing Positive Speech Habits" color="green">
+                            <ul className="list-disc pl-5 text-sm space-y-2">
+                                <li><strong>Vocal Variety:</strong> Vary pitch, adjust volume, change pace, use pauses</li>
+                                <li><strong>Clarity:</strong> Enunciate properly, don't mumble, moderate pace (150-160 words/min)</li>
+                                <li><strong>Confidence:</strong> Speak with conviction, avoid fillers ("um," "like"), declarative statements</li>
+                                <li><strong>Empathy:</strong> Listen actively, acknowledge views, use "we" language, validate emotions</li>
+                                <li><strong>Positivity:</strong> Frame positively, avoid negatives, express gratitude, encourage</li>
+                            </ul>
+                            <p className="text-xs mt-2 bg-yellow-50 p-2 rounded">
+                                <strong>Example:</strong> Replace "I think maybe we could..." with "I propose we..."
+                            </p>
+                        </Box>
+
+                        <Box title="📋 Personality Assessment Methods" color="purple">
+                            <div className="grid md:grid-cols-3 gap-3 text-xs">
+                                <div className="bg-blue-50 p-3 rounded">
+                                    <p className="font-bold mb-2">1. SELF-ASSESSMENT</p>
+                                    <ul className="list-disc pl-4">
+                                        <li>Reflect on behaviors</li>
+                                        <li>Journal reactions</li>
+                                        <li>Identify patterns</li>
+                                        <li>Seek feedback</li>
+                                    </ul>
+                                </div>
+                                <div className="bg-purple-50 p-3 rounded">
+                                    <p className="font-bold mb-2">2. PSYCHOMETRIC TESTS</p>
+                                    <ul className="list-disc pl-4">
+                                        <li>MBTI (Myers-Briggs)</li>
+                                        <li>Big Five (OCEAN)</li>
+                                        <li>DISC Assessment</li>
+                                        <li>Enneagram</li>
+                                    </ul>
+                                </div>
+                                <div className="bg-green-50 p-3 rounded">
+                                    <p className="font-bold mb-2">3. PROFESSIONAL EVAL</p>
+                                    <ul className="list-disc pl-4">
+                                        <li>Counselor assessment</li>
+                                        <li>360-degree feedback</li>
+                                        <li>Personality interviews</li>
+                                        <li>Behavioral observation</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="🌟 Personality Development Tips" color="green">
+                            <ul className="list-disc pl-5 text-sm space-y-1">
+                                <li>Self-awareness: Understand strengths/weaknesses</li>
+                                <li>Continuous learning: Read, take courses</li>
+                                <li>Social skills: Practice active listening, empathy</li>
+                                <li>Emotional regulation: Manage stress, emotions</li>
+                                <li>Communication: Work on clarity, assertiveness</li>
+                                <li>Confidence: Step out of comfort zone</li>
+                                <li>Feedback: Seek and act on constructive criticism</li>
+                                <li>Role models: Observe and learn from leaders</li>
+                                <li>Mindfulness: Practice self-reflection</li>
+                                <li>Goal-setting: Work toward personal growth goals</li>
+                            </ul>
+                        </Box>
+                    </Section>
+
+                    {/* Quick Revision Section */}
+                    <Section title="🚀 QUICK REVISION SUMMARY" defaultOpen={true}>
+                        <Box title="📚 The Big Four: Theory Cheat Sheet" color="red">
+                            <div className="space-y-2 text-sm">
+                                <div className="bg-yellow-100 p-3 rounded">
+                                    <p className="font-bold">🔺 MASLOW:</p>
+                                    <p className="text-xs">5-level pyramid: Physiological → Safety → Belonging → Esteem → Self-Actualization</p>
+                                </div>
+                                <div className="bg-blue-100 p-3 rounded">
+                                    <p className="font-bold">🧠 FREUD:</p>
+                                    <p className="text-xs">ID (pleasure-seeking) + EGO (rational mediator) + SUPEREGO (moral conscience)</p>
+                                </div>
+                                <div className="bg-orange-100 p-3 rounded">
+                                    <p className="font-bold">🕉️ VIVEKANANDA:</p>
+                                    <p className="text-xs">4 Yogas: Karma (action), Bhakti (devotion), Jnana (knowledge), Raja (meditation)</p>
+                                </div>
+                                <div className="bg-purple-100 p-3 rounded">
+                                    <p className="font-bold">⚡ JUNG:</p>
+                                    <p className="text-xs">Typology: E/I + S/N + T/F + J/P = 16 MBTI personality types</p>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="✅ Social Media Golden Rules (5 Ethics)" color="red">
+                            <ol className="list-decimal pl-5 text-sm space-y-1">
+                                <li><strong>AUTHENTICITY:</strong> Be yourself, admit mistakes, no fake followers</li>
+                                <li><strong>TRANSPARENCY:</strong> Disclose sponsored content (#ad), cite sources</li>
+                                <li><strong>RESPECT:</strong> Disagree respectfully, credit creators, no trolling</li>
+                                <li><strong>ACCURACY:</strong> Fact-check before sharing, verify sources</li>
+                                <li><strong>PRIVACY:</strong> Respect privacy, get permission to tag/post</li>
+                            </ol>
+                        </Box>
+
+                        <Box title="🎯 Digital Content Essentials" color="red">
+                            <div className="grid md:grid-cols-2 gap-3 text-xs">
+                                <div className="bg-blue-50 p-3 rounded">
+                                    <p className="font-bold mb-2">Email Structure:</p>
+                                    <p>Subject → Salutation → Opening → Body → CTA → Closing → Signature</p>
+                                </div>
+                                <div className="bg-purple-50 p-3 rounded">
+                                    <p className="font-bold mb-2">Webinar Timing:</p>
+                                    <p>60 min: Intro (5) → Content (25) → Demo (10) → Q&A (10) → Wrap (10)</p>
+                                </div>
+                                <div className="bg-green-50 p-3 rounded">
+                                    <p className="font-bold mb-2">Podcast Format:</p>
+                                    <p>Intro (30-60s) → Content (15-40 min) → Outro (30-60s)</p>
+                                </div>
+                                <div className="bg-yellow-50 p-3 rounded">
+                                    <p className="font-bold mb-2">Blog Anatomy:</p>
+                                    <p>Title (8-12w) → Intro (50-100w) → Body (1000-2000w) → Conclusion</p>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box title="📊 Hook-Value-CTA Formula" color="red">
+                            <div className="bg-gradient-to-r from-red-100 via-blue-100 to-green-100 p-4 rounded text-center">
+                                <p className="font-bold text-lg mb-2">Content Creation Formula</p>
+                                <p className="text-sm">HOOK (Grab attention) → VALUE (Deliver content) → CTA (Action step)</p>
+                            </div>
+                        </Box>
+
+                        <Box title="🗣️ Speech-Personality Connection" color="red">
+                            <p className="text-sm mb-2"><strong>Speech reveals personality through:</strong></p>
+                            <ul className="list-disc pl-5 text-xs space-y-1">
+                                <li><strong>Tone:</strong> Warm (friendly), Harsh (aggressive), Monotone (reserved)</li>
+                                <li><strong>Volume:</strong> Loud (confident), Soft (shy), Varies (expressive)</li>
+                                <li><strong>Pace:</strong> Fast (energetic), Slow (thoughtful), Varied (dynamic)</li>
+                                <li><strong>Words:</strong> Complex (intellectual), Simple (practical)</li>
+                                <li><strong>Listening:</strong> Active (empathetic), Interrupts (impatient)</li>
+                            </ul>
+                        </Box>
+
+                        <Box title="📝 Top 5 Exam Questions" color="red">
+                            <ol className="list-decimal pl-5 space-y-2 text-sm">
+                                <li><strong>Explain Jung's Typology and the MBTI framework.</strong>
+                                    <p className="text-xs ml-4">Answer: Jung identified 4 dichotomies (E/I, S/N, T/F, J/P) creating 16 personality types. MBTI measures: Energy (Extraversion/Introversion), Information (Sensing/Intuition), Decisions (Thinking/Feeling), Lifestyle (Judging/Perceiving).</p>
+                                </li>
+                                <li><strong>Discuss Maslow's Hierarchy of Needs (5 levels).</strong>
+                                    <p className="text-xs ml-4">Answer: Pyramid of 5 levels: 1) Physiological (food, water, shelter), 2) Safety (security, stability), 3) Love & Belonging (relationships), 4) Esteem (recognition, achievement), 5) Self-Actualization (full potential, creativity).</p>
+                                </li>
+                                <li><strong>What is the role of speech in personality making?</strong>
+                                    <p className="text-xs ml-4">Answer: Speech reveals personality through tone (warm/harsh), volume (loud/soft), pace (fast/slow), word choice (complex/simple), and listening style (active/passive). Developing positive speech habits (vocal variety, clarity, confidence) shapes personality perception.</p>
+                                </li>
+                                <li><strong>Explain Freud's ID, EGO, and SUPEREGO.</strong>
+                                    <p className="text-xs ml-4">Answer: ID = unconscious desires, pleasure principle ("I want now"). EGO = conscious mediator, reality principle (balances ID & reality). SUPEREGO = moral conscience, morality principle (right/wrong). Healthy personality = strong EGO balancing ID and SUPEREGO.</p>
+                                </li>
+                                <li><strong>What are the ethical guidelines for social media use?</strong>
+                                    <p className="text-xs ml-4">Answer: 5 Golden Rules: 1) Authenticity (be yourself, no fake followers), 2) Transparency (disclose ads, cite sources), 3) Respect (credit creators, no trolling), 4) Accuracy (fact-check, verify sources), 5) Privacy (get permission, respect boundaries).</p>
+                                </li>
+                            </ol>
+                        </Box>
+
+                        <Box title="💡 Last-Minute Power Tips" color="red">
+                            <ul className="list-disc pl-5 space-y-1 text-sm">
+                                <li><strong>Email:</strong> Clear subject line + Professional greeting + Proofread = Success</li>
+                                <li><strong>Webinar:</strong> Test tech 30 min early, interact every 5-7 min, send recording in 24 hours</li>
+                                <li><strong>Podcast:</strong> Intro-Content-Outro structure, remove "um/uh" in editing, 15-45 min optimal</li>
+                                <li><strong>Blog:</strong> Catchy title with numbers, hook in intro, 1000-2000 words body</li>
+                                <li><strong>Social Media:</strong> 4-1-1 rule (4 curate, 1 self-promote, 1 personal)</li>
+                                <li><strong>Ethics:</strong> Remember A.T.R.A.P (Authenticity, Transparency, Respect, Accuracy, Privacy)</li>
+                                <li><strong>Maslow:</strong> 5 levels bottom-up: Physiological → Safety → Belonging → Esteem → Self-Actualization</li>
+                                <li><strong>Freud:</strong> ID wants pleasure, SUPEREGO wants morality, EGO balances both</li>
+                                <li><strong>Vivekananda:</strong> 4 Yogas match personality types (action, devotion, knowledge, meditation)</li>
+                                <li><strong>Jung/MBTI:</strong> 4 letters (E/I, S/N, T/F, J/P) = 16 types (INTJ, ENFP, ISTJ, ESFJ, etc.)</li>
+                                <li><strong>Speech:</strong> Tone + Volume + Pace + Words + Listening = Personality revealed</li>
+                                <li><strong>Hook-Value-CTA:</strong> Universal formula for all digital content creation</li>
+                            </ul>
+                        </Box>
+                    </Section>
+
+                    {/* Footer */}
+                    <div className="mt-8 p-6 gradient-header text-white rounded-lg text-center">
+                        <p className="text-sm">📱 Last Minute Revision Guide • Digital Communication & Personality Unit-5</p>
+                        <p className="text-xs mt-2 opacity-90">Digital Media, Social Ethics & Personality Theories • AKTU Semester 3</p>
+                        <div className="mt-4 pt-4 border-t border-white/30">
+                            <p className="text-sm font-semibold">Brought to you by ZenYukti 💙</p>
+                            <p className="text-xs mt-1 italic">Learn. Build. Share.</p>
+                            <p className="text-xs mt-2">🌐 zenyukti.in | 💬 Discord: go.zenyukti.in/discord</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Render the app
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
