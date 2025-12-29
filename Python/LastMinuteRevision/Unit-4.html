@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Unit-4: File Operations & Pointer Handling - Last Minute Revision</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+        .output-block {
+            background: #0f172a;
+            color: #10b981;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        // SVG Icons
+        const ChevronDown = () => (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+        );
+
+        const ChevronRight = () => (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+        );
+
+        const FileIcon = () => (
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+        );
+
+        // Section Component
+        const Section = ({ title, children, defaultOpen = false }) => {
+            const [isOpen, setIsOpen] = useState(defaultOpen);
+
+            return (
+                <div className="mb-4 border border-gray-300 rounded-lg overflow-hidden bg-white shadow-sm">
+                    <button
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="w-full px-4 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold flex items-center justify-between hover:from-indigo-600 hover:to-purple-700 transition-all"
+                    >
+                        <span className="flex items-center gap-2">
+                            <FileIcon />
+                            {title}
+                        </span>
+                        {isOpen ? <ChevronDown /> : <ChevronRight />}
+                    </button>
+                    {isOpen && (
+                        <div className="p-4 bg-gray-50">
+                            {children}
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        // Main Component
+        const PythonUnit4Notes = () => {
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-4 md:p-8">
+                    <div className="max-w-5xl mx-auto">
+                        {/* Header */}
+                        <div className="text-center mb-8">
+                            <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 mb-3">
+                                Python Unit-4
+                            </h1>
+                            <h2 className="text-2xl md:text-3xl font-semibold text-gray-700 mb-2">
+                                File Operations & Pointer Handling
+                            </h2>
+                            <p className="text-gray-600 text-lg">⚡ Last Minute Revision Guide</p>
+                        </div>
+
+                        {/* Section 1: Opening & Closing Files */}
+                        <Section title="1. Opening & Closing Files" defaultOpen={true}>
+                            <div className="space-y-4">
+                                {/* Definition Box */}
+                                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
+                                    <h3 className="font-bold text-yellow-800 mb-2">📌 open() Function</h3>
+                                    <p className="text-gray-700 mb-2"><strong>Syntax:</strong> <code className="bg-yellow-100 px-2 py-1 rounded">file_object = open(filename, mode)</code></p>
+                                    <p className="text-gray-700">Opens a file and returns a file object for reading/writing operations.</p>
+                                </div>
+
+                                {/* File Modes Table */}
+                                <div className="bg-purple-50 border-l-4 border-purple-400 p-4 rounded">
+                                    <h3 className="font-bold text-purple-800 mb-3">📋 File Opening Modes</h3>
+                                    <div className="overflow-x-auto">
+                                        <table className="min-w-full text-sm border-collapse">
+                                            <thead className="bg-purple-100">
+                                                <tr>
+                                                    <th className="border border-purple-300 px-3 py-2 text-left font-semibold">Mode</th>
+                                                    <th className="border border-purple-300 px-3 py-2 text-left font-semibold">Description</th>
+                                                    <th className="border border-purple-300 px-3 py-2 text-left font-semibold">Creates New?</th>
+                                                    <th className="border border-purple-300 px-3 py-2 text-left font-semibold">Overwrites?</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="text-gray-700">
+                                                <tr>
+                                                    <td className="border border-purple-200 px-3 py-2 font-mono font-semibold">'r'</td>
+                                                    <td className="border border-purple-200 px-3 py-2">Read (default) - file must exist</td>
+                                                    <td className="border border-purple-200 px-3 py-2">❌ No</td>
+                                                    <td className="border border-purple-200 px-3 py-2">N/A</td>
+                                                </tr>
+                                                <tr className="bg-purple-50">
+                                                    <td className="border border-purple-200 px-3 py-2 font-mono font-semibold">'w'</td>
+                                                    <td className="border border-purple-200 px-3 py-2">Write - creates if doesn't exist</td>
+                                                    <td className="border border-purple-200 px-3 py-2">✅ Yes</td>
+                                                    <td className="border border-purple-200 px-3 py-2">✅ Yes</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="border border-purple-200 px-3 py-2 font-mono font-semibold">'a'</td>
+                                                    <td className="border border-purple-200 px-3 py-2">Append - adds to end</td>
+                                                    <td className="border border-purple-200 px-3 py-2">✅ Yes</td>
+                                                    <td className="border border-purple-200 px-3 py-2">❌ No</td>
+                                                </tr>
+                                                <tr className="bg-purple-50">
+                                                    <td className="border border-purple-200 px-3 py-2 font-mono font-semibold">'r+'</td>
+                                                    <td className="border border-purple-200 px-3 py-2">Read & Write - file must exist</td>
+                                                    <td className="border border-purple-200 px-3 py-2">❌ No</td>
+                                                    <td className="border border-purple-200 px-3 py-2">❌ No</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="border border-purple-200 px-3 py-2 font-mono font-semibold">'w+'</td>
+                                                    <td className="border border-purple-200 px-3 py-2">Write & Read - creates/overwrites</td>
+                                                    <td className="border border-purple-200 px-3 py-2">✅ Yes</td>
+                                                    <td className="border border-purple-200 px-3 py-2">✅ Yes</td>
+                                                </tr>
+                                                <tr className="bg-purple-50">
+                                                    <td className="border border-purple-200 px-3 py-2 font-mono font-semibold">'rb'</td>
+                                                    <td className="border border-purple-200 px-3 py-2">Read Binary (images, videos)</td>
+                                                    <td className="border border-purple-200 px-3 py-2">❌ No</td>
+                                                    <td className="border border-purple-200 px-3 py-2">N/A</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="border border-purple-200 px-3 py-2 font-mono font-semibold">'wb'</td>
+                                                    <td className="border border-purple-200 px-3 py-2">Write Binary</td>
+                                                    <td className="border border-purple-200 px-3 py-2">✅ Yes</td>
+                                                    <td className="border border-purple-200 px-3 py-2">✅ Yes</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                {/* Context Manager (with statement) */}
+                                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
+                                    <h3 className="font-bold text-yellow-800 mb-2">📌 Context Manager - 'with' Statement</h3>
+                                    <p className="text-gray-700 mb-2"><strong>Why use 'with'?</strong></p>
+                                    <ul className="list-disc list-inside text-gray-700 space-y-1 mb-3">
+                                        <li>Automatically closes file after block execution</li>
+                                        <li>Ensures cleanup even if error occurs</li>
+                                        <li>No need for explicit close()</li>
+                                        <li>Best practice for file handling</li>
+                                    </ul>
+                                </div>
+
+                                {/* Example */}
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+                                    <h3 className="font-bold text-blue-800 mb-3">💡 Complete Example</h3>
+                                    <div className="grid md:grid-cols-2 gap-3">
+                                        <div>
+                                            <p className="font-semibold text-blue-800 mb-2">❌ Without 'with' (Old Way):</p>
+                                            <div className="code-block text-xs">
+f = open("data.txt", "r")<br/>
+content = f.read()<br/>
+print(content)<br/>
+f.close()  # Must remember!
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p className="font-semibold text-blue-800 mb-2">✅ With 'with' (Best Practice):</p>
+                                            <div className="code-block text-xs">
+with open("data.txt", "r") as f:<br/>
+    content = f.read()<br/>
+    print(content)<br/>
+# File auto-closed here!
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Section>
+
+                        {/* Section 2: Reading Files */}
+                        <Section title="2. Reading Files - read(), readline(), readlines()">
+                            <div className="space-y-4">
+                                {/* Comparison Table */}
+                                <div className="bg-purple-50 border-l-4 border-purple-400 p-4 rounded">
+                                    <h3 className="font-bold text-purple-800 mb-3">📊 Read Methods Comparison</h3>
+                                    <div className="overflow-x-auto">
+                                        <table className="min-w-full text-sm border-collapse">
+                                            <thead className="bg-purple-100">
+                                                <tr>
+                                                    <th className="border border-purple-300 px-3 py-2 text-left font-semibold">Method</th>
+                                                    <th className="border border-purple-300 px-3 py-2 text-left font-semibold">Returns</th>
+                                                    <th className="border border-purple-300 px-3 py-2 text-left font-semibold">Reads</th>
+                                                    <th className="border border-purple-300 px-3 py-2 text-left font-semibold">Use Case</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="text-gray-700">
+                                                <tr>
+                                                    <td className="border border-purple-200 px-3 py-2 font-mono font-semibold">read()</td>
+                                                    <td className="border border-purple-200 px-3 py-2">String</td>
+                                                    <td className="border border-purple-200 px-3 py-2">Entire file at once</td>
+                                                    <td className="border border-purple-200 px-3 py-2">Small files</td>
+                                                </tr>
+                                                <tr className="bg-purple-50">
+                                                    <td className="border border-purple-200 px-3 py-2 font-mono font-semibold">read(n)</td>
+                                                    <td className="border border-purple-200 px-3 py-2">String</td>
+                                                    <td className="border border-purple-200 px-3 py-2">First n characters</td>
+                                                    <td className="border border-purple-200 px-3 py-2">Specific byte count</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="border border-purple-200 px-3 py-2 font-mono font-semibold">readline()</td>
+                                                    <td className="border border-purple-200 px-3 py-2">String</td>
+                                                    <td className="border border-purple-200 px-3 py-2">One line (includes \n)</td>
+                                                    <td className="border border-purple-200 px-3 py-2">Line-by-line processing</td>
+                                                </tr>
+                                                <tr className="bg-purple-50">
+                                                    <td className="border border-purple-200 px-3 py-2 font-mono font-semibold">readlines()</td>
+                                                    <td className="border border-purple-200 px-3 py-2">List of strings</td>
+                                                    <td className="border border-purple-200 px-3 py-2">All lines as list</td>
+                                                    <td className="border border-purple-200 px-3 py-2">Need all lines separately</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                {/* Example File Content */}
+                                <div className="bg-gray-100 border-l-4 border-gray-400 p-3 rounded">
+                                    <p className="font-semibold text-gray-800 mb-2">📄 Sample File: data.txt</p>
+                                    <div className="code-block text-xs">
+Line 1: Hello World<br/>
+Line 2: Python Files<br/>
+Line 3: Last Line
+                                    </div>
+                                </div>
+
+                                {/* read() Example */}
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+                                    <h3 className="font-bold text-blue-800 mb-2">💡 Example: read()</h3>
+                                    <div className="code-block text-xs mb-2">
+with open("data.txt", "r") as f:<br/>
+    content = f.read()<br/>
+    print(content)<br/>
+    print(type(content))
+                                    </div>
+                                    <div className="output-block text-xs">
+# Output:<br/>
+Line 1: Hello World<br/>
+Line 2: Python Files<br/>
+Line 3: Last Line<br/>
+{`<class 'str'>`}
+                                    </div>
+                                </div>
+
+                                {/* readline() Example */}
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+                                    <h3 className="font-bold text-blue-800 mb-2">💡 Example: readline()</h3>
+                                    <div className="code-block text-xs mb-2">
+with open("data.txt", "r") as f:<br/>
+    line1 = f.readline()  # First line<br/>
+    line2 = f.readline()  # Second line<br/>
+    print(line1)<br/>
+    print(line2)
+                                    </div>
+                                    <div className="output-block text-xs">
+# Output:<br/>
+Line 1: Hello World<br/>
+<br/>
+Line 2: Python Files<br/>
+                                    </div>
+                                </div>
+
+                                {/* readlines() Example */}
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+                                    <h3 className="font-bold text-blue-800 mb-2">💡 Example: readlines()</h3>
+                                    <div className="code-block text-xs mb-2">
+with open("data.txt", "r") as f:<br/>
+    lines = f.readlines()<br/>
+    print(lines)<br/>
+    print(type(lines))<br/>
+    <br/>
+# Iterate through lines<br/>
+for line in lines:<br/>
+    print(line.strip())  # Remove \n
+                                    </div>
+                                    <div className="output-block text-xs">
+# Output:<br/>
+['Line 1: Hello World\n', 'Line 2: Python Files\n', 'Line 3: Last Line']<br/>
+{`<class 'list'>`}<br/>
+Line 1: Hello World<br/>
+Line 2: Python Files<br/>
+Line 3: Last Line
+                                    </div>
+                                </div>
+                            </div>
+                        </Section>
+
+                        {/* Section 3: Writing Files */}
+                        <Section title="3. Writing Files - write() vs writelines()">
+                            <div className="space-y-4">
+                                {/* Definition Boxes */}
+                                <div className="grid md:grid-cols-2 gap-4">
+                                    <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
+                                        <h3 className="font-bold text-yellow-800 mb-2">📌 write()</h3>
+                                        <ul className="list-disc list-inside text-gray-700 space-y-1">
+                                            <li>Writes a single string</li>
+                                            <li>Returns number of characters written</li>
+                                            <li>No automatic newline</li>
+                                            <li>Must add \n manually</li>
+                                        </ul>
+                                    </div>
+                                    <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
+                                        <h3 className="font-bold text-yellow-800 mb-2">📌 writelines()</h3>
+                                        <ul className="list-disc list-inside text-gray-700 space-y-1">
+                                            <li>Writes a list of strings</li>
+                                            <li>Returns nothing (None)</li>
+                                            <li>No automatic newline</li>
+                                            <li>Must add \n to each item</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                {/* write() Example */}
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+                                    <h3 className="font-bold text-blue-800 mb-2">💡 Example: write()</h3>
+                                    <div className="code-block text-xs mb-2">
+with open("output.txt", "w") as f:<br/>
+    f.write("Line 1\n")<br/>
+    f.write("Line 2\n")<br/>
+    f.write("Line 3")
+                                    </div>
+                                    <p className="text-sm text-gray-700 mt-2"><strong>Result in output.txt:</strong></p>
+                                    <div className="output-block text-xs">
+Line 1<br/>
+Line 2<br/>
+Line 3
+                                    </div>
+                                </div>
+
+                                {/* writelines() Example */}
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+                                    <h3 className="font-bold text-blue-800 mb-2">💡 Example: writelines()</h3>
+                                    <div className="code-block text-xs mb-2">
+lines = ["Python\n", "File\n", "Handling\n"]<br/>
+<br/>
+with open("output.txt", "w") as f:<br/>
+    f.writelines(lines)
+                                    </div>
+                                    <p className="text-sm text-gray-700 mt-2"><strong>Result in output.txt:</strong></p>
+                                    <div className="output-block text-xs">
+Python<br/>
+File<br/>
+Handling
+                                    </div>
+                                </div>
+
+                                {/* Common Mistake */}
+                                <div className="bg-red-50 border-l-4 border-red-400 p-4 rounded">
+                                    <h3 className="font-bold text-red-800 mb-2">⚠️ Common Mistake</h3>
+                                    <div className="grid md:grid-cols-2 gap-3">
+                                        <div>
+                                            <p className="font-semibold text-red-800 mb-2">❌ Wrong (No newlines):</p>
+                                            <div className="code-block text-xs">
+lines = ["A", "B", "C"]<br/>
+with open("out.txt", "w") as f:<br/>
+    f.writelines(lines)<br/>
+# Result: ABC (all on one line!)
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p className="font-semibold text-green-800 mb-2">✅ Correct:</p>
+                                            <div className="code-block text-xs">
+lines = ["A\n", "B\n", "C\n"]<br/>
+with open("out.txt", "w") as f:<br/>
+    f.writelines(lines)<br/>
+# Result: Each on new line
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Append Mode */}
+                                <div className="bg-purple-50 border-l-4 border-purple-400 p-4 rounded">
+                                    <h3 className="font-bold text-purple-800 mb-2">📝 Append Mode ('a')</h3>
+                                    <div className="code-block text-xs">
+# File exists with: "Hello"<br/>
+<br/>
+with open("file.txt", "a") as f:<br/>
+    f.write("\nWorld")<br/>
+<br/>
+# Result: Hello<br/>
+#         World
+                                    </div>
+                                </div>
+                            </div>
+                        </Section>
+
+                        {/* Section 4: File Pointer Manipulation */}
+                        <Section title="4. File Pointer - seek() & tell()">
+                            <div className="space-y-4">
+                                {/* Definitions */}
+                                <div className="grid md:grid-cols-2 gap-4">
+                                    <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
+                                        <h3 className="font-bold text-yellow-800 mb-2">📌 tell()</h3>
+                                        <p className="text-gray-700 mb-2"><strong>Purpose:</strong> Returns current position of file pointer (byte offset from start)</p>
+                                        <p className="text-gray-700"><strong>Syntax:</strong> <code className="bg-yellow-100 px-2 py-1 rounded">position = f.tell()</code></p>
+                                    </div>
+                                    <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
+                                        <h3 className="font-bold text-yellow-800 mb-2">📌 seek()</h3>
+                                        <p className="text-gray-700 mb-2"><strong>Purpose:</strong> Move file pointer to specific position</p>
+                                        <p className="text-gray-700"><strong>Syntax:</strong> <code className="bg-yellow-100 px-2 py-1 rounded">f.seek(offset, whence)</code></p>
+                                    </div>
+                                </div>
+
+                                {/* seek() Parameters */}
+                                <div className="bg-green-50 border-l-4 border-green-400 p-4 rounded">
+                                    <h3 className="font-bold text-green-800 mb-3">📐 seek(offset, whence) Parameters</h3>
+                                    <div className="overflow-x-auto">
+                                        <table className="min-w-full text-sm border-collapse">
+                                            <thead className="bg-green-100">
+                                                <tr>
+                                                    <th className="border border-green-300 px-3 py-2 text-left font-semibold">whence</th>
+                                                    <th className="border border-green-300 px-3 py-2 text-left font-semibold">Reference Point</th>
+                                                    <th className="border border-green-300 px-3 py-2 text-left font-semibold">Example</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="text-gray-700">
+                                                <tr>
+                                                    <td className="border border-green-200 px-3 py-2 font-mono font-semibold">0</td>
+                                                    <td className="border border-green-200 px-3 py-2">Start of file (default)</td>
+                                                    <td className="border border-green-200 px-3 py-2 font-mono">seek(5, 0) → 5 bytes from start</td>
+                                                </tr>
+                                                <tr className="bg-green-50">
+                                                    <td className="border border-green-200 px-3 py-2 font-mono font-semibold">1</td>
+                                                    <td className="border border-green-200 px-3 py-2">Current position</td>
+                                                    <td className="border border-green-200 px-3 py-2 font-mono">seek(3, 1) → 3 bytes forward</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="border border-green-200 px-3 py-2 font-mono font-semibold">2</td>
+                                                    <td className="border border-green-200 px-3 py-2">End of file</td>
+                                                    <td className="border border-green-200 px-3 py-2 font-mono">seek(0, 2) → End of file</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                {/* tell() Example */}
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+                                    <h3 className="font-bold text-blue-800 mb-2">💡 Example: tell()</h3>
+                                    <div className="code-block text-xs mb-2">
+with open("data.txt", "r") as f:<br/>
+    print(f"Start: {`{f.tell()}`}")  # 0<br/>
+    <br/>
+    f.read(5)  # Read 5 characters<br/>
+    print(f"After read(5): {`{f.tell()}`}")  # 5<br/>
+    <br/>
+    f.readline()  # Read rest of line<br/>
+    print(f"After readline: {`{f.tell()}`}")  # Depends on line length
+                                    </div>
+                                    <div className="output-block text-xs">
+Start: 0<br/>
+After read(5): 5<br/>
+After readline: 19
+                                    </div>
+                                </div>
+
+                                {/* seek() Examples */}
+                                <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+                                    <h3 className="font-bold text-blue-800 mb-3">💡 Example: seek() Operations</h3>
+                                    <div className="space-y-3">
+                                        <div>
+                                            <p className="font-semibold text-blue-800 mb-2">1. Reset to Beginning</p>
+                                            <div className="code-block text-xs">
+with open("data.txt", "r") as f:<br/>
+    f.read()  # Read entire file<br/>
+    f.seek(0)  # Go back to start<br/>
+    content = f.read()  # Read again
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p className="font-semibold text-blue-800 mb-2">2. Jump to Specific Position</p>
+                                            <div className="code-block text-xs">
+with open("data.txt", "r") as f:<br/>
+    f.seek(10)  # Jump to 10th byte<br/>
+    content = f.read()  # Read from there
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p className="font-semibold text-blue-800 mb-2">3. Go to End of File</p>
+                                            <div className="code-block text-xs">
+with open("data.txt", "r") as f:<br/>
+    f.seek(0, 2)  # Jump to end<br/>
+    size = f.tell()  # Get file size<br/>
+    print(f"File size: {`{size}`} bytes")
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Practical Use Case */}
+                                <div className="bg-green-50 border-l-4 border-green-400 p-4 rounded">
+                                    <h3 className="font-bold text-green-800 mb-2">🎯 Practical: Reading File in Chunks</h3>
+                                    <div className="code-block text-xs">
+with open("large_file.txt", "r") as f:<br/>
+    chunk_size = 100<br/>
+    <br/>
+    while True:<br/>
+        chunk = f.read(chunk_size)<br/>
+        if not chunk:<br/>
+            break  # End of file<br/>
+        <br/>
+        print(f"Position: {`{f.tell()}`}")<br/>
+        # Process chunk...
+                                    </div>
+                                </div>
+                            </div>
+                        </Section>
+
+                        {/* Quick Revision Summary */}
+                        <div className="bg-gradient-to-r from-red-500 to-pink-600 text-white rounded-lg p-6 mt-6">
+                            <h2 className="text-2xl font-bold mb-4 text-center">🔥 QUICK REVISION SUMMARY</h2>
+                            
+                            <div className="space-y-4">
+                                {/* Mode Cheat Sheet */}
+                                <div className="bg-white bg-opacity-20 rounded-lg p-4">
+                                    <h3 className="text-xl font-bold mb-3">📋 Mode Cheat Sheet</h3>
+                                    <div className="grid md:grid-cols-3 gap-2 text-sm">
+                                        <div className="bg-black bg-opacity-20 p-2 rounded">
+                                            <strong>'r'</strong> - Read only (default)<br/>
+                                            File must exist
+                                        </div>
+                                        <div className="bg-black bg-opacity-20 p-2 rounded">
+                                            <strong>'w'</strong> - Write (overwrites)<br/>
+                                            Creates if missing
+                                        </div>
+                                        <div className="bg-black bg-opacity-20 p-2 rounded">
+                                            <strong>'a'</strong> - Append (adds to end)<br/>
+                                            Creates if missing
+                                        </div>
+                                        <div className="bg-black bg-opacity-20 p-2 rounded">
+                                            <strong>'r+'</strong> - Read & Write<br/>
+                                            File must exist
+                                        </div>
+                                        <div className="bg-black bg-opacity-20 p-2 rounded">
+                                            <strong>'w+'</strong> - Write & Read<br/>
+                                            Overwrites/creates
+                                        </div>
+                                        <div className="bg-black bg-opacity-20 p-2 rounded">
+                                            <strong>'rb'/'wb'</strong> - Binary<br/>
+                                            For images/videos
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Read Methods */}
+                                <div className="bg-white bg-opacity-20 rounded-lg p-4">
+                                    <h3 className="text-xl font-bold mb-3">📖 Read Methods Quick Table</h3>
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full text-sm">
+                                            <thead className="bg-black bg-opacity-30">
+                                                <tr>
+                                                    <th className="px-3 py-2 text-left">Method</th>
+                                                    <th className="px-3 py-2 text-left">Returns</th>
+                                                    <th className="px-3 py-2 text-left">Reads</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr className="border-t border-white border-opacity-20">
+                                                    <td className="px-3 py-2 font-mono">read()</td>
+                                                    <td className="px-3 py-2">String</td>
+                                                    <td className="px-3 py-2">Entire file</td>
+                                                </tr>
+                                                <tr className="border-t border-white border-opacity-20">
+                                                    <td className="px-3 py-2 font-mono">readline()</td>
+                                                    <td className="px-3 py-2">String</td>
+                                                    <td className="px-3 py-2">One line (with \n)</td>
+                                                </tr>
+                                                <tr className="border-t border-white border-opacity-20">
+                                                    <td className="px-3 py-2 font-mono">readlines()</td>
+                                                    <td className="px-3 py-2">List</td>
+                                                    <td className="px-3 py-2">All lines as list</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                {/* Pointer Logic */}
+                                <div className="bg-white bg-opacity-20 rounded-lg p-4">
+                                    <h3 className="text-xl font-bold mb-3">📐 File Pointer Logic</h3>
+                                    <div className="grid md:grid-cols-2 gap-3 text-sm">
+                                        <div className="bg-black bg-opacity-20 p-3 rounded">
+                                            <strong>seek(0)</strong> or <strong>seek(0, 0)</strong><br/>
+                                            → Go to start of file
+                                        </div>
+                                        <div className="bg-black bg-opacity-20 p-3 rounded">
+                                            <strong>seek(0, 2)</strong><br/>
+                                            → Go to end of file
+                                        </div>
+                                        <div className="bg-black bg-opacity-20 p-3 rounded">
+                                            <strong>tell()</strong><br/>
+                                            → Current byte position
+                                        </div>
+                                        <div className="bg-black bg-opacity-20 p-3 rounded">
+                                            <strong>seek(5, 1)</strong><br/>
+                                            → Move 5 bytes forward
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Common Exam Questions */}
+                                <div className="bg-white bg-opacity-20 rounded-lg p-4">
+                                    <h3 className="text-xl font-bold mb-3">❓ Common Exam Questions</h3>
+                                    <div className="space-y-2 text-sm">
+                                        <div className="bg-black bg-opacity-20 p-3 rounded">
+                                            <strong>Q1: Difference between write() and writelines()?</strong><br/>
+                                            A: write() takes string, writelines() takes list. Neither adds \n automatically.
+                                        </div>
+                                        <div className="bg-black bg-opacity-20 p-3 rounded">
+                                            <strong>Q2: Why use 'with' statement?</strong><br/>
+                                            A: Auto-closes file, handles errors gracefully, best practice, no need for explicit close().
+                                        </div>
+                                        <div className="bg-black bg-opacity-20 p-3 rounded">
+                                            <strong>Q3: Difference between 'w' and 'a' mode?</strong><br/>
+                                            A: 'w' overwrites entire file, 'a' adds to end. Both create file if missing.
+                                        </div>
+                                        <div className="bg-black bg-opacity-20 p-3 rounded">
+                                            <strong>Q4: How to find file size without reading?</strong><br/>
+                                            A: Use <code>f.seek(0, 2)</code> then <code>f.tell()</code> to get byte count.
+                                        </div>
+                                        <div className="bg-black bg-opacity-20 p-3 rounded">
+                                            <strong>Q5: What happens if file doesn't exist in 'r' mode?</strong><br/>
+                                            A: FileNotFoundError is raised. Use 'w' or 'a' to create new file.
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Last Minute Tips */}
+                                <div className="bg-yellow-400 text-gray-900 rounded-lg p-4">
+                                    <h3 className="text-lg font-bold mb-2">⏰ Last Minute Tips:</h3>
+                                    <ul className="space-y-1 text-sm list-disc list-inside">
+                                        <li><strong>'with' is mandatory in good code:</strong> Always use context managers</li>
+                                        <li><strong>read() loads entire file:</strong> Use for small files only</li>
+                                        <li><strong>readlines() returns list:</strong> Can iterate with for loop</li>
+                                        <li><strong>write/writelines need \n:</strong> No automatic newlines added</li>
+                                        <li><strong>seek(0) resets pointer:</strong> Re-read file from start</li>
+                                        <li><strong>tell() gives position:</strong> Useful for tracking file size</li>
+                                        <li><strong>'r+' vs 'w+':</strong> r+ doesn't overwrite, w+ does</li>
+                                        <li><strong>Binary mode for non-text:</strong> Use 'rb'/'wb' for images</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Footer */}
+                        <div className="text-center mt-8 text-gray-600">
+                            <p className="text-sm">Best of luck with your exam! 🌟</p>
+                            <p className="text-xs mt-2">Python Unit-4 - File Operations & Pointer Handling - Last Minute Revision</p>
+                        </div>
+
+                        {/* ZenYukti Branding */}
+                        <div className="text-center mt-6 pt-4 border-t border-gray-300">
+                            <p className="text-sm text-gray-700 mb-2">
+                                Crafted with 💙 by <a href="https://zenyukti.in" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:text-blue-800 underline">ZenYukti</a>
+                            </p>
+                            <p className="text-xs text-gray-500 italic">Learn. Build. Share.</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Render the app
+        ReactDOM.render(<PythonUnit4Notes />, document.getElementById('root'));
+    </script>
+</body>
+</html>
