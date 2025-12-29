@@ -144,13 +144,13 @@ MyNotes/
 
 #### ⚡ LastMinuteRevision (Interactive HTML)
 
-| Unit | Topic | 🌐 Live Preview (Summarised) | Quick Revision | Detailed Notes |
-|------|-------|----------------|----------------|----------------|
-| **Unit 1** | Set Theory & Relations | [🔗 Live](https://zenyukti.github.io/MyNotes/DSTL/LastMinuteRevision/Unit-1.html) | [📱 HTML](DSTL/LastMinuteRevision/Unit-1.html) | [📄 Markdown](DSTL/Unit-1.md) |
-| **Unit 2** | Functions & Boolean Algebra | [🔗 Live](https://zenyukti.github.io/MyNotes/DSTL/LastMinuteRevision/Unit-2.html) | [📱 HTML](DSTL/LastMinuteRevision/Unit-2.html) | [📄 Markdown](DSTL/Unit-2.md) |
-| **Unit 3** | Theory of Logics & Predicates | [🔗 Live](https://zenyukti.github.io/MyNotes/DSTL/LastMinuteRevision/Unit-3.html) | [📱 HTML](DSTL/LastMinuteRevision/Unit-3.html) | [📄 Markdown](DSTL/Unit-3.md) |
-| **Unit 4** | Algebraic Structures | [🔗 Live](https://zenyukti.github.io/MyNotes/DSTL/LastMinuteRevision/Unit-4.html) | [📱 HTML](DSTL/LastMinuteRevision/Unit-4.html) | [📄 Markdown](DSTL/Unit-4.md) |
-| **Unit 5** | Graphs & Combinatorics | [🔗 Live](https://zenyukti.github.io/MyNotes/DSTL/LastMinuteRevision/Unit-5.html) | [📱 HTML](DSTL/LastMinuteRevision/Unit-5.html) | [📄 Markdown](DSTL/Unit-5.md) |
+| Unit | Topic | 🌐 Last Minute Prep. (Summarised) | Detailed Notes |
+|------|-------|----------------|----------------|
+| **Unit 1** | Set Theory & Relations | [🔗 Live](https://zenyukti.github.io/MyNotes/DSTL/LastMinuteRevision/Unit-1.html) | [📄 Markdown](DSTL/Unit-1.md) |
+| **Unit 2** | Functions & Boolean Algebra | [🔗 Live](https://zenyukti.github.io/MyNotes/DSTL/LastMinuteRevision/Unit-2.html) | [📄 Markdown](DSTL/Unit-2.md) |
+| **Unit 3** | Theory of Logics & Predicates | [🔗 Live](https://zenyukti.github.io/MyNotes/DSTL/LastMinuteRevision/Unit-3.html) | [📄 Markdown](DSTL/Unit-3.md) |
+| **Unit 4** | Algebraic Structures | [🔗 Live](https://zenyukti.github.io/MyNotes/DSTL/LastMinuteRevision/Unit-4.html) | [📄 Markdown](DSTL/Unit-4.md) |
+| **Unit 5** | Graphs & Combinatorics | [🔗 Live](https://zenyukti.github.io/MyNotes/DSTL/LastMinuteRevision/Unit-5.html) | [📄 Markdown](DSTL/Unit-5.md) |
 
 **DSTL Coverage:**
 - ✅ Set Theory, Relations, Functions
@@ -215,13 +215,13 @@ MyNotes/
 
 #### ⚡ LastMinuteRevision (Interactive HTML)
 
-| Unit | Topic | 🌐 Live Preview (Summarised) | Quick Revision | Detailed Notes |
-|------|-------|----------------|----------------|----------------|
-| **Unit 1** | Python Basics: Variables, Operators, Data Types | [🔗 Live](https://zenyukti.github.io/MyNotes/Python/LastMinuteRevision/Unit-1.html) | [📱 HTML](Python/LastMinuteRevision/Unit-1.html) | [📄 Markdown](Python/Unit-1.md) |
-| **Unit 2** | Flow Control: Conditionals, Loops | [🔗 Live](https://zenyukti.github.io/MyNotes/Python/LastMinuteRevision/Unit-2.html) | [📱 HTML](Python/LastMinuteRevision/Unit-2.html) | [📄 Markdown](Python/Unit-2.md) |
-| **Unit 3** | Complex Data Types & Functions | [🔗 Live](https://zenyukti.github.io/MyNotes/Python/LastMinuteRevision/Unit-3.html) | [📱 HTML](Python/LastMinuteRevision/Unit-3.html) | [📄 Markdown](Python/Unit-3.md) |
-| **Unit 4** | File Handling & Modules | 🔜 Coming Soon | 🔜 Coming Soon | [📄 Markdown](Python/Unit-4.md) |
-| **Unit 5** | OOP & Advanced Python | 🔜 Coming Soon | 🔜 Coming Soon | [📄 Markdown](Python/Unit-5.md) |
+| Unit | Topic | 🌐 Live Minute Prep. (Summarised) | Detailed Notes |
+|------|-------|----------------|----------------|
+| **Unit 1** | Python Basics: Variables, Operators, Data Types | [🔗 Live](https://zenyukti.github.io/MyNotes/Python/LastMinuteRevision/Unit-1.html) | [📄 Markdown](Python/Unit-1.md) |
+| **Unit 2** | Flow Control: Conditionals, Loops | [🔗 Live](https://zenyukti.github.io/MyNotes/Python/LastMinuteRevision/Unit-2.html) | [📄 Markdown](Python/Unit-2.md) |
+| **Unit 3** | Complex Data Types & Functions | [🔗 Live](https://zenyukti.github.io/MyNotes/Python/LastMinuteRevision/Unit-3.html) | [📄 Markdown](Python/Unit-3.md) |
+| **Unit 4** | File Handling & Modules | 🔜 Coming Soon | [📄 Markdown](Python/Unit-4.md) |
+| **Unit 5** | OOP & Advanced Python | 🔜 Coming Soon | [📄 Markdown](Python/Unit-5.md) |
 
 **Python Coverage:**
 - ✅ Variables, Operators, Blocks
