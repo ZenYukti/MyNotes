@@ -19,7 +19,7 @@ const ChevronDown = () => <svg className="w-5 h-5" fill="none" stroke="currentCo
 const ChevronRight = () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/></svg>;
 const BookOpen = () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>;
 
-const Sec = ({t, c, d=false}) => {
+const Sec = ({t, c, d=false, children}) => {
   const [o, setO] = useState(d);
   return (
     <div className="mb-3 bg-white rounded-lg shadow-md overflow-hidden">
@@ -27,15 +27,15 @@ const Sec = ({t, c, d=false}) => {
         <span className="font-bold flex items-center gap-2"><BookOpen/>{t}</span>
         {o ? <ChevronDown/> : <ChevronRight/>}
       </button>
-      {o && <div className="p-5 space-y-3">{c.children}</div>}
+      {o && <div className="p-5 space-y-3">{children}</div>}
     </div>
   );
 };
 
-const Def = ({t, children}) => <div className="bg-yellow-50 border-l-4 border-yellow-500 p-3 rounded-r"><h4 className="font-bold text-yellow-800 text-sm mb-1">📌 {t}</h4><div className="text-gray-800 text-xs">{children}</div></div>;
-const Ex = ({t, children}) => <div className="bg-blue-50 border-l-4 border-blue-500 p-3 rounded-r"><h4 className="font-bold text-blue-800 text-sm mb-1">💡 {t}</h4><div className="text-gray-800 text-xs">{children}</div></div>;
-const Form = ({t, children}) => <div className="bg-green-50 border-l-4 border-green-500 p-3 rounded-r"><h4 className="font-bold text-green-800 text-sm mb-1">🔢 {t}</h4><div className="text-gray-800 text-xs">{children}</div></div>;
-const Prop = ({t, children}) => <div className="bg-purple-50 border-l-4 border-purple-500 p-3 rounded-r"><h4 className="font-bold text-purple-800 text-sm mb-1">⭐ {t}</h4><div className="text-gray-800 text-xs">{children}</div></div>;
+const Def = ({t, children}) => <div className="bg-yellow-50 border-l-4 border-yellow-500 p-3 rounded-r"><h4 className="font-bold text-yellow-800 text-sm mb-1">📌 {t}</h4><div className="text-gray-800 text-sm">{children}</div></div>;
+const Ex = ({t, children}) => <div className="bg-blue-50 border-l-4 border-blue-500 p-3 rounded-r"><h4 className="font-bold text-blue-800 text-sm mb-1">💡 {t}</h4><div className="text-gray-800 text-sm">{children}</div></div>;
+const Form = ({t, children}) => <div className="bg-green-50 border-l-4 border-green-500 p-3 rounded-r"><h4 className="font-bold text-green-800 text-sm mb-1">🔢 {t}</h4><div className="text-gray-800 text-sm">{children}</div></div>;
+const Prop = ({t, children}) => <div className="bg-purple-50 border-l-4 border-purple-500 p-3 rounded-r"><h4 className="font-bold text-purple-800 text-sm mb-1">⭐ {t}</h4><div className="text-gray-800 text-sm">{children}</div></div>;
 
 const App = () => (
   <div className="min-h-screen py-6 px-3">
@@ -46,7 +46,7 @@ const App = () => (
         <p className="text-xs mt-1 opacity-90">Exam Ready Guide</p>
       </header>
 
-      <Sec t="1. Algebraic Structures & Groups" c="from-indigo-600 to-purple-600" d={true}>
+      <Sec t="1. Algebraic Structures & Groups" c="from-blue-500 to-indigo-500" d={true}>
         <Def t="Algebraic Structure">
           <p>Set with one or more operations satisfying specific axioms</p>
           <p className="mt-1"><strong>Examples:</strong> (ℤ, +), (ℝ, +, ×), (Matrices, +, ×)</p>
@@ -65,13 +65,13 @@ const App = () => (
 
         <Prop t="Abelian (Commutative) Group">
           <p>Group with additional property: a∘b = b∘a, ∀a,b ∈ G</p>
-          <p className="mt-1"><strong>Examples:</strong> (ℤ,+), (ℝ\{0},×), (ℂ,+)</p>
+          <p className="mt-1"><strong>Examples:</strong> (ℤ,+), (ℝ∖{'{'} 0{'}'},×), (ℂ,+)</p>
         </Prop>
 
         <Ex t="Group Examples">
           <div className="space-y-1">
             <p><strong>✓ (ℤ, +):</strong> Integers under addition (abelian)</p>
-            <p><strong>✓ (ℝ\{0}, ×):</strong> Non-zero reals under multiplication</p>
+            <p><strong>✓ (ℝ∖{'{'}0{'}'}, ×):</strong> Non-zero reals under multiplication</p>
             <p><strong>✓ (Zₙ, +ₙ):</strong> Integers mod n under addition mod n</p>
             <p><strong>✗ (ℕ, +):</strong> No inverses (not a group)</p>
             <p><strong>✗ (ℤ, ×):</strong> No inverse for 2 (not a group)</p>
@@ -86,7 +86,7 @@ const App = () => (
         </Form>
       </Sec>
 
-      <Sec t="2. Subgroups" c="from-blue-600 to-cyan-600">
+      <Sec t="2. Subgroups" c="from-blue-500 to-indigo-500">
         <Def t="Subgroup">
           <p>H ⊆ G is a <strong>subgroup</strong> (H ≤ G) if H is a group under same operation as G</p>
         </Def>
@@ -105,14 +105,14 @@ const App = () => (
           <div className="space-y-1">
             <p>(2ℤ, +) ≤ (ℤ, +) — even integers</p>
             <p>(nℤ, +) ≤ (ℤ, +) — multiples of n</p>
-            <p>({e}, ∘) ≤ G — trivial subgroup</p>
+            <p>({'{'}e{'}'}, ∘) ≤ G — trivial subgroup</p>
             <p>(G, ∘) ≤ G — improper subgroup</p>
           </div>
         </Ex>
 
         <Prop t="Properties">
           <ul className="list-disc ml-5 space-y-0.5">
-            <li>Every group has at least 2 subgroups: {e} and G</li>
+            <li>Every group has at least 2 subgroups: {'{'}e{'}'} and G</li>
             <li>If H ≤ G, then |H| divides |G| (by Lagrange)</li>
             <li>Intersection of subgroups is subgroup: H₁ ∩ H₂ ≤ G</li>
             <li>Union may NOT be subgroup</li>
@@ -120,9 +120,9 @@ const App = () => (
         </Prop>
       </Sec>
 
-      <Sec t="3. Cyclic Groups" c="from-green-600 to-emerald-600">
+      <Sec t="3. Cyclic Groups" c="from-blue-500 to-indigo-500">
         <Def t="Cyclic Group">
-          <p>Group G generated by single element: G = &lt;a&gt; = {aⁿ : n ∈ ℤ}</p>
+          <p>Group G generated by single element: G = &lt;a&gt; = {'{'}aⁿ : n ∈ ℤ{'}'}</p>
           <p className="mt-1">a is called <strong>generator</strong> of G</p>
         </Def>
 
@@ -152,12 +152,12 @@ const App = () => (
         </Form>
       </Sec>
 
-      <Sec t="4. Cosets" c="from-purple-600 to-pink-600">
+      <Sec t="4. Cosets" c="from-blue-500 to-indigo-500">
         <Def t="Left & Right Cosets">
           <p>Let H ≤ G, a ∈ G:</p>
           <ul className="list-disc ml-5 mt-1 space-y-0.5">
-            <li><strong>Left coset:</strong> aH = {ah : h ∈ H}</li>
-            <li><strong>Right coset:</strong> Ha = {ha : h ∈ H}</li>
+            <li><strong>Left coset:</strong> aH = {'{'}ah : h ∈ H{'}'}</li>
+            <li><strong>Right coset:</strong> Ha = {'{'}ha : h ∈ H{'}'}</li>
           </ul>
         </Def>
 
@@ -173,18 +173,18 @@ const App = () => (
 
         <Ex t="Cosets Example">
           <div className="mono text-xs bg-gray-100 p-2 rounded">
-            <p>G = Z₆ = {0,1,2,3,4,5}, H = {0,3}</p>
+            <p>G = Z₆ = {'{'}0,1,2,3,4,5{'}'}, H = {'{'}0,3{'}'}</p>
             <p className="mt-1">Left cosets:</p>
-            <p>0+H = {0,3}</p>
-            <p>1+H = {1,4}</p>
-            <p>2+H = {2,5}</p>
-            <p>3+H = {3,0} = {0,3} = 0+H</p>
+            <p>0+H = {'{'}0,3{'}'}</p>
+            <p>1+H = {'{'}1,4{'}'}</p>
+            <p>2+H = {'{'}2,5{'}'}</p>
+            <p>3+H = {'{'}3,0{'}'} = {'{'}0,3{'}'} = 0+H</p>
             <p className="mt-1 text-blue-600">3 distinct cosets partition Z₆</p>
           </div>
         </Ex>
       </Sec>
 
-      <Sec t="5. Lagrange's Theorem" c="from-red-600 to-orange-600">
+      <Sec t="5. Lagrange's Theorem" c="from-blue-500 to-indigo-500">
         <Form t="Lagrange's Theorem ⭐⭐⭐">
           <div className="bg-white p-2 rounded space-y-1">
             <p className="font-bold text-lg">If H ≤ G and |G| is finite, then:</p>
@@ -199,7 +199,7 @@ const App = () => (
             <li>Order of subgroup divides order of group</li>
             <li>Order of element divides order of group: o(a) | |G|</li>
             <li>aⁿ = e where n = |G|</li>
-            <li>If |G| is prime, then G is cyclic (only subgroups: {e}, G)</li>
+            <li>If |G| is prime, then G is cyclic (only subgroups: {'{'}e{'}'}, G)</li>
           </ul>
         </Prop>
 
@@ -207,12 +207,12 @@ const App = () => (
           <div className="space-y-1">
             <p><strong>Ex 1:</strong> |G| = 12, |H| must be: 1, 2, 3, 4, 6, or 12</p>
             <p><strong>Ex 2:</strong> |G| = 7 (prime) → G ≅ Z₇ (cyclic)</p>
-            <p><strong>Ex 3:</strong> a ∈ G, |G| = 20 → o(a) ∈ {1,2,4,5,10,20}</p>
+            <p><strong>Ex 3:</strong> a ∈ G, |G| = 20 → o(a) ∈ {'{'}1,2,4,5,10,20{'}'}</p>
           </div>
         </Ex>
       </Sec>
 
-      <Sec t="6. Normal Subgroups" c="from-indigo-600 to-purple-600">
+      <Sec t="6. Normal Subgroups" c="from-blue-500 to-indigo-500">
         <Def t="Normal Subgroup">
           <p>H ⊴ G (H normal in G) if:</p>
           <p className="font-bold mt-1">gHg⁻¹ = H, ∀g ∈ G</p>
@@ -222,14 +222,14 @@ const App = () => (
         <Prop t="Properties">
           <ul className="list-disc ml-5 space-y-0.5">
             <li>Every subgroup of abelian group is normal</li>
-            <li>{e} and G are always normal in G</li>
+            <li>{'{'}e{'}'} and G are always normal in G</li>
             <li>If [G:H] = 2, then H ⊴ G</li>
             <li>Kernel of homomorphism is normal</li>
           </ul>
         </Prop>
 
         <Form t="Quotient Group">
-          <p>If H ⊴ G, then G/H = {aH : a ∈ G} is a group</p>
+          <p>If H ⊴ G, then G/H = {'{'}aH : a ∈ G{'}'} is a group</p>
           <p className="mt-1"><strong>Operation:</strong> (aH)(bH) = (ab)H</p>
           <p><strong>|G/H| = [G:H] = |G|/|H|</strong></p>
         </Form>
@@ -243,9 +243,9 @@ const App = () => (
         </Ex>
       </Sec>
 
-      <Sec t="7. Permutations & Symmetric Groups" c="from-blue-600 to-cyan-600">
+      <Sec t="7. Permutations & Symmetric Groups" c="from-blue-500 to-indigo-500">
         <Def t="Permutation">
-          <p>Bijective function σ: {1,2,...,n} → {1,2,...,n}</p>
+          <p>Bijective function σ: {'{'}1,2,...,n{'}'} → {'{'}1,2,...,n{'}'}</p>
           <p className="mt-1"><strong>Symmetric Group Sₙ:</strong> All permutations of n elements</p>
           <p><strong>|Sₙ| = n!</strong></p>
         </Def>
@@ -279,15 +279,15 @@ const App = () => (
 
         <Ex t="Example: S₃">
           <div className="mono text-xs bg-gray-100 p-2 rounded">
-            <p>S₃ = {e, (12), (13), (23), (123), (132)}</p>
+            <p>S₃ = {'{'}e, (12), (13), (23), (123), (132){'}'}</p>
             <p>|S₃| = 6</p>
-            <p className="mt-1">A₃ = {e, (123), (132)} — even perms</p>
+            <p className="mt-1">A₃ = {'{'}e, (123), (132){'}'} — even perms</p>
             <p>|A₃| = 3</p>
           </div>
         </Ex>
       </Sec>
 
-      <Sec t="8. Group Homomorphisms" c="from-green-600 to-emerald-600">
+      <Sec t="8. Group Homomorphisms" c="from-blue-500 to-indigo-500">
         <Def t="Homomorphism">
           <p>φ: G → H is homomorphism if:</p>
           <p className="font-bold mt-1">φ(a ∘ b) = φ(a) ⊙ φ(b), ∀a,b ∈ G</p>
@@ -305,8 +305,8 @@ const App = () => (
 
         <Form t="Kernel & Image">
           <div className="space-y-1">
-            <p><strong>Kernel:</strong> ker(φ) = {g ∈ G : φ(g) = e_H}</p>
-            <p><strong>Image:</strong> im(φ) = {φ(g) : g ∈ G}</p>
+            <p><strong>Kernel:</strong> ker(φ) = {'{'}g ∈ G : φ(g) = e_H{'}'}</p>
+            <p><strong>Image:</strong> im(φ) = {'{'}φ(g) : g ∈ G{'}'}</p>
             <p className="mt-1 font-bold">ker(φ) ⊴ G (normal subgroup)</p>
             <p className="font-bold">im(φ) ≤ H (subgroup)</p>
           </div>
@@ -321,7 +321,7 @@ const App = () => (
           <ul className="list-disc ml-5 space-y-0.5">
             <li>φ(e_G) = e_H</li>
             <li>φ(a⁻¹) = (φ(a))⁻¹</li>
-            <li>φ injective ⟺ ker(φ) = {e}</li>
+            <li>φ injective ⟺ ker(φ) = {'{'}e{'}'}</li>
             <li>If φ surjective: |G|/|ker(φ)| = |H|</li>
           </ul>
         </Prop>
@@ -330,13 +330,13 @@ const App = () => (
           <div className="space-y-1">
             <p><strong>φ: ℤ → Zₙ</strong> by φ(m) = m mod n</p>
             <p>ker(φ) = nℤ, im(φ) = Zₙ</p>
-            <p className="mt-1"><strong>sgn: Sₙ → {-1,+1}</strong> (sign homomorphism)</p>
+            <p className="mt-1"><strong>sgn: Sₙ → {'{'}  -1,+1{'}'}</strong> (sign homomorphism)</p>
             <p>ker(sgn) = Aₙ</p>
           </div>
         </Ex>
       </Sec>
 
-      <Sec t="9. Rings" c="from-purple-600 to-pink-600">
+      <Sec t="9. Rings" c="from-blue-500 to-indigo-500">
         <Def t="Ring (R, +, ×)">
           <p><strong>Definition:</strong> Set R with two operations +, × satisfying:</p>
           <ul className="list-disc ml-5 mt-1 space-y-0.5">
@@ -380,12 +380,12 @@ const App = () => (
         </Prop>
       </Sec>
 
-      <Sec t="10. Fields" c="from-red-600 to-orange-600">
+      <Sec t="10. Fields" c="from-blue-500 to-indigo-500">
         <Def t="Field (F, +, ×)">
           <p><strong>Definition:</strong> Commutative ring with unity where every non-zero element has multiplicative inverse</p>
           <ul className="list-disc ml-5 mt-1 space-y-0.5">
             <li>(F, +) is abelian group</li>
-            <li>(F\{0}, ×) is abelian group</li>
+            <li>(F∖{'{'}0{'}'}, ×) is abelian group</li>
             <li>Distributive law holds</li>
           </ul>
         </Def>
@@ -441,7 +441,7 @@ const App = () => (
               <p><strong>Group:</strong> (G,∘) with Closure, Associativity, Identity, Inverse (CAII)</p>
               <p><strong>Subgroup H≤G:</strong> Non-empty, closed, has inverses | Test: ∀a,b∈H: ab⁻¹∈H</p>
               <p><strong>Cyclic:</strong> G=⟨a⟩ (generated by one element)</p>
-              <p><strong>Coset:</strong> aH = {ah: h∈H}</p>
+              <p><strong>Coset:</strong> aH = {'{'}ah: h∈H{'}'}</p>
               <p><strong>Normal H⊴G:</strong> gHg⁻¹=H ∀g (or gH=Hg)</p>
               <p><strong>Homomorphism:</strong> φ(ab)=φ(a)φ(b)</p>
               <p><strong>Ring:</strong> (R,+,×) where (R,+) abelian group, × associative, distributive</p>
@@ -513,7 +513,7 @@ const App = () => (
                 <p>Show gKg⁻¹ ⊆ K where K=ker(φ)</p>
               </div>
               <div className="bg-white p-2 rounded">
-                <p className="font-bold">φ injective ⟺ ker(φ)={e}:</p>
+                <p className="font-bold">φ injective ⟺ ker(φ)={'{'}e{'}'}:</p>
                 <p>Both directions: assume and derive</p>
               </div>
             </div>
@@ -556,7 +556,7 @@ const App = () => (
             <div className="grid grid-cols-2 gap-2 text-xs">
               <div>
                 <p className="font-bold">Group Examples:</p>
-                <p>(ℤ,+), (ℚ\{0},×), Zₙ, Sₙ, Aₙ</p>
+                <p>(ℤ,+), (ℚ∖{'{'}0{'}'}, ×), Zₙ, Sₙ, Aₙ</p>
               </div>
               <div>
                 <p className="font-bold">Non-Groups:</p>
