@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Structures: Unit 2 Revision</title>
+    
+    <!-- React 18 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel Standalone -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- KaTeX for LaTeX rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #a8b5ff 0%, #b8a5d6 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Icons Components
+        const ChevronDown = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+        );
+
+        const ChevronRight = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+        );
+
+        // Color-coded Box Component
+        const ColorBox = ({ color, title, children }) => {
+            const colorStyles = {
+                yellow: 'bg-yellow-50 border-yellow-400 text-yellow-900',
+                blue: 'bg-blue-50 border-blue-400 text-blue-900',
+                green: 'bg-green-50 border-green-400 text-green-900',
+                purple: 'bg-purple-50 border-purple-400 text-purple-900',
+                red: 'bg-red-50 border-red-400 text-red-900'
+            };
+
+            return (
+                <div className={`${colorStyles[color]} border-l-4 p-4 mb-4 rounded-r-lg shadow-md`}>
+                    {title && <h4 className="font-bold text-lg mb-2">{title}</h4>}
+                    <div className="space-y-2">{children}</div>
+                </div>
+            );
+        };
+
+        // Collapsible Section Component
+        const Section = ({ title, children, defaultOpen = false }) => {
+            const [isOpen, setIsOpen] = useState(defaultOpen);
+
+            return (
+                <div className="bg-white rounded-lg shadow-lg mb-4 overflow-hidden">
+                    <button
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="w-full px-6 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-xl flex items-center justify-between hover:from-indigo-700 hover:to-purple-700 transition-all"
+                    >
+                        <span>{title}</span>
+                        {isOpen ? <ChevronDown className="w-6 h-6" /> : <ChevronRight className="w-6 h-6" />}
+                    </button>
+                    {isOpen && (
+                        <div className="p-6 space-y-4">
+                            {children}
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        // Main App Component
+        const App = () => {
+            useEffect(() => {
+                // Render LaTeX after component mounts
+                if (window.renderMathInElement) {
+                    setTimeout(() => {
+                        renderMathInElement(document.body, {
+                            delimiters: [
+                                {left: "$$", right: "$$", display: true},
+                                {left: "\\(", right: "\\)", display: false},
+                                {left: "$", right: "$", display: false}
+                            ],
+                            throwOnError: false,
+                            strict: false
+                        });
+                    }, 200);
+                }
+            }, []);
+
+            return (
+                <div className="container mx-auto px-4 py-8 max-w-6xl">
+                    {/* Header */}
+                    <div className="bg-white rounded-2xl shadow-2xl p-8 mb-8 text-center">
+                        <h1 className="text-4xl font-bold text-gray-800 mb-2">
+                            Data Structures: Unit 2 Revision
+                        </h1>
+                        <p className="text-gray-600 text-lg">Stacks, Queues & Recursion</p>
+                    </div>
+
+                    {/* Section 1: Stack Basics */}
+                    <Section title="1. Stack: LIFO Data Structure">
+                        <ColorBox color="yellow" title="📚 Stack Definitions">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Stack:</strong> Linear data structure following LIFO (Last In First Out) principle</li>
+                                <li><strong>Top:</strong> Pointer to the topmost element in the stack</li>
+                                <li><strong>Push:</strong> Insert element at top → $O(1)$</li>
+                                <li><strong>Pop:</strong> Remove element from top → $O(1)$</li>
+                                <li><strong>Peek/Top:</strong> Return top element without removing → $O(1)$</li>
+                                <li><strong>isEmpty:</strong> Check if stack is empty (top == -1 for array)</li>
+                                <li><strong>isFull:</strong> Check if stack is full (top == MAX-1 for array)</li>
+                            </ul>
+                        </ColorBox>
+
+                        <ColorBox color="purple" title="🔍 Stack Visualization">
+                            <div className="bg-gray-100 p-4 rounded font-mono text-sm">
+                                <pre>
+{`LIFO Principle:
+      ↓ Push     Pop ↑
+    +-----+
+    |  30 | ← Top (Last In, First Out)
+    +-----+
+    |  20 |
+    +-----+
+    |  10 |
+    +-----+
+    Bottom
+
+Operations:
+• Push(40) → Stack: [10, 20, 30, 40]
+• Pop() → Returns 40, Stack: [10, 20, 30]
+• Peek() → Returns 30 (doesn't remove)`}
+                                </pre>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="green" title="🔧 Stack Applications">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Expression Evaluation:</strong> Infix to Postfix/Prefix conversion, Postfix evaluation</li>
+                                <li><strong>Function Calls:</strong> Recursion, Call stack management</li>
+                                <li><strong>Backtracking:</strong> Maze solving, N-Queens problem</li>
+                                <li><strong>Undo/Redo:</strong> Text editors, browsers (history)</li>
+                                <li><strong>Parentheses Matching:</strong> Compiler syntax checking</li>
+                                <li><strong>DFS:</strong> Graph traversal using stack</li>
+                            </ul>
+                        </ColorBox>
+                    </Section>
+
+                    {/* Section 2: Stack Implementations */}
+                    <Section title="2. Stack Implementations">
+                        <ColorBox color="blue" title="💻 Stack Implementation - Array">
+                            <div className="space-y-3">
+                                <div className="bg-gray-100 p-4 rounded font-mono text-xs">
+                                    <pre>
+{`#define MAX 100
+int stack[MAX];
+int top = -1;
+
+void push(int value) {
+    if (top == MAX - 1) {
+        printf("Stack Overflow");
+        return;
+    }
+    stack[++top] = value;
+}
+
+int pop() {
+    if (top == -1) {
+        printf("Stack Underflow");
+        return -1;
+    }
+    return stack[top--];
+}`}
+                                    </pre>
+                                </div>
+                                <p><strong>Pros:</strong> Simple, Fast $O(1)$ | <strong>Cons:</strong> Fixed size</p>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="blue" title="💻 Stack Implementation - Linked List">
+                            <div className="space-y-3">
+                                <div className="bg-gray-100 p-4 rounded font-mono text-xs">
+                                    <pre>
+{`struct Node {
+    int data;
+    struct Node* next;
+};
+struct Node* top = NULL;
+
+void push(int value) {
+    struct Node* newNode = malloc(sizeof(struct Node));
+    newNode->data = value;
+    newNode->next = top;
+    top = newNode;
+}
+
+int pop() {
+    if (top == NULL) return -1;
+    struct Node* temp = top;
+    int value = top->data;
+    top = top->next;
+    free(temp);
+    return value;
+}`}
+                                    </pre>
+                                </div>
+                                <p><strong>Pros:</strong> Dynamic size | <strong>Cons:</strong> Extra pointer memory</p>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="purple" title="⚖️ Array vs Linked List Stack">
+                            <div className="overflow-x-auto">
+                                <table className="min-w-full bg-white border border-gray-300 text-sm">
+                                    <thead className="bg-gray-200">
+                                        <tr>
+                                            <th className="border border-gray-300 px-3 py-2">Aspect</th>
+                                            <th className="border border-gray-300 px-3 py-2">Array</th>
+                                            <th className="border border-gray-300 px-3 py-2">Linked List</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td className="border border-gray-300 px-3 py-2 font-semibold">Size</td>
+                                            <td className="border border-gray-300 px-3 py-2">Fixed</td>
+                                            <td className="border border-gray-300 px-3 py-2">Dynamic</td>
+                                        </tr>
+                                        <tr className="bg-gray-50">
+                                            <td className="border border-gray-300 px-3 py-2 font-semibold">Overflow</td>
+                                            <td className="border border-gray-300 px-3 py-2">Can occur</td>
+                                            <td className="border border-gray-300 px-3 py-2">Rare</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="border border-gray-300 px-3 py-2 font-semibold">Complexity</td>
+                                            <td className="border border-gray-300 px-3 py-2">$O(1)$ all ops</td>
+                                            <td className="border border-gray-300 px-3 py-2">$O(1)$ all ops</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ColorBox>
+                    </Section>
+
+                    {/* Section 3: Expression Conversion & Evaluation */}
+                    <Section title="3. Expression Conversion & Evaluation">
+                        <ColorBox color="green" title="📐 Infix to Postfix Conversion">
+                            <div className="space-y-3">
+                                <p><strong>Algorithm:</strong></p>
+                                <ol className="list-decimal list-inside ml-4 space-y-1 text-sm">
+                                    <li>Scan left to right</li>
+                                    <li>Operand → Add to output</li>
+                                    <li>'(' → Push to stack</li>
+                                    <li>')' → Pop until '('</li>
+                                    <li>Operator → Pop higher/equal precedence, then push current</li>
+                                    <li>End → Pop all remaining</li>
+                                </ol>
+                                <p className="mt-2"><strong>Precedence:</strong> $\wedge$ {' > '} $\times, /$ {' > '} $+, -$</p>
+                                <div className="bg-gray-50 p-3 rounded mt-2">
+                                    <p><strong>Example: A + B * C - D</strong></p>
+                                    <p className="ml-4 text-sm mt-1">Output: <strong>ABC*+D-</strong></p>
+                                </div>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="green" title="📐 Postfix Evaluation">
+                            <div className="space-y-3">
+                                <p><strong>Algorithm:</strong></p>
+                                <ol className="list-decimal list-inside ml-4 space-y-1 text-sm">
+                                    <li>Scan left to right</li>
+                                    <li>Operand → Push to stack</li>
+                                    <li>Operator → Pop 2, compute, push result</li>
+                                    <li>End → Stack top is result</li>
+                                </ol>
+                                <div className="bg-gray-50 p-3 rounded mt-2">
+                                    <p><strong>Example: 5 6 2 + * 12 4 / -</strong></p>
+                                    <p className="ml-4 text-sm mt-1">Steps: 5, 6, 2 → 6+2=8 → 5*8=40 → 12/4=3 → 40-3=<strong>37</strong></p>
+                                </div>
+                            </div>
+                        </ColorBox>
+                    </Section>
+
+                    {/* Section 4: Recursion Basics */}
+                    <Section title="4. Recursion: Function Calling Itself">
+                        <ColorBox color="yellow" title="📚 Recursion Definitions">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Recursion:</strong> Function that calls itself to solve smaller subproblems</li>
+                                <li><strong>Base Case:</strong> Condition to stop recursion (prevents infinite loop)</li>
+                                <li><strong>Recursive Case:</strong> Function calls itself with modified parameters</li>
+                                <li><strong>Call Stack:</strong> System stack storing function calls (activation records)</li>
+                                <li><strong>Stack Overflow:</strong> Error when recursion depth exceeds stack limit</li>
+                            </ul>
+                        </ColorBox>
+
+                        <ColorBox color="purple" title="🔍 Recursion Principles">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Divide & Conquer:</strong> Break problem into smaller similar subproblems</li>
+                                <li><strong>Must Have Base Case:</strong> Termination condition (critical!)</li>
+                                <li><strong>Progress Toward Base:</strong> Each recursive call moves closer to base case</li>
+                                <li><strong>Trust the Recursion:</strong> Assume recursive call works for smaller input</li>
+                            </ul>
+                            <div className="bg-gray-100 p-3 rounded mt-3 font-mono text-xs">
+                                <pre>
+{`General Structure:
+function recursive(input) {
+    if (baseCase)           // 1. Base case
+        return solution;
+    else
+        return recursive(   // 2. Recursive case
+            smallerInput    // 3. Progress toward base
+        );
+}`}
+                                </pre>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="blue" title="💻 Factorial Example">
+                            <div className="space-y-3">
+                                <p><strong>Problem:</strong> $n! = n \times (n-1) \times ... \times 1$</p>
+                                <div className="bg-gray-100 p-4 rounded font-mono text-xs">
+                                    <pre>
+{`int factorial(int n) {
+    if (n == 0 || n == 1)
+        return 1;  // Base case
+    return n * factorial(n - 1);  // Recursive case
+}
+
+// factorial(4) = 4 * 3 * 2 * 1 = 24
+// Time: O(n), Space: O(n) stack`}
+                                    </pre>
+                                </div>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="yellow" title="📚 Tail Recursion">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Definition:</strong> Recursive call is the last operation</li>
+                                <li><strong>Advantage:</strong> Compiler can optimize to iteration</li>
+                            </ul>
+                            <div className="bg-gray-100 p-3 rounded mt-3 font-mono text-xs">
+                                <pre>
+{`// Tail Recursive
+int factorial_tail(int n, int acc) {
+    if (n == 0) return acc;
+    return factorial_tail(n - 1, n * acc);
+}`}
+                                </pre>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="purple" title="⚖️ Recursion vs Iteration">
+                            <div className="overflow-x-auto">
+                                <table className="min-w-full bg-white border border-gray-300 text-sm">
+                                    <thead className="bg-gray-200">
+                                        <tr>
+                                            <th className="border border-gray-300 px-3 py-2">Aspect</th>
+                                            <th className="border border-gray-300 px-3 py-2">Recursion</th>
+                                            <th className="border border-gray-300 px-3 py-2">Iteration</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td className="border border-gray-300 px-3 py-2 font-semibold">Code</td>
+                                            <td className="border border-gray-300 px-3 py-2">Shorter, elegant</td>
+                                            <td className="border border-gray-300 px-3 py-2">Longer</td>
+                                        </tr>
+                                        <tr className="bg-gray-50">
+                                            <td className="border border-gray-300 px-3 py-2 font-semibold">Space</td>
+                                            <td className="border border-gray-300 px-3 py-2">$O(n)$ stack</td>
+                                            <td className="border border-gray-300 px-3 py-2">$O(1)$</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="border border-gray-300 px-3 py-2 font-semibold">Use Case</td>
+                                            <td className="border border-gray-300 px-3 py-2">Tree, Divide-Conquer</td>
+                                            <td className="border border-gray-300 px-3 py-2">Simple loops</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ColorBox>
+                    </Section>
+
+                    {/* Section 5: Classic Recursive Problems */}
+                    <Section title="5. Classic Recursive Problems">
+                        <ColorBox color="blue" title="💻 Fibonacci - Multiple Recursion">
+                            <div className="space-y-3">
+                                <p><strong>Formula:</strong> $F(n) = F(n-1) + F(n-2)$, $F(0)=0, F(1)=1$</p>
+                                <div className="bg-gray-100 p-4 rounded font-mono text-xs">
+                                    <pre>
+{`// Naive - O(2^n) time
+int fibonacci(int n) {
+    if (n <= 1) return n;
+    return fibonacci(n-1) + fibonacci(n-2);
+}
+
+// Optimized with Memoization - O(n)
+int fib_memo[MAX];
+int fibonacci_dp(int n) {
+    if (n <= 1) return n;
+    if (fib_memo[n] != -1) return fib_memo[n];
+    fib_memo[n] = fibonacci_dp(n-1) + fibonacci_dp(n-2);
+    return fib_memo[n];
+}`}
+                                    </pre>
+                                </div>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="green" title="📐 Binary Search - Recursive">
+                            <div className="space-y-3">
+                                <div className="bg-gray-100 p-4 rounded font-mono text-xs">
+                                    <pre>
+{`int binarySearch(int arr[], int left, int right, int key) {
+    if (left > right) return -1;
+    
+    int mid = left + (right - left) / 2;
+    
+    if (arr[mid] == key) return mid;
+    else if (key < arr[mid])
+        return binarySearch(arr, left, mid - 1, key);
+    else
+        return binarySearch(arr, mid + 1, right, key);
+}
+// Time: O(log n), Space: O(log n)`}
+                                    </pre>
+                                </div>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="green" title="📐 Tower of Hanoi">
+                            <div className="space-y-3">
+                                <p><strong>Rules:</strong> Move $n$ disks, one at a time, larger never on smaller</p>
+                                <div className="bg-gray-100 p-4 rounded font-mono text-xs">
+                                    <pre>
+{`void towerOfHanoi(int n, char src, char dest, char aux) {
+    if (n == 1) {
+        printf("Move disk 1 from %c to %c\\n", src, dest);
+        return;
+    }
+    towerOfHanoi(n-1, src, aux, dest);
+    printf("Move disk %d from %c to %c\\n", n, src, dest);
+    towerOfHanoi(n-1, aux, dest, src);
+}
+
+// Moves: 2^n - 1
+// Time: O(2^n), Space: O(n)`}
+                                    </pre>
+                                </div>
+                                <p className="text-sm">3 disks → $2^3 - 1 = 7$ moves</p>
+                            </div>
+                        </ColorBox>
+                    </Section>
+
+                    {/* Section 6: Queue Basics */}
+                    <Section title="6. Queue Basics">
+                        <ColorBox color="yellow" title="📚 Queue Definitions">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Queue:</strong> Linear data structure following FIFO (First In First Out) principle</li>
+                                <li><strong>Front:</strong> Pointer to front element (dequeue from here)</li>
+                                <li><strong>Rear:</strong> Pointer to rear element (enqueue at here)</li>
+                                <li><strong>Enqueue:</strong> Insert element at rear → $O(1)$</li>
+                                <li><strong>Dequeue:</strong> Remove element from front → $O(1)$</li>
+                                <li><strong>Peek:</strong> Return front element without removing → $O(1)$</li>
+                            </ul>
+                        </ColorBox>
+
+                        <ColorBox color="purple" title="🔍 Linear Queue Visualization">
+                            <div className="bg-gray-100 p-4 rounded font-mono text-sm">
+                                <pre>
+{`FIFO Principle:
+   Enqueue →                    ← Dequeue
+   +----+----+----+----+----+
+   | 10 | 20 | 30 | 40 |    |
+   +----+----+----+----+----+
+   Front              Rear
+
+Problem: After dequeue, front space wasted!
+Solution: Circular Queue`}
+                                </pre>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="blue" title="💻 Linear Queue Implementation">
+                            <div className="space-y-3">
+                                <div className="bg-gray-100 p-4 rounded font-mono text-xs">
+                                    <pre>
+                                        {`#define MAX 100
+                                        int queue[MAX];
+                                        int front = -1, rear = -1;
+
+                                        void enqueue(int value) {
+                                            if (rear == MAX - 1) {
+                                                printf("Queue Overflow");
+                                                return;
+                                            }
+                                            if (front == -1) front = 0;
+                                            queue[++rear] = value;
+                                        }
+
+                                        int dequeue() {
+                                            if (front == -1 || front > rear) {
+                                                printf("Queue Underflow");
+                                                return -1;
+                                            }
+                                            return queue[front++];
+                                        }`}
+                                    </pre>
+                                </div>
+                                <p className="text-sm"><strong>Problem:</strong> Wasted space at front after dequeue operations</p>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="green" title="🔧 Queue Applications">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>CPU Scheduling:</strong> Process scheduling (FCFS, Round Robin)</li>
+                                <li><strong>BFS:</strong> Breadth-First Search in graphs/trees</li>
+                                <li><strong>Printer Queue:</strong> Print jobs in order</li>
+                                <li><strong>IO Buffers:</strong> Keyboard buffer, network packets</li>
+                            </ul>
+                        </ColorBox>
+                    </Section>
+
+                    {/* Section 7: Circular Queue */}
+                    <Section title="7. Circular Queue">
+                        <ColorBox color="yellow" title="📚 Circular Queue Concept">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Concept:</strong> Connect rear to front to reuse empty spaces</li>
+                                <li><strong>Modulo Logic:</strong> Use $\%$ operator: $rear = (rear + 1) \% MAX$</li>
+                                <li><strong>Full Condition:</strong> $(rear + 1) \% MAX == front$</li>
+                                <li><strong>Empty Condition:</strong> $front == -1$</li>
+                                <li><strong>Advantage:</strong> Efficient space utilization</li>
+                            </ul>
+                        </ColorBox>
+
+                        <ColorBox color="purple" title="🔍 Circular Queue Visualization">
+                            <div className="bg-gray-100 p-4 rounded font-mono text-sm">
+                                <pre>
+{`Circular Array (Size = 5):
+     [0]
+   ↗     ↖
+[4]       [1]
+   ↖     ↗
+     [3] [2]
+
+Modulo wraps indices:
+rear = (rear + 1) % 5
+When rear=4, next rear=0 (wraps around)`}
+                                </pre>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="blue" title="💻 Circular Queue Implementation">
+                            <div className="space-y-3">
+                                <div className="bg-gray-100 p-4 rounded font-mono text-xs">
+                                    <pre>
+{`#define MAX 5
+int queue[MAX];
+int front = -1, rear = -1;
+
+int isFull() {
+    return (rear + 1) % MAX == front;
+}
+
+void enqueue(int value) {
+    if (isFull()) {
+        printf("Queue Overflow");
+        return;
+    }
+    if (front == -1) front = 0;
+    rear = (rear + 1) % MAX;
+    queue[rear] = value;
+}
+
+int dequeue() {
+    if (front == -1) return -1;
+    int value = queue[front];
+    if (front == rear)
+        front = rear = -1;
+    else
+        front = (front + 1) % MAX;
+    return value;
+}`}
+                                    </pre>
+                                </div>
+                            </div>
+                        </ColorBox>
+                    </Section>
+
+                    {/* Section 8: Deque & Priority Queue */}
+                    <Section title="8. Deque & Priority Queue">
+                        <ColorBox color="yellow" title="📚 Deque (Double-Ended Queue)">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Definition:</strong> Insertion/deletion at both ends</li>
+                                <li><strong>Operations:</strong> insertFront(), insertRear(), deleteFront(), deleteRear() - all $O(1)$</li>
+                                <li><strong>Types:</strong></li>
+                                <ul className="list-disc list-inside ml-6">
+                                    <li><strong>Input-Restricted:</strong> Insert only at rear</li>
+                                    <li><strong>Output-Restricted:</strong> Delete only from front</li>
+                                </ul>
+                                <li><strong>Applications:</strong> Browser history, undo/redo, sliding window</li>
+                            </ul>
+                        </ColorBox>
+
+                        <ColorBox color="purple" title="🔍 Deque Visualization">
+                            <div className="bg-gray-100 p-4 rounded font-mono text-sm">
+                                <pre>
+{`Double-Ended Queue:
+    ← deleteFront    deleteRear →
+    ← insertFront    insertRear →
+    +----+----+----+----+
+    | 10 | 20 | 30 | 40 |
+    +----+----+----+----+
+   Front            Rear`}
+                                </pre>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="yellow" title="📚 Priority Queue">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Definition:</strong> Elements have priority, highest dequeued first</li>
+                                <li><strong>Types:</strong> Min PQ (smallest first), Max PQ (largest first)</li>
+                                <li><strong>Implementation:</strong></li>
+                                <ul className="list-disc list-inside ml-6">
+                                    <li>Array/List: Enqueue $O(n)$, Dequeue $O(1)$</li>
+                                    <li>Heap: Enqueue $O(\log n)$, Dequeue $O(\log n)$ ✓ Best</li>
+                                </ul>
+                                <li><strong>Applications:</strong> CPU scheduling, Dijkstra's, Huffman coding</li>
+                            </ul>
+                        </ColorBox>
+
+                        <ColorBox color="purple" title="🔍 Priority Queue Example">
+                            <div className="bg-gray-100 p-4 rounded font-mono text-sm">
+                                <pre>
+{`Max-Priority Queue:
+Element | Priority
+   A    |    3
+   B    |    5  ← Dequeued first
+   C    |    1
+   D    |    4
+
+Order: B(5) → D(4) → A(3) → C(1)`}
+                                </pre>
+                            </div>
+                        </ColorBox>
+                    </Section>
+
+                    {/* Section 9: Revision Summary (RED BOX) */}
+                    <Section title="🔴 REVISION SUMMARY - Quick Reference">
+                        <ColorBox color="red" title="⚡ Stack vs Queue Comparison">
+                            <div className="overflow-x-auto">
+                                <table className="min-w-full bg-white border border-gray-300 text-sm">
+                                    <thead className="bg-gray-200">
+                                        <tr>
+                                            <th className="border border-gray-300 px-3 py-2">Aspect</th>
+                                            <th className="border border-gray-300 px-3 py-2">Stack</th>
+                                            <th className="border border-gray-300 px-3 py-2">Queue</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td className="border border-gray-300 px-3 py-2 font-semibold">Principle</td>
+                                            <td className="border border-gray-300 px-3 py-2">LIFO (Last In First Out)</td>
+                                            <td className="border border-gray-300 px-3 py-2">FIFO (First In First Out)</td>
+                                        </tr>
+                                        <tr className="bg-gray-50">
+                                            <td className="border border-gray-300 px-3 py-2 font-semibold">Insert</td>
+                                            <td className="border border-gray-300 px-3 py-2">Push at top - $O(1)$</td>
+                                            <td className="border border-gray-300 px-3 py-2">Enqueue at rear - $O(1)$</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="border border-gray-300 px-3 py-2 font-semibold">Delete</td>
+                                            <td className="border border-gray-300 px-3 py-2">Pop from top - $O(1)$</td>
+                                            <td className="border border-gray-300 px-3 py-2">Dequeue from front - $O(1)$</td>
+                                        </tr>
+                                        <tr className="bg-gray-50">
+                                            <td className="border border-gray-300 px-3 py-2 font-semibold">Pointers</td>
+                                            <td className="border border-gray-300 px-3 py-2">Top</td>
+                                            <td className="border border-gray-300 px-3 py-2">Front, Rear</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="border border-gray-300 px-3 py-2 font-semibold">Applications</td>
+                                            <td className="border border-gray-300 px-3 py-2">Recursion, Expression, Undo</td>
+                                            <td className="border border-gray-300 px-3 py-2">BFS, Scheduling, Buffers</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="red" title="⚡ Circular Queue Formulas">
+                            <div className="bg-white p-3 rounded space-y-2 text-sm">
+                                <p><strong>Key Operations with Modulo:</strong></p>
+                                <div className="ml-4 space-y-2">
+                                    <p>• <strong>Enqueue:</strong> $rear = (rear + 1) \% MAX$</p>
+                                    <p>• <strong>Dequeue:</strong> $front = (front + 1) \% MAX$</p>
+                                    <p>• <strong>Full Check:</strong> $(rear + 1) \% MAX == front$</p>
+                                    <p>• <strong>Empty Check:</strong> $front == -1$</p>
+                                    <p>• <strong>Size:</strong> $(rear - front + MAX) \% MAX + 1$</p>
+                                </div>
+                                <p className="mt-3 text-xs text-gray-600">
+                                    <strong>Why Modulo?</strong> Wraps index back to 0 when it exceeds MAX-1
+                                </p>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="red" title="⚡ Recursion vs Iteration Trade-offs">
+                            <div className="space-y-3">
+                                <div className="bg-white p-3 rounded">
+                                    <p className="font-semibold mb-2">When to Use Recursion:</p>
+                                    <ul className="list-disc list-inside ml-4 text-sm space-y-1">
+                                        <li>Problem naturally divides into similar subproblems</li>
+                                        <li>Tree/Graph traversal (DFS, Tree operations)</li>
+                                        <li>Divide and Conquer algorithms (Merge Sort, Quick Sort)</li>
+                                        <li>Backtracking problems (N-Queens, Sudoku)</li>
+                                        <li>Code simplicity is priority (Tower of Hanoi)</li>
+                                    </ul>
+                                </div>
+                                <div className="bg-white p-3 rounded">
+                                    <p className="font-semibold mb-2">When to Use Iteration:</p>
+                                    <ul className="list-disc list-inside ml-4 text-sm space-y-1">
+                                        <li>Simple loops, array traversal</li>
+                                        <li>Performance critical (avoid function call overhead)</li>
+                                        <li>Memory constrained (avoid stack overflow risk)</li>
+                                        <li>Tail recursion that compiler won't optimize</li>
+                                        <li>Fibonacci, factorial in production code</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="red" title="📝 Common Exam Questions">
+                            <ol className="list-decimal list-inside space-y-3">
+                                <li>
+                                    <strong>Convert Infix to Postfix: (A + B) * C - D / E</strong>
+                                    <p className="ml-6 text-sm mt-1">Use operator precedence and stack. Answer: AB+C*DE/-</p>
+                                </li>
+                                <li>
+                                    <strong>Evaluate Postfix Expression: 2 3 + 5 * 4 -</strong>
+                                    <p className="ml-6 text-sm mt-1">Push operands, pop and compute on operator. Answer: 21</p>
+                                </li>
+                                <li>
+                                    <strong>Write Recursive Function for Tower of Hanoi with 3 disks</strong>
+                                    <p className="ml-6 text-sm mt-1">Show base case (n=1), recursive calls for n-1 disks. Total moves: $2^3 - 1 = 7$</p>
+                                </li>
+                                <li>
+                                    <strong>Circular Queue: Enqueue 5 elements in size 4, then dequeue 2, enqueue 2 more</strong>
+                                    <p className="ml-6 text-sm mt-1">Show modulo arithmetic, final state of front/rear pointers</p>
+                                </li>
+                                <li>
+                                    <strong>Compare Array-based vs Linked List-based Stack Implementation</strong>
+                                    <p className="ml-6 text-sm mt-1">Fixed vs dynamic size, overflow conditions, memory efficiency</p>
+                                </li>
+                                <li>
+                                    <strong>Prove Time Complexity of Recursive Fibonacci is $O(2^n)$</strong>
+                                    <p className="ml-6 text-sm mt-1">Show recurrence $T(n) = T(n-1) + T(n-2) + c$, draw recursion tree</p>
+                                </li>
+                                <li>
+                                    <strong>Applications: When to use Stack vs Queue vs Priority Queue?</strong>
+                                    <p className="ml-6 text-sm mt-1">Stack: Recursion/Undo, Queue: BFS/Scheduling, PQ: Dijkstra/OS scheduling</p>
+                                </li>
+                            </ol>
+                        </ColorBox>
+
+                        <ColorBox color="red" title="📊 Time & Space Complexity Cheat Sheet">
+                            <div className="overflow-x-auto">
+                                <table className="min-w-full bg-white border border-gray-300 text-sm">
+                                    <thead className="bg-gray-200">
+                                        <tr>
+                                            <th className="border border-gray-300 px-3 py-2">Algorithm/Structure</th>
+                                            <th className="border border-gray-300 px-3 py-2">Time</th>
+                                            <th className="border border-gray-300 px-3 py-2">Space</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td className="border border-gray-300 px-3 py-2 font-semibold">Stack Push/Pop</td>
+                                            <td className="border border-gray-300 px-3 py-2">$O(1)$</td>
+                                            <td className="border border-gray-300 px-3 py-2">$O(n)$</td>
+                                        </tr>
+                                        <tr className="bg-gray-50">
+                                            <td className="border border-gray-300 px-3 py-2 font-semibold">Queue Enqueue/Dequeue</td>
+                                            <td className="border border-gray-300 px-3 py-2">$O(1)$</td>
+                                            <td className="border border-gray-300 px-3 py-2">$O(n)$</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="border border-gray-300 px-3 py-2 font-semibold">Infix to Postfix</td>
+                                            <td className="border border-gray-300 px-3 py-2">$O(n)$</td>
+                                            <td className="border border-gray-300 px-3 py-2">$O(n)$</td>
+                                        </tr>
+                                        <tr className="bg-gray-50">
+                                            <td className="border border-gray-300 px-3 py-2 font-semibold">Postfix Evaluation</td>
+                                            <td className="border border-gray-300 px-3 py-2">$O(n)$</td>
+                                            <td className="border border-gray-300 px-3 py-2">$O(n)$</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="border border-gray-300 px-3 py-2 font-semibold">Factorial (Recursive)</td>
+                                            <td className="border border-gray-300 px-3 py-2">$O(n)$</td>
+                                            <td className="border border-gray-300 px-3 py-2">$O(n)$ stack</td>
+                                        </tr>
+                                        <tr className="bg-gray-50">
+                                            <td className="border border-gray-300 px-3 py-2 font-semibold">Fibonacci (Naive)</td>
+                                            <td className="border border-gray-300 px-3 py-2">$O(2^n)$</td>
+                                            <td className="border border-gray-300 px-3 py-2">$O(n)$ stack</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="border border-gray-300 px-3 py-2 font-semibold">Binary Search (Recursive)</td>
+                                            <td className="border border-gray-300 px-3 py-2">$O(\log n)$</td>
+                                            <td className="border border-gray-300 px-3 py-2">$O(\log n)$ stack</td>
+                                        </tr>
+                                        <tr className="bg-gray-50">
+                                            <td className="border border-gray-300 px-3 py-2 font-semibold">Tower of Hanoi</td>
+                                            <td className="border border-gray-300 px-3 py-2">$O(2^n)$</td>
+                                            <td className="border border-gray-300 px-3 py-2">$O(n)$ stack</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="red" title="🎯 Quick Tips for Exam">
+                            <ul className="list-disc list-inside space-y-2 text-sm">
+                                <li><strong>Stack:</strong> Always check overflow (top == MAX-1) and underflow (top == -1)</li>
+                                <li><strong>Circular Queue:</strong> Master modulo arithmetic - $(rear + 1) \% MAX$</li>
+                                <li><strong>Infix to Postfix:</strong> Remember precedence: $\wedge$ {' > '} $\times, /$ {' > '} $+, -$</li>
+                                <li><strong>Recursion:</strong> Always write base case first, ensure progress toward base</li>
+                                <li><strong>Complexity:</strong> Recursive space includes stack depth in analysis</li>
+                                <li><strong>Tail Recursion:</strong> Can be optimized to iteration by compiler (important concept!)</li>
+                                <li><strong>Tower of Hanoi:</strong> Remember formula $2^n - 1$ moves for $n$ disks</li>
+                                <li><strong>Deque:</strong> Know difference between input-restricted and output-restricted</li>
+                            </ul>
+                        </ColorBox>
+                    </Section>
+
+                    {/* Footer */}
+                    <div className="bg-white rounded-lg shadow-lg p-6 mt-8">
+                        <div className="text-center text-gray-600">
+                            <p className="text-sm">Best of luck with your exam! 🚀</p>
+                            <p className="text-xs mt-2">Data Structures Unit-2 - Last Minute Revision</p>
+                        </div>
+
+                        {/* ZenYukti Branding */}
+                        <div className="text-center mt-6 pt-4 border-t border-gray-300">
+                            <p className="text-sm text-gray-700 mb-2">
+                                Crafted with 💙 by <a href="https://zenyukti.in" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:text-blue-800 underline">ZenYukti</a>
+                            </p>
+                            <p className="text-xs text-gray-500 italic">Learn. Build. Share.</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Render App
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
