@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Structures: Unit 1 Revision</title>
+    
+    <!-- React 18 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel Standalone -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- KaTeX for LaTeX rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #a8b5ff 0%, #b8a5d6 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Icons Components
+        const ChevronDown = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+        );
+
+        const ChevronRight = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+        );
+
+        // Color-coded Box Component
+        const ColorBox = ({ color, title, children }) => {
+            const colorStyles = {
+                yellow: 'bg-yellow-50 border-yellow-400 text-yellow-900',
+                blue: 'bg-blue-50 border-blue-400 text-blue-900',
+                green: 'bg-green-50 border-green-400 text-green-900',
+                purple: 'bg-purple-50 border-purple-400 text-purple-900',
+                red: 'bg-red-50 border-red-400 text-red-900'
+            };
+
+            return (
+                <div className={`${colorStyles[color]} border-l-4 p-4 mb-4 rounded-r-lg shadow-md`}>
+                    {title && <h4 className="font-bold text-lg mb-2">{title}</h4>}
+                    <div className="space-y-2">{children}</div>
+                </div>
+            );
+        };
+
+        // Collapsible Section Component
+        const Section = ({ title, children, defaultOpen = false }) => {
+            const [isOpen, setIsOpen] = useState(defaultOpen);
+
+            return (
+                <div className="bg-white rounded-lg shadow-lg mb-4 overflow-hidden">
+                    <button
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="w-full px-6 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-xl flex items-center justify-between hover:from-indigo-700 hover:to-purple-700 transition-all"
+                    >
+                        <span>{title}</span>
+                        {isOpen ? <ChevronDown className="w-6 h-6" /> : <ChevronRight className="w-6 h-6" />}
+                    </button>
+                    {isOpen && (
+                        <div className="p-6 space-y-4">
+                            {children}
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        // Main App Component
+        const App = () => {
+            useEffect(() => {
+                // Render LaTeX after component mounts
+                if (window.renderMathInElement) {
+                    setTimeout(() => {
+                        renderMathInElement(document.body, {
+                            delimiters: [
+                                {left: "$$", right: "$$", display: true},
+                                {left: "\\(", right: "\\)", display: false},
+                                {left: "$", right: "$", display: false}
+                            ],
+                            throwOnError: false,
+                            strict: false
+                        });
+                    }, 200);
+                }
+            }, []);
+
+            return (
+                <div className="container mx-auto px-4 py-8 max-w-6xl">
+                    {/* Header */}
+                    <div className="bg-white rounded-2xl shadow-2xl p-8 mb-8 text-center">
+                        <h1 className="text-4xl font-bold text-gray-800 mb-2">
+                            Data Structures, Arrays & Linked Lists
+                        </h1>
+                        <p className="text-gray-600 text-lg">Arrays, Linked Lists & Complexity Analysis</p>
+                    </div>
+
+                    {/* Section 1: Foundations - Algorithm Complexity */}
+                    <Section title="1. Algorithm Complexity & Asymptotic Notations" defaultOpen={true}>
+                        <ColorBox color="yellow" title="📚 Definitions">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Time Complexity:</strong> Amount of time taken by algorithm as function of input size $n$</li>
+                                <li><strong>Space Complexity:</strong> Amount of memory space required (Fixed + Variable parts)</li>
+                                <li><strong>Best Case ($\Omega$):</strong> Minimum time required for any input</li>
+                                <li><strong>Average Case ($\Theta$):</strong> Expected time for random input</li>
+                                <li><strong>Worst Case ($O$):</strong> Maximum time required for any input</li>
+                            </ul>
+                        </ColorBox>
+
+                        <ColorBox color="green" title="📐 Asymptotic Notations">
+                            <div className="space-y-3">
+                                <div>
+                                    <strong>Big O (Upper Bound):</strong>
+                                    <p className="ml-4 mt-1">$f(n) = O(g(n))$ if $\exists$ constants $c {'>'} 0$ and $n_0$ such that:</p>
+                                    <p className="ml-8 mt-1 font-mono bg-gray-100 p-2 rounded">$f(n) \leq c \times g(n)$ for all $n \geq n_0$</p>
+                                </div>
+                                <div>
+                                    <strong>Big Omega (Lower Bound):</strong>
+                                    <p className="ml-4 mt-1">$f(n) = \Omega(g(n))$ if $\exists$ constants $c {'>'} 0$ and $n_0$ such that:</p>
+                                    <p className="ml-8 mt-1 font-mono bg-gray-100 p-2 rounded">$f(n) \geq c \times g(n)$ for all $n \geq n_0$</p>
+                                </div>
+                                <div>
+                                    <strong>Big Theta (Tight Bound):</strong>
+                                    <p className="ml-4 mt-1">$f(n) = \Theta(g(n))$ if $\exists$ constants $c_1, c_2 {'>'} 0$ and $n_0$ such that:</p>
+                                    <p className="ml-8 mt-1 font-mono bg-gray-100 p-2 rounded">$c_1 \times g(n) \leq f(n) \leq c_2 \times g(n)$ for all $n \geq n_0$</p>
+                                </div>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="purple" title="📊 Complexity Hierarchy">
+                            <div className="font-mono text-center text-lg bg-gray-100 p-4 rounded">
+                                $O(1) {'<'} O(\log n) {'<'} O(n) {'<'} O(n \log n) {'<'} O(n^2) {'<'} O(n^3) {'<'} O(2^n) {'<'} O(n!)$
+                            </div>
+                            <div className="text-center text-sm mt-2 text-gray-600">
+                                Constant → Logarithmic → Linear → Linearithmic → Quadratic → Cubic → Exponential → Factorial
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="yellow" title="⚖️ Time-Space Trade-off">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Concept:</strong> Reduce time by using more space, or reduce space by using more time</li>
+                                <li><strong>Example 1:</strong> Lookup table (precompute factorials) → $O(1)$ time, $O(n)$ space</li>
+                                <li><strong>Example 2:</strong> Compute every time → $O(n)$ time, $O(1)$ space</li>
+                                <li><strong>Memoization:</strong> Store computed results to avoid recomputation (DP technique)</li>
+                            </ul>
+                        </ColorBox>
+                    </Section>
+
+                    {/* Section 2: Arrays */}
+                    <Section title="2. Arrays: Memory Organization & Address Calculation">
+                        <ColorBox color="yellow" title="📚 Array Definitions">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Array:</strong> Collection of elements of same data type in contiguous memory</li>
+                                <li><strong>Characteristics:</strong> Fixed size, Random access $O(1)$, Homogeneous elements</li>
+                                <li><strong>Row Major Order (RMO):</strong> Store row-by-row (Used by C, C++, Pascal)</li>
+                                <li><strong>Column Major Order (CMO):</strong> Store column-by-column (Used by FORTRAN, MATLAB)</li>
+                            </ul>
+                        </ColorBox>
+
+                        <ColorBox color="purple" title="🔍 Memory Layout Example">
+                            <div className="bg-gray-100 p-4 rounded font-mono text-sm">
+                                <p className="mb-2"><strong>1D Array: arr[5] = {10, 20, 30, 40, 50}</strong></p>
+                                <pre className="overflow-x-auto">
+{`Memory Layout:
++----+----+----+----+----+
+| 10 | 20 | 30 | 40 | 50 |
++----+----+----+----+----+
+  0    1    2    3    4     (Indices)`}
+                                </pre>
+                                <p className="mt-4 mb-2"><strong>2D Array: matrix[3][3]</strong></p>
+                                <pre className="overflow-x-auto">
+{`Visual:           RMO Memory:        CMO Memory:
+1  2  3           1→2→3→4→5→6→7→8→9  1→4→7→2→5→8→3→6→9
+4  5  6           
+7  8  9`}
+                                </pre>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="green" title="📐 Address Calculation Formulas">
+                            <div className="space-y-4">
+                                <div>
+                                    <strong>1D Array:</strong>
+                                    <p className="ml-4 mt-2 font-mono bg-gray-100 p-3 rounded">
+                                        $\text{'{'}Address{'}'}(arr[i]) = \text{'{'}Base{'}'} + (i - LB) \times \text{'{'}Size{'}'}$
+                                    </p>
+                                    <p className="ml-4 mt-1 text-sm text-gray-600">
+                                        Where: Base = Starting address, LB = Lower Bound (0 in C), Size = Size of element
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <strong>2D Array - Row Major Order (RMO):</strong>
+                                    <p className="ml-4 mt-2 font-mono bg-gray-100 p-3 rounded">
+                                        $\text{'{'}Address{'}'}(arr[i][j]) = \text{'{'}Base{'}'} + [(i - LB_1) \times n + (j - LB_2)] \times \text{'{'}Size{'}'}$
+                                    </p>
+                                    <p className="ml-4 mt-1 text-sm text-gray-600">
+                                        Where: $n$ = Number of columns, $LB_1, LB_2$ = Lower bounds
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <strong>2D Array - Column Major Order (CMO):</strong>
+                                    <p className="ml-4 mt-2 font-mono bg-gray-100 p-3 rounded">
+                                        $\text{'{'}Address{'}'}(arr[i][j]) = \text{'{'}Base{'}'} + [(j - LB_2) \times m + (i - LB_1)] \times \text{'{'}Size{'}'}$
+                                    </p>
+                                    <p className="ml-4 mt-1 text-sm text-gray-600">
+                                        Where: $m$ = Number of rows
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <strong>3D Array - Row Major Order:</strong>
+                                    <p className="ml-4 mt-2 font-mono bg-gray-100 p-3 rounded text-xs">
+                                        $\text{'{'}Address{'}'}(arr[i][j][k]) = \text{'{'}Base{'}'} + [(i - LB_1) \times n \times p + (j - LB_2) \times p + (k - LB_3)] \times \text{'{'}Size{'}'}$
+                                    </p>
+                                    <p className="ml-4 mt-1 text-sm text-gray-600">
+                                        Where: $n$ = 2nd dimension size, $p$ = 3rd dimension size
+                                    </p>
+                                </div>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="blue" title="💡 Example Calculation">
+                            <div className="bg-gray-50 p-4 rounded">
+                                <p><strong>Problem:</strong> int matrix[3][4] at Base = 1000, find Address(matrix[2][3])</p>
+                                <p className="mt-2"><strong>Given:</strong> Size of int = 4 bytes, LB = 0 (C language)</p>
+                                <div className="mt-2 ml-4 space-y-1">
+                                    <p><strong>Step 1:</strong> Apply RMO formula</p>
+                                    <p className="ml-4">$\text{'{'}Address{'}'} = 1000 + [(2-0) \times 4 + (3-0)] \times 4$</p>
+                                    <p><strong>Step 2:</strong> Calculate</p>
+                                    <p className="ml-4">$= 1000 + [8 + 3] \times 4 = 1000 + 44 = 1044$</p>
+                                    <p className="mt-2 font-bold text-green-700">Answer: 1044</p>
+                                </div>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="green" title="📝 Address Derivation Formula (2D Array - RMO)">
+                            <div className="space-y-3">
+                                <p><strong>Given:</strong> 2D Array $A[m][n]$ with Base address $B$, element size $S$</p>
+                                <div className="ml-4 space-y-2">
+                                    <p><strong>Step 1:</strong> Location of element $A[i][j]$ = ?</p>
+                                    <p><strong>Step 2:</strong> Elements before $A[i][j]$ in RMO:</p>
+                                    <ul className="list-disc list-inside ml-4">
+                                        <li>Complete rows before row $i$ = $i$ rows = $i \times n$ elements</li>
+                                        <li>Elements in row $i$ before column $j$ = $j$ elements</li>
+                                        <li>Total elements before $A[i][j]$ = $i \times n + j$</li>
+                                    </ul>
+                                    <p><strong>Step 3:</strong> Address calculation:</p>
+                                    <p className="ml-4 font-mono bg-gray-100 p-2 rounded">
+                                        $\text{'{'}Address{'}'}(A[i][j]) = B + (i \times n + j) \times S$
+                                    </p>
+                                    <p><strong>Step 4:</strong> For lower bounds $LB_1, LB_2$ (if not 0):</p>
+                                    <p className="ml-4 font-mono bg-gray-100 p-2 rounded">
+                                        $\text{'{'}Address{'}'}(A[i][j]) = B + [(i - LB_1) \times n + (j - LB_2)] \times S$
+                                    </p>
+                                </div>
+                            </div>
+                        </ColorBox>
+                    </Section>
+
+                    {/* Section 3: Sparse Matrices */}
+                    <Section title="3. Sparse Matrices">
+                        <ColorBox color="yellow" title="📚 Sparse Matrix Definition">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Sparse Matrix:</strong> Matrix where most elements are zero</li>
+                                <li><strong>Criterion:</strong> Non-zero elements $\leq$ (rows $\times$ columns) / 3</li>
+                                <li><strong>Why Use?</strong> Save memory and computation time by storing only non-zero elements</li>
+                                <li><strong>Example:</strong> 1000×1000 matrix with 1% non-zero → Save ~98% memory</li>
+                            </ul>
+                        </ColorBox>
+
+                        <ColorBox color="purple" title="🔍 Sparse Matrix Example">
+                            <div className="bg-gray-100 p-4 rounded font-mono text-sm">
+                                <pre>
+{`Original Matrix (4×5):
+0  0  3  0  4
+0  0  5  7  0
+0  0  0  0  0
+0  2  6  0  0
+
+Non-zero elements: 6 out of 20 (30%) → Sparse!`}
+                                </pre>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="green" title="📐 Triple-Tuple (Triplet) Representation">
+                            <div className="space-y-3">
+                                <p><strong>Format:</strong> Store only non-zero elements as (row, column, value)</p>
+                                <div className="bg-gray-100 p-4 rounded font-mono text-sm">
+                                    <pre>
+{`Structure:
+[0] [rows, cols, non-zero_count]  // Header
+[1] [row₁, col₁, value₁]
+[2] [row₂, col₂, value₂]
+...
+
+For above matrix:
+Row  Col  Value
+ 4    5     6     // Header
+ 0    2     3
+ 0    4     4
+ 1    2     5
+ 1    3     7
+ 3    1     2
+ 3    2     6`}
+                                    </pre>
+                                </div>
+                                <p className="text-sm text-gray-600">
+                                    <strong>Memory Saved:</strong> Original: 4×5×4 = 80 bytes, Sparse: 7×3×4 = 84 bytes (but scales better for larger matrices)
+                                </p>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="blue" title="⚙️ Operations on Sparse Matrices">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Transpose:</strong> Swap row ↔ column for each element, sort by (row, col)</li>
+                                <li><strong>Addition:</strong> Traverse both matrices, add values if (row, col) match</li>
+                                <li><strong>Time Complexity:</strong> $O(m + n)$ where $m, n$ = non-zero elements in each matrix</li>
+                                <li><strong>Space Complexity:</strong> $O(k)$ where $k$ = total non-zero elements</li>
+                            </ul>
+                        </ColorBox>
+                    </Section>
+
+                    {/* Section 4: Linked Lists */}
+                    <Section title="4. Linked Lists: Types & Operations">
+                        <ColorBox color="yellow" title="📚 Linked List Definitions">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Linked List:</strong> Linear data structure where elements (nodes) are not stored contiguously</li>
+                                <li><strong>Node:</strong> Contains data + pointer(s) to next/previous node</li>
+                                <li><strong>Advantages:</strong> Dynamic size, Easy insertion/deletion at known position $O(1)$</li>
+                                <li><strong>Disadvantages:</strong> No random access $O(n)$, Extra memory for pointers</li>
+                            </ul>
+                        </ColorBox>
+
+                        <ColorBox color="purple" title="🔗 Singly Linked List">
+                            <div className="space-y-3">
+                                <p><strong>Structure:</strong> Each node has data and pointer to next node</p>
+                                <div className="bg-gray-100 p-4 rounded font-mono text-xs">
+                                    <pre>
+{`Diagram:
+[Data|Next] → [Data|Next] → [Data|Next] → NULL
+
+Example:
+[10|•] → [20|•] → [30|NULL]
+
+C Structure:
+struct Node {
+    int data;
+    struct Node* next;
+};`}
+                                    </pre>
+                                </div>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="blue" title="⚙️ Singly Linked List Operations">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Insert at Beginning:</strong> newNode→next = head; head = newNode; → $O(1)$</li>
+                                <li><strong>Insert at End:</strong> Traverse to last, last→next = newNode; → $O(n)$</li>
+                                <li><strong>Delete at Beginning:</strong> temp = head; head = head→next; free(temp); → $O(1)$</li>
+                                <li><strong>Delete at End:</strong> Traverse to second-last, free(last); secondLast→next = NULL; → $O(n)$</li>
+                                <li><strong>Search:</strong> Traverse and compare, return position or -1 → $O(n)$</li>
+                                <li><strong>Display:</strong> Traverse from head to NULL → $O(n)$</li>
+                            </ul>
+                        </ColorBox>
+
+                        <ColorBox color="purple" title="🔗 Doubly Linked List">
+                            <div className="space-y-3">
+                                <p><strong>Structure:</strong> Each node has data, prev pointer, and next pointer</p>
+                                <div className="bg-gray-100 p-4 rounded font-mono text-xs">
+                                    <pre>
+{`Diagram:
+NULL ← [prev|Data|next] ⇄ [prev|Data|next] ⇄ [prev|Data|next] → NULL
+
+Example:
+NULL ← [•|10|•] ⇄ [•|20|•] ⇄ [•|30|NULL]
+
+C Structure:
+struct DNode {
+    int data;
+    struct DNode* prev;
+    struct DNode* next;
+};`}
+                                    </pre>
+                                </div>
+                                <p><strong>Advantages:</strong> Bidirectional traversal, Delete node in $O(1)$ if node pointer given</p>
+                                <p><strong>Disadvantages:</strong> Extra memory for prev pointer, More complex operations</p>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="purple" title="🔗 Circular Linked List">
+                            <div className="space-y-3">
+                                <p><strong>Structure:</strong> Last node points back to head (no NULL)</p>
+                                <div className="bg-gray-100 p-4 rounded font-mono text-xs">
+                                    <pre>
+{`Diagram:
+     ┌─────────────────────┐
+     ↓                     |
+[Data|Next] → [Data|Next] → [Data|Next]
+
+Example: [10|•] → [20|•] → [30|•]─┘
+
+Display Logic:
+do {
+    print(temp->data);
+    temp = temp->next;
+} while(temp != head);`}
+                                    </pre>
+                                </div>
+                                <p><strong>Advantages:</strong> Can traverse entire list from any node, No NULL pointers</p>
+                                <p><strong>Use Case:</strong> Round-robin scheduling, circular buffers</p>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="green" title="📐 Polynomial Representation Using Linked Lists">
+                            <div className="space-y-3">
+                                <p><strong>Polynomial:</strong> $P(x) = 5x^3 + 4x^2 + 2x + 1$</p>
+                                <div className="bg-gray-100 p-4 rounded font-mono text-xs">
+                                    <pre>
+{`Structure:
+struct PolyNode {
+    float coeff;
+    int exp;
+    struct PolyNode* next;
+};
+
+Representation:
+[5,3|•] → [4,2|•] → [2,1|•] → [1,0|NULL]
+ coeff,exp  coeff,exp  coeff,exp  coeff,exp`}
+                                    </pre>
+                                </div>
+                                <p><strong>Advantages:</strong> Store only non-zero terms, Dynamic size, Easy arithmetic operations</p>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="blue" title="➕ Polynomial Addition Algorithm">
+                            <div className="space-y-2">
+                                <p><strong>Logic:</strong> Compare exponents of terms from both polynomials</p>
+                                <ul className="list-disc list-inside ml-4 space-y-1 text-sm">
+                                    <li>If exp1 {'>'} exp2 → Add term from P1 to result, advance P1</li>
+                                    <li>If exp1 {'<'} exp2 → Add term from P2 to result, advance P2</li>
+                                    <li>If exp1 == exp2 → Add coefficients, advance both (skip if sum = 0)</li>
+                                </ul>
+                                <p className="mt-2"><strong>Time Complexity:</strong> $O(m + n)$ where $m, n$ = terms in P1, P2</p>
+                                <div className="bg-gray-50 p-3 rounded mt-2">
+                                    <p><strong>Example:</strong></p>
+                                    <p className="text-sm">$P_1(x) = 5x^3 + 4x^2 + 2$</p>
+                                    <p className="text-sm">$P_2(x) = 3x^3 + 2x^2 + 5x + 1$</p>
+                                    <p className="text-sm mt-1">$P_1 + P_2 = 8x^3 + 6x^2 + 5x + 3$</p>
+                                </div>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="blue" title="✖️ Polynomial Multiplication Algorithm">
+                            <div className="space-y-2">
+                                <p><strong>Logic:</strong> Multiply each term of P1 with each term of P2</p>
+                                <ul className="list-disc list-inside ml-4 space-y-1 text-sm">
+                                    <li>For each term in P1, multiply with each term in P2</li>
+                                    <li>New coefficient = coeff1 × coeff2</li>
+                                    <li>New exponent = exp1 + exp2</li>
+                                    <li>Add result to answer polynomial (combine like terms)</li>
+                                </ul>
+                                <p className="mt-2"><strong>Time Complexity:</strong> $O(m \times n)$ where $m, n$ = terms in P1, P2</p>
+                            </div>
+                        </ColorBox>
+                    </Section>
+
+                    {/* Section 5: Revision Summary (RED BOX) */}
+                    <Section title="🔴 REVISION SUMMARY - Quick Reference" defaultOpen={true}>
+                        <ColorBox color="red" title="⚡ Complexity Cheat Sheet">
+                            <div className="space-y-3">
+                                <div>
+                                    <strong>Complexity Cases:</strong>
+                                    <ul className="list-disc list-inside ml-4 mt-1 text-sm">
+                                        <li><strong>Best Case ($\Omega$):</strong> Minimum time, optimistic scenario</li>
+                                        <li><strong>Average Case ($\Theta$):</strong> Expected time, typical scenario</li>
+                                        <li><strong>Worst Case ($O$):</strong> Maximum time, pessimistic scenario</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <strong>Common Complexities:</strong>
+                                    <div className="bg-white p-2 rounded mt-1 text-sm font-mono">
+                                        $O(1)$ → Constant | $O(\log n)$ → Logarithmic | $O(n)$ → Linear<br/>
+                                        $O(n \log n)$ → Linearithmic | $O(n^2)$ → Quadratic | $O(2^n)$ → Exponential
+                                    </div>
+                                </div>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="red" title="📏 RMO vs CMO Formula Comparison">
+                            <div className="bg-white p-3 rounded space-y-2 text-sm">
+                                <p><strong>Row Major Order (C, C++):</strong></p>
+                                <p className="ml-4 font-mono bg-gray-100 p-2 rounded">
+                                    $\text{'{'}Address{'}'}(A[i][j]) = Base + [(i - LB_1) \times n + (j - LB_2)] \times Size$
+                                </p>
+                                <p className="mt-2"><strong>Column Major Order (FORTRAN):</strong></p>
+                                <p className="ml-4 font-mono bg-gray-100 p-2 rounded">
+                                    $\text{'{'}Address{'}'}(A[i][j]) = Base + [(j - LB_2) \times m + (i - LB_1)] \times Size$
+                                </p>
+                                <p className="mt-2 text-xs text-gray-600">
+                                    <strong>Key Difference:</strong> RMO uses columns ($n$), CMO uses rows ($m$) as multiplier
+                                </p>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="red" title="🔗 Linked List Pointer Logic">
+                            <div className="space-y-2 text-sm">
+                                <div className="bg-white p-2 rounded">
+                                    <p><strong>Singly LL - Insert at Beginning:</strong></p>
+                                    <code className="block bg-gray-100 p-2 rounded mt-1">
+                                        newNode→next = head;<br/>
+                                        head = newNode; // O(1)
+                                    </code>
+                                </div>
+                                <div className="bg-white p-2 rounded">
+                                    <p><strong>Singly LL - Delete at Beginning:</strong></p>
+                                    <code className="block bg-gray-100 p-2 rounded mt-1">
+                                        temp = head;<br/>
+                                        head = head→next;<br/>
+                                        free(temp); // O(1)
+                                    </code>
+                                </div>
+                                <div className="bg-white p-2 rounded">
+                                    <p><strong>Doubly LL - Delete Node:</strong></p>
+                                    <code className="block bg-gray-100 p-2 rounded mt-1">
+                                        node→prev→next = node→next;<br/>
+                                        node→next→prev = node→prev;<br/>
+                                        free(node); // O(1) if node pointer given
+                                    </code>
+                                </div>
+                                <div className="bg-white p-2 rounded">
+                                    <p><strong>Circular LL - Traverse:</strong></p>
+                                    <code className="block bg-gray-100 p-2 rounded mt-1">
+                                        do {'{'} process(temp); temp = temp→next; {'}'}<br/>
+                                        while(temp != head);
+                                    </code>
+                                </div>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="red" title="📝 Common Exam Questions (3-4 Key Topics)">
+                            <ol className="list-decimal list-inside space-y-3">
+                                <li>
+                                    <strong>Derive 2D Array Address Formula in Row Major Order</strong>
+                                    <p className="ml-6 text-sm mt-1">Show elements before $A[i][j]$ = $i \times n + j$, then multiply by size</p>
+                                </li>
+                                <li>
+                                    <strong>Calculate Address of matrix[i][j] given Base, Dimensions, Element Size</strong>
+                                    <p className="ml-6 text-sm mt-1">Apply formula: $Base + [(i - LB_1) \times n + (j - LB_2)] \times Size$</p>
+                                </li>
+                                <li>
+                                    <strong>Sparse Matrix Storage Efficiency Calculation</strong>
+                                    <p className="ml-6 text-sm mt-1">Compare: Original size vs Triple-tuple size (header + non-zero elements)</p>
+                                </li>
+                                <li>
+                                    <strong>Write Algorithm/Code for Polynomial Addition using Linked List</strong>
+                                    <p className="ml-6 text-sm mt-1">Compare exponents, add coefficients for equal exponents, handle remaining terms</p>
+                                </li>
+                                <li>
+                                    <strong>Implement Insert/Delete Operations in Singly/Doubly/Circular Linked Lists</strong>
+                                    <p className="ml-6 text-sm mt-1">Focus on pointer manipulation: newNode→next, head updates, free() calls</p>
+                                </li>
+                                <li>
+                                    <strong>Prove Time Complexity using Big O, Omega, Theta Definitions</strong>
+                                    <p className="ml-6 text-sm mt-1">Show $f(n) \leq c \times g(n)$ for all $n \geq n_0$ with specific $c$ and $n_0$</p>
+                                </li>
+                            </ol>
+                        </ColorBox>
+
+                        <ColorBox color="red" title="📊 Operation Time Complexity Table">
+                            <div className="overflow-x-auto">
+                                <table className="min-w-full bg-white border border-gray-300 text-sm">
+                                    <thead className="bg-gray-200">
+                                        <tr>
+                                            <th className="border border-gray-300 px-3 py-2">Operation</th>
+                                            <th className="border border-gray-300 px-3 py-2">Array</th>
+                                            <th className="border border-gray-300 px-3 py-2">Singly LL</th>
+                                            <th className="border border-gray-300 px-3 py-2">Doubly LL</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td className="border border-gray-300 px-3 py-2 font-semibold">Access</td>
+                                            <td className="border border-gray-300 px-3 py-2 text-center">$O(1)$</td>
+                                            <td className="border border-gray-300 px-3 py-2 text-center">$O(n)$</td>
+                                            <td className="border border-gray-300 px-3 py-2 text-center">$O(n)$</td>
+                                        </tr>
+                                        <tr className="bg-gray-50">
+                                            <td className="border border-gray-300 px-3 py-2 font-semibold">Insert at Begin</td>
+                                            <td className="border border-gray-300 px-3 py-2 text-center">$O(n)$</td>
+                                            <td className="border border-gray-300 px-3 py-2 text-center">$O(1)$</td>
+                                            <td className="border border-gray-300 px-3 py-2 text-center">$O(1)$</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="border border-gray-300 px-3 py-2 font-semibold">Insert at End</td>
+                                            <td className="border border-gray-300 px-3 py-2 text-center">$O(1)$</td>
+                                            <td className="border border-gray-300 px-3 py-2 text-center">$O(n)$</td>
+                                            <td className="border border-gray-300 px-3 py-2 text-center">$O(n)$</td>
+                                        </tr>
+                                        <tr className="bg-gray-50">
+                                            <td className="border border-gray-300 px-3 py-2 font-semibold">Delete at Begin</td>
+                                            <td className="border border-gray-300 px-3 py-2 text-center">$O(n)$</td>
+                                            <td className="border border-gray-300 px-3 py-2 text-center">$O(1)$</td>
+                                            <td className="border border-gray-300 px-3 py-2 text-center">$O(1)$</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="border border-gray-300 px-3 py-2 font-semibold">Search</td>
+                                            <td className="border border-gray-300 px-3 py-2 text-center">$O(n)$</td>
+                                            <td className="border border-gray-300 px-3 py-2 text-center">$O(n)$</td>
+                                            <td className="border border-gray-300 px-3 py-2 text-center">$O(n)$</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ColorBox>
+                    </Section>
+
+                    {/* Footer */}
+                    <div className="bg-white rounded-lg shadow-lg p-6 mt-8">
+                        <div className="text-center text-gray-600">
+                            <p className="text-sm">Best of luck with your exam! 🚀</p>
+                            <p className="text-xs mt-2">Data Structures Unit-1 - Last Minute Revision</p>
+                        </div>
+
+                        {/* ZenYukti Branding */}
+                        <div className="text-center mt-6 pt-4 border-t border-gray-300">
+                            <p className="text-sm text-gray-700 mb-2">
+                                Crafted with 💙 by <a href="https://zenyukti.in" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:text-blue-800 underline">ZenYukti</a>
+                            </p>
+                            <p className="text-xs text-gray-500 italic">Learn. Build. Share.</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Render App
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
