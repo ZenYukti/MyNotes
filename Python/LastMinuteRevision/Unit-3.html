@@ -21,6 +21,7 @@
             font-family: 'Courier New', monospace;
             font-size: 0.875rem;
             line-height: 1.5;
+            white-space: pre;
         }
         .output-block {
             background: #0f172a;
@@ -30,6 +31,7 @@
             font-family: 'Courier New', monospace;
             font-size: 0.875rem;
             margin-top: 0.5rem;
+            white-space: pre;
         }
         .syntax-block {
             background: #312e81;
@@ -39,6 +41,7 @@
             font-family: 'Courier New', monospace;
             font-size: 0.875rem;
             margin-bottom: 0.75rem;
+            white-space: pre;
         }
         .formula-box {
             background: #064e3b;
@@ -162,19 +165,18 @@ string[start:stop:step]
                                 {/* Slicing Examples */}
                                 <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
                                     <h3 className="font-bold text-blue-800 mb-2">💡 Slicing Examples</h3>
-                                    <div className="code-block">
-text = "Python Programming"<br/>
-<br/>
-# Indexing<br/>
-text[0]      # 'P' (first)<br/>
-text[-1]     # 'g' (last)<br/>
-<br/>
-# Slicing<br/>
-text[0:6]    # 'Python' (0 to 5)<br/>
-text[7:]     # 'Programming' (7 to end)<br/>
-text[:6]     # 'Python' (start to 5)<br/>
-text[::2]    # 'Pto rgamn' (every 2nd)<br/>
-text[::-1]   # 'gnimmargorP nohtyP' (reverse)
+                                    <div className="code-block">{`text = "Python Programming"
+
+# Indexing
+text[0]      # 'P' (first)
+text[-1]     # 'g' (last)
+
+# Slicing
+text[0:6]    # 'Python' (0 to 5)
+text[7:]     # 'Programming' (7 to end)
+text[:6]     # 'Python' (start to 5)
+text[::2]    # 'Pto rgamn' (every 2nd)
+text[::-1]   # 'gnimmargorP nohtyP' (reverse)`}
                                     </div>
                                 </div>
 
@@ -184,47 +186,43 @@ text[::-1]   # 'gnimmargorP nohtyP' (reverse)
                                     <div className="grid md:grid-cols-2 gap-3">
                                         <div className="bg-white p-3 rounded shadow">
                                             <strong className="text-sm">Case Methods:</strong>
-                                            <div className="code-block text-xs mt-2">
-s = "hello"<br/>
-s.upper()      # "HELLO"<br/>
-s.lower()      # "hello"<br/>
-s.capitalize() # "Hello"<br/>
-s.title()      # "Hello World"
+                                            <div className="code-block text-xs mt-2">{`s = "hello"
+s.upper()      # "HELLO"
+s.lower()      # "hello"
+s.capitalize() # "Hello"
+s.title()      # "Hello World"`}
                                             </div>
                                         </div>
                                         <div className="bg-white p-3 rounded shadow">
                                             <strong className="text-sm">Search Methods:</strong>
-                                            <div className="code-block text-xs mt-2">
-s = "Python"<br/>
-s.find("th")      # 2 (index)<br/>
-s.find("Java")    # -1 (not found)<br/>
-s.count("o")      # 1<br/>
-s.startswith("Py") # True<br/>
-s.endswith("on")   # True
+                                            <div className="code-block text-xs mt-2">{`s = "Python"
+s.find("th")      # 2 (index)
+s.find("Java")    # -1 (not found)
+s.count("o")      # 1
+s.startswith("Py") # True
+s.endswith("on")   # True`}
                                             </div>
                                         </div>
                                         <div className="bg-white p-3 rounded shadow">
                                             <strong className="text-sm">Split & Join:</strong>
-                                            <div className="code-block text-xs mt-2">
-# split()<br/>
-"a,b,c".split(',')  # ['a','b','c']<br/>
-"hi world".split()  # ['hi','world']<br/>
-<br/>
-# join()<br/>
-','.join(['a','b']) # "a,b"<br/>
-' '.join(['hi'])    # "hi"
+                                            <div className="code-block text-xs mt-2">{`# split()
+"a,b,c".split(',')  # ['a','b','c']
+"hi world".split()  # ['hi','world']
+
+# join()
+','.join(['a','b']) # "a,b"
+' '.join(['hi'])    # "hi"`}
                                             </div>
                                         </div>
                                         <div className="bg-white p-3 rounded shadow">
                                             <strong className="text-sm">Trim Methods:</strong>
-                                            <div className="code-block text-xs mt-2">
-s = "  hello  "<br/>
-s.strip()   # "hello" (both)<br/>
-s.lstrip()  # "hello  " (left)<br/>
-s.rstrip()  # "  hello" (right)<br/>
-<br/>
-# replace()<br/>
-"hi".replace("i","ello") # "hello"
+                                            <div className="code-block text-xs mt-2">{`s = "  hello  "
+s.strip()   # "hello" (both)
+s.lstrip()  # "hello  " (left)
+s.rstrip()  # "  hello" (right)
+
+# replace()
+"hi".replace("i","ello") # "hello"`}
                                             </div>
                                         </div>
                                     </div>
@@ -236,24 +234,21 @@ s.rstrip()  # "  hello" (right)<br/>
                                     <div className="grid md:grid-cols-3 gap-3">
                                         <div>
                                             <h4 className="font-semibold text-xs mb-1">Old Style:</h4>
-                                            <div className="code-block text-xs">
-"Name: %s" % "Alice"<br/>
-"Age: %d" % 25
+                                            <div className="code-block text-xs">{`"Name: %s" % "Alice"
+"Age: %d" % 25`}
                                             </div>
                                         </div>
                                         <div>
                                             <h4 className="font-semibold text-xs mb-1">.format():</h4>
-                                            <div className="code-block text-xs">
-"Name: {`{}`}".format("Bob")<br/>
-"{`{0}`} {`{1}`}".format("Hi","Bob")
+                                            <div className="code-block text-xs">{`"Name: {}".format("Bob")
+"{0} {1}".format("Hi","Bob")`}
                                             </div>
                                         </div>
                                         <div>
                                             <h4 className="font-semibold text-xs mb-1">f-strings (Best):</h4>
-                                            <div className="code-block text-xs">
-name = "Eve"<br/>
-f"Name: {`{name}`}"<br/>
-f"Age: {`{20+5}`}"
+                                            <div className="code-block text-xs">{`name = "Eve"
+f"Name: ${'${name}'}"
+f"Age: ${'${20+5}'}"`}
                                             </div>
                                         </div>
                                     </div>
@@ -276,15 +271,14 @@ f"Age: {`{20+5}`}"
 list[start:stop:step]
                                     </div>
                                     <div className="bg-blue-50 border-l-4 border-blue-400 p-3 mt-3">
-                                        <div className="code-block text-xs">
-fruits = ["apple", "banana", "cherry", "date"]<br/>
-<br/>
-fruits[0]     # "apple"<br/>
-fruits[-1]    # "date"<br/>
-fruits[1:3]   # ["banana", "cherry"]<br/>
-fruits[:2]    # ["apple", "banana"]<br/>
-fruits[::2]   # ["apple", "cherry"]<br/>
-fruits[::-1]  # reverse
+                                        <div className="code-block text-xs">{`fruits = ["apple", "banana", "cherry", "date"]
+
+fruits[0]     # "apple"
+fruits[-1]    # "date"
+fruits[1:3]   # ["banana", "cherry"]
+fruits[:2]    # ["apple", "banana"]
+fruits[::2]   # ["apple", "cherry"]
+fruits[::-1]  # reverse`}
                                         </div>
                                     </div>
                                 </div>
@@ -295,64 +289,60 @@ fruits[::-1]  # reverse
                                     <div className="grid md:grid-cols-2 gap-3">
                                         <div className="bg-white p-3 rounded shadow">
                                             <strong className="text-sm">Adding Elements:</strong>
-                                            <div className="code-block text-xs mt-2">
-L = [1, 2]<br/>
-<br/>
-# append() - add one at end<br/>
-L.append(3)  # [1, 2, 3]<br/>
-<br/>
-# insert() - add at position<br/>
-L.insert(1, 5)  # [1, 5, 2, 3]<br/>
-<br/>
-# extend() - add multiple<br/>
-L.extend([4, 5])  # [1, 5, 2, 3, 4, 5]
+                                            <div className="code-block text-xs mt-2">{`L = [1, 2]
+
+# append() - add one at end
+L.append(3)  # [1, 2, 3]
+
+# insert() - add at position
+L.insert(1, 5)  # [1, 5, 2, 3]
+
+# extend() - add multiple
+L.extend([4, 5])  # [1, 5, 2, 3, 4, 5]`}
                                             </div>
                                         </div>
                                         <div className="bg-white p-3 rounded shadow">
                                             <strong className="text-sm">Removing Elements:</strong>
-                                            <div className="code-block text-xs mt-2">
-L = [1, 2, 3, 2, 4]<br/>
-<br/>
-# remove() - first occurrence<br/>
-L.remove(2)  # [1, 3, 2, 4]<br/>
-<br/>
-# pop() - by index (default: last)<br/>
-L.pop()    # 4, L=[1,3,2]<br/>
-L.pop(1)   # 3, L=[1,2]<br/>
-<br/>
-# clear() - remove all<br/>
-L.clear()  # []
+                                            <div className="code-block text-xs mt-2">{`L = [1, 2, 3, 2, 4]
+
+# remove() - first occurrence
+L.remove(2)  # [1, 3, 2, 4]
+
+# pop() - by index (default: last)
+L.pop()    # 4, L=[1,3,2]
+L.pop(1)   # 3, L=[1,2]
+
+# clear() - remove all
+L.clear()  # []`}
                                             </div>
                                         </div>
                                         <div className="bg-white p-3 rounded shadow">
                                             <strong className="text-sm">Sorting & Reversing:</strong>
-                                            <div className="code-block text-xs mt-2">
-L = [3, 1, 4, 1, 5]<br/>
-<br/>
-# sort() - in-place<br/>
-L.sort()           # [1,1,3,4,5]<br/>
-L.sort(reverse=True) # [5,4,3,1,1]<br/>
-<br/>
-# sorted() - new list<br/>
-sorted(L)  # returns new<br/>
-<br/>
-# reverse() - in-place<br/>
-L.reverse()  # [5,1,4,1,3]
+                                            <div className="code-block text-xs mt-2">{`L = [3, 1, 4, 1, 5]
+
+# sort() - in-place
+L.sort()           # [1,1,3,4,5]
+L.sort(reverse=True) # [5,4,3,1,1]
+
+# sorted() - new list
+sorted(L)  # returns new
+
+# reverse() - in-place
+L.reverse()  # [5,1,4,1,3]`}
                                             </div>
                                         </div>
                                         <div className="bg-white p-3 rounded shadow">
                                             <strong className="text-sm">Other Methods:</strong>
-                                            <div className="code-block text-xs mt-2">
-L = [1, 2, 3, 2]<br/>
-<br/>
-# count() - occurrences<br/>
-L.count(2)  # 2<br/>
-<br/>
-# index() - first position<br/>
-L.index(3)  # 2<br/>
-<br/>
-# copy() - shallow copy<br/>
-L2 = L.copy()
+                                            <div className="code-block text-xs mt-2">{`L = [1, 2, 3, 2]
+
+# count() - occurrences
+L.count(2)  # 2
+
+# index() - first position
+L.index(3)  # 2
+
+# copy() - shallow copy
+L2 = L.copy()`}
                                             </div>
                                         </div>
                                     </div>
@@ -361,18 +351,17 @@ L2 = L.copy()
                                 {/* List Comprehension */}
                                 <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
                                     <h3 className="font-bold text-blue-800 mb-2">💡 List Comprehension</h3>
-                                    <div className="code-block">
-# Basic: [expression for item in iterable]<br/>
-squares = [x**2 for x in range(5)]<br/>
-# [0, 1, 4, 9, 16]<br/>
-<br/>
-# With condition: [expression for item in iterable if condition]<br/>
-evens = [x for x in range(10) if x % 2 == 0]<br/>
-# [0, 2, 4, 6, 8]<br/>
-<br/>
-# With if-else: [expr1 if condition else expr2 for item in iterable]<br/>
-labels = ["Even" if x%2==0 else "Odd" for x in range(5)]<br/>
-# ['Even', 'Odd', 'Even', 'Odd', 'Even']
+                                    <div className="code-block">{`# Basic: [expression for item in iterable]
+squares = [x**2 for x in range(5)]
+# [0, 1, 4, 9, 16]
+
+# With condition: [expression for item in iterable if condition]
+evens = [x for x in range(10) if x % 2 == 0]
+# [0, 2, 4, 6, 8]
+
+# With if-else: [expr1 if condition else expr2 for item in iterable]
+labels = ["Even" if x%2==0 else "Odd" for x in range(5)]
+# ['Even', 'Odd', 'Even', 'Odd', 'Even']`}
                                     </div>
                                 </div>
                             </div>
@@ -401,30 +390,28 @@ labels = ["Even" if x%2==0 else "Odd" for x in range(5)]<br/>
                                 <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
                                     <h3 className="font-bold text-blue-800 mb-2">💡 Tuple Operations</h3>
                                     <div className="grid md:grid-cols-2 gap-3">
-                                        <div className="code-block text-xs">
-t = (1, 2, 3, 2, 4)<br/>
-<br/>
-# Indexing & Slicing (same as list)<br/>
-t[0]      # 1<br/>
-t[-1]     # 4<br/>
-t[1:3]    # (2, 3)<br/>
-t[::-1]   # (4, 2, 3, 2, 1)<br/>
-<br/>
-# Concatenation<br/>
-(1, 2) + (3, 4)  # (1, 2, 3, 4)
+                                        <div className="code-block text-xs">{`t = (1, 2, 3, 2, 4)
+
+# Indexing & Slicing (same as list)
+t[0]      # 1
+t[-1]     # 4
+t[1:3]    # (2, 3)
+t[::-1]   # (4, 2, 3, 2, 1)
+
+# Concatenation
+(1, 2) + (3, 4)  # (1, 2, 3, 4)`}
                                         </div>
-                                        <div className="code-block text-xs">
-# Methods<br/>
-t.count(2)  # 2 (occurrences)<br/>
-t.index(3)  # 2 (position)<br/>
-<br/>
-# Cannot modify<br/>
-# t[0] = 5  # TypeError!<br/>
-# t.append(6)  # AttributeError!<br/>
-<br/>
-# Can convert<br/>
-list(t)   # to list<br/>
-tuple(L)  # to tuple
+                                        <div className="code-block text-xs">{`# Methods
+t.count(2)  # 2 (occurrences)
+t.index(3)  # 2 (position)
+
+# Cannot modify
+# t[0] = 5  # TypeError!
+# t.append(6)  # AttributeError!
+
+# Can convert
+list(t)   # to list
+tuple(L)  # to tuple`}
                                         </div>
                                     </div>
                                 </div>
@@ -432,25 +419,24 @@ tuple(L)  # to tuple
                                 {/* Tuple Unpacking */}
                                 <div className="bg-green-50 border-l-4 border-green-400 p-4">
                                     <h3 className="font-bold text-green-800 mb-2">🎁 Tuple Unpacking (Important!)</h3>
-                                    <div className="code-block">
-# Basic unpacking<br/>
-point = (10, 20)<br/>
-x, y = point  # x=10, y=20<br/>
-<br/>
-# Swapping variables<br/>
-a, b = 5, 10<br/>
-a, b = b, a  # a=10, b=5<br/>
-<br/>
-# With * (collect remaining)<br/>
-numbers = (1, 2, 3, 4, 5)<br/>
-first, *middle, last = numbers<br/>
-# first=1, middle=[2,3,4], last=5<br/>
-<br/>
-# Multiple return values (functions return tuples)<br/>
-def min_max(nums):<br/>
-    return min(nums), max(nums)<br/>
-<br/>
-minimum, maximum = min_max([1, 5, 3])
+                                    <div className="code-block">{`# Basic unpacking
+point = (10, 20)
+x, y = point  # x=10, y=20
+
+# Swapping variables
+a, b = 5, 10
+a, b = b, a  # a=10, b=5
+
+# With * (collect remaining)
+numbers = (1, 2, 3, 4, 5)
+first, *middle, last = numbers
+# first=1, middle=[2,3,4], last=5
+
+# Multiple return values (functions return tuples)
+def min_max(nums):
+    return min(nums), max(nums)
+
+minimum, maximum = min_max([1, 5, 3])`}
                                     </div>
                                 </div>
                             </div>
@@ -467,17 +453,16 @@ minimum, maximum = min_max([1, 5, 3])
                                 {/* Access Methods */}
                                 <div className="bg-green-50 border-l-4 border-green-400 p-4">
                                     <h3 className="font-bold text-green-800 mb-3">🔑 Accessing Dictionary Elements</h3>
-                                    <div className="code-block">
-student = {`{"name": "Alice", "age": 20, "grade": "A"}`}<br/>
-<br/>
-# Direct access (KeyError if missing)<br/>
-student["name"]  # "Alice"<br/>
-# student["city"]  # KeyError!<br/>
-<br/>
-# Using get() (safer - returns None if missing)<br/>
-student.get("name")        # "Alice"<br/>
-student.get("city")        # None<br/>
-student.get("city", "NYC") # "NYC" (default)
+                                    <div className="code-block">{`student = {"name": "Alice", "age": 20, "grade": "A"}
+
+# Direct access (KeyError if missing)
+student["name"]  # "Alice"
+# student["city"]  # KeyError!
+
+# Using get() (safer - returns None if missing)
+student.get("name")        # "Alice"
+student.get("city")        # None
+student.get("city", "NYC") # "NYC" (default)`}
                                     </div>
                                 </div>
 
@@ -487,57 +472,53 @@ student.get("city", "NYC") # "NYC" (default)
                                     <div className="grid md:grid-cols-2 gap-3">
                                         <div className="bg-white p-3 rounded shadow">
                                             <strong className="text-sm">Add/Update/Delete:</strong>
-                                            <div className="code-block text-xs mt-2">
-d = {`{"a": 1, "b": 2}`}<br/>
-<br/>
-# Add/Update<br/>
-d["c"] = 3    # add new<br/>
-d["a"] = 10   # update<br/>
-<br/>
-# Delete<br/>
-d.pop("b")    # remove & return<br/>
-del d["a"]    # remove<br/>
-d.clear()     # remove all
+                                            <div className="code-block text-xs mt-2">{`d = {"a": 1, "b": 2}
+
+# Add/Update
+d["c"] = 3    # add new
+d["a"] = 10   # update
+
+# Delete
+d.pop("b")    # remove & return
+del d["a"]    # remove
+d.clear()     # remove all`}
                                             </div>
                                         </div>
                                         <div className="bg-white p-3 rounded shadow">
                                             <strong className="text-sm">View Methods:</strong>
-                                            <div className="code-block text-xs mt-2">
-d = {`{"a": 1, "b": 2, "c": 3}`}<br/>
-<br/>
-# keys()<br/>
-d.keys()    # dict_keys(['a','b','c'])<br/>
-<br/>
-# values()<br/>
-d.values()  # dict_values([1, 2, 3])<br/>
-<br/>
-# items() - key-value pairs<br/>
-d.items()   # [('a',1),('b',2),('c',3)]
+                                            <div className="code-block text-xs mt-2">{`d = {"a": 1, "b": 2, "c": 3}
+
+# keys()
+d.keys()    # dict_keys(['a','b','c'])
+
+# values()
+d.values()  # dict_values([1, 2, 3])
+
+# items() - key-value pairs
+d.items()   # [('a',1),('b',2),('c',3)]`}
                                             </div>
                                         </div>
                                         <div className="bg-white p-3 rounded shadow">
                                             <strong className="text-sm">Other Methods:</strong>
-                                            <div className="code-block text-xs mt-2">
-d1 = {`{"a": 1}`}<br/>
-d2 = {`{"b": 2, "c": 3}`}<br/>
-<br/>
-# update() - merge<br/>
-d1.update(d2)<br/>
-# {`{"a": 1, "b": 2, "c": 3}`}<br/>
-<br/>
-# copy() - shallow copy<br/>
-d_copy = d1.copy()
+                                            <div className="code-block text-xs mt-2">{`d1 = {"a": 1}
+d2 = {"b": 2, "c": 3}
+
+# update() - merge
+d1.update(d2)
+# {"a": 1, "b": 2, "c": 3}
+
+# copy() - shallow copy
+d_copy = d1.copy()`}
                                             </div>
                                         </div>
                                         <div className="bg-white p-3 rounded shadow">
                                             <strong className="text-sm">Check Membership:</strong>
-                                            <div className="code-block text-xs mt-2">
-d = {`{"a": 1, "b": 2}`}<br/>
-<br/>
-# Check key exists<br/>
-"a" in d       # True<br/>
-"c" in d       # False<br/>
-"c" not in d   # True
+                                            <div className="code-block text-xs mt-2">{`d = {"a": 1, "b": 2}
+
+# Check key exists
+"a" in d       # True
+"c" in d       # False
+"c" not in d   # True`}
                                             </div>
                                         </div>
                                     </div>
@@ -546,44 +527,42 @@ d = {`{"a": 1, "b": 2}`}<br/>
                                 {/* Iteration */}
                                 <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
                                     <h3 className="font-bold text-blue-800 mb-2">💡 Iterating Through Dictionary</h3>
-                                    <div className="code-block">
-student = {`{"name": "Bob", "age": 21, "grade": "B"}`}<br/>
-<br/>
-# Iterate keys (default)<br/>
-for key in student:<br/>
-    print(key)  # name, age, grade<br/>
-<br/>
-# Iterate values<br/>
-for value in student.values():<br/>
-    print(value)  # Bob, 21, B<br/>
-<br/>
-# Iterate key-value pairs (BEST WAY)<br/>
-for key, value in student.items():<br/>
-    print(f"{`{key}`}: {`{value}`}")<br/>
-# Output:<br/>
-# name: Bob<br/>
-# age: 21<br/>
-# grade: B
+                                    <div className="code-block">{`student = {"name": "Bob", "age": 21, "grade": "B"}
+
+# Iterate keys (default)
+for key in student:
+    print(key)  # name, age, grade
+
+# Iterate values
+for value in student.values():
+    print(value)  # Bob, 21, B
+
+# Iterate key-value pairs (BEST WAY)
+for key, value in student.items():
+    print(f"${'${key}'}: ${'${value}'}")
+# Output:
+# name: Bob
+# age: 21
+# grade: B`}
                                     </div>
                                 </div>
 
                                 {/* Dict Comprehension */}
                                 <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
                                     <h3 className="font-bold text-blue-800 mb-2">💡 Dictionary Comprehension</h3>
-                                    <div className="code-block">
-# Basic: {`{key_expr: value_expr for item in iterable}`}<br/>
-squares = {`{x: x**2 for x in range(5)}`}<br/>
-# {`{0: 0, 1: 1, 2: 4, 3: 9, 4: 16}`}<br/>
-<br/>
-# From two lists using zip()<br/>
-keys = ["a", "b", "c"]<br/>
-values = [1, 2, 3]<br/>
-d = {`{k: v for k, v in zip(keys, values)}`}<br/>
-# {`{"a": 1, "b": 2, "c": 3}`}<br/>
-<br/>
-# With condition<br/>
-even_squares = {`{x: x**2 for x in range(10) if x % 2 == 0}`}<br/>
-# {`{0: 0, 2: 4, 4: 16, 6: 36, 8: 64}`}
+                                    <div className="code-block">{`# Basic: {key_expr: value_expr for item in iterable}
+squares = {x: x**2 for x in range(5)}
+# {0: 0, 1: 1, 2: 4, 3: 9, 4: 16}
+
+# From two lists using zip()
+keys = ["a", "b", "c"]
+values = [1, 2, 3]
+d = {k: v for k, v in zip(keys, values)}
+# {"a": 1, "b": 2, "c": 3}
+
+# With condition
+even_squares = {x: x**2 for x in range(10) if x % 2 == 0}
+# {0: 0, 2: 4, 4: 16, 6: 36, 8: 64}`}
                                     </div>
                                 </div>
                             </div>
@@ -608,18 +587,17 @@ def function_name(parameter1, parameter2, ...):<br/>
                                     </div>
                                     <div className="bg-blue-50 border-l-4 border-blue-400 p-3 mt-3">
                                         <h4 className="font-semibold text-xs mb-2">Basic Example:</h4>
-                                        <div className="code-block text-xs">
-# Simple function<br/>
-def greet():<br/>
-    print("Hello!")<br/>
-<br/>
-greet()  # Hello!<br/>
-<br/>
-# With parameters<br/>
-def add(a, b):<br/>
-    return a + b<br/>
-<br/>
-result = add(5, 3)  # 8
+                                        <div className="code-block text-xs">{`# Simple function
+def greet():
+    print("Hello!")
+
+greet()  # Hello!
+
+# With parameters
+def add(a, b):
+    return a + b
+
+result = add(5, 3)  # 8`}
                                         </div>
                                     </div>
                                 </div>
@@ -630,60 +608,56 @@ result = add(5, 3)  # 8
                                     <div className="grid md:grid-cols-2 gap-3">
                                         <div className="bg-white p-3 rounded shadow">
                                             <strong className="text-sm">Default Parameters:</strong>
-                                            <div className="code-block text-xs mt-2">
-def greet(name="Guest"):<br/>
-    print(f"Hello, {`{name}`}!")<br/>
-<br/>
-greet()          # Hello, Guest!<br/>
-greet("Alice")   # Hello, Alice!<br/>
-<br/>
-def power(base, exp=2):<br/>
-    return base ** exp<br/>
-<br/>
-power(5)      # 25 (5^2)<br/>
-power(5, 3)   # 125 (5^3)
+                                            <div className="code-block text-xs mt-2">{`def greet(name="Guest"):
+    print(f"Hello, ${'${name}'}!")
+
+greet()          # Hello, Guest!
+greet("Alice")   # Hello, Alice!
+
+def power(base, exp=2):
+    return base ** exp
+
+power(5)      # 25 (5^2)
+power(5, 3)   # 125 (5^3)`}
                                             </div>
                                         </div>
                                         <div className="bg-white p-3 rounded shadow">
                                             <strong className="text-sm">Keyword Arguments:</strong>
-                                            <div className="code-block text-xs mt-2">
-def info(name, age):<br/>
-    print(f"{`{name}`}, {`{age}`}")<br/>
-<br/>
-# Positional<br/>
-info("Alice", 25)<br/>
-<br/>
-# Keyword (order doesn't matter)<br/>
-info(age=25, name="Alice")<br/>
-info(name="Bob", age=30)
+                                            <div className="code-block text-xs mt-2">{`def info(name, age):
+    print(f"${'${name}'}, ${'${age}'}")
+
+# Positional
+info("Alice", 25)
+
+# Keyword (order doesn't matter)
+info(age=25, name="Alice")
+info(name="Bob", age=30)`}
                                             </div>
                                         </div>
                                         <div className="bg-white p-3 rounded shadow">
                                             <strong className="text-sm">*args (Variable Positional):</strong>
-                                            <div className="code-block text-xs mt-2">
-# Accept any number of arguments<br/>
-def sum_all(*numbers):<br/>
-    total = 0<br/>
-    for num in numbers:<br/>
-        total += num<br/>
-    return total<br/>
-<br/>
-sum_all(1, 2, 3)     # 6<br/>
-sum_all(1, 2, 3, 4, 5) # 15
+                                            <div className="code-block text-xs mt-2">{`# Accept any number of arguments
+def sum_all(*numbers):
+    total = 0
+    for num in numbers:
+        total += num
+    return total
+
+sum_all(1, 2, 3)     # 6
+sum_all(1, 2, 3, 4, 5) # 15`}
                                             </div>
                                         </div>
                                         <div className="bg-white p-3 rounded shadow">
                                             <strong className="text-sm">**kwargs (Variable Keyword):</strong>
-                                            <div className="code-block text-xs mt-2">
-# Accept any number of keyword args<br/>
-def print_info(**info):<br/>
-    for k, v in info.items():<br/>
-        print(f"{`{k}`}: {`{v}`}")<br/>
-<br/>
-print_info(name="Alice", age=25)<br/>
-# Output:<br/>
-# name: Alice<br/>
-# age: 25
+                                            <div className="code-block text-xs mt-2">{`# Accept any number of keyword args
+def print_info(**info):
+    for k, v in info.items():
+        print(f"${'${k}'}: ${'${v}'}")
+
+print_info(name="Alice", age=25)
+# Output:
+# name: Alice
+# age: 25`}
                                             </div>
                                         </div>
                                     </div>
@@ -692,23 +666,22 @@ print_info(name="Alice", age=25)<br/>
                                 {/* Return Statement */}
                                 <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
                                     <h3 className="font-bold text-blue-800 mb-2">💡 Return Statement</h3>
-                                    <div className="code-block">
-# Single return<br/>
-def square(x):<br/>
-    return x ** 2<br/>
-<br/>
-# Multiple return (returns tuple)<br/>
-def min_max(nums):<br/>
-    return min(nums), max(nums)<br/>
-<br/>
-minimum, maximum = min_max([1, 5, 3])<br/>
-# minimum=1, maximum=5<br/>
-<br/>
-# No return (returns None)<br/>
-def print_msg(msg):<br/>
-    print(msg)<br/>
-<br/>
-result = print_msg("Hi")  # result = None
+                                    <div className="code-block">{`# Single return
+def square(x):
+    return x ** 2
+
+# Multiple return (returns tuple)
+def min_max(nums):
+    return min(nums), max(nums)
+
+minimum, maximum = min_max([1, 5, 3])
+# minimum=1, maximum=5
+
+# No return (returns None)
+def print_msg(msg):
+    print(msg)
+
+result = print_msg("Hi")  # result = None`}
                                     </div>
                                 </div>
 
@@ -718,27 +691,26 @@ result = print_msg("Hi")  # result = None
                                     <div className="formula-box">
 lambda arguments: expression
                                     </div>
-                                    <div className="code-block mt-3">
-# Basic lambda<br/>
-square = lambda x: x ** 2<br/>
-print(square(5))  # 25<br/>
-<br/>
-# Multiple parameters<br/>
-add = lambda a, b: a + b<br/>
-print(add(3, 4))  # 7<br/>
-<br/>
-# With map() - apply to all<br/>
-nums = [1, 2, 3, 4, 5]<br/>
-squares = list(map(lambda x: x**2, nums))<br/>
-# [1, 4, 9, 16, 25]<br/>
-<br/>
-# With filter() - select items<br/>
-evens = list(filter(lambda x: x%2==0, nums))<br/>
-# [2, 4]<br/>
-<br/>
-# With sorted() - sort by key<br/>
-students = [{`{"name": "Bob", "age": 20}`}, {`{"name": "Alice", "age": 22}`}]<br/>
-sorted(students, key=lambda s: s["age"])
+                                    <div className="code-block mt-3">{`# Basic lambda
+square = lambda x: x ** 2
+print(square(5))  # 25
+
+# Multiple parameters
+add = lambda a, b: a + b
+print(add(3, 4))  # 7
+
+# With map() - apply to all
+nums = [1, 2, 3, 4, 5]
+squares = list(map(lambda x: x**2, nums))
+# [1, 4, 9, 16, 25]
+
+# With filter() - select items
+evens = list(filter(lambda x: x%2==0, nums))
+# [2, 4]
+
+# With sorted() - sort by key
+students = [{"name": "Bob", "age": 20}, {"name": "Alice", "age": 22}]
+sorted(students, key=lambda s: s["age"])`}
                                     </div>
                                 </div>
                             </div>
