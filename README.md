@@ -8,6 +8,8 @@
 
 *Learn. Build. Share.*
 
+[![Watch](https://img.shields.io/badge/Watch-Repository-yellow)](https://github.com/ZenYukti/MyNotes/subscription)
+
 ![Study Status](https://img.shields.io/badge/Status-Active-success)
 ![Semester](https://img.shields.io/badge/Semester-3-blue)
 ![University](https://img.shields.io/badge/University-AKTU-orange)
