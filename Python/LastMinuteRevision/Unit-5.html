@@ -91,18 +91,51 @@
 
         // Syntax Highlighter for Python
         const highlightPython = (code) => {
-            // Return plain code without highlighting to avoid rendering issues
-            return code.replace(/&/g, '&amp;')
-                      .replace(/</g, '&lt;')
-                      .replace(/>/g, '&gt;');
+            // Escape HTML first
+            let result = code
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+            
+            // Split by lines to handle comments properly
+            const lines = result.split('\n');
+            
+            result = lines.map(line => {
+                // Check if line has a comment
+                const commentIndex = line.indexOf('#');
+                let beforeComment = commentIndex >= 0 ? line.substring(0, commentIndex) : line;
+                let comment = commentIndex >= 0 ? line.substring(commentIndex) : '';
+                
+                // Highlight strings in non-comment part
+                beforeComment = beforeComment.replace(/(['"][^'"]*['"])/g, '<span class="string">$1</span>');
+                
+                // Highlight keywords
+                beforeComment = beforeComment.replace(/\b(import|from|as|def|class|return|if|else|elif|for|while|in|break|continue|pass|try|except|finally|with|lambda|yield|True|False|None|and|or|not|is|raise|assert)\b/g, '<span class="keyword">$1</span>');
+                
+                // Highlight built-in functions
+                beforeComment = beforeComment.replace(/\b(print|len|range|str|int|float|list|dict|set|tuple|type|open|input|sum|max|min|sorted|enumerate|zip|map|filter|array|mean|shape)\s*\(/g, '<span class="builtin">$1</span>(');
+                
+                // Highlight numbers
+                beforeComment = beforeComment.replace(/\b(\d+\.?\d*)\b/g, '<span class="number">$1</span>');
+                
+                // Add comment span if exists
+                if (comment) {
+                    return beforeComment + '<span class="comment">' + comment + '</span>';
+                }
+                return beforeComment;
+            }).join('\n');
+            
+            return result;
         };
 
         // Code Block Component with Syntax Highlighting
         const CodeBlock = ({ code, className = "code-block" }) => {
+            const highlighted = React.useMemo(() => highlightPython(code), [code]);
             return (
-                <pre className={className}>
-                    <code>{code}</code>
-                </pre>
+                <div 
+                    className={className}
+                    dangerouslySetInnerHTML={{ __html: highlighted }}
+                />
             );
         };
 
