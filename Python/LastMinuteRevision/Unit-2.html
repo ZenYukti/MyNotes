@@ -21,6 +21,7 @@
             font-family: 'Courier New', monospace;
             font-size: 0.875rem;
             line-height: 1.5;
+            white-space: pre;
         }
         .output-block {
             background: #0f172a;
@@ -30,6 +31,7 @@
             font-family: 'Courier New', monospace;
             font-size: 0.875rem;
             margin-top: 0.5rem;
+            white-space: pre;
         }
         .syntax-block {
             background: #312e81;
@@ -39,6 +41,7 @@
             font-family: 'Courier New', monospace;
             font-size: 0.875rem;
             margin-bottom: 0.75rem;
+            white-space: pre;
         }
     </style>
 </head>
@@ -129,20 +132,19 @@
                                         <h3 className="font-bold text-yellow-800 mb-2">📌 if Statement</h3>
                                         <p className="text-gray-700">Executes code block <strong>only if</strong> condition is True.</p>
                                     </div>
-                                    <div className="syntax-block">
-if condition:<br/>
-    statement(s)  # Executes if True
+                                    <div className="syntax-block">{`if condition:
+    statement(s)  # Executes if True`}
                                     </div>
                                     <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
                                         <h4 className="font-bold text-blue-800 mb-2">💡 Example</h4>
-                                        <div className="code-block">
-age = 18<br/>
-<br/>
-if age &gt;= 18:<br/>
-    print("Eligible to vote")<br/>
-    print("Welcome!")
+                                        <div className="code-block">{`age = 18
+
+if age >= 18:
+    print("Eligible to vote")
+    print("Welcome!")`}
                                         </div>
-                                        <div className="output-block">Output: Eligible to vote<br/>Welcome!</div>
+                                        <div className="output-block">{`Output: Eligible to vote
+Welcome!`}</div>
                                     </div>
                                 </div>
 
@@ -152,24 +154,23 @@ if age &gt;= 18:<br/>
                                         <h3 className="font-bold text-yellow-800 mb-2">📌 if-else Statement</h3>
                                         <p className="text-gray-700">Executes one block if True, another if False.</p>
                                     </div>
-                                    <div className="syntax-block">
-if condition:<br/>
-    statement(s)  # True block<br/>
-else:<br/>
-    statement(s)  # False block
+                                    <div className="syntax-block">{`if condition:
+    statement(s)  # True block
+else:
+    statement(s)  # False block`}
                                     </div>
                                     <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
                                         <h4 className="font-bold text-blue-800 mb-2">💡 Example</h4>
-                                        <div className="code-block">
-age = 16<br/>
-<br/>
-if age &gt;= 18:<br/>
-    print("Can vote")<br/>
-else:<br/>
-    print("Cannot vote yet")<br/>
-    print(f"Wait {`{18 - age}`} more years")
+                                        <div className="code-block">{`age = 16
+
+if age >= 18:
+    print("Can vote")
+else:
+    print("Cannot vote yet")
+    print(f"Wait {18 - age} more years")`}
                                         </div>
-                                        <div className="output-block">Output: Cannot vote yet<br/>Wait 2 more years</div>
+                                        <div className="output-block">{`Output: Cannot vote yet
+Wait 2 more years`}</div>
                                     </div>
                                 </div>
 
@@ -179,35 +180,33 @@ else:<br/>
                                         <h3 className="font-bold text-yellow-800 mb-2">📌 if-elif-else Statement</h3>
                                         <p className="text-gray-700">Multiple conditions checked <strong>sequentially</strong>. First True condition executes.</p>
                                     </div>
-                                    <div className="syntax-block">
-if condition1:<br/>
-    statement(s)<br/>
-elif condition2:<br/>
-    statement(s)<br/>
-elif condition3:<br/>
-    statement(s)<br/>
-else:<br/>
-    statement(s)  # All False
+                                    <div className="syntax-block">{`if condition1:
+    statement(s)
+elif condition2:
+    statement(s)
+elif condition3:
+    statement(s)
+else:
+    statement(s)  # All False`}
                                     </div>
                                     <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
                                         <h4 className="font-bold text-blue-800 mb-2">💡 Example: Grading System</h4>
-                                        <div className="code-block">
-marks = 75<br/>
-<br/>
-if marks &gt;= 90:<br/>
-    grade = 'A'<br/>
-elif marks &gt;= 80:<br/>
-    grade = 'B'<br/>
-elif marks &gt;= 70:<br/>
-    grade = 'C'<br/>
-elif marks &gt;= 60:<br/>
-    grade = 'D'<br/>
-else:<br/>
-    grade = 'F'<br/>
-<br/>
-print(f"Grade: {`{grade}`}")
+                                        <div className="code-block">{`marks = 75
+
+if marks >= 90:
+    grade = 'A'
+elif marks >= 80:
+    grade = 'B'
+elif marks >= 70:
+    grade = 'C'
+elif marks >= 60:
+    grade = 'D'
+else:
+    grade = 'F'
+
+print(f"Grade: ${'${grade}'}")`}
                                         </div>
-                                        <div className="output-block">Output: Grade: C</div>
+                                        <div className="output-block">{`Output: Grade: C`}</div>
                                     </div>
                                 </div>
 
@@ -215,31 +214,30 @@ print(f"Grade: {`{grade}`}")
                                 <div className="grid md:grid-cols-2 gap-4">
                                     <div className="bg-purple-50 border-l-4 border-purple-400 p-4">
                                         <h4 className="font-bold text-purple-800 mb-2">🔀 Nested if</h4>
-                                        <div className="code-block text-xs">
-num = 15<br/>
-<br/>
-if num &gt; 0:<br/>
-    print("Positive")<br/>
-    if num % 2 == 0:<br/>
-        print("Even")<br/>
-    else:<br/>
-        print("Odd")
+                                        <div className="code-block text-xs">{`num = 15
+
+if num > 0:
+    print("Positive")
+    if num % 2 == 0:
+        print("Even")
+    else:
+        print("Odd")`}
                                         </div>
-                                        <div className="output-block text-xs mt-2">Positive<br/>Odd</div>
+                                        <div className="output-block text-xs mt-2">{`Positive
+Odd`}</div>
                                     </div>
                                     <div className="bg-green-50 border-l-4 border-green-400 p-4">
                                         <h4 className="font-bold text-green-800 mb-2">⚡ Ternary Operator</h4>
-                                        <div className="code-block text-xs">
-# Syntax:<br/>
-value_if_true if condition else value_if_false<br/>
-<br/>
-age = 20<br/>
-status = "Adult" if age &gt;= 18 else "Minor"<br/>
-print(status)  # Adult<br/>
-<br/>
-# Find max<br/>
-a, b = 10, 20<br/>
-max_val = a if a &gt; b else b
+                                        <div className="code-block text-xs">{`# Syntax:
+value_if_true if condition else value_if_false
+
+age = 20
+status = "Adult" if age >= 18 else "Minor"
+print(status)  # Adult
+
+# Find max
+a, b = 10, 20
+max_val = a if a > b else b`}
                                         </div>
                                     </div>
                                 </div>
@@ -254,9 +252,8 @@ max_val = a if a &gt; b else b
                                     <h3 className="font-bold text-yellow-800 mb-2">📌 for Loop Definition</h3>
                                     <p className="text-gray-700">Iterate over a <strong>sequence</strong> (list, string, range, dict). Used when <strong>number of iterations is known</strong>.</p>
                                 </div>
-                                <div className="syntax-block">
-for variable in sequence:<br/>
-    statement(s)  # Execute for each item
+                                <div className="syntax-block">{`for variable in sequence:
+    statement(s)  # Execute for each item`}
                                 </div>
 
                                 {/* range() Function */}
@@ -265,32 +262,29 @@ for variable in sequence:<br/>
                                     <div className="grid md:grid-cols-3 gap-3 text-sm">
                                         <div className="bg-white p-3 rounded shadow">
                                             <strong>range(stop)</strong>
-                                            <div className="code-block text-xs mt-2">
-# 0 to stop-1<br/>
-for i in range(5):<br/>
-    print(i, end=" ")<br/>
-# Output: 0 1 2 3 4
+                                            <div className="code-block text-xs mt-2">{`# 0 to stop-1
+for i in range(5):
+    print(i, end=" ")
+# Output: 0 1 2 3 4`}
                                             </div>
                                         </div>
                                         <div className="bg-white p-3 rounded shadow">
                                             <strong>range(start, stop)</strong>
-                                            <div className="code-block text-xs mt-2">
-# start to stop-1<br/>
-for i in range(2, 7):<br/>
-    print(i, end=" ")<br/>
-# Output: 2 3 4 5 6
+                                            <div className="code-block text-xs mt-2">{`# start to stop-1
+for i in range(2, 7):
+    print(i, end=" ")
+# Output: 2 3 4 5 6`}
                                             </div>
                                         </div>
                                         <div className="bg-white p-3 rounded shadow">
                                             <strong>range(start, stop, step)</strong>
-                                            <div className="code-block text-xs mt-2">
-# With step<br/>
-for i in range(0, 10, 2):<br/>
-    print(i, end=" ")<br/>
-# Output: 0 2 4 6 8<br/>
-<br/>
-# Countdown<br/>
-range(10, 0, -1)
+                                            <div className="code-block text-xs mt-2">{`# With step
+for i in range(0, 10, 2):
+    print(i, end=" ")
+# Output: 0 2 4 6 8
+
+# Countdown
+range(10, 0, -1)`}
                                             </div>
                                         </div>
                                     </div>
@@ -300,22 +294,20 @@ range(10, 0, -1)
                                 <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
                                     <h3 className="font-bold text-blue-800 mb-2">💡 for Loop with String</h3>
                                     <div className="grid md:grid-cols-2 gap-3">
-                                        <div className="code-block text-xs">
-text = "Python"<br/>
-<br/>
-# Character iteration<br/>
-for char in text:<br/>
-    print(char, end="-")<br/>
-# Output: P-y-t-h-o-n-
+                                        <div className="code-block text-xs">{`text = "Python"
+
+# Character iteration
+for char in text:
+    print(char, end="-")
+# Output: P-y-t-h-o-n-`}
                                         </div>
-                                        <div className="code-block text-xs">
-# With index using enumerate()<br/>
-for index, char in enumerate(text):<br/>
-    print(f"{`{index}`}: {`{char}`}")<br/>
-# Output:<br/>
-# 0: P<br/>
-# 1: y<br/>
-# ...
+                                        <div className="code-block text-xs">{`# With index using enumerate()
+for index, char in enumerate(text):
+    print(f"${'${index}'}: ${'${char}'}")
+# Output:
+# 0: P
+# 1: y
+# ...`}
                                         </div>
                                     </div>
                                 </div>
@@ -324,23 +316,21 @@ for index, char in enumerate(text):<br/>
                                 <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
                                     <h3 className="font-bold text-blue-800 mb-2">💡 for Loop with List</h3>
                                     <div className="grid md:grid-cols-2 gap-3">
-                                        <div className="code-block text-xs">
-numbers = [10, 20, 30, 40]<br/>
-<br/>
-# Simple iteration<br/>
-for num in numbers:<br/>
-    print(num * 2, end=" ")<br/>
-# Output: 20 40 60 80
+                                        <div className="code-block text-xs">{`numbers = [10, 20, 30, 40]
+
+# Simple iteration
+for num in numbers:
+    print(num * 2, end=" ")
+# Output: 20 40 60 80`}
                                         </div>
-                                        <div className="code-block text-xs">
-# With index and value<br/>
-for i, val in enumerate(numbers):<br/>
-    print(f"[{`{i}`}] = {`{val}`}")<br/>
-# Output:<br/>
-# [0] = 10<br/>
-# [1] = 20<br/>
-# [2] = 30<br/>
-# [3] = 40
+                                        <div className="code-block text-xs">{`# With index and value
+for i, val in enumerate(numbers):
+    print(f"[${'${i}'}] = ${'${val}'}")
+# Output:
+# [0] = 10
+# [1] = 20
+# [2] = 30
+# [3] = 40`}
                                         </div>
                                     </div>
                                 </div>
@@ -348,24 +338,23 @@ for i, val in enumerate(numbers):<br/>
                                 {/* for with Dictionary */}
                                 <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
                                     <h3 className="font-bold text-blue-800 mb-2">💡 for Loop with Dictionary</h3>
-                                    <div className="code-block">
-student = {`{"name": "Alice", "age": 20, "grade": "A"}`}<br/>
-<br/>
-# Iterate through keys (default)<br/>
-for key in student:<br/>
-    print(key)  # name, age, grade<br/>
-<br/>
-# Iterate through values<br/>
-for value in student.values():<br/>
-    print(value)  # Alice, 20, A<br/>
-<br/>
-# Iterate through key-value pairs (BEST)<br/>
-for key, value in student.items():<br/>
-    print(f"{`{key}`}: {`{value}`}")<br/>
-# Output:<br/>
-# name: Alice<br/>
-# age: 20<br/>
-# grade: A
+                                    <div className="code-block">{`student = {"name": "Alice", "age": 20, "grade": "A"}
+
+# Iterate through keys (default)
+for key in student:
+    print(key)  # name, age, grade
+
+# Iterate through values
+for value in student.values():
+    print(value)  # Alice, 20, A
+
+# Iterate through key-value pairs (BEST)
+for key, value in student.items():
+    print(f"${'${key}'}: ${'${value}'}")
+# Output:
+# name: Alice
+# age: 20
+# grade: A`}
                                     </div>
                                 </div>
 
@@ -375,32 +364,30 @@ for key, value in student.items():<br/>
                                     <div className="grid md:grid-cols-2 gap-3">
                                         <div>
                                             <h4 className="font-semibold mb-2 text-sm">Multiplication Table:</h4>
-                                            <div className="code-block text-xs">
-for i in range(1, 4):<br/>
-    for j in range(1, 4):<br/>
-        print(f"{`{i}`}x{`{j}`}={`{i*j}`}", end=" ")<br/>
-    print()  # newline<br/>
-<br/>
-# Output:<br/>
-# 1x1=1 1x2=2 1x3=3<br/>
-# 2x1=2 2x2=4 2x3=6<br/>
-# 3x1=3 3x2=6 3x3=9
+                                            <div className="code-block text-xs">{`for i in range(1, 4):
+    for j in range(1, 4):
+        print(f"${'${i}'}x${'${j}'}=${'${i*j}'}", end=" ")
+    print()  # newline
+
+# Output:
+# 1x1=1 1x2=2 1x3=3
+# 2x1=2 2x2=4 2x3=6
+# 3x1=3 3x2=6 3x3=9`}
                                             </div>
                                         </div>
                                         <div>
                                             <h4 className="font-semibold mb-2 text-sm">Pattern Printing:</h4>
-                                            <div className="code-block text-xs">
-for i in range(1, 6):<br/>
-    for j in range(i):<br/>
-        print("*", end="")<br/>
-    print()<br/>
-<br/>
-# Output:<br/>
-# *<br/>
-# **<br/>
-# ***<br/>
-# ****<br/>
-# *****
+                                            <div className="code-block text-xs">{`for i in range(1, 6):
+    for j in range(i):
+        print("*", end="")
+    print()
+
+# Output:
+# *
+# **
+# ***
+# ****
+# *****`}
                                             </div>
                                         </div>
                                     </div>
@@ -415,32 +402,29 @@ for i in range(1, 6):<br/>
                                     <h3 className="font-bold text-yellow-800 mb-2">📌 while Loop Definition</h3>
                                     <p className="text-gray-700">Repeats code block <strong>while condition is True</strong>. Used when <strong>number of iterations unknown</strong>.</p>
                                 </div>
-                                <div className="syntax-block">
-while condition:<br/>
-    statement(s)  # Executes while True<br/>
-    # Must update condition variable!
+                                <div className="syntax-block">{`while condition:
+    statement(s)  # Executes while True
+    # Must update condition variable!`}
                                 </div>
 
                                 {/* Basic while Loop */}
                                 <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
                                     <h3 className="font-bold text-blue-800 mb-2">💡 Basic Example</h3>
                                     <div className="grid md:grid-cols-2 gap-3">
-                                        <div className="code-block text-xs">
-count = 1<br/>
-<br/>
-while count &lt;= 5:<br/>
-    print(f"Count: {`{count}`}")<br/>
-    count += 1  # MUST update!<br/>
-<br/>
-print("Loop ended")
+                                        <div className="code-block text-xs">{`count = 1
+
+while count <= 5:
+    print(f"Count: ${'${count}'}")
+    count += 1  # MUST update!
+
+print("Loop ended")`}
                                         </div>
-                                        <div className="output-block text-xs">
-Count: 1<br/>
-Count: 2<br/>
-Count: 3<br/>
-Count: 4<br/>
-Count: 5<br/>
-Loop ended
+                                        <div className="output-block text-xs">{`Count: 1
+Count: 2
+Count: 3
+Count: 4
+Count: 5
+Loop ended`}
                                         </div>
                                     </div>
                                 </div>
@@ -448,15 +432,14 @@ Loop ended
                                 {/* Infinite Loop */}
                                 <div className="bg-purple-50 border-l-4 border-purple-400 p-4">
                                     <h3 className="font-bold text-purple-800 mb-2">♾️ Infinite Loop with break</h3>
-                                    <div className="code-block">
-count = 0<br/>
-while True:  # Infinite loop<br/>
-    print(count)<br/>
-    count += 1<br/>
-    if count &gt;= 5:<br/>
-        break  # Exit loop<br/>
-<br/>
-# Output: 0 1 2 3 4
+                                    <div className="code-block">{`count = 0
+while True:  # Infinite loop
+    print(count)
+    count += 1
+    if count >= 5:
+        break  # Exit loop
+
+# Output: 0 1 2 3 4`}
                                     </div>
                                 </div>
 
@@ -504,20 +487,18 @@ while True:  # Infinite loop<br/>
                                     <div className="grid md:grid-cols-2 gap-3">
                                         <div>
                                             <h4 className="font-semibold mb-2 text-sm">for Loop:</h4>
-                                            <div className="code-block text-xs">
-for i in range(5):<br/>
-    print(i, end=" ")<br/>
-# Output: 0 1 2 3 4
+                                            <div className="code-block text-xs">{`for i in range(5):
+    print(i, end=" ")
+# Output: 0 1 2 3 4`}
                                             </div>
                                         </div>
                                         <div>
                                             <h4 className="font-semibold mb-2 text-sm">while Loop:</h4>
-                                            <div className="code-block text-xs">
-i = 0<br/>
-while i &lt; 5:<br/>
-    print(i, end=" ")<br/>
-    i += 1<br/>
-# Output: 0 1 2 3 4
+                                            <div className="code-block text-xs">{`i = 0
+while i < 5:
+    print(i, end=" ")
+    i += 1
+# Output: 0 1 2 3 4`}
                                             </div>
                                         </div>
                                     </div>
@@ -535,17 +516,16 @@ while i &lt; 5:<br/>
                                         <p className="text-gray-700"><strong>Empty placeholder</strong> - does nothing. Used when syntax requires code but you have nothing to execute.</p>
                                     </div>
                                     <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
-                                        <div className="code-block">
-for i in range(5):<br/>
-    pass  # TODO: implement later<br/>
-<br/>
-if x &gt; 5:<br/>
-    pass  # will add logic<br/>
-else:<br/>
-    print("x is small")<br/>
-<br/>
-def my_function():<br/>
-    pass  # empty function
+                                        <div className="code-block">{`for i in range(5):
+    pass  # TODO: implement later
+
+if x > 5:
+    pass  # will add logic
+else:
+    print("x is small")
+
+def my_function():
+    pass  # empty function`}
                                         </div>
                                     </div>
                                 </div>
@@ -559,22 +539,20 @@ def my_function():<br/>
                                     <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
                                         <h4 className="font-bold text-blue-800 mb-2">💡 Example: Skip Even Numbers</h4>
                                         <div className="grid md:grid-cols-2 gap-3">
-                                            <div className="code-block text-xs">
-# Print odd numbers only<br/>
-for i in range(1, 11):<br/>
-    if i % 2 == 0:<br/>
-        continue  # Skip even<br/>
-    print(i, end=" ")<br/>
-# Output: 1 3 5 7 9
+                                            <div className="code-block text-xs">{`# Print odd numbers only
+for i in range(1, 11):
+    if i % 2 == 0:
+        continue  # Skip even
+    print(i, end=" ")
+# Output: 1 3 5 7 9`}
                                             </div>
-                                            <div className="code-block text-xs">
-# Skip specific item<br/>
-fruits = ["apple", "banana", "cherry"]<br/>
-for fruit in fruits:<br/>
-    if fruit == "banana":<br/>
-        continue<br/>
-    print(fruit)<br/>
-# Output: apple, cherry
+                                            <div className="code-block text-xs">{`# Skip specific item
+fruits = ["apple", "banana", "cherry"]
+for fruit in fruits:
+    if fruit == "banana":
+        continue
+    print(fruit)
+# Output: apple, cherry`}
                                             </div>
                                         </div>
                                     </div>
@@ -589,35 +567,33 @@ for fruit in fruits:<br/>
                                     <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
                                         <h4 className="font-bold text-blue-800 mb-2">💡 Example: Find First Match</h4>
                                         <div className="grid md:grid-cols-2 gap-3">
-                                            <div className="code-block text-xs">
-# Find first even number<br/>
-numbers = [1, 3, 5, 8, 9, 10]<br/>
-<br/>
-for num in numbers:<br/>
-    if num % 2 == 0:<br/>
-        print(f"Found: {`{num}`}")<br/>
-        break<br/>
-    print(f"Checking {`{num}`}")<br/>
-<br/>
-# Output:<br/>
-# Checking 1<br/>
-# Checking 3<br/>
-# Checking 5<br/>
-# Found: 8
+                                            <div className="code-block text-xs">{`# Find first even number
+numbers = [1, 3, 5, 8, 9, 10]
+
+for num in numbers:
+    if num % 2 == 0:
+        print(f"Found: ${'${num}'}")
+        break
+    print(f"Checking ${'${num}'}")
+
+# Output:
+# Checking 1
+# Checking 3
+# Checking 5
+# Found: 8`}
                                             </div>
-                                            <div className="code-block text-xs">
-# Search in list<br/>
-fruits = ["apple", "banana", "cherry"]<br/>
-search = "cherry"<br/>
-<br/>
-for fruit in fruits:<br/>
-    if fruit == search:<br/>
-        print(f"Found {`{search}`}!")<br/>
-        break<br/>
-else:<br/>
-    print(f"{`{search}`} not found")<br/>
-<br/>
-# Output: Found cherry!
+                                            <div className="code-block text-xs">{`# Search in list
+fruits = ["apple", "banana", "cherry"]
+search = "cherry"
+
+for fruit in fruits:
+    if fruit == search:
+        print(f"Found ${'${search}'}!")
+        break
+else:
+    print(f"${'${search}'} not found")
+
+# Output: Found cherry!`}
                                             </div>
                                         </div>
                                     </div>
@@ -641,46 +617,43 @@ else:<br/>
                                         <div className="grid md:grid-cols-2 gap-3">
                                             <div>
                                                 <h5 className="font-semibold mb-2 text-xs">Loop Completes (else runs):</h5>
-                                                <div className="code-block text-xs">
-for i in range(5):<br/>
-    print(i, end=" ")<br/>
-else:<br/>
-    print("\\nCompleted!")<br/>
-<br/>
-# Output:<br/>
-# 0 1 2 3 4<br/>
-# Completed!
+                                                <div className="code-block text-xs">{`for i in range(5):
+    print(i, end=" ")
+else:
+    print("\nCompleted!")
+
+# Output:
+# 0 1 2 3 4
+# Completed!`}
                                                 </div>
                                             </div>
                                             <div>
                                                 <h5 className="font-semibold mb-2 text-xs">Loop Breaks (else skipped):</h5>
-                                                <div className="code-block text-xs">
-for i in range(5):<br/>
-    if i == 3:<br/>
-        break<br/>
-    print(i, end=" ")<br/>
-else:<br/>
-    print("\\nCompleted!")<br/>
-<br/>
-# Output: 0 1 2<br/>
-# (else NOT executed)
+                                                <div className="code-block text-xs">{`for i in range(5):
+    if i == 3:
+        break
+    print(i, end=" ")
+else:
+    print("\nCompleted!")
+
+# Output: 0 1 2
+# (else NOT executed)`}
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="mt-3">
                                             <h5 className="font-semibold mb-2 text-xs">Practical: Search with else</h5>
-                                            <div className="code-block text-xs">
-numbers = [1, 3, 5, 7, 9]<br/>
-search = 4<br/>
-<br/>
-for num in numbers:<br/>
-    if num == search:<br/>
-        print(f"Found {`{search}`}")<br/>
-        break<br/>
-else:<br/>
-    print(f"{`{search}`} not found in list")<br/>
-<br/>
-# Output: 4 not found in list
+                                            <div className="code-block text-xs">{`numbers = [1, 3, 5, 7, 9]
+search = 4
+
+for num in numbers:
+    if num == search:
+        print(f"Found ${'${search}'}")
+        break
+else:
+    print(f"${'${search}'} not found in list")
+
+# Output: 4 not found in list`}
                                             </div>
                                         </div>
                                     </div>
@@ -738,109 +711,103 @@ else:<br/>
                                     {/* Prime Number */}
                                     <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
                                         <h4 className="font-bold text-blue-800 mb-2">1. Prime Number Check</h4>
-                                        <div className="code-block text-xs">
-num = 17<br/>
-<br/>
-if num &lt; 2:<br/>
-    print("Not prime")<br/>
-else:<br/>
-    is_prime = True<br/>
-    for i in range(2, int(num**0.5)+1):<br/>
-        if num % i == 0:<br/>
-            is_prime = False<br/>
-            break<br/>
-    <br/>
-    if is_prime:<br/>
-        print(f"{`{num}`} is prime")<br/>
-    else:<br/>
-        print(f"{`{num}`} is not prime")
+                                        <div className="code-block text-xs">{`num = 17
+
+if num < 2:
+    print("Not prime")
+else:
+    is_prime = True
+    for i in range(2, int(num**0.5)+1):
+        if num % i == 0:
+            is_prime = False
+            break
+    
+    if is_prime:
+        print(f"${'${num}'} is prime")
+    else:
+        print(f"${'${num}'} is not prime")`}
                                         </div>
                                     </div>
 
                                     {/* Factorial */}
                                     <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
                                         <h4 className="font-bold text-blue-800 mb-2">2. Factorial (for & while)</h4>
-                                        <div className="code-block text-xs">
-# Using for loop<br/>
-n = 5<br/>
-factorial = 1<br/>
-for i in range(1, n+1):<br/>
-    factorial *= i<br/>
-print(factorial)  # 120<br/>
-<br/>
-# Using while loop<br/>
-n, fact, i = 5, 1, 1<br/>
-while i &lt;= n:<br/>
-    fact *= i<br/>
-    i += 1<br/>
-print(fact)  # 120
+                                        <div className="code-block text-xs">{`# Using for loop
+n = 5
+factorial = 1
+for i in range(1, n+1):
+    factorial *= i
+print(factorial)  # 120
+
+# Using while loop
+n, fact, i = 5, 1, 1
+while i <= n:
+    fact *= i
+    i += 1
+print(fact)  # 120`}
                                         </div>
                                     </div>
 
                                     {/* Fibonacci */}
                                     <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
                                         <h4 className="font-bold text-blue-800 mb-2">3. Fibonacci Series</h4>
-                                        <div className="code-block text-xs">
-n = 10<br/>
-a, b = 0, 1<br/>
-<br/>
-for i in range(n):<br/>
-    print(a, end=" ")<br/>
-    a, b = b, a + b<br/>
-<br/>
-# Output: 0 1 1 2 3 5 8 13 21 34
+                                        <div className="code-block text-xs">{`n = 10
+a, b = 0, 1
+
+for i in range(n):
+    print(a, end=" ")
+    a, b = b, a + b
+
+# Output: 0 1 1 2 3 5 8 13 21 34`}
                                         </div>
                                     </div>
 
                                     {/* Reverse Number */}
                                     <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
                                         <h4 className="font-bold text-blue-800 mb-2">4. Reverse Number</h4>
-                                        <div className="code-block text-xs">
-num = 12345<br/>
-reverse = 0<br/>
-<br/>
-while num &gt; 0:<br/>
-    digit = num % 10<br/>
-    reverse = reverse * 10 + digit<br/>
-    num //= 10<br/>
-<br/>
-print(reverse)  # 54321
+                                        <div className="code-block text-xs">{`num = 12345
+reverse = 0
+
+while num > 0:
+    digit = num % 10
+    reverse = reverse * 10 + digit
+    num //= 10
+
+print(reverse)  # 54321`}
                                         </div>
                                     </div>
 
                                     {/* Pattern */}
                                     <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
                                         <h4 className="font-bold text-blue-800 mb-2">5. Pattern Printing</h4>
-                                        <div className="code-block text-xs">
-# Right triangle<br/>
-n = 5<br/>
-for i in range(1, n+1):<br/>
-    for j in range(i):<br/>
-        print("*", end="")<br/>
-    print()<br/>
-<br/>
-# Output:<br/>
-# *<br/>
-# **<br/>
-# ***<br/>
-# ****<br/>
-# *****
+                                        <div className="code-block text-xs">{`# Right triangle
+n = 5
+for i in range(1, n+1):
+    for j in range(i):
+        print("*", end="")
+    print()
+
+# Output:
+# *
+# **
+# ***
+# ****
+# *****`}
                                         </div>
                                     </div>
 
                                     {/* Sum of Digits */}
                                     <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
                                         <h4 className="font-bold text-blue-800 mb-2">6. Sum of Digits</h4>
-                                        <div className="code-block text-xs">
-num = 12345<br/>
-sum_digits = 0<br/>
-<br/>
-while num &gt; 0:<br/>
-    digit = num % 10<br/>
-    sum_digits += digit<br/>
-    num //= 10<br/>
-<br/>
-print(sum_digits)  # 15
+                                        <div className="code-block text-xs">{`num = 12345
+sum_digits = 0
+
+while num > 0:
+    digit = num % 10
+    sum_digits += digit
+    num //= 10
+
+print(sum_digits)  # 15`}
                                         </div>
                                     </div>
                                 </div>
@@ -860,45 +827,41 @@ print(sum_digits)  # 15
                                 <div className="grid md:grid-cols-2 gap-4 text-sm">
                                     <div>
                                         <strong>Conditionals:</strong>
-                                        <div className="code-block text-xs mt-2">
-if condition:<br/>
-    block<br/>
-elif condition:<br/>
-    block<br/>
-else:<br/>
-    block<br/>
-<br/>
-# Ternary<br/>
-x = a if condition else b
+                                        <div className="code-block text-xs mt-2">{`if condition:
+    block
+elif condition:
+    block
+else:
+    block
+
+# Ternary
+x = a if condition else b`}
                                         </div>
                                     </div>
                                     <div>
                                         <strong>Loops:</strong>
-                                        <div className="code-block text-xs mt-2">
-# for loop<br/>
-for item in sequence:<br/>
-    block<br/>
-<br/>
-# while loop<br/>
-while condition:<br/>
+                                        <div className="code-block text-xs mt-2">{`# for loop
+for item in sequence:
     block
+
+# while loop
+while condition:
+    block`}
                                         </div>
                                     </div>
                                     <div>
                                         <strong>range() - 3 Forms:</strong>
-                                        <div className="code-block text-xs mt-2">
-range(stop)         # 0 to stop-1<br/>
-range(start, stop)  # start to stop-1<br/>
-range(start, stop, step)
+                                        <div className="code-block text-xs mt-2">{`range(stop)         # 0 to stop-1
+range(start, stop)  # start to stop-1
+range(start, stop, step)`}
                                         </div>
                                     </div>
                                     <div>
                                         <strong>Loop Control:</strong>
-                                        <div className="code-block text-xs mt-2">
-pass      # Do nothing<br/>
-continue  # Skip to next<br/>
-break     # Exit loop<br/>
-else:     # After loop (no break)
+                                        <div className="code-block text-xs mt-2">{`pass      # Do nothing
+continue  # Skip to next
+break     # Exit loop
+else:     # After loop (no break)`}
                                         </div>
                                     </div>
                                 </div>
@@ -961,15 +924,14 @@ else:     # After loop (no break)
                             {/* Loop Control Decision Tree */}
                             <div className="bg-white bg-opacity-20 rounded-lg p-4 mb-4">
                                 <h3 className="text-xl font-bold mb-3">🌳 Loop Control Decision Tree</h3>
-                                <div className="bg-black bg-opacity-30 p-3 rounded text-xs font-mono">
-Need placeholder? → <strong>pass</strong><br/>
-Skip this item? → <strong>continue</strong><br/>
-Exit loop early? → <strong>break</strong><br/>
-Check completion? → <strong>else</strong> clause<br/>
-<br/>
-Loop Type:<br/>
-Know iterations? → <strong>for</strong> loop<br/>
-Unknown iterations? → <strong>while</strong> loop
+                                <div className="bg-black bg-opacity-30 p-3 rounded text-xs font-mono">{`Need placeholder? → pass
+Skip this item? → continue
+Exit loop early? → break
+Check completion? → else clause
+
+Loop Type:
+Know iterations? → for loop
+Unknown iterations? → while loop`}
                                 </div>
                             </div>
 
@@ -979,64 +941,58 @@ Unknown iterations? → <strong>while</strong> loop
                                 <div className="space-y-3 text-sm">
                                     <div>
                                         <strong>Type 1: Output Prediction</strong>
-                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 font-mono text-xs">
-for i in range(1, 6):<br/>
-    if i == 3:<br/>
-        continue<br/>
-    if i == 5:<br/>
-        break<br/>
-    print(i, end=" ")<br/>
-# Output: 1 2 4
+                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 font-mono text-xs">{`for i in range(1, 6):
+    if i == 3:
+        continue
+    if i == 5:
+        break
+    print(i, end=" ")
+# Output: 1 2 4`}
                                         </div>
                                     </div>
                                     <div>
                                         <strong>Type 2: Loop-else Behavior</strong>
-                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 font-mono text-xs">
-for i in range(5):<br/>
-    if i == 3:<br/>
-        break<br/>
-else:<br/>
-    print("Completed")<br/>
-# Output: (nothing - else skipped due to break)
+                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 font-mono text-xs">{`for i in range(5):
+    if i == 3:
+        break
+else:
+    print("Completed")
+# Output: (nothing - else skipped due to break)`}
                                         </div>
                                     </div>
                                     <div>
                                         <strong>Type 3: range() Understanding</strong>
-                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 font-mono text-xs">
-Q: What does range(2, 10, 3) generate?<br/>
-A: 2, 5, 8 (start=2, step=3, stop before 10)
+                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 font-mono text-xs">{`Q: What does range(2, 10, 3) generate?
+A: 2, 5, 8 (start=2, step=3, stop before 10)`}
                                         </div>
                                     </div>
                                     <div>
                                         <strong>Type 4: Nested Loop Pattern</strong>
-                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 font-mono text-xs">
-for i in range(1, 4):<br/>
-    for j in range(i):<br/>
-        print("*", end="")<br/>
-    print()<br/>
-# Output:<br/>
-# *<br/>
-# **<br/>
-# ***
+                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 font-mono text-xs">{`for i in range(1, 4):
+    for j in range(i):
+        print("*", end="")
+    print()
+# Output:
+# *
+# **
+# ***`}
                                         </div>
                                     </div>
                                     <div>
                                         <strong>Type 5: Dict Iteration</strong>
-                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 font-mono text-xs">
-d = {`{"a": 1, "b": 2}`}<br/>
-for k, v in d.items():<br/>
-    print(f"{`{k}`}:{`{v}`}")<br/>
-# Output: a:1  b:2
+                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 font-mono text-xs">{`d = {"a": 1, "b": 2}
+for k, v in d.items():
+    print(f"${'${k}'}:${'${v}'}")
+# Output: a:1  b:2`}
                                         </div>
                                     </div>
                                     <div>
                                         <strong>Type 6: while Loop Trace</strong>
-                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 font-mono text-xs">
-x = 5<br/>
-while x &gt; 0:<br/>
-    print(x, end=" ")<br/>
-    x -= 2<br/>
-# Output: 5 3 1
+                                        <div className="bg-black bg-opacity-30 p-2 rounded mt-1 font-mono text-xs">{`x = 5
+while x > 0:
+    print(x, end=" ")
+    x -= 2
+# Output: 5 3 1`}
                                         </div>
                                     </div>
                                 </div>
@@ -1087,36 +1043,32 @@ while x &gt; 0:<br/>
                                 <div className="grid md:grid-cols-2 gap-3 text-sm">
                                     <div>
                                         <strong>Prime Check:</strong>
-                                        <div className="code-block text-xs mt-1">
-for i in range(2, int(n**0.5)+1):<br/>
-    if n % i == 0:<br/>
-        # Not prime
+                                        <div className="code-block text-xs mt-1">{`for i in range(2, int(n**0.5)+1):
+    if n % i == 0:
+        # Not prime`}
                                         </div>
                                     </div>
                                     <div>
                                         <strong>Factorial:</strong>
-                                        <div className="code-block text-xs mt-1">
-fact = 1<br/>
-for i in range(1, n+1):<br/>
-    fact *= i
+                                        <div className="code-block text-xs mt-1">{`fact = 1
+for i in range(1, n+1):
+    fact *= i`}
                                         </div>
                                     </div>
                                     <div>
                                         <strong>Reverse Number:</strong>
-                                        <div className="code-block text-xs mt-1">
-while num &gt; 0:<br/>
-    digit = num % 10<br/>
-    rev = rev*10 + digit<br/>
-    num //= 10
+                                        <div className="code-block text-xs mt-1">{`while num > 0:
+    digit = num % 10
+    rev = rev*10 + digit
+    num //= 10`}
                                         </div>
                                     </div>
                                     <div>
                                         <strong>Fibonacci:</strong>
-                                        <div className="code-block text-xs mt-1">
-a, b = 0, 1<br/>
-for i in range(n):<br/>
-    print(a)<br/>
-    a, b = b, a+b
+                                        <div className="code-block text-xs mt-1">{`a, b = 0, 1
+for i in range(n):
+    print(a)
+    a, b = b, a+b`}
                                         </div>
                                     </div>
                                 </div>
