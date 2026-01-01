@@ -21,6 +21,7 @@
             font-family: 'Courier New', monospace;
             font-size: 0.875rem;
             line-height: 1.5;
+            white-space: pre;
         }
         .output-block {
             background: #0f172a;
@@ -30,6 +31,7 @@
             font-family: 'Courier New', monospace;
             font-size: 0.875rem;
             margin-top: 0.5rem;
+            white-space: pre;
         }
     </style>
 </head>
@@ -188,21 +190,17 @@
                                     <div className="grid md:grid-cols-2 gap-3">
                                         <div>
                                             <p className="font-semibold text-blue-800 mb-2">❌ Without 'with' (Old Way):</p>
-                                            <div className="code-block text-xs">
-f = open("data.txt", "r")<br/>
-content = f.read()<br/>
-print(content)<br/>
-f.close()  # Must remember!
-                                            </div>
+                                            <div className="code-block text-xs">{`f = open("data.txt", "r")
+content = f.read()
+print(content)
+f.close()  # Must remember!`}</div>
                                         </div>
                                         <div>
                                             <p className="font-semibold text-blue-800 mb-2">✅ With 'with' (Best Practice):</p>
-                                            <div className="code-block text-xs">
-with open("data.txt", "r") as f:<br/>
-    content = f.read()<br/>
-    print(content)<br/>
-# File auto-closed here!
-                                            </div>
+                                            <div className="code-block text-xs">{`with open("data.txt", "r") as f:
+    content = f.read()
+    print(content)
+# File auto-closed here!`}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -258,70 +256,57 @@ with open("data.txt", "r") as f:<br/>
                                 {/* Example File Content */}
                                 <div className="bg-gray-100 border-l-4 border-gray-400 p-3 rounded">
                                     <p className="font-semibold text-gray-800 mb-2">📄 Sample File: data.txt</p>
-                                    <div className="code-block text-xs">
-Line 1: Hello World<br/>
-Line 2: Python Files<br/>
-Line 3: Last Line
-                                    </div>
+                                    <div className="code-block text-xs">{`Line 1: Hello World
+Line 2: Python Files
+Line 3: Last Line`}</div>
                                 </div>
 
                                 {/* read() Example */}
                                 <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
                                     <h3 className="font-bold text-blue-800 mb-2">💡 Example: read()</h3>
-                                    <div className="code-block text-xs mb-2">
-with open("data.txt", "r") as f:<br/>
-    content = f.read()<br/>
-    print(content)<br/>
-    print(type(content))
-                                    </div>
-                                    <div className="output-block text-xs">
-# Output:<br/>
-Line 1: Hello World<br/>
-Line 2: Python Files<br/>
-Line 3: Last Line<br/>
-{`<class 'str'>`}
-                                    </div>
+                                    <div className="code-block text-xs mb-2">{`with open("data.txt", "r") as f:
+    content = f.read()
+    print(content)
+    print(type(content))`}</div>
+                                    <div className="output-block text-xs">{`# Output:
+Line 1: Hello World
+Line 2: Python Files
+Line 3: Last Line
+<class 'str'>`}</div>
                                 </div>
 
                                 {/* readline() Example */}
                                 <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
                                     <h3 className="font-bold text-blue-800 mb-2">💡 Example: readline()</h3>
-                                    <div className="code-block text-xs mb-2">
-with open("data.txt", "r") as f:<br/>
-    line1 = f.readline()  # First line<br/>
-    line2 = f.readline()  # Second line<br/>
-    print(line1)<br/>
-    print(line2)
-                                    </div>
-                                    <div className="output-block text-xs">
-# Output:<br/>
-Line 1: Hello World<br/>
-<br/>
-Line 2: Python Files<br/>
-                                    </div>
+                                    <div className="code-block text-xs mb-2">{`with open("data.txt", "r") as f:
+    line1 = f.readline()  # First line
+    line2 = f.readline()  # Second line
+    print(line1)
+    print(line2)`}</div>
+                                    <div className="output-block text-xs">{`# Output:
+Line 1: Hello World
+
+Line 2: Python Files
+`}</div>
                                 </div>
 
                                 {/* readlines() Example */}
                                 <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
                                     <h3 className="font-bold text-blue-800 mb-2">💡 Example: readlines()</h3>
-                                    <div className="code-block text-xs mb-2">
-with open("data.txt", "r") as f:<br/>
-    lines = f.readlines()<br/>
-    print(lines)<br/>
-    print(type(lines))<br/>
-    <br/>
-# Iterate through lines<br/>
-for line in lines:<br/>
-    print(line.strip())  # Remove \n
-                                    </div>
-                                    <div className="output-block text-xs">
-# Output:<br/>
-['Line 1: Hello World\n', 'Line 2: Python Files\n', 'Line 3: Last Line']<br/>
-{`<class 'list'>`}<br/>
-Line 1: Hello World<br/>
-Line 2: Python Files<br/>
-Line 3: Last Line
-                                    </div>
+                                    <div className="code-block text-xs mb-2">{`with open("data.txt", "r") as f:
+    lines = f.readlines()
+    print(lines)
+    print(type(lines))
+    
+# Iterate through lines
+for line in lines:
+    print(line.strip())  # Remove \n`}</div>
+                                    <div className="output-block text-xs">{`# Output:
+['Line 1: Hello World\n', 'Line 2: Python Files\n', 'Line 3: Last Line']
+<class 'list'>
+Line 1: Hello World
+Line 2: Python Files
+Line 3: Last Line`}</div>
                                 </div>
                             </div>
                         </Section>
@@ -354,35 +339,27 @@ Line 3: Last Line
                                 {/* write() Example */}
                                 <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
                                     <h3 className="font-bold text-blue-800 mb-2">💡 Example: write()</h3>
-                                    <div className="code-block text-xs mb-2">
-with open("output.txt", "w") as f:<br/>
-    f.write("Line 1\n")<br/>
-    f.write("Line 2\n")<br/>
-    f.write("Line 3")
-                                    </div>
+                                    <div className="code-block text-xs mb-2">{`with open("output.txt", "w") as f:
+    f.write("Line 1\n")
+    f.write("Line 2\n")
+    f.write("Line 3")`}</div>
                                     <p className="text-sm text-gray-700 mt-2"><strong>Result in output.txt:</strong></p>
-                                    <div className="output-block text-xs">
-Line 1<br/>
-Line 2<br/>
-Line 3
-                                    </div>
+                                    <div className="output-block text-xs">{`Line 1
+Line 2
+Line 3`}</div>
                                 </div>
 
                                 {/* writelines() Example */}
                                 <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
                                     <h3 className="font-bold text-blue-800 mb-2">💡 Example: writelines()</h3>
-                                    <div className="code-block text-xs mb-2">
-lines = ["Python\n", "File\n", "Handling\n"]<br/>
-<br/>
-with open("output.txt", "w") as f:<br/>
-    f.writelines(lines)
-                                    </div>
+                                    <div className="code-block text-xs mb-2">{`lines = ["Python\n", "File\n", "Handling\n"]
+
+with open("output.txt", "w") as f:
+    f.writelines(lines)`}</div>
                                     <p className="text-sm text-gray-700 mt-2"><strong>Result in output.txt:</strong></p>
-                                    <div className="output-block text-xs">
-Python<br/>
-File<br/>
-Handling
-                                    </div>
+                                    <div className="output-block text-xs">{`Python
+File
+Handling`}</div>
                                 </div>
 
                                 {/* Common Mistake */}
@@ -391,21 +368,17 @@ Handling
                                     <div className="grid md:grid-cols-2 gap-3">
                                         <div>
                                             <p className="font-semibold text-red-800 mb-2">❌ Wrong (No newlines):</p>
-                                            <div className="code-block text-xs">
-lines = ["A", "B", "C"]<br/>
-with open("out.txt", "w") as f:<br/>
-    f.writelines(lines)<br/>
-# Result: ABC (all on one line!)
-                                            </div>
+                                            <div className="code-block text-xs">{`lines = ["A", "B", "C"]
+with open("out.txt", "w") as f:
+    f.writelines(lines)
+# Result: ABC (all on one line!)`}</div>
                                         </div>
                                         <div>
                                             <p className="font-semibold text-green-800 mb-2">✅ Correct:</p>
-                                            <div className="code-block text-xs">
-lines = ["A\n", "B\n", "C\n"]<br/>
-with open("out.txt", "w") as f:<br/>
-    f.writelines(lines)<br/>
-# Result: Each on new line
-                                            </div>
+                                            <div className="code-block text-xs">{`lines = ["A\n", "B\n", "C\n"]
+with open("out.txt", "w") as f:
+    f.writelines(lines)
+# Result: Each on new line`}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -413,15 +386,13 @@ with open("out.txt", "w") as f:<br/>
                                 {/* Append Mode */}
                                 <div className="bg-purple-50 border-l-4 border-purple-400 p-4 rounded">
                                     <h3 className="font-bold text-purple-800 mb-2">📝 Append Mode ('a')</h3>
-                                    <div className="code-block text-xs">
-# File exists with: "Hello"<br/>
-<br/>
-with open("file.txt", "a") as f:<br/>
-    f.write("\nWorld")<br/>
-<br/>
-# Result: Hello<br/>
-#         World
-                                    </div>
+                                    <div className="code-block text-xs">{`# File exists with: "Hello"
+
+with open("file.txt", "a") as f:
+    f.write("\nWorld")
+
+# Result: Hello
+#         World`}</div>
                                 </div>
                             </div>
                         </Section>
@@ -479,21 +450,17 @@ with open("file.txt", "a") as f:<br/>
                                 {/* tell() Example */}
                                 <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
                                     <h3 className="font-bold text-blue-800 mb-2">💡 Example: tell()</h3>
-                                    <div className="code-block text-xs mb-2">
-with open("data.txt", "r") as f:<br/>
-    print(f"Start: {`{f.tell()}`}")  # 0<br/>
-    <br/>
-    f.read(5)  # Read 5 characters<br/>
-    print(f"After read(5): {`{f.tell()}`}")  # 5<br/>
-    <br/>
-    f.readline()  # Read rest of line<br/>
-    print(f"After readline: {`{f.tell()}`}")  # Depends on line length
-                                    </div>
-                                    <div className="output-block text-xs">
-Start: 0<br/>
-After read(5): 5<br/>
-After readline: 19
-                                    </div>
+                                    <div className="code-block text-xs mb-2">{`with open("data.txt", "r") as f:
+    print(f"Start: ${'{f.tell()}'}")  # 0
+    
+    f.read(5)  # Read 5 characters
+    print(f"After read(5): ${'{f.tell()}'}")  # 5
+    
+    f.readline()  # Read rest of line
+    print(f"After readline: ${'{f.tell()}'}")  # Depends on line length`}</div>
+                                    <div className="output-block text-xs">{`Start: 0
+After read(5): 5
+After readline: 19`}</div>
                                 </div>
 
                                 {/* seek() Examples */}
@@ -502,29 +469,23 @@ After readline: 19
                                     <div className="space-y-3">
                                         <div>
                                             <p className="font-semibold text-blue-800 mb-2">1. Reset to Beginning</p>
-                                            <div className="code-block text-xs">
-with open("data.txt", "r") as f:<br/>
-    f.read()  # Read entire file<br/>
-    f.seek(0)  # Go back to start<br/>
-    content = f.read()  # Read again
-                                            </div>
+                                            <div className="code-block text-xs">{`with open("data.txt", "r") as f:
+    f.read()  # Read entire file
+    f.seek(0)  # Go back to start
+    content = f.read()  # Read again`}</div>
                                         </div>
                                         <div>
                                             <p className="font-semibold text-blue-800 mb-2">2. Jump to Specific Position</p>
-                                            <div className="code-block text-xs">
-with open("data.txt", "r") as f:<br/>
-    f.seek(10)  # Jump to 10th byte<br/>
-    content = f.read()  # Read from there
-                                            </div>
+                                            <div className="code-block text-xs">{`with open("data.txt", "r") as f:
+    f.seek(10)  # Jump to 10th byte
+    content = f.read()  # Read from there`}</div>
                                         </div>
                                         <div>
                                             <p className="font-semibold text-blue-800 mb-2">3. Go to End of File</p>
-                                            <div className="code-block text-xs">
-with open("data.txt", "r") as f:<br/>
-    f.seek(0, 2)  # Jump to end<br/>
-    size = f.tell()  # Get file size<br/>
-    print(f"File size: {`{size}`} bytes")
-                                            </div>
+                                            <div className="code-block text-xs">{`with open("data.txt", "r") as f:
+    f.seek(0, 2)  # Jump to end
+    size = f.tell()  # Get file size
+    print(f"File size: ${'{size}'} bytes")`}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -532,18 +493,16 @@ with open("data.txt", "r") as f:<br/>
                                 {/* Practical Use Case */}
                                 <div className="bg-green-50 border-l-4 border-green-400 p-4 rounded">
                                     <h3 className="font-bold text-green-800 mb-2">🎯 Practical: Reading File in Chunks</h3>
-                                    <div className="code-block text-xs">
-with open("large_file.txt", "r") as f:<br/>
-    chunk_size = 100<br/>
-    <br/>
-    while True:<br/>
-        chunk = f.read(chunk_size)<br/>
-        if not chunk:<br/>
-            break  # End of file<br/>
-        <br/>
-        print(f"Position: {`{f.tell()}`}")<br/>
-        # Process chunk...
-                                    </div>
+                                    <div className="code-block text-xs">{`with open("large_file.txt", "r") as f:
+    chunk_size = 100
+    
+    while True:
+        chunk = f.read(chunk_size)
+        if not chunk:
+            break  # End of file
+        
+        print(f"Position: ${'{f.tell()}'}")
+        # Process chunk...`}</div>
                                 </div>
                             </div>
                         </Section>
@@ -702,8 +661,10 @@ with open("large_file.txt", "r") as f:<br/>
             );
         };
 
-        // Render the app
-        ReactDOM.render(<PythonUnit4Notes />, document.getElementById('root'));
+        // Render the app with delay to ensure libraries load
+        setTimeout(() => {
+            ReactDOM.render(<PythonUnit4Notes />, document.getElementById('root'));
+        }, 500);
     </script>
 </body>
 </html>
