@@ -22,6 +22,18 @@
             font-family: 'Courier New', monospace;
             font-size: 0.875rem;
             line-height: 1.5;
+            white-space: pre;
+        }
+        .syntax-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            white-space: pre;
         }
         .output-block {
             background: #0f172a;
@@ -31,6 +43,7 @@
             font-family: 'Courier New', monospace;
             font-size: 0.875rem;
             margin-top: 0.5rem;
+            white-space: pre;
         }
     </style>
 </head>
@@ -137,40 +150,36 @@
 
                                 <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
                                     <h3 className="font-bold text-blue-800 mb-3">💡 NumPy Example</h3>
-                                    <div className="code-block text-xs mb-2">
-import numpy as np<br/>
-<br/>
-# Create array from list<br/>
-arr = np.array([1, 2, 3, 4, 5])<br/>
-print(arr)<br/>
-print(type(arr))<br/>
-<br/>
-# Array operations<br/>
-print(arr * 2)      # Multiply all by 2<br/>
-print(arr + 10)     # Add 10 to all<br/>
-<br/>
-# 2D array (matrix)<br/>
-matrix = np.array([[1, 2, 3], [4, 5, 6]])<br/>
-print(matrix)<br/>
-print(matrix.shape)  # (2, 3) - 2 rows, 3 cols<br/>
-<br/>
-# Useful functions<br/>
-print(np.mean(arr))  # Average: 3.0<br/>
-print(np.sum(arr))   # Sum: 15<br/>
-print(np.max(arr))   # Maximum: 5
-                                    </div>
-                                    <div className="output-block text-xs">
-[1 2 3 4 5]<br/>
-{`<class 'numpy.ndarray'>`}<br/>
-[ 2  4  6  8 10]<br/>
-[11 12 13 14 15]<br/>
-[[1 2 3]<br/>
- [4 5 6]]<br/>
-(2, 3)<br/>
-3.0<br/>
-15<br/>
-5
-                                    </div>
+                                    <div className="code-block text-xs mb-2">{`import numpy as np
+
+# Create array from list
+arr = np.array([1, 2, 3, 4, 5])
+print(arr)
+print(type(arr))
+
+# Array operations
+print(arr * 2)      # Multiply all by 2
+print(arr + 10)     # Add 10 to all
+
+# 2D array (matrix)
+matrix = np.array([[1, 2, 3], [4, 5, 6]])
+print(matrix)
+print(matrix.shape)  # (2, 3) - 2 rows, 3 cols
+
+# Useful functions
+print(np.mean(arr))  # Average: 3.0
+print(np.sum(arr))   # Sum: 15
+print(np.max(arr))   # Maximum: 5`}</div>
+                                    <div className="output-block text-xs">{`[1 2 3 4 5]
+<class 'numpy.ndarray'>
+[ 2  4  6  8 10]
+[11 12 13 14 15]
+[[1 2 3]
+ [4 5 6]]
+(2, 3)
+3.0
+15
+5`}</div>
                                 </div>
 
                                 {/* Pandas */}
@@ -188,47 +197,43 @@ print(np.max(arr))   # Maximum: 5
 
                                 <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
                                     <h3 className="font-bold text-blue-800 mb-3">💡 Pandas Example</h3>
-                                    <div className="code-block text-xs mb-2">
-import pandas as pd<br/>
-<br/>
-# Create Series (1D)<br/>
-s = pd.Series([10, 20, 30, 40], index=['a', 'b', 'c', 'd'])<br/>
-print(s)<br/>
-print(s['b'])  # Access by label: 20<br/>
-<br/>
-# Create DataFrame (2D table)<br/>
-data = {`{`}<br/>
-    'Name': ['Alice', 'Bob', 'Charlie'],<br/>
-    'Age': [25, 30, 35],<br/>
-    'City': ['NYC', 'LA', 'SF']<br/>
-{`}`}<br/>
-df = pd.DataFrame(data)<br/>
-print(df)<br/>
-<br/>
-# Access columns<br/>
-print(df['Name'])<br/>
-<br/>
-# Filter rows<br/>
-print(df[df['Age'] {'>'} 28])<br/>
-<br/>
-# Read CSV file<br/>
-# df = pd.read_csv('data.csv')<br/>
-# df.to_csv('output.csv', index=False)
-                                    </div>
-                                    <div className="output-block text-xs">
-a    10<br/>
-b    20<br/>
-c    30<br/>
-d    40<br/>
-20<br/>
-      Name  Age City<br/>
-0    Alice   25  NYC<br/>
-1      Bob   30   LA<br/>
-2  Charlie   35   SF<br/>
-      Name  Age City<br/>
-1      Bob   30   LA<br/>
+                                    <div className="code-block text-xs mb-2">{`import pandas as pd
+
+# Create Series (1D)
+s = pd.Series([10, 20, 30, 40], index=['a', 'b', 'c', 'd'])
+print(s)
+print(s['b'])  # Access by label: 20
+
+# Create DataFrame (2D table)
+data = {
+    'Name': ['Alice', 'Bob', 'Charlie'],
+    'Age': [25, 30, 35],
+    'City': ['NYC', 'LA', 'SF']
+}
+df = pd.DataFrame(data)
+print(df)
+
+# Access columns
+print(df['Name'])
+
+# Filter rows
+print(df[df['Age'] > 28])
+
+# Read CSV file
+# df = pd.read_csv('data.csv')
+# df.to_csv('output.csv', index=False)`}</div>
+                                    <div className="output-block text-xs">{`a    10
+b    20
+c    30
+d    40
+20
+      Name  Age City
+0    Alice   25  NYC
+1      Bob   30   LA
 2  Charlie   35   SF
-                                    </div>
+      Name  Age City
+1      Bob   30   LA
+2  Charlie   35   SF`}</div>
                                 </div>
 
                                 {/* Matplotlib */}
@@ -246,33 +251,31 @@ d    40<br/>
 
                                 <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
                                     <h3 className="font-bold text-blue-800 mb-3">💡 Matplotlib Example</h3>
-                                    <div className="code-block text-xs">
-import matplotlib.pyplot as plt<br/>
-<br/>
-# Data<br/>
-x = [1, 2, 3, 4, 5]<br/>
-y = [2, 4, 6, 8, 10]<br/>
-<br/>
-# Create line plot<br/>
-plt.plot(x, y, marker='o', color='blue', label='Line 1')<br/>
-<br/>
-# Add labels and title<br/>
-plt.xlabel('X-axis')<br/>
-plt.ylabel('Y-axis')<br/>
-plt.title('Simple Line Plot')<br/>
-plt.legend()<br/>
-plt.grid(True)<br/>
-<br/>
-# Display plot<br/>
-plt.show()<br/>
-<br/>
-# Bar chart<br/>
-categories = ['A', 'B', 'C', 'D']<br/>
-values = [10, 25, 15, 30]<br/>
-plt.bar(categories, values, color='green')<br/>
-plt.title('Bar Chart')<br/>
+                                    <div className="code-block text-xs">{`import matplotlib.pyplot as plt
+
+# Data
+x = [1, 2, 3, 4, 5]
+y = [2, 4, 6, 8, 10]
+
+# Create line plot
+plt.plot(x, y, marker='o', color='blue', label='Line 1')
+
+# Add labels and title
+plt.xlabel('X-axis')
+plt.ylabel('Y-axis')
+plt.title('Simple Line Plot')
+plt.legend()
+plt.grid(True)
+
+# Display plot
 plt.show()
-                                    </div>
+
+# Bar chart
+categories = ['A', 'B', 'C', 'D']
+values = [10, 25, 15, 30]
+plt.bar(categories, values, color='green')
+plt.title('Bar Chart')
+plt.show()`}</div>
                                     <p className="text-sm text-gray-700 mt-2 italic">📊 This will open a window showing the graph</p>
                                 </div>
                             </div>
@@ -337,24 +340,22 @@ plt.show()
                                 {/* Hello World Example */}
                                 <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
                                     <h3 className="font-bold text-blue-800 mb-3">💡 Hello World GUI</h3>
-                                    <div className="code-block text-xs">
-import tkinter as tk<br/>
-<br/>
-# Step 1: Create root window<br/>
-root = tk.Tk()<br/>
-<br/>
-# Step 2: Configure window<br/>
-root.title("My First GUI")<br/>
-root.geometry("400x300")  # Width x Height<br/>
-<br/>
-# Step 3: Add a label<br/>
-label = tk.Label(root, text="Hello, World!", <br/>
-                 font=("Arial", 24), fg="blue")<br/>
-label.pack(pady=20)  # Add padding<br/>
-<br/>
-# Step 4: Start event loop<br/>
-root.mainloop()
-                                    </div>
+                                    <div className="code-block text-xs">{`import tkinter as tk
+
+# Step 1: Create root window
+root = tk.Tk()
+
+# Step 2: Configure window
+root.title("My First GUI")
+root.geometry("400x300")  # Width x Height
+
+# Step 3: Add a label
+label = tk.Label(root, text="Hello, World!", 
+                 font=("Arial", 24), fg="blue")
+label.pack(pady=20)  # Add padding
+
+# Step 4: Start event loop
+root.mainloop()`}</div>
                                     <p className="text-sm text-gray-700 mt-2 italic">🪟 This creates a 400x300 window with "Hello, World!" text</p>
                                 </div>
 
@@ -397,25 +398,19 @@ root.mainloop()
                                     <div className="space-y-3">
                                         <div>
                                             <p className="font-semibold text-green-800 mb-2">1. pack() - Simple Stacking</p>
-                                            <div className="code-block text-xs">
-label1.pack(side="top")     # Stack vertically<br/>
-label2.pack(side="left")    # Stack horizontally<br/>
-label3.pack(pady=10)        # Add vertical padding
-                                            </div>
+                                            <div className="code-block text-xs">{`label1.pack(side="top")     # Stack vertically
+label2.pack(side="left")    # Stack horizontally
+label3.pack(pady=10)        # Add vertical padding`}</div>
                                         </div>
                                         <div>
                                             <p className="font-semibold text-green-800 mb-2">2. grid() - Table Layout</p>
-                                            <div className="code-block text-xs">
-label1.grid(row=0, column=0)      # First row, first column<br/>
-label2.grid(row=0, column=1)      # First row, second column<br/>
-button.grid(row=1, column=0, columnspan=2)  # Span 2 columns
-                                            </div>
+                                            <div className="code-block text-xs">{`label1.grid(row=0, column=0)      # First row, first column
+label2.grid(row=0, column=1)      # First row, second column
+button.grid(row=1, column=0, columnspan=2)  # Span 2 columns`}</div>
                                         </div>
                                         <div>
                                             <p className="font-semibold text-green-800 mb-2">3. place() - Absolute Position</p>
-                                            <div className="code-block text-xs">
-label.place(x=50, y=100)   # 50 pixels from left, 100 from top
-                                            </div>
+                                            <div className="code-block text-xs">{`label.place(x=50, y=100)   # 50 pixels from left, 100 from top`}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -459,90 +454,82 @@ label.place(x=50, y=100)   # 50 pixels from left, 100 from top
                                 {/* Label Widget */}
                                 <div className="bg-green-50 border-l-4 border-green-400 p-4 rounded">
                                     <h3 className="font-bold text-green-800 mb-2">📝 Label Widget</h3>
-                                    <div className="code-block text-xs">
-label = tk.Label(root, <br/>
-                 text="Welcome!", <br/>
-                 font=("Arial", 16),<br/>
-                 fg="blue",           # Foreground (text color)<br/>
-                 bg="yellow",         # Background color<br/>
-                 padx=10, pady=5)     # Padding<br/>
-label.pack()
-                                    </div>
+                                    <div className="code-block text-xs">{`label = tk.Label(root, 
+                 text="Welcome!", 
+                 font=("Arial", 16),
+                 fg="blue",           # Foreground (text color)
+                 bg="yellow",         # Background color
+                 padx=10, pady=5)     # Padding
+label.pack()`}</div>
                                 </div>
 
                                 {/* Button Widget */}
                                 <div className="bg-green-50 border-l-4 border-green-400 p-4 rounded">
                                     <h3 className="font-bold text-green-800 mb-2">🔘 Button Widget with Event</h3>
-                                    <div className="code-block text-xs">
-def on_click():<br/>
-    print("Button clicked!")<br/>
-    label.config(text="Button was clicked")<br/>
-<br/>
-button = tk.Button(root, <br/>
-                   text="Click Me",<br/>
-                   command=on_click,    # Function to call<br/>
-                   bg="green",<br/>
-                   fg="white",<br/>
-                   font=("Arial", 12))<br/>
-button.pack(pady=10)
-                                    </div>
+                                    <div className="code-block text-xs">{`def on_click():
+    print("Button clicked!")
+    label.config(text="Button was clicked")
+
+button = tk.Button(root, 
+                   text="Click Me",
+                   command=on_click,    # Function to call
+                   bg="green",
+                   fg="white",
+                   font=("Arial", 12))
+button.pack(pady=10)`}</div>
                                 </div>
 
                                 {/* Entry Widget */}
                                 <div className="bg-green-50 border-l-4 border-green-400 p-4 rounded">
                                     <h3 className="font-bold text-green-800 mb-2">✏️ Entry Widget (Text Input)</h3>
-                                    <div className="code-block text-xs">
-def get_input():<br/>
-    user_text = entry.get()  # Get text from Entry<br/>
-    print(f"You entered: {`{user_text}`}")<br/>
-    label.config(text=user_text)<br/>
-<br/>
-entry = tk.Entry(root, width=30, font=("Arial", 12))<br/>
-entry.pack(pady=5)<br/>
-<br/>
-button = tk.Button(root, text="Submit", command=get_input)<br/>
-button.pack(pady=5)
-                                    </div>
+                                    <div className="code-block text-xs">{`def get_input():
+    user_text = entry.get()  # Get text from Entry
+    print(f"You entered: {user_text}")
+    label.config(text=user_text)
+
+entry = tk.Entry(root, width=30, font=("Arial", 12))
+entry.pack(pady=5)
+
+button = tk.Button(root, text="Submit", command=get_input)
+button.pack(pady=5)`}</div>
                                 </div>
 
                                 {/* Complete Example */}
                                 <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
                                     <h3 className="font-bold text-blue-800 mb-3">💡 Complete Interactive GUI</h3>
-                                    <div className="code-block text-xs">
-import tkinter as tk<br/>
-<br/>
-def greet():<br/>
-    name = name_entry.get()<br/>
-    greeting = f"Hello, {`{name}`}!"<br/>
-    result_label.config(text=greeting)<br/>
-<br/>
-# Create window<br/>
-root = tk.Tk()<br/>
-root.title("Greeting App")<br/>
-root.geometry("400x200")<br/>
-<br/>
-# Title label<br/>
-title = tk.Label(root, text="Enter Your Name:", <br/>
-                 font=("Arial", 14, "bold"))<br/>
-title.pack(pady=10)<br/>
-<br/>
-# Entry field<br/>
-name_entry = tk.Entry(root, width=30, font=("Arial", 12))<br/>
-name_entry.pack(pady=5)<br/>
-<br/>
-# Button<br/>
-greet_btn = tk.Button(root, text="Greet Me!", <br/>
-                      command=greet, bg="blue", <br/>
-                      fg="white", font=("Arial", 12))<br/>
-greet_btn.pack(pady=10)<br/>
-<br/>
-# Result label<br/>
-result_label = tk.Label(root, text="", <br/>
-                        font=("Arial", 14), fg="green")<br/>
-result_label.pack(pady=10)<br/>
-<br/>
-root.mainloop()
-                                    </div>
+                                    <div className="code-block text-xs">{`import tkinter as tk
+
+def greet():
+    name = name_entry.get()
+    greeting = f"Hello, {name}!"
+    result_label.config(text=greeting)
+
+# Create window
+root = tk.Tk()
+root.title("Greeting App")
+root.geometry("400x200")
+
+# Title label
+title = tk.Label(root, text="Enter Your Name:", 
+                 font=("Arial", 14, "bold"))
+title.pack(pady=10)
+
+# Entry field
+name_entry = tk.Entry(root, width=30, font=("Arial", 12))
+name_entry.pack(pady=5)
+
+# Button
+greet_btn = tk.Button(root, text="Greet Me!", 
+                      command=greet, bg="blue", 
+                      fg="white", font=("Arial", 12))
+greet_btn.pack(pady=10)
+
+# Result label
+result_label = tk.Label(root, text="", 
+                        font=("Arial", 14), fg="green")
+result_label.pack(pady=10)
+
+root.mainloop()`}</div>
                                     <p className="text-sm text-gray-700 mt-2 italic">🎯 This creates a name input app that greets the user</p>
                                 </div>
                             </div>
