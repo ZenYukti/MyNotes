@@ -91,58 +91,18 @@
 
         // Syntax Highlighter for Python
         const highlightPython = (code) => {
-            // Keywords
-            const keywords = ['import', 'from', 'as', 'def', 'class', 'return', 'if', 'else', 'elif', 
-                            'for', 'while', 'in', 'break', 'continue', 'pass', 'try', 'except', 
-                            'finally', 'with', 'lambda', 'yield', 'True', 'False', 'None', 'and', 
-                            'or', 'not', 'is', 'raise', 'assert'];
-            
-            // Built-in functions
-            const builtins = ['print', 'len', 'range', 'str', 'int', 'float', 'list', 'dict', 
-                            'set', 'tuple', 'type', 'open', 'input', 'sum', 'max', 'min', 
-                            'sorted', 'enumerate', 'zip', 'map', 'filter'];
-
-            let highlighted = code;
-            
-            // Highlight comments (must be first to avoid conflicts)
-            highlighted = highlighted.replace(/(#.*$)/gm, '<span class="comment">$1</span>');
-            
-            // Highlight strings
-            highlighted = highlighted.replace(/(['"])(?:(?=(\\?))\2.)*?\1/g, '<span class="string">$&</span>');
-            
-            // Highlight keywords
-            keywords.forEach(keyword => {
-                highlighted = highlighted.replace(
-                    new RegExp(`\\b(${keyword})\\b`, 'g'),
-                    '<span class="keyword">$1</span>'
-                );
-            });
-            
-            // Highlight built-in functions
-            builtins.forEach(builtin => {
-                highlighted = highlighted.replace(
-                    new RegExp(`\\b(${builtin})(?=\\s*\\()`, 'g'),
-                    '<span class="builtin">$1</span>'
-                );
-            });
-            
-            // Highlight numbers
-            highlighted = highlighted.replace(/\b(\d+\.?\d*)\b/g, '<span class="number">$1</span>');
-            
-            // Highlight function definitions
-            highlighted = highlighted.replace(/\b(def)\s+(\w+)/g, 
-                '<span class="keyword">$1</span> <span class="function">$2</span>');
-            
-            return highlighted;
+            // Return plain code without highlighting to avoid rendering issues
+            return code.replace(/&/g, '&amp;')
+                      .replace(/</g, '&lt;')
+                      .replace(/>/g, '&gt;');
         };
 
         // Code Block Component with Syntax Highlighting
         const CodeBlock = ({ code, className = "code-block" }) => {
             return (
-                <div 
-                    className={className}
-                    dangerouslySetInnerHTML={{ __html: highlightPython(code) }}
-                />
+                <pre className={className}>
+                    <code>{code}</code>
+                </pre>
             );
         };
 
