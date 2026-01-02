@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Structures: Unit 3 - Searching, Sorting, Hashing</title>
+    
+    <!-- React 18 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel Standalone -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- KaTeX for LaTeX rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    
+    <style>
+        body {
+            background: #f3f4f6;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Icons Components
+        const ChevronDown = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+        );
+
+        const ChevronRight = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+        );
+
+        // Color-coded Box Component
+        const ColorBox = ({ color, title, children }) => {
+            const colors = {
+                yellow: 'bg-yellow-50 border-yellow-400',
+                blue: 'bg-blue-50 border-blue-400',
+                green: 'bg-green-50 border-green-400',
+                purple: 'bg-purple-50 border-purple-400',
+                red: 'bg-red-50 border-red-400'
+            };
+
+            return (
+                <div className={`${colors[color]} border-l-4 p-4 rounded-r-lg mb-4`}>
+                    {title && <h3 className="font-bold text-lg mb-2">{title}</h3>}
+                    <div className="text-gray-800">{children}</div>
+                </div>
+            );
+        };
+
+        // Collapsible Section Component
+        const Section = ({ title, children, defaultOpen = false }) => {
+            const [isOpen, setIsOpen] = useState(defaultOpen);
+
+            return (
+                <div className="bg-white rounded-lg shadow-lg mb-6 overflow-hidden">
+                    <button
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="w-full px-6 py-4 flex items-center justify-between bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 transition-all"
+                    >
+                        <h2 className="text-2xl font-bold">{title}</h2>
+                        {isOpen ? <ChevronDown className="w-6 h-6" /> : <ChevronRight className="w-6 h-6" />}
+                    </button>
+                    {isOpen && (
+                        <div className="p-6">
+                            {children}
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        // Main App Component
+        const App = () => {
+            useEffect(() => {
+                // Render KaTeX math expressions
+                if (window.renderMathInElement) {
+                    renderMathInElement(document.body, {
+                        delimiters: [
+                            {left: '$$', right: '$$', display: true},
+                            {left: '$', right: '$', display: false}
+                        ],
+                        throwOnError: false
+                    });
+                }
+            });
+
+            return (
+                <div className="container mx-auto px-4 py-8 max-w-6xl">
+                    {/* Header */}
+                    <div className="bg-white rounded-lg shadow-xl p-8 mb-8 text-center">
+                        <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-3">
+                            Data Structures: Unit 3
+                        </h1>
+                        <p className="text-2xl text-gray-700 font-semibold">Searching, Sorting, Hashing</p>
+                        <p className="text-gray-600 mt-2">Last-Minute Exam Revision Guide</p>
+                    </div>
+
+                    {/* Searching Section */}
+                    <Section title="Searching Algorithms" defaultOpen={true}>
+                        <ColorBox color="yellow" title="Sequential (Linear) Search">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Definition:</strong> Search element by checking each element sequentially from start to end</li>
+                                <li><strong>Algorithm:</strong> Compare search key with each element until found or end reached</li>
+                                <li><strong>Best Case:</strong> $O(1)$ - element at first position</li>
+                                <li><strong>Worst Case:</strong> $O(n)$ - element at last position or not found</li>
+                                <li><strong>Average Case:</strong> $O(n/2) = O(n)$</li>
+                                <li><strong>Space:</strong> $O(1)$ - no extra space</li>
+                                <li><strong>Use Case:</strong> Unsorted data, small datasets</li>
+                            </ul>
+                        </ColorBox>
+
+                        <ColorBox color="blue" title="Linear Search - Example">
+                            <p className="font-semibold mb-2">Array: [12, 45, 23, 67, 34], Search: 67</p>
+                            <ul className="list-disc list-inside space-y-1">
+                                <li>Step 1: Compare 12 != 67</li>
+                                <li>Step 2: Compare 45 != 67</li>
+                                <li>Step 3: Compare 23 != 67</li>
+                                <li>Step 4: Compare 67 = 67 (Found at index 3)</li>
+                                <li><strong>Comparisons:</strong> 4</li>
+                            </ul>
+                        </ColorBox>
+
+                        <ColorBox color="yellow" title="Binary Search">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Definition:</strong> Divide-and-conquer search on sorted array by repeatedly halving search space</li>
+                                <li><strong>Prerequisite:</strong> Array MUST be sorted</li>
+                                <li><strong>Algorithm:</strong> Compare with middle element, eliminate half based on comparison</li>
+                                <li><strong>All Cases:</strong> $O(\log n)$ - logarithmic time</li>
+                                <li><strong>Space:</strong> $O(1)$ iterative, $O(\log n)$ recursive (stack)</li>
+                                <li><strong>Recurrence:</strong> $T(n) = T(n/2) + c$</li>
+                            </ul>
+                        </ColorBox>
+
+                        <ColorBox color="green" title="Binary Search Complexity Derivation">
+                            <div className="space-y-2">
+                                <p><strong>Mathematical Proof:</strong></p>
+                                <ul className="list-disc list-inside ml-4">
+                                    <li>Each comparison reduces array size by half</li>
+                                    <li>After $k$ comparisons: $n/2^k$ elements remain</li>
+                                    <li>Stop when $n/2^k = 1$</li>
+                                    <li>Therefore: $2^k = n$</li>
+                                    <li>Taking log: $k = \log_2 n$</li>
+                                </ul>
+                                <p className="font-semibold mt-2">Result: $O(\log n)$ comparisons</p>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="blue" title="Binary Search - Dry Run">
+                            <p className="font-semibold mb-2">Array: [2, 5, 8, 12, 16, 23, 38, 45, 56, 67], Search: 23</p>
+                            <ul className="list-disc list-inside space-y-1">
+                                <li>Initial: low=0, high=9, mid=4 (arr[4]=16 &lt; 23)</li>
+                                <li>Step 1: low=5, high=9, mid=7 (arr[7]=45 &gt; 23)</li>
+                                <li>Step 2: low=5, high=6, mid=5 (arr[5]=23 - Found!)</li>
+                                <li><strong>Comparisons:</strong> 3 (vs 6 in linear search)</li>
+                            </ul>
+                        </ColorBox>
+
+                        <ColorBox color="yellow" title="Index Sequential Search">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Definition:</strong> Combination of indexing and sequential search</li>
+                                <li><strong>Structure:</strong> Create index table with key values at intervals</li>
+                                <li><strong>Step 1:</strong> Search index table to find block</li>
+                                <li><strong>Step 2:</strong> Sequential search within identified block</li>
+                                <li><strong>Advantage:</strong> Faster than pure sequential for large datasets</li>
+                                <li><strong>Use Case:</strong> Database indexing, file systems</li>
+                            </ul>
+                        </ColorBox>
+
+                        <ColorBox color="purple" title="Searching - Key Insights">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Binary vs Linear:</strong> Binary is $\log n$ times faster but requires sorted data</li>
+                                <li><strong>When to use Linear:</strong> Unsorted data, small $n$, or single search</li>
+                                <li><strong>When to use Binary:</strong> Sorted data, large $n$, multiple searches</li>
+                                <li><strong>Trade-off:</strong> Sorting cost $O(n \log n)$ + Binary $O(\log n)$ vs Linear $O(n)$</li>
+                            </ul>
+                        </ColorBox>
+                    </Section>
+
+                    {/* Hashing Section */}
+                    <Section title="Hashing">
+                        <ColorBox color="yellow" title="Hashing Fundamentals">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Definition:</strong> Technique to map keys to array indices using hash function</li>
+                                <li><strong>Hash Function:</strong> $h(key) \rightarrow$ index in range [0, m-1]</li>
+                                <li><strong>Ideal Time:</strong> $O(1)$ for insert, delete, search</li>
+                                <li><strong>Load Factor:</strong> $\alpha = n/m$ (n=elements, m=table size)</li>
+                                <li><strong>Collision:</strong> When $h(k_1) = h(k_2)$ for different keys</li>
+                                <li><strong>Goal:</strong> Minimize collisions, uniform distribution</li>
+                            </ul>
+                        </ColorBox>
+
+                        <ColorBox color="yellow" title="Hash Functions">
+                            <div className="space-y-3">
+                                <div>
+                                    <p className="font-bold">1. Division Method:</p>
+                                    <ul className="list-disc list-inside ml-4">
+                                        <li>Formula: $h(key) = key \bmod m$</li>
+                                        <li>Choose $m$ as prime number not close to power of 2</li>
+                                        <li>Simple, fast, most common</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p className="font-bold">2. Mid-Square Method:</p>
+                                    <ul className="list-disc list-inside ml-4">
+                                        <li>Square the key, extract middle digits</li>
+                                        <li>Example: $key=123, 123^2=15129$ - extract 512</li>
+                                        <li>Good distribution, moderate complexity</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p className="font-bold">3. Folding Method:</p>
+                                    <ul className="list-disc list-inside ml-4">
+                                        <li>Divide key into parts, add/XOR them</li>
+                                        <li>Example: $key=12345678, 123+456+78=657$</li>
+                                        <li>Types: Fold-shift, Fold-boundary</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="blue" title="Hash Function Examples">
+                            <div className="space-y-2">
+                                <p className="font-semibold">Division Method (m=10):</p>
+                                <ul className="list-disc list-inside ml-4">
+                                    <li>$h(25) = 25 \bmod 10 = 5$</li>
+                                    <li>$h(37) = 37 \bmod 10 = 7$</li>
+                                    <li>$h(42) = 42 \bmod 10 = 2$</li>
+                                </ul>
+                                <p className="font-semibold mt-3">Mid-Square (key=123):</p>
+                                <ul className="list-disc list-inside ml-4">
+                                    <li>Square: $123^2 = 15129$</li>
+                                    <li>Extract middle 2 digits: $51$</li>
+                                    <li>Hash: $h(123) = 51 \bmod 10 = 1$</li>
+                                </ul>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="yellow" title="Collision Resolution: Open Addressing">
+                            <div className="space-y-3">
+                                <p className="font-bold">All elements stored in hash table itself (no external structure)</p>
+                                
+                                <div>
+                                    <p className="font-bold">1. Linear Probing:</p>
+                                    <ul className="list-disc list-inside ml-4">
+                                        <li>Formula: $h'(key) = (h(key) + i) \bmod m$ where $i=0,1,2,...$</li>
+                                        <li>Search next slot sequentially</li>
+                                        <li><strong>Issue:</strong> Primary clustering - consecutive occupied slots</li>
+                                    </ul>
+                                </div>
+                                
+                                <div>
+                                    <p className="font-bold">2. Quadratic Probing:</p>
+                                    <ul className="list-disc list-inside ml-4">
+                                        <li>Formula: $h'(key) = (h(key) + c_1 i + c_2 i^2) \bmod m$</li>
+                                        <li>Typically: $h'(key) = (h(key) + i^2) \bmod m$</li>
+                                        <li>Reduces primary clustering but causes secondary clustering</li>
+                                    </ul>
+                                </div>
+                                
+                                <div>
+                                    <p className="font-bold">3. Double Hashing:</p>
+                                    <ul className="list-disc list-inside ml-4">
+                                        <li>Formula: $h'(key) = (h_1(key) + i \cdot h_2(key)) \bmod m$</li>
+                                        <li>Uses two hash functions</li>
+                                        <li>Best probing method - minimal clustering</li>
+                                        <li>$h_2(key)$ should never return 0</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="blue" title="Linear Probing - Dry Run">
+                            <div className="space-y-2">
+                                <p className="font-semibold">Insert: 25, 35, 15, 5 into table size 10 using h(key)=key%10</p>
+                                <ul className="list-disc list-inside space-y-1">
+                                    <li>Insert 25: $h(25)=5$ - Table[5]=25</li>
+                                    <li>Insert 35: $h(35)=5$ - Collision! Try (5+1)%10=6 - Table[6]=35</li>
+                                    <li>Insert 15: $h(15)=5$ - Collision! Try 6 (full), Try 7 - Table[7]=15</li>
+                                    <li>Insert 5: $h(5)=5$ - Collision! Try 6,7 (full), Try 8 - Table[8]=5</li>
+                                </ul>
+                                <p className="font-semibold mt-2">Final Table: [_, _, _, _, _, 25, 35, 15, 5, _]</p>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="yellow" title="Collision Resolution: Chaining">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Concept:</strong> Each table slot points to linked list of colliding elements</li>
+                                <li><strong>Structure:</strong> Array of linked lists</li>
+                                <li><strong>Insert:</strong> $O(1)$ - add to front/back of chain</li>
+                                <li><strong>Search:</strong> $O(1+\alpha)$ average, $O(n)$ worst (all in one chain)</li>
+                                <li><strong>Advantage:</strong> Never fills up, simple deletion</li>
+                                <li><strong>Disadvantage:</strong> Extra memory for pointers, cache performance</li>
+                            </ul>
+                        </ColorBox>
+
+                        <ColorBox color="blue" title="Chaining - Example">
+                            <div className="space-y-2">
+                                <p className="font-semibold">Insert: 12, 22, 32, 42 into table size 10 using h(key)=key%10</p>
+                                <ul className="list-disc list-inside space-y-1">
+                                    <li>$h(12)=2$ - Table[2] becomes [12]</li>
+                                    <li>$h(22)=2$ - Table[2] becomes [12 -&gt; 22]</li>
+                                    <li>$h(32)=2$ - Table[2] becomes [12 -&gt; 22 -&gt; 32]</li>
+                                    <li>$h(42)=2$ - Table[2] becomes [12 -&gt; 22 -&gt; 32 -&gt; 42]</li>
+                                </ul>
+                                <p className="font-semibold mt-2">Search 32: Check chain at Table[2], traverse list</p>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="purple" title="Open Addressing vs Chaining">
+                            <div className="grid md:grid-cols-2 gap-4">
+                                <div>
+                                    <p className="font-bold mb-2">Open Addressing:</p>
+                                    <ul className="list-disc list-inside ml-2 space-y-1 text-sm">
+                                        <li>All elements in table (better cache)</li>
+                                        <li>Table can fill up ($\alpha \leq 1$)</li>
+                                        <li>No pointers (less memory)</li>
+                                        <li>Deletion complex (need markers)</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p className="font-bold mb-2">Chaining:</p>
+                                    <ul className="list-disc list-inside ml-2 space-y-1 text-sm">
+                                        <li>External linked lists</li>
+                                        <li>Never fills ($\alpha$ can exceed 1)</li>
+                                        <li>Extra pointer memory</li>
+                                        <li>Simple deletion</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="green" title="Hashing Complexity">
+                            <div className="space-y-2">
+                                <p className="font-bold">Average Case (good hash function):</p>
+                                <ul className="list-disc list-inside ml-4">
+                                    <li>Insert: $O(1)$</li>
+                                    <li>Search: $O(1)$ (chaining: $O(1+\alpha)$)</li>
+                                    <li>Delete: $O(1)$</li>
+                                </ul>
+                                <p className="font-bold mt-2">Worst Case (all collisions):</p>
+                                <ul className="list-disc list-inside ml-4">
+                                    <li>All operations: $O(n)$</li>
+                                    <li>Occurs when poor hash function or high load factor</li>
+                                </ul>
+                            </div>
+                        </ColorBox>
+                    </Section>
+
+                    {/* Sorting Section */}
+                    <Section title="Sorting Algorithms">
+                        <ColorBox color="yellow" title="Bubble Sort">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Logic:</strong> Repeatedly swap adjacent elements if in wrong order</li>
+                                <li><strong>Pass:</strong> After each pass, largest element "bubbles" to end</li>
+                                <li><strong>Best Case:</strong> $O(n)$ - already sorted (with optimization)</li>
+                                <li><strong>Average/Worst:</strong> $O(n^2)$ - nested loops</li>
+                                <li><strong>Space:</strong> $O(1)$ - in-place</li>
+                                <li><strong>Stable:</strong> Yes - maintains relative order of equal elements</li>
+                                <li><strong>Comparisons:</strong> $n(n-1)/2$</li>
+                            </ul>
+                        </ColorBox>
+
+                        <ColorBox color="blue" title="Bubble Sort - Trace">
+                            <div className="space-y-1">
+                                <p className="font-semibold">Array: [5, 2, 9, 1]</p>
+                                <p><strong>Pass 1:</strong> [5,2,9,1] - [2,5,9,1] - [2,5,9,1] - [2,5,1,9]</p>
+                                <p><strong>Pass 2:</strong> [2,5,1,9] - [2,5,1,9] - [2,1,5,9]</p>
+                                <p><strong>Pass 3:</strong> [2,1,5,9] - [1,2,5,9] (Sorted)</p>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="yellow" title="Selection Sort">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Logic:</strong> Find minimum element, swap with first unsorted position</li>
+                                <li><strong>Pass:</strong> Each pass selects minimum from unsorted portion</li>
+                                <li><strong>All Cases:</strong> $O(n^2)$ - always scans remaining array</li>
+                                <li><strong>Space:</strong> $O(1)$ - in-place</li>
+                                <li><strong>Stable:</strong> No (standard implementation)</li>
+                                <li><strong>Swaps:</strong> Maximum $n-1$ (fewer than bubble)</li>
+                            </ul>
+                        </ColorBox>
+
+                        <ColorBox color="blue" title="Selection Sort - Trace">
+                            <div className="space-y-1">
+                                <p className="font-semibold">Array: [5, 2, 9, 1]</p>
+                                <p><strong>Pass 1:</strong> Find min in [5,2,9,1]=1 - [1, 2, 9, 5]</p>
+                                <p><strong>Pass 2:</strong> Find min in [2,9,5]=2 - [1, 2, 9, 5]</p>
+                                <p><strong>Pass 3:</strong> Find min in [9,5]=5 - [1, 2, 5, 9]</p>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="yellow" title="Insertion Sort">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Logic:</strong> Build sorted array by inserting elements one by one at correct position</li>
+                                <li><strong>Analogy:</strong> Like sorting playing cards in hand</li>
+                                <li><strong>Best Case:</strong> $O(n)$ - already sorted</li>
+                                <li><strong>Average/Worst:</strong> $O(n^2)$ - reverse sorted is worst</li>
+                                <li><strong>Space:</strong> $O(1)$ - in-place</li>
+                                <li><strong>Stable:</strong> Yes</li>
+                                <li><strong>Advantage:</strong> Efficient for small/nearly sorted arrays</li>
+                            </ul>
+                        </ColorBox>
+
+                        <ColorBox color="blue" title="Insertion Sort - Trace">
+                            <div className="space-y-1">
+                                <p className="font-semibold">Array: [5, 2, 9, 1]</p>
+                                <p><strong>Pass 1:</strong> Insert 2 - [2, 5, 9, 1]</p>
+                                <p><strong>Pass 2:</strong> Insert 9 (stays) - [2, 5, 9, 1]</p>
+                                <p><strong>Pass 3:</strong> Insert 1 - [1, 2, 5, 9]</p>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="yellow" title="Quick Sort">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Logic:</strong> Divide-and-conquer using pivot partitioning</li>
+                                <li><strong>Steps:</strong> Pick pivot, partition (smaller left, larger right), recurse</li>
+                                <li><strong>Best/Average:</strong> $O(n \log n)$ - balanced partitions</li>
+                                <li><strong>Worst Case:</strong> $O(n^2)$ - already sorted with poor pivot choice</li>
+                                <li><strong>Space:</strong> $O(\log n)$ - recursion stack</li>
+                                <li><strong>Stable:</strong> No</li>
+                                <li><strong>In-place:</strong> Yes</li>
+                                <li><strong>Pivot Choice:</strong> First, last, middle, random, median-of-three</li>
+                            </ul>
+                        </ColorBox>
+
+                        <ColorBox color="blue" title="Quick Sort - Trace">
+                            <div className="space-y-1">
+                                <p className="font-semibold">Array: [5, 2, 9, 1] (pivot = last element)</p>
+                                <p><strong>Initial:</strong> [5,2,9,1] pivot=1</p>
+                                <p><strong>Partition:</strong> [1] | [2,9,5]</p>
+                                <p><strong>Right part:</strong> [2,9,5] pivot=5</p>
+                                <p><strong>Partition:</strong> [2] | [5] | [9]</p>
+                                <p><strong>Final:</strong> [1, 2, 5, 9]</p>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="purple" title="Quick Sort - Pivot Strategy">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Worst Case ($O(n^2)$):</strong> Sorted array + first/last pivot = unbalanced partitions</li>
+                                <li><strong>Best Case ($O(n \log n)$):</strong> Pivot divides array in half each time</li>
+                                <li><strong>Solution:</strong> Randomized pivot or median-of-three avoids worst case</li>
+                                <li><strong>Why Fast:</strong> Good cache locality, in-place, small constants</li>
+                            </ul>
+                        </ColorBox>
+
+                        <ColorBox color="yellow" title="Merge Sort">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Logic:</strong> Divide-and-conquer with merging sorted halves</li>
+                                <li><strong>Steps:</strong> Divide array in half recursively, merge sorted subarrays</li>
+                                <li><strong>All Cases:</strong> $O(n \log n)$ - guaranteed</li>
+                                <li><strong>Space:</strong> $O(n)$ - requires auxiliary array</li>
+                                <li><strong>Stable:</strong> Yes</li>
+                                <li><strong>In-place:</strong> No (standard implementation)</li>
+                                <li><strong>Advantage:</strong> Predictable performance, good for linked lists</li>
+                            </ul>
+                        </ColorBox>
+
+                        <ColorBox color="blue" title="Merge Sort - Trace">
+                            <div className="space-y-1">
+                                <p className="font-semibold">Array: [5, 2, 9, 1]</p>
+                                <p><strong>Divide:</strong> [5,2,9,1] splits to [5,2] and [9,1]</p>
+                                <p><strong>Divide:</strong> [5,2] splits to [5],[2] | [9,1] splits to [9],[1]</p>
+                                <p><strong>Merge:</strong> [5]+[2] = [2,5] | [9]+[1] = [1,9]</p>
+                                <p><strong>Merge:</strong> [2,5]+[1,9] = [1,2,5,9]</p>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="green" title="Merge Sort Complexity">
+                            <div className="space-y-2">
+                                <p><strong>Recurrence:</strong> $T(n) = 2T(n/2) + O(n)$</p>
+                                <ul className="list-disc list-inside ml-4">
+                                    <li>Divide: 2 subproblems of size $n/2$</li>
+                                    <li>Conquer: Merge takes $O(n)$ time</li>
+                                    <li>Height of recursion tree: $\log n$</li>
+                                    <li>Work at each level: $O(n)$</li>
+                                </ul>
+                                <p className="font-semibold">Total: $O(n \log n)$ at all levels</p>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="yellow" title="Heap Sort">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Logic:</strong> Build max-heap, repeatedly extract maximum</li>
+                                <li><strong>Steps:</strong> Heapify array, swap root with last, reduce heap size, re-heapify</li>
+                                <li><strong>All Cases:</strong> $O(n \log n)$</li>
+                                <li><strong>Space:</strong> $O(1)$ - in-place</li>
+                                <li><strong>Stable:</strong> No</li>
+                                <li><strong>Advantage:</strong> No extra space, guaranteed $O(n \log n)$</li>
+                                <li><strong>Build Heap:</strong> $O(n)$, Each extract: $O(\log n)$</li>
+                            </ul>
+                        </ColorBox>
+
+                        <ColorBox color="blue" title="Heap Sort - Concept">
+                            <div className="space-y-1">
+                                <p className="font-semibold">Array: [5, 2, 9, 1]</p>
+                                <p><strong>Build Max-Heap:</strong> [9, 2, 5, 1]</p>
+                                <p><strong>Extract 9:</strong> [5, 2, 1] | 9</p>
+                                <p><strong>Extract 5:</strong> [2, 1] | 5, 9</p>
+                                <p><strong>Extract 2:</strong> [1] | 2, 5, 9</p>
+                                <p><strong>Final:</strong> [1, 2, 5, 9]</p>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="yellow" title="Radix Sort">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Logic:</strong> Non-comparison sort using digit-by-digit sorting</li>
+                                <li><strong>Method:</strong> Sort by least significant digit (LSD) to most significant (MSD)</li>
+                                <li><strong>Uses:</strong> Counting sort or bucket sort as subroutine</li>
+                                <li><strong>Time:</strong> $O(d(n+k))$ where $d$=digits, $k$=range</li>
+                                <li><strong>Space:</strong> $O(n+k)$</li>
+                                <li><strong>Stable:</strong> Yes (requires stable subroutine)</li>
+                                <li><strong>Use Case:</strong> Fixed-length integers, strings</li>
+                            </ul>
+                        </ColorBox>
+
+                        <ColorBox color="blue" title="Radix Sort - Example">
+                            <div className="space-y-1">
+                                <p className="font-semibold">Array: [170, 45, 75, 90, 802, 24, 2, 66]</p>
+                                <p><strong>Sort by 1's place:</strong> [170,90,802,2,24,45,75,66]</p>
+                                <p><strong>Sort by 10's place:</strong> [802,2,24,45,66,170,75,90]</p>
+                                <p><strong>Sort by 100's place:</strong> [2,24,45,66,75,90,170,802]</p>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="green" title="Sorting Algorithms Comparison Matrix">
+                            <div className="overflow-x-auto">
+                                <table className="min-w-full border-collapse border border-green-400 text-sm">
+                                    <thead className="bg-green-200">
+                                        <tr>
+                                            <th className="border border-green-400 px-3 py-2">Algorithm</th>
+                                            <th className="border border-green-400 px-3 py-2">Best</th>
+                                            <th className="border border-green-400 px-3 py-2">Average</th>
+                                            <th className="border border-green-400 px-3 py-2">Worst</th>
+                                            <th className="border border-green-400 px-3 py-2">Space</th>
+                                            <th className="border border-green-400 px-3 py-2">Stable</th>
+                                            <th className="border border-green-400 px-3 py-2">In-place</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td className="border border-green-400 px-3 py-2 font-semibold">Bubble</td>
+                                            <td className="border border-green-400 px-3 py-2">$O(n)$</td>
+                                            <td className="border border-green-400 px-3 py-2">$O(n^2)$</td>
+                                            <td className="border border-green-400 px-3 py-2">$O(n^2)$</td>
+                                            <td className="border border-green-400 px-3 py-2">$O(1)$</td>
+                                            <td className="border border-green-400 px-3 py-2">Yes</td>
+                                            <td className="border border-green-400 px-3 py-2">Yes</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="border border-green-400 px-3 py-2 font-semibold">Selection</td>
+                                            <td className="border border-green-400 px-3 py-2">$O(n^2)$</td>
+                                            <td className="border border-green-400 px-3 py-2">$O(n^2)$</td>
+                                            <td className="border border-green-400 px-3 py-2">$O(n^2)$</td>
+                                            <td className="border border-green-400 px-3 py-2">$O(1)$</td>
+                                            <td className="border border-green-400 px-3 py-2">No</td>
+                                            <td className="border border-green-400 px-3 py-2">Yes</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="border border-green-400 px-3 py-2 font-semibold">Insertion</td>
+                                            <td className="border border-green-400 px-3 py-2">$O(n)$</td>
+                                            <td className="border border-green-400 px-3 py-2">$O(n^2)$</td>
+                                            <td className="border border-green-400 px-3 py-2">$O(n^2)$</td>
+                                            <td className="border border-green-400 px-3 py-2">$O(1)$</td>
+                                            <td className="border border-green-400 px-3 py-2">Yes</td>
+                                            <td className="border border-green-400 px-3 py-2">Yes</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="border border-green-400 px-3 py-2 font-semibold">Quick</td>
+                                            <td className="border border-green-400 px-3 py-2">$O(n \log n)$</td>
+                                            <td className="border border-green-400 px-3 py-2">$O(n \log n)$</td>
+                                            <td className="border border-green-400 px-3 py-2">$O(n^2)$</td>
+                                            <td className="border border-green-400 px-3 py-2">$O(\log n)$</td>
+                                            <td className="border border-green-400 px-3 py-2">No</td>
+                                            <td className="border border-green-400 px-3 py-2">Yes</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="border border-green-400 px-3 py-2 font-semibold">Merge</td>
+                                            <td className="border border-green-400 px-3 py-2">$O(n \log n)$</td>
+                                            <td className="border border-green-400 px-3 py-2">$O(n \log n)$</td>
+                                            <td className="border border-green-400 px-3 py-2">$O(n \log n)$</td>
+                                            <td className="border border-green-400 px-3 py-2">$O(n)$</td>
+                                            <td className="border border-green-400 px-3 py-2">Yes</td>
+                                            <td className="border border-green-400 px-3 py-2">No</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="border border-green-400 px-3 py-2 font-semibold">Heap</td>
+                                            <td className="border border-green-400 px-3 py-2">$O(n \log n)$</td>
+                                            <td className="border border-green-400 px-3 py-2">$O(n \log n)$</td>
+                                            <td className="border border-green-400 px-3 py-2">$O(n \log n)$</td>
+                                            <td className="border border-green-400 px-3 py-2">$O(1)$</td>
+                                            <td className="border border-green-400 px-3 py-2">No</td>
+                                            <td className="border border-green-400 px-3 py-2">Yes</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="border border-green-400 px-3 py-2 font-semibold">Radix</td>
+                                            <td className="border border-green-400 px-3 py-2">$O(d(n+k))$</td>
+                                            <td className="border border-green-400 px-3 py-2">$O(d(n+k))$</td>
+                                            <td className="border border-green-400 px-3 py-2">$O(d(n+k))$</td>
+                                            <td className="border border-green-400 px-3 py-2">$O(n+k)$</td>
+                                            <td className="border border-green-400 px-3 py-2">Yes</td>
+                                            <td className="border border-green-400 px-3 py-2">No</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="purple" title="Sorting - Decision Logic">
+                            <ul className="list-disc list-inside space-y-2">
+                                <li><strong>Small Array (n&lt;50):</strong> Insertion Sort - simple, low overhead</li>
+                                <li><strong>Need Stability:</strong> Merge Sort or Bubble/Insertion</li>
+                                <li><strong>Memory Constrained:</strong> Heap Sort or Quick Sort (in-place)</li>
+                                <li><strong>Guaranteed $O(n \log n)$:</strong> Merge Sort or Heap Sort</li>
+                                <li><strong>Average Case Performance:</strong> Quick Sort (fastest in practice)</li>
+                                <li><strong>Nearly Sorted:</strong> Insertion Sort $O(n)$</li>
+                                <li><strong>Fixed-digit integers:</strong> Radix Sort (non-comparison)</li>
+                            </ul>
+                        </ColorBox>
+                    </Section>
+
+                    {/* Revision Summary */}
+                    <Section title="Exam Revision Summary">
+                        <ColorBox color="red" title="Collision Resolution Cheat Sheet">
+                            <div className="space-y-2">
+                                <p><strong>Open Addressing:</strong> Find next empty slot within table using probing sequence (Linear/Quadratic/Double Hashing)</p>
+                                <p><strong>Chaining:</strong> Store colliding elements in external linked list at each table slot</p>
+                                <p className="font-semibold mt-3">Key Difference: Open addressing keeps everything in table; Chaining uses external storage</p>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="red" title="Quick Sort Worst Case">
+                            <ul className="list-disc list-inside space-y-1">
+                                <li><strong>Occurs when:</strong> Pivot always picks smallest/largest element</li>
+                                <li><strong>Example:</strong> Sorted array [1,2,3,4,5] with last element as pivot</li>
+                                <li><strong>Result:</strong> Unbalanced partitions (one side empty, other has n-1 elements)</li>
+                                <li><strong>Complexity:</strong> $T(n) = T(n-1) + O(n) = O(n^2)$</li>
+                                <li><strong>Solution:</strong> Randomized pivot or median-of-three reduces probability</li>
+                            </ul>
+                        </ColorBox>
+
+                        <ColorBox color="red" title="Common Exam Questions">
+                            <div className="space-y-3">
+                                <div>
+                                    <p className="font-bold">1. Explain Merge Sort (Divide & Conquer):</p>
+                                    <ul className="list-disc list-inside ml-4">
+                                        <li>Recursively divide array into halves until single elements</li>
+                                        <li>Merge sorted subarrays by comparing elements</li>
+                                        <li>$O(n \log n)$ time, $O(n)$ space, stable</li>
+                                    </ul>
+                                </div>
+                                
+                                <div>
+                                    <p className="font-bold">2. Compare Hashing and Searching:</p>
+                                    <ul className="list-disc list-inside ml-4">
+                                        <li>Hashing: $O(1)$ average via direct access using hash function</li>
+                                        <li>Binary Search: $O(\log n)$ on sorted data via comparison</li>
+                                        <li>Hashing faster but requires extra space and hash function</li>
+                                    </ul>
+                                </div>
+                                
+                                <div>
+                                    <p className="font-bold">3. Derive Binary Search Complexity:</p>
+                                    <ul className="list-disc list-inside ml-4">
+                                        <li>Each comparison halves search space</li>
+                                        <li>After $k$ steps: $n/2^k = 1$</li>
+                                        <li>Solving: $k = \log_2 n$ gives $O(\log n)$</li>
+                                    </ul>
+                                </div>
+                                
+                                <div>
+                                    <p className="font-bold">4. Why is Insertion Sort better for nearly sorted data?</p>
+                                    <ul className="list-disc list-inside ml-4">
+                                        <li>Best case $O(n)$ when array already sorted</li>
+                                        <li>Each element requires few comparisons if near position</li>
+                                        <li>Adaptive algorithm - performance improves with order</li>
+                                    </ul>
+                                </div>
+
+                                <div>
+                                    <p className="font-bold">5. When to use Chaining over Open Addressing?</p>
+                                    <ul className="list-disc list-inside ml-4">
+                                        <li>Unknown number of keys (table won't fill)</li>
+                                        <li>Frequent deletions (simpler in chaining)</li>
+                                        <li>Poor hash function (chaining degrades gracefully)</li>
+                                    </ul>
+                                </div>
+
+                                <div>
+                                    <p className="font-bold">6. Compare Quick Sort and Heap Sort:</p>
+                                    <ul className="list-disc list-inside ml-4">
+                                        <li>Quick: Average $O(n \log n)$, Worst $O(n^2)$, better cache</li>
+                                        <li>Heap: Guaranteed $O(n \log n)$, in-place, but slower constants</li>
+                                        <li>Choose Quick for speed, Heap for guaranteed performance</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </ColorBox>
+
+                        <ColorBox color="red" title="Quick Reference - Key Formulas">
+                            <ul className="list-disc list-inside space-y-1">
+                                <li><strong>Binary Search:</strong> $O(\log n)$ comparisons</li>
+                                <li><strong>Hash Load Factor:</strong> $\alpha = n/m$ (n=keys, m=table size)</li>
+                                <li><strong>Linear Probing:</strong> $h'(k) = (h(k) + i) \bmod m$</li>
+                                <li><strong>Quadratic Probing:</strong> $h'(k) = (h(k) + i^2) \bmod m$</li>
+                                <li><strong>Double Hashing:</strong> $h'(k) = (h_1(k) + i \cdot h_2(k)) \bmod m$</li>
+                                <li><strong>Bubble Sort Comparisons:</strong> $n(n-1)/2$</li>
+                                <li><strong>Merge Sort Recurrence:</strong> $T(n) = 2T(n/2) + O(n)$</li>
+                                <li><strong>Quick Sort Best:</strong> $T(n) = 2T(n/2) + O(n) = O(n \log n)$</li>
+                                <li><strong>Quick Sort Worst:</strong> $T(n) = T(n-1) + O(n) = O(n^2)$</li>
+                            </ul>
+                        </ColorBox>
+
+                        <ColorBox color="purple" title="Stability Matters When...">
+                            <ul className="list-disc list-inside space-y-1">
+                                <li>Sorting by multiple keys (sort by name, then by grade - grade order preserved)</li>
+                                <li>Maintaining original order of equal elements is required</li>
+                                <li><strong>Stable Sorts:</strong> Bubble, Insertion, Merge, Radix</li>
+                                <li><strong>Unstable Sorts:</strong> Selection, Quick, Heap</li>
+                            </ul>
+                        </ColorBox>
+                    </Section>
+
+                    {/* Footer */}
+                    <div className="bg-white rounded-lg shadow-lg p-6 mt-8">
+                        <div className="text-center text-gray-600">
+                            <p className="text-sm">Best of luck with your exam!</p>
+                            <p className="text-xs mt-2">Data Structures Unit-3 - Last Minute Revision</p>
+                        </div>
+
+                        {/* ZenYukti Branding */}
+                        <div className="text-center mt-6 pt-4 border-t border-gray-300">
+                            <p className="text-sm text-gray-700 mb-2">
+                                Crafted with love by <span className="font-semibold text-blue-600">ZenYukti</span>
+                            </p>
+                            <p className="text-xs text-gray-500 italic uppercase tracking-widest">Learn. Build. Share.</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Render App
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
