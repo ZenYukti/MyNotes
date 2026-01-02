@@ -136,7 +136,7 @@
                                 <li><strong>Algorithm:</strong> Compare with middle element, eliminate half based on comparison</li>
                                 <li><strong>All Cases:</strong> <span class="math">O(log n)</span> - logarithmic time</li>
                                 <li><strong>Space:</strong> <span class="math">O(1)</span> iterative, <span class="math">O(log n)</span> recursive (stack)</li>
-                                <li><strong>Recurrence:</strong> T<span class="math">n</span> = T<span class="math">n/2</span> + c</li>
+                                <li><strong>Recurrence:</strong> <span class="math">T(n) = T(n/2) + c</span></li>
                             </ul>
                         </ColorBox>
 
@@ -642,7 +642,7 @@
                                 <li><strong>Occurs when:</strong> Pivot always picks smallest/largest element</li>
                                 <li><strong>Example:</strong> Sorted array [1,2,3,4,5] with last element as pivot</li>
                                 <li><strong>Result:</strong> Unbalanced partitions (one side empty, other has n-1 elements)</li>
-                                <li><strong>Complexity:</strong> T<span class="math">n</span> = T(n-1) + <span class="math">O(n)</span> = <span class="math">O(n²)</span></li>
+                                <li><strong>Complexity:</strong> <span class="math">T(n) = T(n-1) + O(n) = O(n²)</span></li>
                                 <li><strong>Solution:</strong> Randomized pivot or median-of-three reduces probability</li>
                             </ul>
                         </ColorBox>
@@ -713,9 +713,9 @@
                                 <li><strong>Quadratic Probing:</strong> h'<span class="math">k</span> = (h<span class="math">k</span> + <span class="math">i²</span>) mod m</li>
                                 <li><strong>Double Hashing:</strong> h'<span class="math">k</span> = (h_1<span class="math">k</span> + i cdot h_2<span class="math">k</span>) mod m</li>
                                 <li><strong>Bubble Sort Comparisons:</strong> n(n-1)/2</li>
-                                <li><strong>Merge Sort Recurrence:</strong> T<span class="math">n</span> = 2T<span class="math">n/2</span> + <span class="math">O(n)</span></li>
-                                <li><strong>Quick Sort Best:</strong> T<span class="math">n</span> = 2T<span class="math">n/2</span> + <span class="math">O(n)</span> = <span class="math">O(n log n)</span></li>
-                                <li><strong>Quick Sort Worst:</strong> T<span class="math">n</span> = T(n-1) + <span class="math">O(n)</span> = <span class="math">O(n²)</span>$</li>
+                                <li><strong>Merge Sort Recurrence:</strong> <span class="math">T(n) = 2T(n/2) + O(n)</span></li>
+                                <li><strong>Quick Sort Best:</strong> <span class="math">T(n) = 2T(n/2) + O(n) = O(n log n)</span></li>
+                                <li><strong>Quick Sort Worst:</strong> <span class="math">T(n) = T(n-1) + O(n) = O(n²)</span></li>
                             </ul>
                         </ColorBox>
 
