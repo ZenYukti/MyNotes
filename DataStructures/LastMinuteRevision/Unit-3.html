@@ -15,16 +15,19 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- KaTeX for LaTeX rendering -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-    
     <style>
         body {
             background: #f3f4f6;
             min-height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .math {
+            font-family: 'Courier New', monospace;
+            background-color: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 500;
+            color: #d63384;
         }
     </style>
 </head>
@@ -58,7 +61,7 @@
             };
 
             return (
-                <div className={`${colors[color]} border-l-4 p-4 rounded-r-lg mb-4`}>
+                <div className={`{colors[color]} border-l-4 p-4 rounded-r-lg mb-4`}>
                     {title && <h3 className="font-bold text-lg mb-2">{title}</h3>}
                     <div className="text-gray-800">{children}</div>
                 </div>
@@ -89,18 +92,6 @@
 
         // Main App Component
         const App = () => {
-            useEffect(() => {
-                // Render KaTeX math expressions
-                if (window.renderMathInElement) {
-                    renderMathInElement(document.body, {
-                        delimiters: [
-                            {left: '$$', right: '$$', display: true},
-                            {left: '$', right: '$', display: false}
-                        ],
-                        throwOnError: false
-                    });
-                }
-            });
 
             return (
                 <div className="container mx-auto px-4 py-8 max-w-6xl">
@@ -119,10 +110,10 @@
                             <ul className="list-disc list-inside space-y-2">
                                 <li><strong>Definition:</strong> Search element by checking each element sequentially from start to end</li>
                                 <li><strong>Algorithm:</strong> Compare search key with each element until found or end reached</li>
-                                <li><strong>Best Case:</strong> $O(1)$ - element at first position</li>
-                                <li><strong>Worst Case:</strong> $O(n)$ - element at last position or not found</li>
-                                <li><strong>Average Case:</strong> $O(n/2) = O(n)$</li>
-                                <li><strong>Space:</strong> $O(1)$ - no extra space</li>
+                                <li><strong>Best Case:</strong> <span class="math">O(1)</span> - element at first position</li>
+                                <li><strong>Worst Case:</strong> <span class="math">O(n)</span> - element at last position or not found</li>
+                                <li><strong>Average Case:</strong> <span class="math">O(n/2)</span> = <span class="math">O(n)</span></li>
+                                <li><strong>Space:</strong> <span class="math">O(1)</span> - no extra space</li>
                                 <li><strong>Use Case:</strong> Unsorted data, small datasets</li>
                             </ul>
                         </ColorBox>
@@ -143,9 +134,9 @@
                                 <li><strong>Definition:</strong> Divide-and-conquer search on sorted array by repeatedly halving search space</li>
                                 <li><strong>Prerequisite:</strong> Array MUST be sorted</li>
                                 <li><strong>Algorithm:</strong> Compare with middle element, eliminate half based on comparison</li>
-                                <li><strong>All Cases:</strong> $O(\log n)$ - logarithmic time</li>
-                                <li><strong>Space:</strong> $O(1)$ iterative, $O(\log n)$ recursive (stack)</li>
-                                <li><strong>Recurrence:</strong> $T(n) = T(n/2) + c$</li>
+                                <li><strong>All Cases:</strong> <span class="math">O(log n)</span> - logarithmic time</li>
+                                <li><strong>Space:</strong> <span class="math">O(1)</span> iterative, <span class="math">O(log n)</span> recursive (stack)</li>
+                                <li><strong>Recurrence:</strong> T<span class="math">n</span> = T<span class="math">n/2</span> + c</li>
                             </ul>
                         </ColorBox>
 
@@ -154,12 +145,12 @@
                                 <p><strong>Mathematical Proof:</strong></p>
                                 <ul className="list-disc list-inside ml-4">
                                     <li>Each comparison reduces array size by half</li>
-                                    <li>After $k$ comparisons: $n/2^k$ elements remain</li>
-                                    <li>Stop when $n/2^k = 1$</li>
-                                    <li>Therefore: $2^k = n$</li>
-                                    <li>Taking log: $k = \log_2 n$</li>
+                                    <li>After k comparisons: <span class="math">n/2^k</span> elements remain</li>
+                                    <li>Stop when <span class="math">n/2^k</span> = 1</li>
+                                    <li>Therefore: <span class="math">2^k</span> = n</li>
+                                    <li>Taking log: k = log₂ n</li>
                                 </ul>
-                                <p className="font-semibold mt-2">Result: $O(\log n)$ comparisons</p>
+                                <p className="font-semibold mt-2">Result: <span class="math">O(log n)</span> comparisons</p>
                             </div>
                         </ColorBox>
 
@@ -186,10 +177,10 @@
 
                         <ColorBox color="purple" title="Searching - Key Insights">
                             <ul className="list-disc list-inside space-y-2">
-                                <li><strong>Binary vs Linear:</strong> Binary is $\log n$ times faster but requires sorted data</li>
-                                <li><strong>When to use Linear:</strong> Unsorted data, small $n$, or single search</li>
-                                <li><strong>When to use Binary:</strong> Sorted data, large $n$, multiple searches</li>
-                                <li><strong>Trade-off:</strong> Sorting cost $O(n \log n)$ + Binary $O(\log n)$ vs Linear $O(n)$</li>
+                                <li><strong>Binary vs Linear:</strong> Binary is <span class="math">log n</span> times faster but requires sorted data</li>
+                                <li><strong>When to use Linear:</strong> Unsorted data, small <span class="math">n</span>, or single search</li>
+                                <li><strong>When to use Binary:</strong> Sorted data, large <span class="math">n</span>, multiple searches</li>
+                                <li><strong>Trade-off:</strong> Sorting cost <span class="math">O(n log n)</span> + Binary <span class="math">O(log n)</span> vs Linear <span class="math">O(n)</span></li>
                             </ul>
                         </ColorBox>
                     </Section>
@@ -199,10 +190,10 @@
                         <ColorBox color="yellow" title="Hashing Fundamentals">
                             <ul className="list-disc list-inside space-y-2">
                                 <li><strong>Definition:</strong> Technique to map keys to array indices using hash function</li>
-                                <li><strong>Hash Function:</strong> $h(key) \rightarrow$ index in range [0, m-1]</li>
-                                <li><strong>Ideal Time:</strong> $O(1)$ for insert, delete, search</li>
-                                <li><strong>Load Factor:</strong> $\alpha = n/m$ (n=elements, m=table size)</li>
-                                <li><strong>Collision:</strong> When $h(k_1) = h(k_2)$ for different keys</li>
+                                <li><strong>Hash Function:</strong> <span class="math">h(key)</span> → index in range [0, m-1]</li>
+                                <li><strong>Ideal Time:</strong> <span class="math">O(1)</span> for insert, delete, search</li>
+                                <li><strong>Load Factor:</strong> <span class="math">α</span> = n/m (<span class="math">n</span>=elements, <span class="math">m</span>=table size)</li>
+                                <li><strong>Collision:</strong> When <span class="math">h(k₁)</span> = <span class="math">h(k₂)</span> for different keys</li>
                                 <li><strong>Goal:</strong> Minimize collisions, uniform distribution</li>
                             </ul>
                         </ColorBox>
@@ -212,8 +203,8 @@
                                 <div>
                                     <p className="font-bold">1. Division Method:</p>
                                     <ul className="list-disc list-inside ml-4">
-                                        <li>Formula: $h(key) = key \bmod m$</li>
-                                        <li>Choose $m$ as prime number not close to power of 2</li>
+                                        <li>Formula: <span class="math">h(key)</span> = <span class="math">key mod m</span></li>
+                                        <li>Choose m as prime number not close to power of 2</li>
                                         <li>Simple, fast, most common</li>
                                     </ul>
                                 </div>
@@ -221,7 +212,7 @@
                                     <p className="font-bold">2. Mid-Square Method:</p>
                                     <ul className="list-disc list-inside ml-4">
                                         <li>Square the key, extract middle digits</li>
-                                        <li>Example: $key=123, 123^2=15129$ - extract 512</li>
+                                        <li>Example: key=123, <span class="math">123²</span>=15129 - extract 512</li>
                                         <li>Good distribution, moderate complexity</li>
                                     </ul>
                                 </div>
@@ -229,7 +220,7 @@
                                     <p className="font-bold">3. Folding Method:</p>
                                     <ul className="list-disc list-inside ml-4">
                                         <li>Divide key into parts, add/XOR them</li>
-                                        <li>Example: $key=12345678, 123+456+78=657$</li>
+                                        <li>Example: key=12345678, 123+456+78=657</li>
                                         <li>Types: Fold-shift, Fold-boundary</li>
                                     </ul>
                                 </div>
@@ -240,15 +231,15 @@
                             <div className="space-y-2">
                                 <p className="font-semibold">Division Method (m=10):</p>
                                 <ul className="list-disc list-inside ml-4">
-                                    <li>$h(25) = 25 \bmod 10 = 5$</li>
-                                    <li>$h(37) = 37 \bmod 10 = 7$</li>
-                                    <li>$h(42) = 42 \bmod 10 = 2$</li>
+                                    <li><span class="math">h(25)</span> = <span class="math">25 mod 10 = 5</span></li>
+                                    <li><span class="math">h(37)</span> = <span class="math">37 mod 10 = 7</span></li>
+                                    <li><span class="math">h(42)</span> = <span class="math">42 mod 10 = 2</span></li>
                                 </ul>
                                 <p className="font-semibold mt-3">Mid-Square (key=123):</p>
                                 <ul className="list-disc list-inside ml-4">
-                                    <li>Square: $123^2 = 15129$</li>
-                                    <li>Extract middle 2 digits: $51$</li>
-                                    <li>Hash: $h(123) = 51 \bmod 10 = 1$</li>
+                                    <li>Square: <span class="math">123²</span> = 15129</li>
+                                    <li>Extract middle 2 digits: 51</li>
+                                    <li>Hash: <span class="math">h(123)</span> = <span class="math">51 mod 10 = 1</span></li>
                                 </ul>
                             </div>
                         </ColorBox>
@@ -260,7 +251,7 @@
                                 <div>
                                     <p className="font-bold">1. Linear Probing:</p>
                                     <ul className="list-disc list-inside ml-4">
-                                        <li>Formula: $h'(key) = (h(key) + i) \bmod m$ where $i=0,1,2,...$</li>
+                                        <li>Formula: <span class="math">h\'(key)</span> = (<span class="math">h(key)</span> + i) mod m where i=0,1,2,...</li>
                                         <li>Search next slot sequentially</li>
                                         <li><strong>Issue:</strong> Primary clustering - consecutive occupied slots</li>
                                     </ul>
@@ -269,8 +260,8 @@
                                 <div>
                                     <p className="font-bold">2. Quadratic Probing:</p>
                                     <ul className="list-disc list-inside ml-4">
-                                        <li>Formula: $h'(key) = (h(key) + c_1 i + c_2 i^2) \bmod m$</li>
-                                        <li>Typically: $h'(key) = (h(key) + i^2) \bmod m$</li>
+                                        <li>Formula: <span class="math">h\'(key)</span> = (<span class="math">h(key)</span> + c_1 i + c_2 <span class="math">i²</span>) mod m</li>
+                                        <li>Typically: <span class="math">h\'(key)</span> = (<span class="math">h(key)</span> + <span class="math">i²</span>) mod m</li>
                                         <li>Reduces primary clustering but causes secondary clustering</li>
                                     </ul>
                                 </div>
@@ -278,10 +269,10 @@
                                 <div>
                                     <p className="font-bold">3. Double Hashing:</p>
                                     <ul className="list-disc list-inside ml-4">
-                                        <li>Formula: $h'(key) = (h_1(key) + i \cdot h_2(key)) \bmod m$</li>
+                                        <li>Formula: <span class="math">h\'(key)</span> = (h_1(key) + i cdot h_2(key)) mod m</li>
                                         <li>Uses two hash functions</li>
                                         <li>Best probing method - minimal clustering</li>
-                                        <li>$h_2(key)$ should never return 0</li>
+                                        <li>h_2(key) should never return 0</li>
                                     </ul>
                                 </div>
                             </div>
@@ -289,12 +280,12 @@
 
                         <ColorBox color="blue" title="Linear Probing - Dry Run">
                             <div className="space-y-2">
-                                <p className="font-semibold">Insert: 25, 35, 15, 5 into table size 10 using h(key)=key%10</p>
+                                <p className="font-semibold">Insert: 25, 35, 15, 5 into table size 10 using <span class="math">h(key)</span>=key%10</p>
                                 <ul className="list-disc list-inside space-y-1">
-                                    <li>Insert 25: $h(25)=5$ - Table[5]=25</li>
-                                    <li>Insert 35: $h(35)=5$ - Collision! Try (5+1)%10=6 - Table[6]=35</li>
-                                    <li>Insert 15: $h(15)=5$ - Collision! Try 6 (full), Try 7 - Table[7]=15</li>
-                                    <li>Insert 5: $h(5)=5$ - Collision! Try 6,7 (full), Try 8 - Table[8]=5</li>
+                                    <li>Insert 25: <span class="math">h(25)</span>=5 - Table[5]=25</li>
+                                    <li>Insert 35: <span class="math">h(35)</span>=5 - Collision! Try (5+1)%10=6 - Table[6]=35</li>
+                                    <li>Insert 15: <span class="math">h(15)</span>=5 - Collision! Try 6 (full), Try 7 - Table[7]=15</li>
+                                    <li>Insert 5: <span class="math">h(5)</span>=5 - Collision! Try 6,7 (full), Try 8 - Table[8]=5</li>
                                 </ul>
                                 <p className="font-semibold mt-2">Final Table: [_, _, _, _, _, 25, 35, 15, 5, _]</p>
                             </div>
@@ -304,8 +295,8 @@
                             <ul className="list-disc list-inside space-y-2">
                                 <li><strong>Concept:</strong> Each table slot points to linked list of colliding elements</li>
                                 <li><strong>Structure:</strong> Array of linked lists</li>
-                                <li><strong>Insert:</strong> $O(1)$ - add to front/back of chain</li>
-                                <li><strong>Search:</strong> $O(1+\alpha)$ average, $O(n)$ worst (all in one chain)</li>
+                                <li><strong>Insert:</strong> <span class="math">O(1)</span> - add to front/back of chain</li>
+                                <li><strong>Search:</strong> <span class="math">O(1+α)</span> average, <span class="math">O(n)</span> worst (all in one chain)</li>
                                 <li><strong>Advantage:</strong> Never fills up, simple deletion</li>
                                 <li><strong>Disadvantage:</strong> Extra memory for pointers, cache performance</li>
                             </ul>
@@ -313,12 +304,12 @@
 
                         <ColorBox color="blue" title="Chaining - Example">
                             <div className="space-y-2">
-                                <p className="font-semibold">Insert: 12, 22, 32, 42 into table size 10 using h(key)=key%10</p>
+                                <p className="font-semibold">Insert: 12, 22, 32, 42 into table size 10 using <span class="math">h(key)</span>=key%10</p>
                                 <ul className="list-disc list-inside space-y-1">
-                                    <li>$h(12)=2$ - Table[2] becomes [12]</li>
-                                    <li>$h(22)=2$ - Table[2] becomes [12 -&gt; 22]</li>
-                                    <li>$h(32)=2$ - Table[2] becomes [12 -&gt; 22 -&gt; 32]</li>
-                                    <li>$h(42)=2$ - Table[2] becomes [12 -&gt; 22 -&gt; 32 -&gt; 42]</li>
+                                    <li><span class="math">h(12)</span>=2 - Table[2] becomes [12]</li>
+                                    <li><span class="math">h(22)</span>=2 - Table[2] becomes [12 -&gt; 22]</li>
+                                    <li><span class="math">h(32)</span>=2 - Table[2] becomes [12 -&gt; 22 -&gt; 32]</li>
+                                    <li><span class="math">h(42)</span>=2 - Table[2] becomes [12 -&gt; 22 -&gt; 32 -&gt; 42]</li>
                                 </ul>
                                 <p className="font-semibold mt-2">Search 32: Check chain at Table[2], traverse list</p>
                             </div>
@@ -330,7 +321,7 @@
                                     <p className="font-bold mb-2">Open Addressing:</p>
                                     <ul className="list-disc list-inside ml-2 space-y-1 text-sm">
                                         <li>All elements in table (better cache)</li>
-                                        <li>Table can fill up ($\alpha \leq 1$)</li>
+                                        <li>Table can fill up (<span class="math">α</span> ≤ 1)</li>
                                         <li>No pointers (less memory)</li>
                                         <li>Deletion complex (need markers)</li>
                                     </ul>
@@ -339,7 +330,7 @@
                                     <p className="font-bold mb-2">Chaining:</p>
                                     <ul className="list-disc list-inside ml-2 space-y-1 text-sm">
                                         <li>External linked lists</li>
-                                        <li>Never fills ($\alpha$ can exceed 1)</li>
+                                        <li>Never fills (<span class="math">α</span> can exceed 1)</li>
                                         <li>Extra pointer memory</li>
                                         <li>Simple deletion</li>
                                     </ul>
@@ -351,13 +342,13 @@
                             <div className="space-y-2">
                                 <p className="font-bold">Average Case (good hash function):</p>
                                 <ul className="list-disc list-inside ml-4">
-                                    <li>Insert: $O(1)$</li>
-                                    <li>Search: $O(1)$ (chaining: $O(1+\alpha)$)</li>
-                                    <li>Delete: $O(1)$</li>
+                                    <li>Insert: <span class="math">O(1)</span></li>
+                                    <li>Search: <span class="math">O(1)</span> (chaining: <span class="math">O(1+α)</span></li>
+                                    <li>Delete: <span class="math">O(1)</span></li>
                                 </ul>
                                 <p className="font-bold mt-2">Worst Case (all collisions):</p>
                                 <ul className="list-disc list-inside ml-4">
-                                    <li>All operations: $O(n)$</li>
+                                    <li>All operations: <span class="math">O(n)</span></li>
                                     <li>Occurs when poor hash function or high load factor</li>
                                 </ul>
                             </div>
@@ -370,11 +361,11 @@
                             <ul className="list-disc list-inside space-y-2">
                                 <li><strong>Logic:</strong> Repeatedly swap adjacent elements if in wrong order</li>
                                 <li><strong>Pass:</strong> After each pass, largest element "bubbles" to end</li>
-                                <li><strong>Best Case:</strong> $O(n)$ - already sorted (with optimization)</li>
-                                <li><strong>Average/Worst:</strong> $O(n^2)$ - nested loops</li>
-                                <li><strong>Space:</strong> $O(1)$ - in-place</li>
+                                <li><strong>Best Case:</strong> <span class="math">O(n)</span> - already sorted (with optimization)</li>
+                                <li><strong>Average/Worst:</strong> <span class="math">O(n²)</span> - nested loops</li>
+                                <li><strong>Space:</strong> <span class="math">O(1)</span> - in-place</li>
                                 <li><strong>Stable:</strong> Yes - maintains relative order of equal elements</li>
-                                <li><strong>Comparisons:</strong> $n(n-1)/2$</li>
+                                <li><strong>Comparisons:</strong> n(n-1)/2</li>
                             </ul>
                         </ColorBox>
 
@@ -391,10 +382,10 @@
                             <ul className="list-disc list-inside space-y-2">
                                 <li><strong>Logic:</strong> Find minimum element, swap with first unsorted position</li>
                                 <li><strong>Pass:</strong> Each pass selects minimum from unsorted portion</li>
-                                <li><strong>All Cases:</strong> $O(n^2)$ - always scans remaining array</li>
-                                <li><strong>Space:</strong> $O(1)$ - in-place</li>
+                                <li><strong>All Cases:</strong> <span class="math">O(n²)</span> - always scans remaining array</li>
+                                <li><strong>Space:</strong> <span class="math">O(1)</span> - in-place</li>
                                 <li><strong>Stable:</strong> No (standard implementation)</li>
-                                <li><strong>Swaps:</strong> Maximum $n-1$ (fewer than bubble)</li>
+                                <li><strong>Swaps:</strong> Maximum n-1 (fewer than bubble)</li>
                             </ul>
                         </ColorBox>
 
@@ -411,9 +402,9 @@
                             <ul className="list-disc list-inside space-y-2">
                                 <li><strong>Logic:</strong> Build sorted array by inserting elements one by one at correct position</li>
                                 <li><strong>Analogy:</strong> Like sorting playing cards in hand</li>
-                                <li><strong>Best Case:</strong> $O(n)$ - already sorted</li>
-                                <li><strong>Average/Worst:</strong> $O(n^2)$ - reverse sorted is worst</li>
-                                <li><strong>Space:</strong> $O(1)$ - in-place</li>
+                                <li><strong>Best Case:</strong> <span class="math">O(n)</span> - already sorted</li>
+                                <li><strong>Average/Worst:</strong> <span class="math">O(n²)</span> - reverse sorted is worst</li>
+                                <li><strong>Space:</strong> <span class="math">O(1)</span> - in-place</li>
                                 <li><strong>Stable:</strong> Yes</li>
                                 <li><strong>Advantage:</strong> Efficient for small/nearly sorted arrays</li>
                             </ul>
@@ -432,9 +423,9 @@
                             <ul className="list-disc list-inside space-y-2">
                                 <li><strong>Logic:</strong> Divide-and-conquer using pivot partitioning</li>
                                 <li><strong>Steps:</strong> Pick pivot, partition (smaller left, larger right), recurse</li>
-                                <li><strong>Best/Average:</strong> $O(n \log n)$ - balanced partitions</li>
-                                <li><strong>Worst Case:</strong> $O(n^2)$ - already sorted with poor pivot choice</li>
-                                <li><strong>Space:</strong> $O(\log n)$ - recursion stack</li>
+                                <li><strong>Best/Average:</strong> <span class="math">O(n log n)</span> - balanced partitions</li>
+                                <li><strong>Worst Case:</strong> <span class="math">O(n²)</span> - already sorted with poor pivot choice</li>
+                                <li><strong>Space:</strong> <span class="math">O(log n)</span> - recursion stack</li>
                                 <li><strong>Stable:</strong> No</li>
                                 <li><strong>In-place:</strong> Yes</li>
                                 <li><strong>Pivot Choice:</strong> First, last, middle, random, median-of-three</li>
@@ -454,8 +445,8 @@
 
                         <ColorBox color="purple" title="Quick Sort - Pivot Strategy">
                             <ul className="list-disc list-inside space-y-2">
-                                <li><strong>Worst Case ($O(n^2)$):</strong> Sorted array + first/last pivot = unbalanced partitions</li>
-                                <li><strong>Best Case ($O(n \log n)$):</strong> Pivot divides array in half each time</li>
+                                <li><strong>Worst Case (<span class="math">O(n²)</span>:</strong> Sorted array + first/last pivot = unbalanced partitions</li>
+                                <li><strong>Best Case (<span class="math">O(n log n)</span>):</strong> Pivot divides array in half each time</li>
                                 <li><strong>Solution:</strong> Randomized pivot or median-of-three avoids worst case</li>
                                 <li><strong>Why Fast:</strong> Good cache locality, in-place, small constants</li>
                             </ul>
@@ -465,8 +456,8 @@
                             <ul className="list-disc list-inside space-y-2">
                                 <li><strong>Logic:</strong> Divide-and-conquer with merging sorted halves</li>
                                 <li><strong>Steps:</strong> Divide array in half recursively, merge sorted subarrays</li>
-                                <li><strong>All Cases:</strong> $O(n \log n)$ - guaranteed</li>
-                                <li><strong>Space:</strong> $O(n)$ - requires auxiliary array</li>
+                                <li><strong>All Cases:</strong> <span class="math">O(n log n)</span> - guaranteed</li>
+                                <li><strong>Space:</strong> <span class="math">O(n)</span> - requires auxiliary array</li>
                                 <li><strong>Stable:</strong> Yes</li>
                                 <li><strong>In-place:</strong> No (standard implementation)</li>
                                 <li><strong>Advantage:</strong> Predictable performance, good for linked lists</li>
@@ -485,14 +476,14 @@
 
                         <ColorBox color="green" title="Merge Sort Complexity">
                             <div className="space-y-2">
-                                <p><strong>Recurrence:</strong> $T(n) = 2T(n/2) + O(n)$</p>
+                                <p><strong>Recurrence:</strong> T<span class="math">n</span> = 2T<span class="math">n/2</span> + <span class="math">O(n)</span></p>
                                 <ul className="list-disc list-inside ml-4">
-                                    <li>Divide: 2 subproblems of size $n/2$</li>
-                                    <li>Conquer: Merge takes $O(n)$ time</li>
-                                    <li>Height of recursion tree: $\log n$</li>
-                                    <li>Work at each level: $O(n)$</li>
+                                    <li>Divide: 2 subproblems of size n/2</li>
+                                    <li>Conquer: Merge takes <span class="math">O(n)</span> time</li>
+                                    <li>Height of recursion tree: <span class="math">log n</span></li>
+                                    <li>Work at each level: <span class="math">O(n)</span></li>
                                 </ul>
-                                <p className="font-semibold">Total: $O(n \log n)$ at all levels</p>
+                                <p className="font-semibold">Total: <span class="math">O(n log n)</span> at all levels</p>
                             </div>
                         </ColorBox>
 
@@ -500,11 +491,11 @@
                             <ul className="list-disc list-inside space-y-2">
                                 <li><strong>Logic:</strong> Build max-heap, repeatedly extract maximum</li>
                                 <li><strong>Steps:</strong> Heapify array, swap root with last, reduce heap size, re-heapify</li>
-                                <li><strong>All Cases:</strong> $O(n \log n)$</li>
-                                <li><strong>Space:</strong> $O(1)$ - in-place</li>
+                                <li><strong>All Cases:</strong> <span class="math">O(n log n)</span></li>
+                                <li><strong>Space:</strong> <span class="math">O(1)</span> - in-place</li>
                                 <li><strong>Stable:</strong> No</li>
-                                <li><strong>Advantage:</strong> No extra space, guaranteed $O(n \log n)$</li>
-                                <li><strong>Build Heap:</strong> $O(n)$, Each extract: $O(\log n)$</li>
+                                <li><strong>Advantage:</strong> No extra space, guaranteed <span class="math">O(n log n)</span></li>
+                                <li><strong>Build Heap:</strong> <span class="math">O(n)</span>, Each extract: <span class="math">O(log n)</span></li>
                             </ul>
                         </ColorBox>
 
@@ -524,8 +515,8 @@
                                 <li><strong>Logic:</strong> Non-comparison sort using digit-by-digit sorting</li>
                                 <li><strong>Method:</strong> Sort by least significant digit (LSD) to most significant (MSD)</li>
                                 <li><strong>Uses:</strong> Counting sort or bucket sort as subroutine</li>
-                                <li><strong>Time:</strong> $O(d(n+k))$ where $d$=digits, $k$=range</li>
-                                <li><strong>Space:</strong> $O(n+k)$</li>
+                                <li><strong>Time:</strong> <span class="math">O(d(n+k))</span> where <span class="math">d</span>=digits, <span class="math">k</span>=range</li>
+                                <li><strong>Space:</strong> <span class="math">O(n+k)</span></li>
                                 <li><strong>Stable:</strong> Yes (requires stable subroutine)</li>
                                 <li><strong>Use Case:</strong> Fixed-length integers, strings</li>
                             </ul>
@@ -557,64 +548,64 @@
                                     <tbody>
                                         <tr>
                                             <td className="border border-green-400 px-3 py-2 font-semibold">Bubble</td>
-                                            <td className="border border-green-400 px-3 py-2">$O(n)$</td>
-                                            <td className="border border-green-400 px-3 py-2">$O(n^2)$</td>
-                                            <td className="border border-green-400 px-3 py-2">$O(n^2)$</td>
-                                            <td className="border border-green-400 px-3 py-2">$O(1)$</td>
+                                            <td className="border border-green-400 px-3 py-2"><span class="math">O(n)</span></td>
+                                            <td className="border border-green-400 px-3 py-2"><span class="math">O(n²)</span></td>
+                                            <td className="border border-green-400 px-3 py-2"><span class="math">O(n²)</span></td>
+                                            <td className="border border-green-400 px-3 py-2"><span class="math">O(1)</span></td>
                                             <td className="border border-green-400 px-3 py-2">Yes</td>
                                             <td className="border border-green-400 px-3 py-2">Yes</td>
                                         </tr>
                                         <tr>
                                             <td className="border border-green-400 px-3 py-2 font-semibold">Selection</td>
-                                            <td className="border border-green-400 px-3 py-2">$O(n^2)$</td>
-                                            <td className="border border-green-400 px-3 py-2">$O(n^2)$</td>
-                                            <td className="border border-green-400 px-3 py-2">$O(n^2)$</td>
-                                            <td className="border border-green-400 px-3 py-2">$O(1)$</td>
+                                            <td className="border border-green-400 px-3 py-2"><span class="math">O(n²)</span></td>
+                                            <td className="border border-green-400 px-3 py-2"><span class="math">O(n²)</span></td>
+                                            <td className="border border-green-400 px-3 py-2"><span class="math">O(n²)</span></td>
+                                            <td className="border border-green-400 px-3 py-2"><span class="math">O(1)</span></td>
                                             <td className="border border-green-400 px-3 py-2">No</td>
                                             <td className="border border-green-400 px-3 py-2">Yes</td>
                                         </tr>
                                         <tr>
                                             <td className="border border-green-400 px-3 py-2 font-semibold">Insertion</td>
-                                            <td className="border border-green-400 px-3 py-2">$O(n)$</td>
-                                            <td className="border border-green-400 px-3 py-2">$O(n^2)$</td>
-                                            <td className="border border-green-400 px-3 py-2">$O(n^2)$</td>
-                                            <td className="border border-green-400 px-3 py-2">$O(1)$</td>
+                                            <td className="border border-green-400 px-3 py-2"><span class="math">O(n)</span></td>
+                                            <td className="border border-green-400 px-3 py-2"><span class="math">O(n²)</span></td>
+                                            <td className="border border-green-400 px-3 py-2"><span class="math">O(n²)</span></td>
+                                            <td className="border border-green-400 px-3 py-2"><span class="math">O(1)</span></td>
                                             <td className="border border-green-400 px-3 py-2">Yes</td>
                                             <td className="border border-green-400 px-3 py-2">Yes</td>
                                         </tr>
                                         <tr>
                                             <td className="border border-green-400 px-3 py-2 font-semibold">Quick</td>
-                                            <td className="border border-green-400 px-3 py-2">$O(n \log n)$</td>
-                                            <td className="border border-green-400 px-3 py-2">$O(n \log n)$</td>
-                                            <td className="border border-green-400 px-3 py-2">$O(n^2)$</td>
-                                            <td className="border border-green-400 px-3 py-2">$O(\log n)$</td>
+                                            <td className="border border-green-400 px-3 py-2"><span class="math">O(n log n)</span></td>
+                                            <td className="border border-green-400 px-3 py-2"><span class="math">O(n log n)</span></td>
+                                            <td className="border border-green-400 px-3 py-2"><span class="math">O(n²)</span></td>
+                                            <td className="border border-green-400 px-3 py-2"><span class="math">O(log n)</span></td>
                                             <td className="border border-green-400 px-3 py-2">No</td>
                                             <td className="border border-green-400 px-3 py-2">Yes</td>
                                         </tr>
                                         <tr>
                                             <td className="border border-green-400 px-3 py-2 font-semibold">Merge</td>
-                                            <td className="border border-green-400 px-3 py-2">$O(n \log n)$</td>
-                                            <td className="border border-green-400 px-3 py-2">$O(n \log n)$</td>
-                                            <td className="border border-green-400 px-3 py-2">$O(n \log n)$</td>
-                                            <td className="border border-green-400 px-3 py-2">$O(n)$</td>
+                                            <td className="border border-green-400 px-3 py-2"><span class="math">O(n log n)</span></td>
+                                            <td className="border border-green-400 px-3 py-2"><span class="math">O(n log n)</span></td>
+                                            <td className="border border-green-400 px-3 py-2"><span class="math">O(n log n)</span></td>
+                                            <td className="border border-green-400 px-3 py-2"><span class="math">O(n)</span></td>
                                             <td className="border border-green-400 px-3 py-2">Yes</td>
                                             <td className="border border-green-400 px-3 py-2">No</td>
                                         </tr>
                                         <tr>
                                             <td className="border border-green-400 px-3 py-2 font-semibold">Heap</td>
-                                            <td className="border border-green-400 px-3 py-2">$O(n \log n)$</td>
-                                            <td className="border border-green-400 px-3 py-2">$O(n \log n)$</td>
-                                            <td className="border border-green-400 px-3 py-2">$O(n \log n)$</td>
-                                            <td className="border border-green-400 px-3 py-2">$O(1)$</td>
+                                            <td className="border border-green-400 px-3 py-2"><span class="math">O(n log n)</span></td>
+                                            <td className="border border-green-400 px-3 py-2"><span class="math">O(n log n)</span></td>
+                                            <td className="border border-green-400 px-3 py-2"><span class="math">O(n log n)</span></td>
+                                            <td className="border border-green-400 px-3 py-2"><span class="math">O(1)</span></td>
                                             <td className="border border-green-400 px-3 py-2">No</td>
                                             <td className="border border-green-400 px-3 py-2">Yes</td>
                                         </tr>
                                         <tr>
                                             <td className="border border-green-400 px-3 py-2 font-semibold">Radix</td>
-                                            <td className="border border-green-400 px-3 py-2">$O(d(n+k))$</td>
-                                            <td className="border border-green-400 px-3 py-2">$O(d(n+k))$</td>
-                                            <td className="border border-green-400 px-3 py-2">$O(d(n+k))$</td>
-                                            <td className="border border-green-400 px-3 py-2">$O(n+k)$</td>
+                                            <td className="border border-green-400 px-3 py-2"><span class="math">O(d(n+k))</span></td>
+                                            <td className="border border-green-400 px-3 py-2"><span class="math">O(d(n+k))</span></td>
+                                            <td className="border border-green-400 px-3 py-2"><span class="math">O(d(n+k))</span></td>
+                                            <td className="border border-green-400 px-3 py-2"><span class="math">O(n+k)</span></td>
                                             <td className="border border-green-400 px-3 py-2">Yes</td>
                                             <td className="border border-green-400 px-3 py-2">No</td>
                                         </tr>
@@ -628,9 +619,9 @@
                                 <li><strong>Small Array (n&lt;50):</strong> Insertion Sort - simple, low overhead</li>
                                 <li><strong>Need Stability:</strong> Merge Sort or Bubble/Insertion</li>
                                 <li><strong>Memory Constrained:</strong> Heap Sort or Quick Sort (in-place)</li>
-                                <li><strong>Guaranteed $O(n \log n)$:</strong> Merge Sort or Heap Sort</li>
+                                <li><strong>Guaranteed <span class="math">O(n log n)</span>:</strong> Merge Sort or Heap Sort</li>
                                 <li><strong>Average Case Performance:</strong> Quick Sort (fastest in practice)</li>
-                                <li><strong>Nearly Sorted:</strong> Insertion Sort $O(n)$</li>
+                                <li><strong>Nearly Sorted:</strong> Insertion Sort <span class="math">O(n)</span></li>
                                 <li><strong>Fixed-digit integers:</strong> Radix Sort (non-comparison)</li>
                             </ul>
                         </ColorBox>
@@ -651,7 +642,7 @@
                                 <li><strong>Occurs when:</strong> Pivot always picks smallest/largest element</li>
                                 <li><strong>Example:</strong> Sorted array [1,2,3,4,5] with last element as pivot</li>
                                 <li><strong>Result:</strong> Unbalanced partitions (one side empty, other has n-1 elements)</li>
-                                <li><strong>Complexity:</strong> $T(n) = T(n-1) + O(n) = O(n^2)$</li>
+                                <li><strong>Complexity:</strong> T<span class="math">n</span> = T(n-1) + <span class="math">O(n)</span> = <span class="math">O(n²)</span></li>
                                 <li><strong>Solution:</strong> Randomized pivot or median-of-three reduces probability</li>
                             </ul>
                         </ColorBox>
@@ -663,15 +654,15 @@
                                     <ul className="list-disc list-inside ml-4">
                                         <li>Recursively divide array into halves until single elements</li>
                                         <li>Merge sorted subarrays by comparing elements</li>
-                                        <li>$O(n \log n)$ time, $O(n)$ space, stable</li>
+                                        <li><span class="math">O(n log n)</span> time, <span class="math">O(n)</span> space, stable</li>
                                     </ul>
                                 </div>
                                 
                                 <div>
                                     <p className="font-bold">2. Compare Hashing and Searching:</p>
                                     <ul className="list-disc list-inside ml-4">
-                                        <li>Hashing: $O(1)$ average via direct access using hash function</li>
-                                        <li>Binary Search: $O(\log n)$ on sorted data via comparison</li>
+                                        <li>Hashing: <span class="math">O(1)</span> average via direct access using hash function</li>
+                                        <li>Binary Search: <span class="math">O(log n)</span> on sorted data via comparison</li>
                                         <li>Hashing faster but requires extra space and hash function</li>
                                     </ul>
                                 </div>
@@ -680,15 +671,15 @@
                                     <p className="font-bold">3. Derive Binary Search Complexity:</p>
                                     <ul className="list-disc list-inside ml-4">
                                         <li>Each comparison halves search space</li>
-                                        <li>After $k$ steps: $n/2^k = 1$</li>
-                                        <li>Solving: $k = \log_2 n$ gives $O(\log n)$</li>
+                                        <li>After k steps: <span class="math">n/2^k</span> = 1</li>
+                                        <li>Solving: k = <span class="math">log₂ n</span> gives <span class="math">O(log n)</span></li>
                                     </ul>
                                 </div>
                                 
                                 <div>
                                     <p className="font-bold">4. Why is Insertion Sort better for nearly sorted data?</p>
                                     <ul className="list-disc list-inside ml-4">
-                                        <li>Best case $O(n)$ when array already sorted</li>
+                                        <li>Best case <span class="math">O(n)</span> when array already sorted</li>
                                         <li>Each element requires few comparisons if near position</li>
                                         <li>Adaptive algorithm - performance improves with order</li>
                                     </ul>
@@ -706,8 +697,8 @@
                                 <div>
                                     <p className="font-bold">6. Compare Quick Sort and Heap Sort:</p>
                                     <ul className="list-disc list-inside ml-4">
-                                        <li>Quick: Average $O(n \log n)$, Worst $O(n^2)$, better cache</li>
-                                        <li>Heap: Guaranteed $O(n \log n)$, in-place, but slower constants</li>
+                                        <li>Quick: Average <span class="math">O(n log n)</span>, Worst <span class="math">O(n²)</span>, better cache</li>
+                                        <li>Heap: Guaranteed <span class="math">O(n log n)</span>, in-place, but slower constants</li>
                                         <li>Choose Quick for speed, Heap for guaranteed performance</li>
                                     </ul>
                                 </div>
@@ -716,15 +707,15 @@
 
                         <ColorBox color="red" title="Quick Reference - Key Formulas">
                             <ul className="list-disc list-inside space-y-1">
-                                <li><strong>Binary Search:</strong> $O(\log n)$ comparisons</li>
-                                <li><strong>Hash Load Factor:</strong> $\alpha = n/m$ (n=keys, m=table size)</li>
-                                <li><strong>Linear Probing:</strong> $h'(k) = (h(k) + i) \bmod m$</li>
-                                <li><strong>Quadratic Probing:</strong> $h'(k) = (h(k) + i^2) \bmod m$</li>
-                                <li><strong>Double Hashing:</strong> $h'(k) = (h_1(k) + i \cdot h_2(k)) \bmod m$</li>
-                                <li><strong>Bubble Sort Comparisons:</strong> $n(n-1)/2$</li>
-                                <li><strong>Merge Sort Recurrence:</strong> $T(n) = 2T(n/2) + O(n)$</li>
-                                <li><strong>Quick Sort Best:</strong> $T(n) = 2T(n/2) + O(n) = O(n \log n)$</li>
-                                <li><strong>Quick Sort Worst:</strong> $T(n) = T(n-1) + O(n) = O(n^2)$</li>
+                                <li><strong>Binary Search:</strong> <span class="math">O(log n)</span> comparisons</li>
+                                <li><strong>Hash Load Factor:</strong> <span class="math">α</span> = n/m (<span class="math">n</span>=keys, <span class="math">m</span>=table size)</li>
+                                <li><strong>Linear Probing:</strong> h'<span class="math">k</span> = (h<span class="math">k</span> + i) mod m</li>
+                                <li><strong>Quadratic Probing:</strong> h'<span class="math">k</span> = (h<span class="math">k</span> + <span class="math">i²</span>) mod m</li>
+                                <li><strong>Double Hashing:</strong> h'<span class="math">k</span> = (h_1<span class="math">k</span> + i cdot h_2<span class="math">k</span>) mod m</li>
+                                <li><strong>Bubble Sort Comparisons:</strong> n(n-1)/2</li>
+                                <li><strong>Merge Sort Recurrence:</strong> T<span class="math">n</span> = 2T<span class="math">n/2</span> + <span class="math">O(n)</span></li>
+                                <li><strong>Quick Sort Best:</strong> T<span class="math">n</span> = 2T<span class="math">n/2</span> + <span class="math">O(n)</span> = <span class="math">O(n log n)</span></li>
+                                <li><strong>Quick Sort Worst:</strong> T<span class="math">n</span> = T(n-1) + <span class="math">O(n)</span> = <span class="math">O(n²)</span>$</li>
                             </ul>
                         </ColorBox>
 
