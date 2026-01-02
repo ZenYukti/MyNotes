@@ -167,17 +167,23 @@ MyNotes/
 
 ### 📌 Data Structures
 
-| Unit | Topic | Quick Revision | Detailed Notes |
+#### ⚡ LastMinuteRevision (Interactive HTML)
+
+| Unit | Topic | 🌐 Last Minute Prep. (Summarised) | Detailed Notes |
 |------|-------|----------------|----------------|
-| **Unit 1** | Arrays, Stacks, Queues | 🔜 Coming Soon | [📄 Markdown](Data%20Structures/Unit-1.md) |
-| **Unit 2** | Linked Lists | 🔜 Coming Soon | [📄 Markdown](Data%20Structures/Unit-2.md) |
-| **Unit 3** | Trees & Binary Trees | 🔜 Coming Soon | [📄 Markdown](Data%20Structures/Unit-3.md) |
-| **Unit 4** | Searching & Sorting | 🔜 Coming Soon | [📄 Markdown](Data%20Structures/Unit-4.md) |
-| **Unit 5** | Hashing & Graphs | 🔜 Coming Soon | [📄 Markdown](Data%20Structures/Unit-5.md) |
+| **Unit 1** | Arrays, Stacks, Queues | 🔜 Coming Soon | [📄 Markdown](DataStructures/Unit-1.md) |
+| **Unit 2** | Linked Lists | 🔜 Coming Soon | [📄 Markdown](DataStructures/Unit-2.md) |
+| **Unit 3** | Searching, Sorting & Hashing | [🔗 Live](https://zenyukti.github.io/MyNotes/DataStructures/LastMinuteRevision/Unit-3.html) | [📄 Markdown](DataStructures/Unit-3.md) |
+| **Unit 4** | Trees & Binary Trees | 🔜 Coming Soon | [📄 Markdown](DataStructures/Unit-4.md) |
+| **Unit 5** | Graphs & Advanced Algorithms | 🔜 Coming Soon | [📄 Markdown](DataStructures/Unit-5.md) |
 
 **Data Structures Coverage:**
-- ✅ Detailed Markdown Notes for all units
-- 🔜 Interactive HTML Revision Guides (Coming Soon)
+- ✅ Searching Algorithms (Linear, Binary, Index Sequential)
+- ✅ Hashing (Division, Mid-Square, Folding Methods)
+- ✅ Collision Resolution (Linear, Quadratic, Double Hashing, Chaining)
+- ✅ Sorting Algorithms (Bubble, Selection, Insertion, Quick, Merge, Heap, Radix)
+- ✅ Complexity Analysis & Algorithm Comparison
+- ✅ Interactive HTML with Color-Coded Sections
 
 **Additional Resources:**
 - [Queue, Searching, Sorting & Hashing](docs/queue-searching-sorting-hashing.html)
