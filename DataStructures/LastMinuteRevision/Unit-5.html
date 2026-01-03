@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 5: Graph Algorithms | ZenYukti</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState } = React;
+
+        const CONTENT = [
+            {
+                id: 1,
+                title: "1. Graph Terminology",
+                defaultOpen: false,
+                boxes: [
+                    {
+                        type: "yellow",
+                        title: "Key Definitions",
+                        items: [
+                            "Graph G = (V, E): V = Vertices, E = Edges",
+                            "Directed Graph: Edges have direction (u → v)",
+                            "Undirected Graph: Edges bidirectional (u — v)",
+                            "Degree: Number of edges at vertex",
+                            "In-Degree: Incoming edges (directed)",
+                            "Out-Degree: Outgoing edges (directed)",
+                            "Path: Sequence of vertices connected by edges",
+                            "Simple Path: No repeated vertices",
+                            "Cycle: Path where start = end vertex",
+                            "Connected Graph: Path exists between all pairs",
+                            "Connected Component: Maximal connected subgraph",
+                            "Strongly Connected: Path exists both ways (directed)"
+                        ]
+                    },
+                    {
+                        type: "purple",
+                        title: "Path vs Cycle",
+                        items: [
+                            "Path: Start ≠ End (A → B → C)",
+                            "Cycle: Start = End (A → B → C → A)",
+                            "Simple Cycle: No repeated vertices except start/end",
+                            "Acyclic Graph: No cycles (Trees, DAG)"
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 2,
+                title: "2. Graph Representations",
+                boxes: [
+                    {
+                        type: "purple",
+                        title: "A. Adjacency Matrix",
+                        items: [
+                            "Structure: 2D array V × V",
+                            "Matrix[i][j] = 1 if edge exists, else 0",
+                            "Weighted: Matrix[i][j] = weight",
+                            "Space Complexity: O(V²)",
+                            "Edge Lookup: O(1)",
+                            "Add/Remove Edge: O(1)",
+                            "Find Neighbors: O(V)",
+                            "Best For: Dense graphs, fast lookup"
+                        ],
+                        code: `   0 1 2 3
+0 [0,1,1,0]
+1 [0,0,1,1]
+2 [0,0,0,1]
+3 [0,0,0,0]`
+                    },
+                    {
+                        type: "purple",
+                        title: "B. Adjacency List",
+                        items: [
+                            "Structure: Array of linked lists/vectors",
+                            "List[i] = neighbors of vertex i",
+                            "Space Complexity: O(V + E)",
+                            "Edge Lookup: O(V) worst case",
+                            "Add Edge: O(1)",
+                            "Find Neighbors: O(degree)",
+                            "Best For: Sparse graphs, memory efficient"
+                        ],
+                        code: `0 → [1, 2]
+1 → [2, 3]
+2 → [3]
+3 → []`
+                    },
+                    {
+                        type: "green",
+                        table: [
+                            ["Aspect", "Matrix", "List"],
+                            ["Space", "O(V²)", "O(V+E)"],
+                            ["Lookup", "O(1)", "O(V)"],
+                            ["Add Edge", "O(1)", "O(1)"],
+                            ["Neighbors", "O(V)", "O(degree)"]
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 3,
+                title: "3. Graph Traversals",
+                boxes: [
+                    {
+                        type: "blue",
+                        title: "A. Breadth-First Search (BFS)",
+                        items: [
+                            "Data Structure: Queue (FIFO)",
+                            "Strategy: Level-by-level traversal",
+                            "Applications: Shortest path (unweighted), Connected components, Level-order"
+                        ],
+                        code: `1. Queue Q, mark source visited
+2. Enqueue source
+3. While Q not empty:
+   - Dequeue u, process u
+   - For each neighbor v:
+     * If unvisited: mark, enqueue`
+                    },
+                    {
+                        type: "blue",
+                        title: "B. Depth-First Search (DFS)",
+                        items: [
+                            "Data Structure: Stack (LIFO) / Recursion",
+                            "Strategy: Go deep, then backtrack",
+                            "Applications: Cycle detection, Topological sort, Pathfinding"
+                        ],
+                        code: `DFS(u):
+1. Mark u visited, process u
+2. For each neighbor v:
+   - If unvisited: DFS(v)`
+                    },
+                    {
+                        type: "blue",
+                        title: "Dry Run (Graph: 0→[1,2], 1→[2,3], 2→[3], 3→[])",
+                        grid: [
+                            {
+                                label: "BFS from 0:",
+                                code: `Queue: [0]→[1,2]→[2,3]→[3]
+Order: 0 → 1 → 2 → 3`
+                            },
+                            {
+                                label: "DFS from 0:",
+                                code: `Stack: [0]→[2,1]→[2,3]
+Order: 0 → 1 → 3 → 2`
+                            }
+                        ]
+                    },
+                    {
+                        type: "green",
+                        items: [
+                            "BFS Time: O(V + E)",
+                            "BFS Space: O(V)",
+                            "DFS Time: O(V + E)",
+                            "DFS Space: O(V)"
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 4,
+                title: "4. Minimum Spanning Tree (MST)",
+                boxes: [
+                    {
+                        type: "yellow",
+                        items: [
+                            "MST: Spanning tree with minimum total edge weight",
+                            "Spanning Tree: Connects all V vertices with V-1 edges",
+                            "Properties: Connected, Acyclic, V-1 edges",
+                            "Approach: Greedy algorithms"
+                        ]
+                    },
+                    {
+                        type: "blue",
+                        title: "A. Kruskal's Algorithm (Edge-Based)",
+                        items: [
+                            "Strategy: Sort edges by weight, add greedily",
+                            "Data Structure: Union-Find (Disjoint Set)",
+                            "Process: Pick min edge that doesn't form cycle",
+                            "Cycle Detection: Union-Find"
+                        ],
+                        code: `1. Sort edges by weight (ascending)
+2. Initialize empty MST
+3. For each edge (u,v,w):
+   - If u,v in different components:
+     * Add edge to MST
+     * Union(u,v)
+   - Stop at V-1 edges`
+                    },
+                    {
+                        type: "blue",
+                        title: "B. Prim's Algorithm (Vertex-Based)",
+                        items: [
+                            "Strategy: Grow MST from starting vertex",
+                            "Data Structure: Min-Heap (Priority Queue)",
+                            "Process: Add min edge connecting MST to new vertex",
+                            "Selection: Always pick min edge from MST to non-MST"
+                        ],
+                        code: `1. Start any vertex, mark visited
+2. Add all edges to Min-Heap
+3. While MST < V-1 edges:
+   - Extract min edge from heap
+   - If connects unvisited vertex:
+     * Add edge, mark visited
+     * Add new edges to heap`
+                    },
+                    {
+                        type: "green",
+                        table: [
+                            ["Algorithm", "Time", "Space", "Best For"],
+                            ["Kruskal's", "O(E log E)", "O(V)", "Sparse graphs"],
+                            ["Prim's", "O(E log V)", "O(V)", "Dense graphs"]
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 5,
+                title: "5. Shortest Path Algorithms",
+                boxes: [
+                    {
+                        type: "yellow",
+                        title: "Dijkstra's Algorithm (SSSP)",
+                        items: [
+                            "Purpose: Single Source Shortest Path",
+                            "Finds: Shortest path from source to all vertices",
+                            "Constraint: Non-negative edge weights only",
+                            "Approach: Greedy with Min-Heap"
+                        ]
+                    },
+                    {
+                        type: "blue",
+                        title: "Dijkstra's Algorithm Steps",
+                        code: `1. Initialize:
+   - dist[source] = 0
+   - dist[others] = ∞
+   - Add source to Min-Heap
+2. While heap not empty:
+   - Extract u with min dist
+   - For each neighbor v:
+     * newDist = dist[u] + w(u,v)
+     * If newDist < dist[v]:
+       → dist[v] = newDist
+       → Update heap`,
+                        items: [
+                            "Relaxation: if (d[v] > d[u] + w(u,v)) then d[v] = d[u] + w(u,v)"
+                        ]
+                    },
+                    {
+                        type: "green",
+                        items: [
+                            "Time: O((V + E) log V) with Min-Heap",
+                            "Time: O(V²) without Min-Heap",
+                            "Space: O(V)",
+                            "Limitation: Cannot handle negative weights"
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 6,
+                title: "6. Warshall's Algorithm (Transitive Closure)",
+                boxes: [
+                    {
+                        type: "yellow",
+                        title: "Concept",
+                        items: [
+                            "Purpose: Find transitive closure of directed graph",
+                            "Transitive Closure: If path exists from i to j, mark reachability",
+                            "Output: Boolean matrix showing all reachable pairs",
+                            "Based on: Floyd-Warshall concept"
+                        ]
+                    },
+                    {
+                        type: "blue",
+                        title: "Algorithm",
+                        code: `1. Initialize matrix A = adjacency matrix
+2. For k = 0 to V-1:
+   For i = 0 to V-1:
+     For j = 0 to V-1:
+       A[i][j] = A[i][j] OR (A[i][k] AND A[k][j])
+3. A[i][j] = 1 means path exists from i to j`,
+                        items: [
+                            "Idea: If path i→k exists AND k→j exists, then i→j exists",
+                            "k is intermediate vertex considered"
+                        ]
+                    },
+                    {
+                        type: "green",
+                        items: [
+                            "Time Complexity: O(V³)",
+                            "Space Complexity: O(V²)",
+                            "Use: Reachability in directed graphs"
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 7,
+                title: "📌 Quick Revision Summary",
+                defaultOpen: false,
+                boxes: [
+                    {
+                        type: "red",
+                        title: "Algorithm Complexity Table",
+                        table: [
+                            ["Algorithm", "Time", "Space", "Use Case"],
+                            ["BFS", "O(V+E)", "O(V)", "Shortest (unweighted)"],
+                            ["DFS", "O(V+E)", "O(V)", "Cycle detection"],
+                            ["Dijkstra", "O((V+E)logV)", "O(V)", "SSSP (≥0)"],
+                            ["Prim's", "O(E log V)", "O(V)", "MST (dense)"],
+                            ["Kruskal's", "O(E log E)", "O(V)", "MST (sparse)"],
+                            ["Warshall", "O(V³)", "O(V²)", "Transitive closure"]
+                        ]
+                    },
+                    {
+                        type: "red",
+                        title: "Common Exam Questions",
+                        questions: [
+                            {
+                                q: "Q1: Dijkstra's vs Prim's?",
+                                a: [
+                                    "Dijkstra: Shortest path from source (cumulative distance)",
+                                    "Prim: MST connecting all vertices (individual edge weight)",
+                                    "Both: Greedy + Min-Heap",
+                                    "Key: Dijkstra considers path cost, Prim considers edge cost"
+                                ]
+                            },
+                            {
+                                q: "Q2: BFS vs DFS Applications?",
+                                a: [
+                                    "BFS: Shortest path (unweighted), Level traversal, Web crawlers",
+                                    "DFS: Cycle detection, Topological sort, Maze solving, Connected components"
+                                ]
+                            },
+                            {
+                                q: "Q3: Adjacency Matrix vs List?",
+                                a: [
+                                    "Matrix: Dense graphs, O(1) lookup, O(V²) space, Floyd-Warshall",
+                                    "List: Sparse graphs, O(V+E) space, efficient neighbor iteration"
+                                ]
+                            },
+                            {
+                                q: "Q4: Kruskal's vs Prim's?",
+                                a: [
+                                    "Kruskal: Edge-based (sort all edges), Union-Find, O(E log E)",
+                                    "Prim: Vertex-based (grow from vertex), Min-Heap, O(E log V)",
+                                    "Kruskal better for sparse, Prim better for dense"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        type: "red",
+                        title: "Must Remember",
+                        items: [
+                            "BFS = Queue (FIFO), DFS = Stack/Recursion (LIFO)",
+                            "Spanning Tree: V vertices needs V-1 edges",
+                            "MST: Minimum total edge weight",
+                            "Dijkstra: No negative weights (use Bellman-Ford)",
+                            "Kruskal = Edge-based, Prim = Vertex-based",
+                            "Path: start ≠ end, Cycle: start = end",
+                            "Warshall: O(V³) for transitive closure"
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        const Box = ({ type, title, children, items, code, table, grid, questions }) => {
+            const colors = {
+                yellow: 'bg-yellow-50 border-yellow-200',
+                blue: 'bg-blue-50 border-blue-200',
+                green: 'bg-green-50 border-green-200',
+                purple: 'bg-purple-50 border-purple-200',
+                red: 'bg-red-50 border-red-200'
+            };
+
+            return (
+                <div className={`${colors[type]} border-2 rounded-lg p-4 mb-4`}>
+                    {title && <h3 className="font-bold text-lg mb-3">{title}</h3>}
+                    
+                    {items && (
+                        <ul className="list-disc list-inside space-y-1 text-sm">
+                            {items.map((item, i) => (
+                                <li key={i} dangerouslySetInnerHTML={{ __html: item.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+                            ))}
+                        </ul>
+                    )}
+                    
+                    {code && (
+                        <pre className="bg-white p-2 rounded mt-2 text-xs font-mono whitespace-pre-wrap">{code}</pre>
+                    )}
+                    
+                    {table && (
+                        <table className="w-full text-xs bg-white mt-2">
+                            <thead className={`${type === 'red' ? 'bg-red-200' : 'bg-gray-200'}`}>
+                                <tr>
+                                    {table[0].map((h, i) => (
+                                        <th key={i} className="p-2 text-left">{h}</th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y">
+                                {table.slice(1).map((row, i) => (
+                                    <tr key={i}>
+                                        {row.map((cell, j) => (
+                                            <td key={j} className={`p-2 ${j === 0 ? 'font-semibold' : ''}`}>{cell}</td>
+                                        ))}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
+                    
+                    {grid && (
+                        <div className="grid grid-cols-2 gap-4 text-xs mt-2">
+                            {grid.map((item, i) => (
+                                <div key={i}>
+                                    <strong className="block mb-1">{item.label}</strong>
+                                    <pre className="bg-white p-2 rounded font-mono">{item.code}</pre>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                    
+                    {questions && (
+                        <div className="space-y-3 text-sm">
+                            {questions.map((q, i) => (
+                                <div key={i} className="bg-white p-3 rounded">
+                                    <strong className="text-red-700 block mb-1">{q.q}</strong>
+                                    <ul className="list-disc list-inside text-xs space-y-1">
+                                        {q.a.map((ans, j) => (
+                                            <li key={j} dangerouslySetInnerHTML={{ __html: ans.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+                                        ))}
+                                    </ul>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                    
+                    {children}
+                </div>
+            );
+        };
+
+        const Section = ({ title, children, defaultOpen = false }) => {
+            const [open, setOpen] = useState(defaultOpen);
+            return (
+                <div className="bg-white rounded-lg shadow-md mb-6 overflow-hidden">
+                    <button onClick={() => setOpen(!open)} className="w-full px-6 py-4 flex justify-between items-center hover:bg-gray-50">
+                        <h2 className="text-xl font-bold">{title}</h2>
+                        <span className="text-2xl">{open ? '−' : '+'}</span>
+                    </button>
+                    {open && <div className="px-6 pb-6">{children}</div>}
+                </div>
+            );
+        };
+
+        const App = () => {
+            return (
+                <div className="max-w-3xl mx-auto p-4">
+                    {/* Header */}
+                    <div className="bg-indigo-600 text-white rounded-lg shadow-xl p-8 mb-8 text-center">
+                        <h1 className="text-4xl font-bold mb-2">Unit 5: Graph Algorithms</h1>
+                        <p className="text-indigo-200">Last Minute Revision</p>
+                    </div>
+
+                    {/* Content Sections */}
+                    {CONTENT.map(section => (
+                        <Section key={section.id} title={section.title} defaultOpen={section.defaultOpen}>
+                            {section.boxes.map((box, i) => (
+                                <Box key={i} {...box} />
+                            ))}
+                        </Section>
+                    ))}
+
+                    {/* Footer */}
+                    <footer className="mt-10 pt-6 border-t border-gray-300 text-center">
+                        <p className="text-gray-700 font-semibold text-lg">
+                            Crafted with love by <span className="text-indigo-600 font-bold">ZenYukti</span>
+                        </p>
+                        <p className="text-gray-500 text-xs tracking-widest uppercase mt-1">
+                            Learn. Build. Share
+                        </p>
+                    </footer>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>
