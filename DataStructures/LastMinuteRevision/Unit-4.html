@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Structures: Unit 5 - Graphs | ZenYukti</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState } = React;
+
+        const Box = ({ type, title, children }) => {
+            const colors = {
+                yellow: 'bg-yellow-50 border-yellow-200',
+                blue: 'bg-blue-50 border-blue-200',
+                green: 'bg-green-50 border-green-200',
+                purple: 'bg-purple-50 border-purple-200',
+                red: 'bg-red-50 border-red-200'
+            };
+            return (
+                <div className={`${colors[type]} border-2 rounded-lg p-4 mb-4`}>
+                    {title && <h3 className="font-bold text-lg mb-3">{title}</h3>}
+                    {children}
+                </div>
+            );
+        };
+
+        const Section = ({ title, children, defaultOpen = false }) => {
+            const [open, setOpen] = useState(defaultOpen);
+            return (
+                <div className="bg-white rounded-lg shadow-md mb-6 overflow-hidden">
+                    <button onClick={() => setOpen(!open)} className="w-full px-6 py-4 flex justify-between items-center hover:bg-gray-50">
+                        <h2 className="text-xl font-bold">{title}</h2>
+                        <span className="text-2xl">{open ? '−' : '+'}</span>
+                    </button>
+                    {open && <div className="px-6 pb-6">{children}</div>}
+                </div>
+            );
+        };
+
+        const App = () => {
+            return (
+                <div className="max-w-4xl mx-auto p-6">
+                    {/* Header */}
+                    <div className="bg-indigo-600 text-white rounded-lg shadow-xl p-8 mb-8">
+                        <h1 className="text-4xl font-bold mb-2">Data Structures: Unit 5</h1>
+                        <h2 className="text-2xl font-semibold">Graphs</h2>
+                    </div>
+
+                    {/* Section 1: Terminology */}
+                    <Section title="1. Graph Terminology" defaultOpen={true}>
+                        <Box type="yellow" title="Key Definitions">
+                            <ul className="list-disc list-inside space-y-1 text-sm">
+                                <li><strong>Graph G = (V, E)</strong>: V = Vertices, E = Edges</li>
+                                <li><strong>Directed Graph</strong>: Edges have direction (u → v)</li>
+                                <li><strong>Undirected Graph</strong>: Edges bidirectional (u — v)</li>
+                                <li><strong>Degree</strong>: Number of edges at a vertex</li>
+                                <li><strong>In-Degree</strong>: Incoming edges (directed)</li>
+                                <li><strong>Out-Degree</strong>: Outgoing edges (directed)</li>
+                                <li><strong>Path</strong>: Sequence of vertices connected by edges</li>
+                                <li><strong>Cycle</strong>: Path where start = end vertex</li>
+                                <li><strong>Connected Graph</strong>: Path exists between all vertex pairs</li>
+                                <li><strong>Connected Component</strong>: Maximal connected subgraph</li>
+                            </ul>
+                        </Box>
+                        <Box type="purple" title="Path vs Cycle">
+                            <ul className="list-disc list-inside space-y-1 text-sm">
+                                <li><strong>Path</strong>: Start ≠ End (A → B → C)</li>
+                                <li><strong>Cycle</strong>: Start = End (A → B → C → A)</li>
+                                <li><strong>Acyclic</strong>: No cycles (Trees, DAG)</li>
+                            </ul>
+                        </Box>
+                    </Section>
+
+                    {/* Section 2: Representations */}
+                    <Section title="2. Graph Representations">
+                        <Box type="purple" title="A. Adjacency Matrix">
+                            <ul className="list-disc list-inside space-y-1 text-sm">
+                                <li><strong>Structure</strong>: 2D array V × V</li>
+                                <li><strong>Matrix[i][j] = 1</strong> if edge exists, else 0</li>
+                                <li><strong>Space</strong>: O(V²)</li>
+                                <li><strong>Edge Lookup</strong>: O(1)</li>
+                                <li><strong>Best for</strong>: Dense graphs</li>
+                            </ul>
+                            <pre className="bg-white p-2 rounded mt-2 text-xs font-mono">{`   0 1 2 3
+0 [0,1,1,0]
+1 [0,0,1,1]
+2 [0,0,0,1]
+3 [0,0,0,0]`}</pre>
+                        </Box>
+
+                        <Box type="purple" title="B. Adjacency List">
+                            <ul className="list-disc list-inside space-y-1 text-sm">
+                                <li><strong>Structure</strong>: Array of linked lists</li>
+                                <li><strong>List[i]</strong> = neighbors of vertex i</li>
+                                <li><strong>Space</strong>: O(V + E)</li>
+                                <li><strong>Edge Lookup</strong>: O(V)</li>
+                                <li><strong>Best for</strong>: Sparse graphs</li>
+                            </ul>
+                            <pre className="bg-white p-2 rounded mt-2 text-xs font-mono">{`0 → [1, 2]
+1 → [2, 3]
+2 → [3]
+3 → []`}</pre>
+                        </Box>
+
+                        <Box type="green">
+                            <table className="w-full text-sm">
+                                <thead className="bg-gray-200">
+                                    <tr>
+                                        <th className="p-2 text-left">Aspect</th>
+                                        <th className="p-2 text-left">Matrix</th>
+                                        <th className="p-2 text-left">List</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td className="p-2 font-semibold">Space</td><td className="p-2">O(V²)</td><td className="p-2">O(V+E)</td></tr>
+                                    <tr><td className="p-2 font-semibold">Lookup</td><td className="p-2">O(1)</td><td className="p-2">O(V)</td></tr>
+                                    <tr><td className="p-2 font-semibold">Add Edge</td><td className="p-2">O(1)</td><td className="p-2">O(1)</td></tr>
+                                </tbody>
+                            </table>
+                        </Box>
+                    </Section>
+
+                    {/* Section 3: Traversals */}
+                    <Section title="3. Graph Traversals">
+                        <Box type="blue" title="A. Breadth-First Search (BFS)">
+                            <ul className="list-disc list-inside space-y-1 text-sm mb-3">
+                                <li><strong>Data Structure</strong>: Queue (FIFO)</li>
+                                <li><strong>Strategy</strong>: Level-by-level traversal</li>
+                                <li><strong>Use</strong>: Shortest path (unweighted), Connected components</li>
+                            </ul>
+                            <pre className="bg-white p-2 rounded text-xs font-mono">{`1. Queue Q, mark source visited
+2. Enqueue source
+3. While Q not empty:
+   - Dequeue u
+   - For each neighbor v:
+     * If unvisited: mark, enqueue`}</pre>
+                        </Box>
+
+                        <Box type="blue" title="B. Depth-First Search (DFS)">
+                            <ul className="list-disc list-inside space-y-1 text-sm mb-3">
+                                <li><strong>Data Structure</strong>: Stack (LIFO) / Recursion</li>
+                                <li><strong>Strategy</strong>: Go deep, then backtrack</li>
+                                <li><strong>Use</strong>: Cycle detection, Topological sort</li>
+                            </ul>
+                            <pre className="bg-white p-2 rounded text-xs font-mono">{`DFS(u):
+1. Mark u visited
+2. For each neighbor v:
+   - If unvisited: DFS(v)`}</pre>
+                        </Box>
+
+                        <Box type="blue" title="Dry Run (4 nodes: 0→[1,2], 1→[2,3], 2→[3], 3→[])">
+                            <div className="grid grid-cols-2 gap-4 text-xs">
+                                <div>
+                                    <strong className="block mb-1">BFS from 0:</strong>
+                                    <pre className="bg-white p-2 rounded font-mono">{`Queue: [0] → [1,2] → [2,3] → [3]
+Order: 0 → 1 → 2 → 3`}</pre>
+                                </div>
+                                <div>
+                                    <strong className="block mb-1">DFS from 0:</strong>
+                                    <pre className="bg-white p-2 rounded font-mono">{`Stack: [0] → [2,1] → [2,3]
+Order: 0 → 1 → 3 → 2`}</pre>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box type="green">
+                            <ul className="list-disc list-inside space-y-1 text-sm">
+                                <li><strong>BFS & DFS Time</strong>: O(V + E)</li>
+                                <li><strong>BFS & DFS Space</strong>: O(V)</li>
+                            </ul>
+                        </Box>
+                    </Section>
+
+                    {/* Section 4: MST */}
+                    <Section title="4. Minimum Spanning Tree (MST)">
+                        <Box type="yellow">
+                            <ul className="list-disc list-inside space-y-1 text-sm">
+                                <li><strong>MST</strong>: Spanning tree with minimum total edge weight</li>
+                                <li><strong>Properties</strong>: V vertices, V-1 edges, connected, acyclic</li>
+                                <li><strong>Approach</strong>: Greedy algorithms</li>
+                            </ul>
+                        </Box>
+
+                        <Box type="blue" title="A. Kruskal's (Edge-Based)">
+                            <ul className="list-disc list-inside space-y-1 text-sm mb-3">
+                                <li><strong>Strategy</strong>: Sort edges by weight, add greedily</li>
+                                <li><strong>Data Structure</strong>: Union-Find</li>
+                                <li><strong>Process</strong>: Pick min edge that doesn't form cycle</li>
+                            </ul>
+                            <pre className="bg-white p-2 rounded text-xs font-mono">{`1. Sort edges by weight
+2. For each edge (u,v,w):
+   - If u,v in different sets:
+     * Add edge, Union(u,v)
+   - Stop at V-1 edges`}</pre>
+                        </Box>
+
+                        <Box type="blue" title="B. Prim's (Vertex-Based)">
+                            <ul className="list-disc list-inside space-y-1 text-sm mb-3">
+                                <li><strong>Strategy</strong>: Grow MST from starting vertex</li>
+                                <li><strong>Data Structure</strong>: Min-Heap (Priority Queue)</li>
+                                <li><strong>Process</strong>: Add min edge connecting MST to new vertex</li>
+                            </ul>
+                            <pre className="bg-white p-2 rounded text-xs font-mono">{`1. Start any vertex, mark visited
+2. Add edges to Min-Heap
+3. While MST < V-1 edges:
+   - Extract min edge
+   - If connects unvisited: add, mark`}</pre>
+                        </Box>
+
+                        <Box type="green">
+                            <table className="w-full text-sm">
+                                <thead className="bg-gray-200">
+                                    <tr><th className="p-2 text-left">Algorithm</th><th className="p-2">Time</th><th className="p-2">Best For</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td className="p-2 font-semibold">Kruskal's</td><td className="p-2">O(E log E)</td><td className="p-2">Sparse</td></tr>
+                                    <tr><td className="p-2 font-semibold">Prim's</td><td className="p-2">O(E log V)</td><td className="p-2">Dense</td></tr>
+                                </tbody>
+                            </table>
+                        </Box>
+                    </Section>
+
+                    {/* Section 5: Shortest Path */}
+                    <Section title="5. Dijkstra's Algorithm (Shortest Path)">
+                        <Box type="yellow">
+                            <ul className="list-disc list-inside space-y-1 text-sm">
+                                <li><strong>Purpose</strong>: Single Source Shortest Path (SSSP)</li>
+                                <li><strong>Finds</strong>: Shortest path from source to all vertices</li>
+                                <li><strong>Constraint</strong>: Non-negative edge weights only</li>
+                                <li><strong>Approach</strong>: Greedy with Min-Heap</li>
+                            </ul>
+                        </Box>
+
+                        <Box type="blue" title="Algorithm">
+                            <pre className="bg-white p-2 rounded text-xs font-mono">{`1. dist[source] = 0, others = ∞
+2. Add source to Min-Heap
+3. While heap not empty:
+   - Extract u with min dist
+   - For each neighbor v:
+     * newDist = dist[u] + w(u,v)
+     * If newDist < dist[v]:
+       → dist[v] = newDist
+       → Update heap`}</pre>
+                        </Box>
+
+                        <Box type="blue" title="Relaxation Condition">
+                            <p className="text-sm font-mono bg-white p-2 rounded">
+                                if (d[v] &gt; d[u] + w(u,v)) then d[v] = d[u] + w(u,v)
+                            </p>
+                        </Box>
+
+                        <Box type="green">
+                            <ul className="list-disc list-inside space-y-1 text-sm">
+                                <li><strong>Time</strong>: O((V + E) log V) with Min-Heap</li>
+                                <li><strong>Space</strong>: O(V)</li>
+                                <li><strong>Limitation</strong>: Cannot handle negative weights</li>
+                            </ul>
+                        </Box>
+                    </Section>
+
+                    {/* Summary */}
+                    <Section title="📌 Quick Revision Summary" defaultOpen={true}>
+                        <Box type="red" title="Complexity Table">
+                            <table className="w-full text-xs bg-white">
+                                <thead className="bg-red-200">
+                                    <tr>
+                                        <th className="p-2 text-left">Algorithm</th>
+                                        <th className="p-2">Time</th>
+                                        <th className="p-2">Space</th>
+                                        <th className="p-2 text-left">Use Case</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y">
+                                    <tr><td className="p-2 font-semibold">BFS</td><td className="p-2">O(V+E)</td><td className="p-2">O(V)</td><td className="p-2">Shortest (unweighted)</td></tr>
+                                    <tr><td className="p-2 font-semibold">DFS</td><td className="p-2">O(V+E)</td><td className="p-2">O(V)</td><td className="p-2">Cycle detection</td></tr>
+                                    <tr><td className="p-2 font-semibold">Dijkstra</td><td className="p-2">O((V+E)logV)</td><td className="p-2">O(V)</td><td className="p-2">SSSP (≥0 weights)</td></tr>
+                                    <tr><td className="p-2 font-semibold">Prim's</td><td className="p-2">O(E log V)</td><td className="p-2">O(V)</td><td className="p-2">MST (dense)</td></tr>
+                                    <tr><td className="p-2 font-semibold">Kruskal's</td><td className="p-2">O(E log E)</td><td className="p-2">O(V)</td><td className="p-2">MST (sparse)</td></tr>
+                                </tbody>
+                            </table>
+                        </Box>
+
+                        <Box type="red" title="Key Exam Questions">
+                            <div className="space-y-3 text-sm">
+                                <div className="bg-white p-3 rounded">
+                                    <strong className="text-red-700">Q1: Dijkstra's vs Prim's?</strong>
+                                    <ul className="list-disc list-inside mt-1 text-xs">
+                                        <li><strong>Dijkstra</strong>: Shortest path from source (cumulative distance)</li>
+                                        <li><strong>Prim</strong>: MST connecting all vertices (individual edge weight)</li>
+                                        <li>Both use greedy + Min-Heap</li>
+                                    </ul>
+                                </div>
+
+                                <div className="bg-white p-3 rounded">
+                                    <strong className="text-red-700">Q2: BFS vs DFS Applications?</strong>
+                                    <ul className="list-disc list-inside mt-1 text-xs">
+                                        <li><strong>BFS</strong>: Shortest path (unweighted), Level traversal, Web crawlers</li>
+                                        <li><strong>DFS</strong>: Cycle detection, Topological sort, Maze solving</li>
+                                    </ul>
+                                </div>
+
+                                <div className="bg-white p-3 rounded">
+                                    <strong className="text-red-700">Q3: Matrix vs List?</strong>
+                                    <ul className="list-disc list-inside mt-1 text-xs">
+                                        <li><strong>Matrix</strong>: Dense graphs, O(1) lookup, O(V²) space</li>
+                                        <li><strong>List</strong>: Sparse graphs, O(V+E) space, better for neighbor iteration</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </Box>
+
+                        <Box type="red" title="Must Remember">
+                            <ul className="list-disc list-inside space-y-1 text-xs">
+                                <li><strong>BFS = Queue</strong>, <strong>DFS = Stack/Recursion</strong></li>
+                                <li><strong>Spanning Tree</strong>: V vertices needs V-1 edges</li>
+                                <li><strong>Kruskal</strong> = Edge-based (sort), <strong>Prim</strong> = Vertex-based (grow)</li>
+                                <li><strong>Dijkstra</strong>: No negative weights (use Bellman-Ford instead)</li>
+                                <li><strong>Path</strong>: start ≠ end, <strong>Cycle</strong>: start = end</li>
+                            </ul>
+                        </Box>
+                    </Section>
+
+                    {/* Footer */}
+                    <footer className="mt-10 pt-6 border-t border-gray-300 text-center">
+                        <p className="text-gray-700 font-semibold text-lg">
+                            Crafted with love by <span className="text-indigo-600 font-bold">ZenYukti</span>
+                        </p>
+                        <p className="text-gray-500 text-xs tracking-widest uppercase mt-1">
+                            Learn. Build. Share
+                        </p>
+                    </footer>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>
