@@ -171,11 +171,11 @@ MyNotes/
 
 | Unit | Topic | 🌐 Last Minute Prep. (Summarised) | Detailed Notes |
 |------|-------|----------------|----------------|
-| **Unit 1** | Arrays, Stacks, Queues | 🔜 Coming Soon | [📄 Markdown](DataStructures/Unit-1.md) |
-| **Unit 2** | Linked Lists | 🔜 Coming Soon | [📄 Markdown](DataStructures/Unit-2.md) |
+| **Unit 1** | Arrays, Stacks, Queues | [🔗 Live](https://zenyukti.github.io/MyNotes/DataStructures/LastMinuteRevision/Unit-1.html) | [📄 Markdown](DataStructures/Unit-1.md) |
+| **Unit 2** | Linked Lists | [🔗 Live](https://zenyukti.github.io/MyNotes/DataStructures/LastMinuteRevision/Unit-2.html) | [📄 Markdown](DataStructures/Unit-2.md) |
 | **Unit 3** | Searching, Sorting & Hashing | [🔗 Live](https://zenyukti.github.io/MyNotes/DataStructures/LastMinuteRevision/Unit-3.html) | [📄 Markdown](DataStructures/Unit-3.md) |
-| **Unit 4** | Trees & Binary Trees | 🔜 Coming Soon | [📄 Markdown](DataStructures/Unit-4.md) |
-| **Unit 5** | Graphs & Advanced Algorithms | 🔜 Coming Soon | [📄 Markdown](DataStructures/Unit-5.md) |
+| **Unit 4** | Trees & Binary Trees | [🔗 Live](https://zenyukti.github.io/MyNotes/DataStructures/LastMinuteRevision/Unit-4.html) | [📄 Markdown](DataStructures/Unit-4.md) |
+| **Unit 5** | Graphs & Advanced Algorithms | [🔗 Live](https://zenyukti.github.io/MyNotes/DataStructures/LastMinuteRevision/Unit-5.html) | [📄 Markdown](DataStructures/Unit-5.md) |
 
 **Data Structures Coverage:**
 - ✅ Searching Algorithms (Linear, Binary, Index Sequential)
