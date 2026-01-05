@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COA Unit 1 - Interactive Revision | ZenYukti</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 font-sans text-slate-900">
+    <div id="root"></div>
+    <script type="text/babel">
+        const COA_DATA = [
+            {
+                borderColor: 'yellow',
+                title: 'Basic Definitions & Concepts',
+                items: [
+                    {
+                        heading: 'Computer Organization',
+                        points: [
+                            'How hardware components are connected and realize architecture',
+                            'Physical implementation of instruction set',
+                            'Deals with operational attributes (control signals, interfaces, memory technology)'
+                        ]
+                    },
+                    {
+                        heading: 'Computer Architecture',
+                        points: [
+                            'Attributes visible to programmer (instruction set, data types, addressing modes)',
+                            'Functional behavior of computer system',
+                            'Logical aspects of system implementation'
+                        ]
+                    },
+                    {
+                        heading: 'Von Neumann Architecture',
+                        points: [
+                            'Stored program concept: Instructions and data in same memory',
+                            'Sequential execution of instructions',
+                            'Single bus for data and instructions'
+                        ]
+                    },
+                    {
+                        heading: 'Key Terms',
+                        points: [
+                            '<strong>Register:</strong> High-speed storage inside CPU',
+                            '<strong>Bus:</strong> Collection of wires for data/address/control transfer',
+                            '<strong>Word:</strong> Natural unit of data (8, 16, 32, 64 bits)',
+                            '<strong>Byte:</strong> 8 bits of data'
+                        ]
+                    }
+                ]
+            },
+            {
+                borderColor: 'blue',
+                title: 'Functional Units of Computer',
+                items: [
+                    {
+                        heading: 'Input Unit',
+                        points: [
+                            'Accepts data from external environment',
+                            'Devices: Keyboard, Mouse, Scanner, Sensors',
+                            'Converts external data to machine-readable format',
+                            'Places data into memory'
+                        ]
+                    },
+                    {
+                        heading: 'Output Unit',
+                        points: [
+                            'Sends processed results to external world',
+                            'Devices: Monitor, Printer, Speakers',
+                            'Converts machine format to human-readable format'
+                        ]
+                    },
+                    {
+                        heading: 'Memory Unit',
+                        points: [
+                            'Stores instructions and data',
+                            '<strong>Primary Memory:</strong> RAM (volatile), ROM (non-volatile)',
+                            '<strong>Cache Memory:</strong> Fast buffer between CPU and RAM',
+                            '<strong>Secondary Memory:</strong> Hard disk, SSD (permanent storage)',
+                            'Memory hierarchy: Registers → Cache → RAM → Secondary'
+                        ]
+                    },
+                    {
+                        heading: 'ALU (Arithmetic Logic Unit)',
+                        points: [
+                            'Performs arithmetic operations: +, −, ×, ÷',
+                            'Performs logical operations: AND, OR, NOT, XOR',
+                            'Comparison operations: <, >, =, ≠',
+                            'Shift and rotate operations',
+                            'Produces status flags: Zero, Carry, Overflow, Sign'
+                        ]
+                    },
+                    {
+                        heading: 'Control Unit',
+                        points: [
+                            'Supervises and coordinates all computer operations',
+                            'Fetches instructions from memory',
+                            'Decodes instructions',
+                            'Generates control signals for execution',
+                            'Controls data flow between units',
+                            'Does NOT process data itself'
+                        ]
+                    },
+                    {
+                        heading: 'CPU Components',
+                        points: [
+                            '<strong>CPU = Control Unit + ALU + Registers</strong>',
+                            'Program Counter (PC): Holds address of next instruction',
+                            'Instruction Register (IR): Holds current instruction',
+                            'Accumulator (AC): Temporary storage for ALU results',
+                            'General Purpose Registers: R0, R1, R2, ... for data storage'
+                        ]
+                    }
+                ]
+            },
+            {
+                borderColor: 'blue',
+                title: 'Bus Architecture & Interconnections',
+                items: [
+                    {
+                        heading: 'System Bus Concept',
+                        points: [
+                            'Communication pathway connecting CPU, Memory, I/O',
+                            'Shared medium for all data transfers',
+                            'Reduces number of interconnection wires',
+                            '<strong>Bus Width:</strong> Number of parallel lines (8, 16, 32, 64 bits)',
+                            '<strong>Bus Speed:</strong> Data transfer rate (MHz/GHz)'
+                        ]
+                    },
+                    {
+                        heading: 'Data Bus',
+                        points: [
+                            '<strong>Direction:</strong> Bidirectional (data flows both ways)',
+                            '<strong>Purpose:</strong> Carries actual data between components',
+                            'Width determines word size of computer',
+                            '32-bit data bus = 4 bytes transferred simultaneously',
+                            '64-bit data bus = 8 bytes transferred simultaneously',
+                            'Example: During READ, memory → CPU; During WRITE, CPU → memory'
+                        ]
+                    },
+                    {
+                        heading: 'Address Bus',
+                        points: [
+                            '<strong>Direction:</strong> Unidirectional (CPU to Memory/I/O only)',
+                            '<strong>Purpose:</strong> Carries memory addresses and I/O port addresses',
+                            'Width determines maximum addressable memory',
+                            '<strong>Formula: Memory Capacity = 2<sup>n</sup></strong> where n = address lines',
+                            '<strong>Examples:</strong>',
+                            '  • 16-bit address bus = 2<sup>16</sup> = 64 KB',
+                            '  • 20-bit address bus = 2<sup>20</sup> = 1 MB',
+                            '  • 32-bit address bus = 2<sup>32</sup> = 4 GB',
+                            '  • 64-bit address bus = 2<sup>64</sup> = 16 EB'
+                        ]
+                    },
+                    {
+                        heading: 'Control Bus',
+                        points: [
+                            '<strong>Direction:</strong> Bidirectional (some signals each way)',
+                            '<strong>Purpose:</strong> Carries control signals for coordination',
+                            '<strong>CPU → Memory/I/O signals:</strong>',
+                            '  • Memory Read (MEMR)',
+                            '  • Memory Write (MEMW)',
+                            '  • I/O Read (IOR)',
+                            '  • I/O Write (IOW)',
+                            '  • Clock signal',
+                            '<strong>Memory/I/O → CPU signals:</strong>',
+                            '  • Interrupt Request (INT)',
+                            '  • Ready/Wait signal',
+                            '  • Acknowledge signals'
+                        ]
+                    },
+                    {
+                        heading: 'Bus Structures',
+                        points: [
+                            '<strong>Single Bus:</strong> All units on one bus (simple, slower)',
+                            '<strong>Multiple Bus:</strong> Separate buses for different paths (faster)',
+                            '<strong>Bus Cycle:</strong> Time for one complete operation',
+                            '<strong>Bus Transaction:</strong> Address phase + Data phase'
+                        ]
+                    }
+                ]
+            },
+            {
+                borderColor: 'blue',
+                title: 'Bus Arbitration Methods',
+                items: [
+                    {
+                        heading: 'Why Bus Arbitration?',
+                        points: [
+                            'Multiple devices may request bus simultaneously',
+                            'Only ONE master can control bus at a time',
+                            'Arbitration determines which device gets access',
+                            'Prevents bus conflicts and data corruption'
+                        ]
+                    },
+                    {
+                        heading: 'Method 1: Daisy Chaining (Serial Priority)',
+                        points: [
+                            '<strong>Structure:</strong> Devices connected in serial chain',
+                            '<strong>Priority:</strong> Decreases along the chain (Device 1 highest)',
+                            '<strong>Operation:</strong>',
+                            '  1. All devices share common Bus Request line',
+                            '  2. Bus Grant signal passes through devices serially',
+                            '  3. First device with request captures grant signal',
+                            '  4. Grant signal blocked from lower priority devices',
+                            '<strong>Advantages:</strong>',
+                            '  • Simple implementation',
+                            '  • Minimal hardware (only 1 grant line)',
+                            '  • Easy to add new devices',
+                            '<strong>Disadvantages:</strong>',
+                            '  • Low priority devices may starve',
+                            '  • Grant signal propagation delay',
+                            '  • Failure of one device affects others'
+                        ]
+                    },
+                    {
+                        heading: 'Method 2: Polling (Centralized)',
+                        points: [
+                            '<strong>Structure:</strong> Central arbiter polls each device',
+                            '<strong>Operation:</strong>',
+                            '  1. Arbiter receives requests on common line',
+                            '  2. Arbiter generates device addresses sequentially',
+                            '  3. Addressed device responds if it needs bus',
+                            '  4. Arbiter grants bus to responding device',
+                            '<strong>Address Lines:</strong> log₂(n) lines for n devices',
+                            '<strong>Advantages:</strong>',
+                            '  • Flexible priority (can be changed by software)',
+                            '  • Fair allocation possible',
+                            '  • No device starvation if properly managed',
+                            '<strong>Disadvantages:</strong>',
+                            '  • Polling overhead (time to query all)',
+                            '  • Slower than daisy chaining',
+                            '  • Requires additional address lines'
+                        ]
+                    },
+                    {
+                        heading: 'Method 3: Independent Request (Distributed)',
+                        points: [
+                            '<strong>Structure:</strong> Each device has separate request/grant lines',
+                            '<strong>Operation:</strong>',
+                            '  1. Each device sends request on dedicated line',
+                            '  2. Arbiter sees all requests simultaneously',
+                            '  3. Priority logic determines winner',
+                            '  4. Grant sent on dedicated line to winner',
+                            '<strong>Lines Required:</strong> 2n lines for n devices',
+                            '<strong>Advantages:</strong>',
+                            '  • Fastest response time',
+                            '  • No device starvation',
+                            '  • Most flexible priority schemes',
+                            '  • Simultaneous request handling',
+                            '<strong>Disadvantages:</strong>',
+                            '  • Complex hardware',
+                            '  • Many bus lines required (scalability issue)',
+                            '  • Most expensive solution'
+                        ]
+                    },
+                    {
+                        heading: 'Priority Schemes',
+                        points: [
+                            '<strong>Fixed Priority:</strong> Static priority never changes',
+                            '<strong>Rotating Priority:</strong> Priority rotates (prevents starvation)',
+                            '<strong>Time Slice:</strong> Each device gets fixed time quantum',
+                            '<strong>Fair Arbitration:</strong> Ensures all devices get access'
+                        ]
+                    }
+                ]
+            },
+            {
+                borderColor: 'green',
+                title: 'Register Transfer Language (RTL)',
+                items: [
+                    {
+                        heading: 'RTL Basics',
+                        points: [
+                            'Symbolic notation for micro-operations',
+                            'Describes data transfers between registers',
+                            'Shows operation timing and sequencing',
+                            'Used in digital system design and CPU design'
+                        ]
+                    },
+                    {
+                        heading: 'RTL Notation',
+                        points: [
+                            '<strong>Transfer:</strong> R2 ← R1 (contents of R1 copied to R2)',
+                            '<strong>Conditional:</strong> P: R2 ← R1 (transfer if condition P = 1)',
+                            '<strong>Simultaneous:</strong> R1 ← R2, R2 ← R1 (swap operation)',
+                            '<strong>Clock Pulse:</strong> T₀: MAR ← PC (transfer at time T₀)',
+                            'Left arrow (←) means "gets" or "is loaded with"'
+                        ]
+                    },
+                    {
+                        heading: 'Common Registers',
+                        points: [
+                            '<strong>PC:</strong> Program Counter',
+                            '<strong>MAR:</strong> Memory Address Register',
+                            '<strong>MBR/MDR:</strong> Memory Buffer/Data Register',
+                            '<strong>IR:</strong> Instruction Register',
+                            '<strong>AC:</strong> Accumulator',
+                            '<strong>R0-R7:</strong> General purpose registers'
+                        ]
+                    },
+                    {
+                        heading: 'Micro-operations Types',
+                        points: [
+                            '<strong>Transfer:</strong> R1 ← R2',
+                            '<strong>Arithmetic:</strong> R1 ← R1 + R2, R3 ← R1 − R2',
+                            '<strong>Logic:</strong> R1 ← R1 AND R2, R2 ← R2 OR R3',
+                            '<strong>Shift:</strong> R1 ← shl R1 (shift left), R2 ← shr R2',
+                            '<strong>Memory Load:</strong> R1 ← M[AR]',
+                            '<strong>Memory Store:</strong> M[AR] ← R1',
+                            '<strong>Complement:</strong> R1 ← R̄1',
+                            '<strong>Increment:</strong> PC ← PC + 1'
+                        ]
+                    },
+                    {
+                        heading: 'RTL Examples',
+                        points: [
+                            'T₀: MAR ← PC (load address)',
+                            'T₁: MBR ← M[MAR], PC ← PC + 1 (fetch & increment)',
+                            'T₂: IR ← MBR (load instruction)',
+                            'T₃: R1 ← R1 + R2 (execute add)',
+                            'If (AC = 0) then (PC ← Address) (conditional branch)'
+                        ]
+                    }
+                ]
+            },
+            {
+                borderColor: 'green',
+                title: 'Bus Transfer',
+                items: [
+                    {
+                        heading: 'Common Bus System',
+                        points: [
+                            'Multiple registers connected to single bus',
+                            'Only ONE register can output to bus at a time',
+                            'Multiple registers can read from bus simultaneously',
+                            'Multiplexer (MUX) selects source register'
+                        ]
+                    },
+                    {
+                        heading: 'Bus Transfer Components',
+                        points: [
+                            '<strong>Multiplexer:</strong> Selects which register outputs to bus',
+                            '<strong>Selection Lines:</strong> Control MUX (S₀, S₁, S₂ for 8 registers)',
+                            '<strong>Three-State Buffers:</strong> Allow high-impedance (disconnected) state',
+                            '<strong>Decoder:</strong> Enables destination register load signal'
+                        ]
+                    },
+                    {
+                        heading: 'Transfer Mechanism',
+                        points: [
+                            '<strong>Step 1:</strong> Set MUX select lines to choose source register',
+                            '<strong>Step 2:</strong> Source register outputs to bus',
+                            '<strong>Step 3:</strong> Enable load signal of destination register',
+                            '<strong>Step 4:</strong> Clock pulse transfers data to destination',
+                            '<strong>Timing:</strong> Select → Output stable → Load → Clock'
+                        ]
+                    },
+                    {
+                        heading: 'Bus Transfer Example',
+                        points: [
+                            '<strong>Operation:</strong> R2 ← R1',
+                            '1. Set select lines to binary code for R1',
+                            '2. R1 outputs its contents to bus',
+                            '3. Enable R2 load input',
+                            '4. Clock pulse: R2 captures bus data',
+                            '<strong>Conflict Prevention:</strong> Control logic ensures one source only'
+                        ]
+                    },
+                    {
+                        heading: 'Bus vs Direct Transfer',
+                        points: [
+                            '<strong>Direct:</strong> Dedicated path between two registers (faster)',
+                            '<strong>Bus:</strong> Shared path (slower but flexible)',
+                            'Bus reduces wiring but creates bottleneck',
+                            'Modern CPUs use multiple buses'
+                        ]
+                    }
+                ]
+            },
+            {
+                borderColor: 'green',
+                title: 'Memory Transfer',
+                items: [
+                    {
+                        heading: 'Memory Read Operation',
+                        points: [
+                            '<strong>RTL Notation:</strong>',
+                            '  1. MAR ← Address',
+                            '  2. Read Signal = 1',
+                            '  3. MBR ← M[MAR]',
+                            '<strong>Detailed Steps:</strong>',
+                            '  • CPU places address on address bus',
+                            '  • Address loaded into MAR',
+                            '  • Control unit activates MEMR signal',
+                            '  • Memory decodes address and retrieves data',
+                            '  • Data placed on data bus',
+                            '  • Data loaded into MBR',
+                            '<strong>Timing:</strong> Address valid → MEMR → Wait (access time) → Data valid'
+                        ]
+                    },
+                    {
+                        heading: 'Memory Write Operation',
+                        points: [
+                            '<strong>RTL Notation:</strong>',
+                            '  1. MAR ← Address',
+                            '  2. MBR ← Data',
+                            '  3. Write Signal = 1',
+                            '  4. M[MAR] ← MBR',
+                            '<strong>Detailed Steps:</strong>',
+                            '  • CPU places address on address bus → MAR',
+                            '  • CPU places data on data bus → MBR',
+                            '  • Control unit activates MEMW signal',
+                            '  • Memory decodes address',
+                            '  • Memory stores MBR contents at address',
+                            '<strong>Timing:</strong> Address valid → Data valid → MEMW → Write complete'
+                        ]
+                    },
+                    {
+                        heading: 'Key Memory Registers',
+                        points: [
+                            '<strong>MAR (Memory Address Register):</strong>',
+                            '  • Connected to address bus',
+                            '  • Holds address of memory location',
+                            '  • Width = address bus width',
+                            '<strong>MBR/MDR (Memory Buffer/Data Register):</strong>',
+                            '  • Connected to data bus',
+                            '  • Holds data being read/written',
+                            '  • Width = data bus width',
+                            'Both registers interface CPU with memory'
+                        ]
+                    },
+                    {
+                        heading: 'Memory Timing',
+                        points: [
+                            '<strong>Access Time:</strong> Time from address valid to data available',
+                            '<strong>Cycle Time:</strong> Minimum time between operations',
+                            '<strong>Typical Access Time:</strong> 10-100 ns for RAM',
+                            '<strong>Wait States:</strong> CPU cycles spent waiting for memory',
+                            'Faster memory reduces wait states'
+                        ]
+                    }
+                ]
+            },
+            {
+                borderColor: 'purple',
+                title: 'General Register Organization',
+                items: [
+                    {
+                        heading: 'Register Organization Basics',
+                        points: [
+                            'Modern CPUs have multiple general-purpose registers',
+                            'Registers faster than memory (no memory access needed)',
+                            'Reduces memory traffic and bus usage',
+                            'Typical: 8, 16, or 32 general registers (R0-R7, etc.)',
+                            'Registers can hold data, addresses, or intermediate results'
+                        ]
+                    },
+                    {
+                        heading: 'ALU with Multiplexers',
+                        points: [
+                            '<strong>MUX A:</strong> Selects first operand (source 1)',
+                            '<strong>MUX B:</strong> Selects second operand (source 2)',
+                            '<strong>ALU:</strong> Performs operation on selected operands',
+                            '<strong>Destination:</strong> Result written back to register',
+                            'Two operands from any register, result to any register'
+                        ]
+                    },
+                    {
+                        heading: 'Control Word Structure',
+                        points: [
+                            '<strong>Control Word:</strong> Specifies complete micro-operation',
+                            '<strong>Format: | SELA | SELB | SELD | OPR |</strong>',
+                            '<strong>SELA (3 bits):</strong> Select register A (000-111 for R0-R7)',
+                            '<strong>SELB (3 bits):</strong> Select register B',
+                            '<strong>SELD (3 bits):</strong> Select destination register',
+                            '<strong>OPR (5 bits):</strong> Operation code (32 operations)',
+                            '<strong>Total:</strong> 14-bit control word'
+                        ]
+                    },
+                    {
+                        heading: 'Control Word Examples',
+                        points: [
+                            '<strong>R1 ← R2 + R3:</strong>',
+                            '  SELA = 010 (R2), SELB = 011 (R3), SELD = 001 (R1), OPR = ADD',
+                            '<strong>R5 ← R5 AND R6:</strong>',
+                            '  SELA = 101 (R5), SELB = 110 (R6), SELD = 101 (R5), OPR = AND',
+                            '<strong>R0 ← R7:</strong>',
+                            '  SELA = 111 (R7), SELB = XXX, SELD = 000 (R0), OPR = TRANSFER',
+                            'Control unit generates control word for each micro-operation'
+                        ]
+                    },
+                    {
+                        heading: 'Data Flow Path',
+                        points: [
+                            '1. Control word → MUX selectors',
+                            '2. Registers → MUX A and MUX B',
+                            '3. MUX outputs → ALU inputs',
+                            '4. ALU performs operation',
+                            '5. Decoder enables destination register',
+                            '6. Clock pulse → Result stored in destination',
+                            'All happens in one clock cycle'
+                        ]
+                    },
+                    {
+                        heading: 'Advantages',
+                        points: [
+                            'Flexible: Any register as source or destination',
+                            'Fast: No memory access during computation',
+                            'Reduces code size: Register operations are compact',
+                            'Supports complex addressing modes'
+                        ]
+                    }
+                ]
+            },
+            {
+                borderColor: 'purple',
+                title: 'Stack Organization',
+                items: [
+                    {
+                        heading: 'Stack Fundamentals',
+                        points: [
+                            '<strong>Stack:</strong> LIFO (Last In First Out) data structure',
+                            '<strong>Stack Pointer (SP):</strong> Register pointing to top of stack',
+                            '<strong>Operations:</strong> PUSH (insert), POP (remove)',
+                            '<strong>Uses:</strong> Function calls, recursion, expression evaluation, interrupts',
+                            '<strong>Top:</strong> Most recently added element'
+                        ]
+                    },
+                    {
+                        heading: 'Register Stack',
+                        points: [
+                            '<strong>Implementation:</strong> Stack using CPU registers',
+                            '<strong>SP:</strong> Points to register number (not memory address)',
+                            '<strong>Capacity:</strong> Limited by number of registers (e.g., 64 items)',
+                            '<strong>Speed:</strong> Very fast (register access)',
+                            '<strong>PUSH Operation:</strong>',
+                            '  1. SP ← SP + 1',
+                            '  2. Stack[SP] ← Data',
+                            '<strong>POP Operation:</strong>',
+                            '  1. Data ← Stack[SP]',
+                            '  2. SP ← SP − 1',
+                            '<strong>Overflow:</strong> SP exceeds register count',
+                            '<strong>Underflow:</strong> POP from empty stack (SP < 0)'
+                        ]
+                    },
+                    {
+                        heading: 'Memory Stack',
+                        points: [
+                            '<strong>Implementation:</strong> Stack in main memory',
+                            '<strong>SP:</strong> Holds memory address of top element',
+                            '<strong>Capacity:</strong> Large (limited by available memory)',
+                            '<strong>Speed:</strong> Slower (memory access required)',
+                            '<strong>PUSH (Descending Stack):</strong>',
+                            '  1. SP ← SP − 1',
+                            '  2. M[SP] ← Data',
+                            '<strong>POP (Descending Stack):</strong>',
+                            '  1. Data ← M[SP]',
+                            '  2. SP ← SP + 1',
+                            '<strong>Note:</strong> Stack grows downward (toward lower addresses)'
+                        ]
+                    },
+                    {
+                        heading: 'Stack Types',
+                        points: [
+                            '<strong>Full Descending:</strong> SP points to last item, decrements on PUSH',
+                            '<strong>Full Ascending:</strong> SP points to last item, increments on PUSH',
+                            '<strong>Empty Descending:</strong> SP points to next free, decrements on PUSH',
+                            '<strong>Empty Ascending:</strong> SP points to next free, increments on PUSH',
+                            'Most common: Full Descending (x86, ARM)'
+                        ]
+                    },
+                    {
+                        heading: 'Stack Applications',
+                        points: [
+                            '<strong>Function Calls:</strong> Save return address and local variables',
+                            '<strong>Recursion:</strong> Each call gets separate stack frame',
+                            '<strong>Expression Evaluation:</strong> Operands pushed, operators pop and push result',
+                            '<strong>Interrupt Handling:</strong> Save CPU state before ISR',
+                            '<strong>Parameter Passing:</strong> Arguments passed via stack',
+                            '<strong>Undo Functionality:</strong> Store previous states'
+                        ]
+                    },
+                    {
+                        heading: 'Stack vs Heap',
+                        points: [
+                            '<strong>Stack:</strong> LIFO, automatic, fast, limited size, local variables',
+                            '<strong>Heap:</strong> Manual allocation, slower, large, dynamic data',
+                            'Stack overflow: Too many function calls or large local arrays'
+                        ]
+                    }
+                ]
+            },
+            {
+                borderColor: 'purple',
+                title: 'Addressing Modes - Part 1',
+                items: [
+                    {
+                        heading: 'Addressing Mode Basics',
+                        points: [
+                            '<strong>Addressing Mode:</strong> Method to specify operand location',
+                            '<strong>Effective Address (EA):</strong> Actual memory address of operand',
+                            '<strong>Why Multiple Modes?</strong> Flexibility, compact code, data structures',
+                            'Instruction format: | Opcode | Mode | Operand |'
+                        ]
+                    },
+                    {
+                        heading: 'Immediate Addressing',
+                        points: [
+                            '<strong>Operand:</strong> Part of instruction itself (constant)',
+                            '<strong>EA:</strong> No address (operand is immediate value)',
+                            '<strong>Syntax:</strong> MOV R1, #50 (load constant 50)',
+                            '<strong>Advantages:</strong>',
+                            '  • Fastest (no memory access)',
+                            '  • No address calculation',
+                            '<strong>Disadvantages:</strong>',
+                            '  • Limited range (operand field size)',
+                            '  • Cannot modify operand at runtime',
+                            '<strong>Uses:</strong> Constants, counters, initialization',
+                            '<strong>Memory Accesses:</strong> 0 (for operand)'
+                        ]
+                    },
+                    {
+                        heading: 'Direct/Absolute Addressing',
+                        points: [
+                            '<strong>Address Field:</strong> Contains actual memory address',
+                            '<strong>EA:</strong> Address field value',
+                            '<strong>Syntax:</strong> LOAD R1, 1000 (load from address 1000)',
+                            '<strong>Operation:</strong> R1 ← M[1000]',
+                            '<strong>Advantages:</strong>',
+                            '  • Simple and straightforward',
+                            '  • Direct access to any memory location',
+                            '<strong>Disadvantages:</strong>',
+                            '  • Limited address space (field size)',
+                            '  • Not relocatable (absolute addresses)',
+                            '<strong>Uses:</strong> Global variables, fixed memory locations',
+                            '<strong>Memory Accesses:</strong> 1 (for operand)'
+                        ]
+                    },
+                    {
+                        heading: 'Indirect Addressing',
+                        points: [
+                            '<strong>Address Field:</strong> Points to location containing EA',
+                            '<strong>EA:</strong> M[Address field]',
+                            '<strong>Syntax:</strong> LOAD R1, @500 or LOAD R1, (500)',
+                            '<strong>Operation:</strong> R1 ← M[M[500]]',
+                            '<strong>Example:</strong>',
+                            '  • Address field = 500',
+                            '  • M[500] = 1000 (actual address)',
+                            '  • R1 ← M[1000] (final data)',
+                            '<strong>Advantages:</strong>',
+                            '  • Large address space with small instruction',
+                            '  • Pointers and dynamic structures',
+                            '<strong>Disadvantages:</strong>',
+                            '  • Slower (two memory accesses)',
+                            '<strong>Uses:</strong> Pointers, linked lists, dynamic allocation',
+                            '<strong>Memory Accesses:</strong> 2 (address + operand)'
+                        ]
+                    },
+                    {
+                        heading: 'Register Addressing',
+                        points: [
+                            '<strong>Operand:</strong> In CPU register',
+                            '<strong>EA:</strong> Register number',
+                            '<strong>Syntax:</strong> ADD R1, R2 (R1 ← R1 + R2)',
+                            '<strong>Advantages:</strong>',
+                            '  • Fastest mode (no memory access)',
+                            '  • Compact instruction',
+                            '  • Most common in modern CPUs',
+                            '<strong>Disadvantages:</strong>',
+                            '  • Limited to register count',
+                            '<strong>Uses:</strong> Temporary storage, loop counters, calculations',
+                            '<strong>Memory Accesses:</strong> 0'
+                        ]
+                    }
+                ]
+            },
+            {
+                borderColor: 'purple',
+                title: 'Addressing Modes - Part 2',
+                items: [
+                    {
+                        heading: 'Register Indirect Addressing',
+                        points: [
+                            '<strong>Register:</strong> Contains effective address (not data)',
+                            '<strong>EA:</strong> Contents of register',
+                            '<strong>Syntax:</strong> LOAD R1, (R2) or LOAD R1, [R2]',
+                            '<strong>Operation:</strong> R1 ← M[R2]',
+                            '<strong>Example:</strong> If R2 = 1000, then R1 ← M[1000]',
+                            '<strong>Advantages:</strong>',
+                            '  • Compact instruction',
+                            '  • Large address space',
+                            '  • Easy to modify address (change register)',
+                            '<strong>Uses:</strong> Arrays, pointers, dynamic data',
+                            '<strong>Memory Accesses:</strong> 1 (for operand)'
+                        ]
+                    },
+                    {
+                        heading: 'Indexed Addressing',
+                        points: [
+                            '<strong>EA:</strong> Base Address + Index Register',
+                            '<strong>Formula:</strong> EA = Address + (Index Register)',
+                            '<strong>Syntax:</strong> LOAD R1, 1000(X) or LOAD R1, 1000[X]',
+                            '<strong>Operation:</strong> R1 ← M[1000 + X]',
+                            '<strong>Example:</strong> Array access',
+                            '  • Array base = 1000',
+                            '  • Index X = 5',
+                            '  • EA = 1000 + 5 = 1005',
+                            '<strong>Advantages:</strong>',
+                            '  • Perfect for arrays and tables',
+                            '  • Sequential access (increment index)',
+                            '  • Multiple arrays with same index',
+                            '<strong>Uses:</strong> Array traversal, table lookup',
+                            '<strong>Memory Accesses:</strong> 1'
+                        ]
+                    },
+                    {
+                        heading: 'Base Register Addressing',
+                        points: [
+                            '<strong>EA:</strong> Base Register + Offset',
+                            '<strong>Similar to Indexed:</strong> But base holds segment start',
+                            '<strong>Syntax:</strong> LOAD R1, 50(BR)',
+                            '<strong>Uses:</strong>',
+                            '  • Relocatable programs (change base, not code)',
+                            '  • Data structures with fixed offsets',
+                            '  • Accessing structure fields',
+                            '<strong>Example:</strong> Student record',
+                            '  • Base = record start',
+                            '  • Offset = field position'
+                        ]
+                    },
+                    {
+                        heading: 'Relative Addressing',
+                        points: [
+                            '<strong>EA:</strong> Program Counter (PC) + Offset',
+                            '<strong>Formula:</strong> EA = PC + Displacement',
+                            '<strong>Syntax:</strong> JMP +10 or BRANCH -5',
+                            '<strong>Operation:</strong> Jump to PC + 10',
+                            '<strong>Advantages:</strong>',
+                            '  • Position-independent code',
+                            '  • Relocatable programs',
+                            '  • Short instructions (small displacement)',
+                            '<strong>Uses:</strong> Branch instructions, loops, function calls',
+                            '<strong>Example:</strong> Forward jump (+), backward jump (−)',
+                            '<strong>Memory Accesses:</strong> 0 (address calculation only)'
+                        ]
+                    },
+                    {
+                        heading: 'Auto-Increment/Decrement',
+                        points: [
+                            '<strong>Auto-Increment:</strong> EA = (R), then R ← R + 1',
+                            '  • Access memory, then increment register',
+                            '  • Syntax: LOAD R1, (R2)+',
+                            '  • Use: Traversing array forward',
+                            '<strong>Auto-Decrement:</strong> R ← R − 1, then EA = (R)',
+                            '  • Decrement register, then access',
+                            '  • Syntax: LOAD R1, -(R2)',
+                            '  • Use: Traversing array backward, stack operations',
+                            '<strong>Advantages:</strong> Compact loops, no separate increment instruction',
+                            '<strong>Stack Implementation:</strong> Auto-decrement for PUSH, auto-increment for POP'
+                        ]
+                    }
+                ]
+            },
+            {
+                borderColor: 'red',
+                title: 'Final Revision Summary',
+                items: [
+                    {
+                        heading: 'Functional Units (Must Know)',
+                        points: [
+                            '✓ Input, Output, Memory, ALU, Control Unit',
+                            '✓ CPU = Control Unit + ALU + Registers',
+                            '✓ ALU: Arithmetic + Logic operations',
+                            '✓ Control Unit: Fetch, Decode, Execute cycle'
+                        ]
+                    },
+                    {
+                        heading: 'Bus Types (Critical)',
+                        points: [
+                            '✓ <strong>Data Bus:</strong> Bidirectional, carries data',
+                            '✓ <strong>Address Bus:</strong> Unidirectional, n bits = 2<sup>n</sup> addresses',
+                            '✓ <strong>Control Bus:</strong> Bidirectional, control signals',
+                            '✓ Formula: Memory = 2<sup>(address bits)</sup>'
+                        ]
+                    },
+                    {
+                        heading: 'Bus Arbitration (Important)',
+                        points: [
+                            '✓ <strong>Daisy Chain:</strong> Serial, simple, priority chain',
+                            '✓ <strong>Polling:</strong> Centralized, flexible, overhead',
+                            '✓ <strong>Independent:</strong> Fastest, 2n lines, complex',
+                            '✓ Purpose: Resolve bus conflicts when multiple requests'
+                        ]
+                    },
+                    {
+                        heading: 'RTL Notation',
+                        points: [
+                            '✓ R2 ← R1 (transfer)',
+                            '✓ P: R2 ← R1 (conditional)',
+                            '✓ M[MAR] ← MBR (memory write)',
+                            '✓ MBR ← M[MAR] (memory read)'
+                        ]
+                    },
+                    {
+                        heading: 'Memory Operations',
+                        points: [
+                            '✓ <strong>Read:</strong> MAR ← Addr, MBR ← M[MAR]',
+                            '✓ <strong>Write:</strong> MAR ← Addr, MBR ← Data, M[MAR] ← MBR',
+                            '✓ MAR: Connected to address bus',
+                            '✓ MBR: Connected to data bus'
+                        ]
+                    },
+                    {
+                        heading: 'Stack Operations',
+                        points: [
+                            '✓ <strong>LIFO:</strong> Last In First Out',
+                            '✓ <strong>Register Stack:</strong> Fast, limited',
+                            '✓ <strong>Memory Stack:</strong> Large, slower',
+                            '✓ <strong>PUSH (descending):</strong> SP--, M[SP]←Data',
+                            '✓ <strong>POP (descending):</strong> Data←M[SP], SP++',
+                            '✓ Uses: Function calls, recursion, interrupts'
+                        ]
+                    },
+                    {
+                        heading: 'Control Word (Register Org)',
+                        points: [
+                            '✓ Format: SELA | SELB | SELD | OPR',
+                            '✓ SELA: Source register A (3 bits)',
+                            '✓ SELB: Source register B (3 bits)',
+                            '✓ SELD: Destination register (3 bits)',
+                            '✓ OPR: Operation code (5 bits)'
+                        ]
+                    },
+                    {
+                        heading: 'Addressing Modes (Most Important)',
+                        points: [
+                            '✓ <strong>Immediate:</strong> Operand in instruction, 0 memory access',
+                            '✓ <strong>Direct:</strong> EA = Address, 1 memory access',
+                            '✓ <strong>Indirect:</strong> EA = M[Address], 2 memory accesses',
+                            '✓ <strong>Register:</strong> Operand in register, 0 memory access',
+                            '✓ <strong>Register Indirect:</strong> EA = (Register), 1 memory access',
+                            '✓ <strong>Indexed:</strong> EA = Base + Index, array access',
+                            '✓ <strong>Relative:</strong> EA = PC + Offset, branches',
+                            '✓ <strong>Auto-increment:</strong> Access then increment',
+                            '✓ <strong>Auto-decrement:</strong> Decrement then access'
+                        ]
+                    },
+                    {
+                        heading: 'Memory Access Count',
+                        points: [
+                            '✓ Immediate: 0',
+                            '✓ Register: 0',
+                            '✓ Direct: 1',
+                            '✓ Register Indirect: 1',
+                            '✓ Indexed: 1',
+                            '✓ Indirect: 2'
+                        ]
+                    },
+                    {
+                        heading: 'Quick Formulas',
+                        points: [
+                            '✓ Address Space = 2<sup>n</sup> (n = address bits)',
+                            '✓ Data per transfer = Data bus width / 8 (bytes)',
+                            '✓ Control Word = SELA + SELB + SELD + OPR bits',
+                            '✓ Stack SP movement: PUSH (SP--), POP (SP++)'
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        const { useState } = React;
+
+        const Section = ({ borderColor, title, items }) => {
+            const [isOpen, setIsOpen] = useState(true);
+            
+            const borderColors = {
+                yellow: 'border-yellow-400',
+                blue: 'border-blue-400',
+                green: 'border-green-400',
+                purple: 'border-purple-400',
+                red: 'border-red-400'
+            };
+
+            const bgColors = {
+                yellow: 'bg-yellow-50',
+                blue: 'bg-blue-50',
+                green: 'bg-green-50',
+                purple: 'bg-purple-50',
+                red: 'bg-red-50'
+            };
+
+            const headerColors = {
+                yellow: 'bg-yellow-100 hover:bg-yellow-200',
+                blue: 'bg-blue-100 hover:bg-blue-200',
+                green: 'bg-green-100 hover:bg-green-200',
+                purple: 'bg-purple-100 hover:bg-purple-200',
+                red: 'bg-red-100 hover:bg-red-200'
+            };
+
+            return (
+                <div className={`mb-5 border-l-4 ${borderColors[borderColor]} ${bgColors[borderColor]} rounded-lg shadow-sm overflow-hidden`}>
+                    <button
+                        onClick={() => setIsOpen(!isOpen)}
+                        className={`w-full px-5 py-4 text-left font-bold text-lg flex justify-between items-center transition-colors ${headerColors[borderColor]}`}
+                    >
+                        <span>{title}</span>
+                        <span className="text-2xl font-bold">{isOpen ? '−' : '+'}</span>
+                    </button>
+                    {isOpen && (
+                        <div className="px-5 py-4 space-y-4">
+                            {items.map((item, idx) => (
+                                <div key={idx} className="space-y-2">
+                                    {item.heading && (
+                                        <h3 className="font-bold text-base text-slate-800 border-b border-slate-300 pb-1">
+                                            {item.heading}
+                                        </h3>
+                                    )}
+                                    <ul className="space-y-1.5 text-slate-700">
+                                        {item.points.map((point, pidx) => (
+                                            <li 
+                                                key={pidx} 
+                                                className="leading-relaxed text-sm"
+                                                dangerouslySetInnerHTML={{ 
+                                                    __html: point.startsWith('  •') || point.startsWith('  ') 
+                                                        ? `<span class="ml-6 block">${point.trim()}</span>`
+                                                        : point.startsWith('✓')
+                                                        ? point
+                                                        : `• ${point}`
+                                                }}
+                                            />
+                                        ))}
+                                    </ul>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        const App = () => {
+            return (
+                <div className="max-w-4xl mx-auto p-6 pb-12">
+                    <header className="text-center mb-10 bg-white rounded-lg shadow-md p-8 border-t-4 border-blue-500">
+                        <h1 className="text-5xl font-bold text-slate-800 mb-3">
+                            COA - Unit 1
+                        </h1>
+                        <h2 className="text-2xl text-slate-600 mb-2">
+                            Computer Organization & Architecture
+                        </h2>
+                        <p className="text-slate-500 text-lg italic">
+                            Introduction - COA
+                        </p>
+                    </header>
+
+                    <div className="space-y-4">
+                        {COA_DATA.map((section, index) => (
+                            <Section 
+                                key={index}
+                                borderColor={section.borderColor}
+                                title={section.title}
+                                items={section.items}
+                            />
+                        ))}
+                    </div>
+
+                    <footer className="mt-16 text-center bg-white rounded-lg shadow-md p-6 border-t-4 border-blue-500">
+                        <div className="space-y-2">
+                            <p className="text-2xl font-bold text-slate-800">
+                                Crafted with love by <span className="text-blue-600">ZenYukti</span>
+                            </p>
+                            <p className="text-slate-600 text-lg italic font-medium">
+                                Learn. Build. Share.
+                            </p>
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>
