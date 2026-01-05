@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COA Unit 2 - Last Minute Revision | ZenYukti</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="bg-gray-50 text-slate-900 font-sans">
+    <div id="root"></div>
+    <script type="text/babel">
+        const UNIT_DATA = [
+            {
+                type: 'yellow',
+                title: 'ALU & Arithmetic Operations - Definitions',
+                points: [
+                    '<strong>ALU (Arithmetic Logic Unit):</strong> Digital circuit that performs arithmetic and logical operations on binary numbers',
+                    '<strong>Operands:</strong> Input values on which operations are performed (typically A and B)',
+                    '<strong>Carry:</strong> Overflow bit from addition that propagates to next higher bit position',
+                    '<strong>Propagate (P):</strong> Condition where carry propagates through a bit position: $P_i = A_i \\oplus B_i$',
+                    '<strong>Generate (G):</strong> Condition where carry is generated at a bit position: $G_i = A_i \\cdot B_i$',
+                    '<strong>Ripple Carry:</strong> Sequential carry propagation from LSB to MSB (slow for large words)',
+                    '<strong>Overflow:</strong> Result exceeds representable range (signed arithmetic)',
+                    '<strong>Half Adder:</strong> Adds two bits, produces Sum and Carry',
+                    '<strong>Full Adder:</strong> Adds three bits (A, B, Carry-in), produces Sum and Carry-out'
+                ]
+            },
+            {
+                type: 'purple',
+                title: 'ALU Design & Structure',
+                points: [
+                    '<strong>ALU Components:</strong>',
+                    '  • Arithmetic Unit: Addition, Subtraction, Increment, Decrement',
+                    '  • Logic Unit: AND, OR, XOR, NOT, Shift, Rotate',
+                    '  • Comparator: Equal, Greater, Less',
+                    '  • Multiplexer: Selects operation result',
+                    '<strong>Operation Selection:</strong>',
+                    '  • Control lines (S0, S1, S2, ...) select specific operation',
+                    '  • 3 select lines = 8 operations, 4 select lines = 16 operations',
+                    '<strong>Basic ALU Operations:</strong>',
+                    '  • Transfer: F = A',
+                    '  • Addition: F = A + B',
+                    '  • Subtraction: F = A − B (using 2\'s complement)',
+                    '  • Increment: F = A + 1',
+                    '  • Decrement: F = A − 1',
+                    '  • AND: F = A ∧ B',
+                    '  • OR: F = A ∨ B',
+                    '  • XOR: F = A ⊕ B',
+                    '  • NOT: F = Ā',
+                    '  • Shift Left: F = A << 1',
+                    '  • Shift Right: F = A >> 1',
+                    '<strong>Status Flags:</strong>',
+                    '  • Zero (Z): Result is zero',
+                    '  • Carry (C): Carry out from MSB',
+                    '  • Sign (S): MSB of result (negative if 1)',
+                    '  • Overflow (V): Signed arithmetic overflow',
+                    '  • Parity (P): Even/odd number of 1s'
+                ]
+            },
+            {
+                type: 'purple',
+                title: 'Ripple Carry Adder',
+                points: [
+                    '<strong>Structure:</strong> Chain of Full Adders (FA) connected sequentially',
+                    '<strong>Operation:</strong> Carry ripples from LSB (bit 0) to MSB (bit n-1)',
+                    '<strong>Formula for bit i:</strong>',
+                    '  • Sum: $S_i = A_i \\oplus B_i \\oplus C_i$',
+                    '  • Carry: $C_{i+1} = A_i B_i + C_i(A_i \\oplus B_i)$',
+                    '<strong>Advantages:</strong>',
+                    '  • Simple design',
+                    '  • Minimal hardware',
+                    '  • Easy to implement',
+                    '<strong>Disadvantages:</strong>',
+                    '  • Slow for large word sizes',
+                    '  • Delay = n × (FA delay) for n bits',
+                    '  • Carry propagation bottleneck',
+                    '<strong>Delay Analysis:</strong>',
+                    '  • Each FA has delay $\\tau$',
+                    '  • n-bit adder delay = $n \\tau$',
+                    '  • 32-bit adder = 32 gate delays',
+                    '<strong>Example (4-bit):</strong> Adding 1011 + 0110',
+                    '  • Bit 0: 1+0+0 = 1, C₁=0',
+                    '  • Bit 1: 1+1+0 = 0, C₂=1 (carry generated)',
+                    '  • Bit 2: 0+1+1 = 0, C₃=1 (carry propagated)',
+                    '  • Bit 3: 1+0+1 = 0, C₄=1',
+                    '  • Result: 10001 (17 in decimal)'
+                ]
+            },
+            {
+                type: 'purple',
+                title: 'Look-Ahead Carry Adder (LACA)',
+                points: [
+                    '<strong>Purpose:</strong> Eliminate sequential carry propagation to speed up addition',
+                    '<strong>Key Idea:</strong> Calculate all carries simultaneously using P and G terms',
+                    '<strong>Propagate Function:</strong> $P_i = A_i \\oplus B_i$',
+                    '  • Carry propagates through bit i if $P_i = 1$',
+                    '  • Condition: Either $A_i$ or $B_i$ is 1 (but not both)',
+                    '<strong>Generate Function:</strong> $G_i = A_i \\cdot B_i$',
+                    '  • Carry generated at bit i if $G_i = 1$',
+                    '  • Condition: Both $A_i$ and $B_i$ are 1',
+                    '<strong>Carry Equations:</strong>',
+                    '  • $C_0$ = Carry input (given)',
+                    '  • $C_1 = G_0 + P_0 C_0$',
+                    '  • $C_2 = G_1 + P_1 G_0 + P_1 P_0 C_0$',
+                    '  • $C_3 = G_2 + P_2 G_1 + P_2 P_1 G_0 + P_2 P_1 P_0 C_0$',
+                    '  • $C_4 = G_3 + P_3 G_2 + P_3 P_2 G_1 + P_3 P_2 P_1 G_0 + P_3 P_2 P_1 P_0 C_0$',
+                    '<strong>Sum Calculation:</strong> $S_i = P_i \\oplus C_i$',
+                    '<strong>Advantages:</strong>',
+                    '  • Fast: All carries computed in parallel',
+                    '  • Fixed delay regardless of word size (for 4-bit block)',
+                    '  • Delay = 2-3 gate delays (vs n for ripple)',
+                    '<strong>Disadvantages:</strong>',
+                    '  • Complex hardware',
+                    '  • More gates required',
+                    '  • Fan-in increases with word size',
+                    '<strong>Practical Implementation:</strong>',
+                    '  • 4-bit Look-Ahead units cascaded',
+                    '  • 16-bit = 4 blocks with group carry look-ahead',
+                    '  • 64-bit = hierarchical structure',
+                    '<strong>Example (4-bit):</strong> A=1010, B=0110, C₀=0',
+                    '  • $P_0=0, P_1=1, P_2=0, P_3=1$',
+                    '  • $G_0=0, G_1=1, G_2=0, G_3=0$',
+                    '  • $C_1 = 0 + 0·0 = 0$',
+                    '  • $C_2 = 1 + 1·0 + 1·0·0 = 1$',
+                    '  • $C_3 = 0 + 0·1 + 0·1·0 + 0·1·0·0 = 0$',
+                    '  • $C_4 = 0 + 1·0 + 1·0·1 + 1·0·1·0 + 1·0·1·0·0 = 0$',
+                    '  • Sum = 0000 with carries computed in parallel'
+                ]
+            },
+            {
+                type: 'yellow',
+                title: 'Multiplication - Basic Concepts',
+                points: [
+                    '<strong>Binary Multiplication:</strong> Same as decimal but with 0 and 1',
+                    '<strong>Multiplicand:</strong> Number being multiplied (M)',
+                    '<strong>Multiplier:</strong> Number multiplying (Q)',
+                    '<strong>Product:</strong> Result (P), size = size(M) + size(Q)',
+                    '<strong>Partial Products:</strong> Intermediate products for each multiplier bit',
+                    '<strong>Algorithm:</strong>',
+                    '  1. Check multiplier bit (LSB)',
+                    '  2. If 1: Add multiplicand to partial product',
+                    '  3. If 0: Add 0 (or skip)',
+                    '  4. Shift multiplicand left (or shift product right)',
+                    '  5. Repeat for all bits',
+                    '<strong>Example:</strong> 5 × 3 = (101)₂ × (011)₂',
+                    '  • 101 × 1 = 101',
+                    '  • 101 × 1 (shifted) = 1010',
+                    '  • 101 × 0 (shifted) = 0000',
+                    '  • Sum = 1111 = 15',
+                    '<strong>Hardware Multiplier:</strong> Requires adder, shift register, and control logic',
+                    '<strong>Unsigned Multiplication:</strong> Straightforward bit-by-bit',
+                    '<strong>Signed Multiplication:</strong> Handle sign bits (2\'s complement)'
+                ]
+            },
+            {
+                type: 'blue',
+                title: 'Booth\'s Algorithm - Theory',
+                points: [
+                    '<strong>Purpose:</strong> Efficient signed binary multiplication using 2\'s complement',
+                    '<strong>Key Advantage:</strong> Handles negative numbers directly, reduces additions',
+                    '<strong>Registers Used:</strong>',
+                    '  • A (Accumulator): Initially 0, holds upper bits of product',
+                    '  • Q (Multiplier): Holds multiplier, becomes lower bits of product',
+                    '  • Q₋₁: Extra bit, initially 0, tracks previous LSB of Q',
+                    '  • M (Multiplicand): Stored separately, unchanged',
+                    '  • SC (Sequence Counter): Counts iterations (= number of bits)',
+                    '<strong>Booth Recoding:</strong> Examine pairs (Qₙ, Q₋₁)',
+                    '  • (0, 0): Middle of 0s → Do nothing',
+                    '  • (0, 1): End of 1s → Add M to A',
+                    '  • (1, 0): Start of 1s → Subtract M from A',
+                    '  • (1, 1): Middle of 1s → Do nothing',
+                    '<strong>Algorithm Steps:</strong>',
+                    '  1. Initialize: A=0, Q=multiplier, Q₋₁=0, M=multiplicand, SC=n',
+                    '  2. Check Q₀Q₋₁:',
+                    '     • 00 or 11: Do nothing',
+                    '     • 01: A = A + M',
+                    '     • 10: A = A − M',
+                    '  3. Arithmetic right shift AQQ₋₁ (preserve sign bit)',
+                    '  4. Decrement SC',
+                    '  5. If SC > 0, repeat from step 2',
+                    '  6. Product = AQ (concatenated)',
+                    '<strong>Why it Works:</strong>',
+                    '  • String of 1s: 0111...1110 = 10000...0000 − 00000...0010',
+                    '  • Example: 0111 (7) = 1000 (8) − 0001 (1)',
+                    '  • Reduces number of additions',
+                    '<strong>Sign Extension:</strong> During right shift, MSB of A is copied (arithmetic shift)',
+                    '<strong>Advantages:</strong>',
+                    '  • Works with signed numbers directly',
+                    '  • Fewer operations for consecutive 1s',
+                    '  • Uniform algorithm for +/− numbers'
+                ]
+            },
+            {
+                type: 'blue',
+                title: 'Booth\'s Algorithm - Example',
+                points: [
+                    '<strong>Problem:</strong> Multiply 3 × (−4) using 5-bit representation',
+                    '<strong>Setup:</strong>',
+                    '  • M = +3 = 00011',
+                    '  • Q = −4 = 11100 (2\'s complement)',
+                    '  • A = 00000, Q₋₁ = 0, SC = 5',
+                    '<strong>Iteration 0:</strong> Q₀Q₋₁ = 00',
+                    '  • Operation: Do nothing',
+                    '  • Shift: A=00000, Q=11110, Q₋₁=0',
+                    '  • SC = 4',
+                    '<strong>Iteration 1:</strong> Q₀Q₋₁ = 00',
+                    '  • Operation: Do nothing',
+                    '  • Shift: A=00000, Q=11111, Q₋₁=0',
+                    '  • SC = 3',
+                    '<strong>Iteration 2:</strong> Q₀Q₋₁ = 10',
+                    '  • Operation: A = A − M = 00000 − 00011 = 11101',
+                    '  • Shift: A=11110, Q=11111, Q₋₁=1',
+                    '  • SC = 2',
+                    '<strong>Iteration 3:</strong> Q₀Q₋₁ = 11',
+                    '  • Operation: Do nothing',
+                    '  • Shift: A=11111, Q=01111, Q₋₁=1',
+                    '  • SC = 1',
+                    '<strong>Iteration 4:</strong> Q₀Q₋₁ = 11',
+                    '  • Operation: Do nothing',
+                    '  • Shift: A=11111, Q=10111, Q₋₁=1',
+                    '  • SC = 0 (Done)',
+                    '<strong>Result:</strong> AQ = 1111110111 = −12 in 10-bit 2\'s complement',
+                    '  • Verification: 3 × (−4) = −12 ✓',
+                    '<strong>Another Example:</strong> (−5) × (−3)',
+                    '  • M = 11011 (−5), Q = 11101 (−3)',
+                    '  • After 5 iterations: Product = +15 ✓',
+                    '<strong>Key Point:</strong> Always perform n iterations for n-bit numbers'
+                ]
+            },
+            {
+                type: 'blue',
+                title: 'Array Multiplier',
+                points: [
+                    '<strong>Type:</strong> Combinational circuit (no clock, parallel)',
+                    '<strong>Structure:</strong> 2D array of AND gates and Full Adders',
+                    '<strong>Operation:</strong> All partial products computed simultaneously',
+                    '<strong>Components:</strong>',
+                    '  • AND gates: Generate partial products (M × Qᵢ)',
+                    '  • Full Adders: Sum partial products',
+                    '  • Rows = multiplier bits',
+                    '  • Columns = multiplicand bits',
+                    '<strong>For n×n multiplication:</strong>',
+                    '  • n² AND gates',
+                    '  • (n−1)² Full Adders',
+                    '  • Example: 4×4 needs 16 ANDs, 9 FAs',
+                    '<strong>Data Flow:</strong>',
+                    '  1. Each row computes multiplicand × one multiplier bit',
+                    '  2. Partial products shifted and added',
+                    '  3. Carries propagate diagonally',
+                    '  4. Final product emerges at output',
+                    '<strong>Advantages:</strong>',
+                    '  • Very fast (purely combinational)',
+                    '  • Fixed time regardless of data',
+                    '  • No clock needed',
+                    '<strong>Disadvantages:</strong>',
+                    '  • Large hardware (grows as n²)',
+                    '  • High cost for large word sizes',
+                    '  • Not practical for 32-bit or 64-bit',
+                    '<strong>Example (3×3):</strong> 5 × 6 = 101 × 110',
+                    '  • Row 0: 101 × 0 = 000',
+                    '  • Row 1: 101 × 1 (shift 1) = 1010',
+                    '  • Row 2: 101 × 1 (shift 2) = 10100',
+                    '  • Parallel addition: 11110 = 30 ✓',
+                    '<strong>Applications:</strong>',
+                    '  • DSP (Digital Signal Processing)',
+                    '  • Graphics processors',
+                    '  • Cryptocurrency mining',
+                    '  • Where speed is critical'
+                ]
+            },
+            {
+                type: 'yellow',
+                title: 'Division - Basic Concepts',
+                points: [
+                    '<strong>Division Operation:</strong> Dividend ÷ Divisor = Quotient, Remainder',
+                    '<strong>Dividend (A):</strong> Number being divided',
+                    '<strong>Divisor (M):</strong> Number dividing',
+                    '<strong>Quotient (Q):</strong> Result of division',
+                    '<strong>Remainder (R):</strong> What remains',
+                    '<strong>Equation:</strong> A = M × Q + R, where 0 ≤ R < M',
+                    '<strong>Binary Division:</strong> Similar to long division',
+                    '  • Compare divisor with dividend portion',
+                    '  • If dividend ≥ divisor: Q bit = 1, subtract',
+                    '  • If dividend < divisor: Q bit = 0, don\'t subtract',
+                    '  • Shift left and repeat',
+                    '<strong>Example:</strong> 13 ÷ 3 = (1101)₂ ÷ (0011)₂',
+                    '  • 1101 ÷ 11 = 100 R 1 (4 remainder 1)',
+                    '<strong>Hardware Requirements:</strong>',
+                    '  • Adder/Subtractor',
+                    '  • Shift registers',
+                    '  • Comparator',
+                    '  • Control logic',
+                    '<strong>Restoring vs Non-Restoring:</strong> Two main algorithms',
+                    '<strong>Overflow:</strong> Divisor = 0 (division by zero)',
+                    '<strong>Sign Handling:</strong> Track signs separately for signed division'
+                ]
+            },
+            {
+                type: 'blue',
+                title: 'Restoring Division Algorithm',
+                points: [
+                    '<strong>Principle:</strong> If subtraction produces negative, restore previous value',
+                    '<strong>Registers:</strong>',
+                    '  • A (Accumulator): Initially 0, holds remainder',
+                    '  • Q (Quotient): Initially dividend, becomes quotient',
+                    '  • M (Divisor): Stored separately',
+                    '  • SC: Sequence counter (= number of bits)',
+                    '<strong>Algorithm Steps:</strong>',
+                    '  1. Initialize: A=0, Q=dividend, M=divisor, SC=n',
+                    '  2. Left shift AQ (shift in next dividend bit)',
+                    '  3. Subtract: A = A − M',
+                    '  4. Check sign of A:',
+                    '     • If A ≥ 0: Set Q₀ = 1 (successful subtraction)',
+                    '     • If A < 0: Set Q₀ = 0, restore A = A + M',
+                    '  5. Decrement SC',
+                    '  6. If SC > 0, repeat from step 2',
+                    '  7. Quotient in Q, Remainder in A',
+                    '<strong>Why "Restoring":</strong> Negative remainder restored by adding M back',
+                    '<strong>Example:</strong> 7 ÷ 3 = (0111)₂ ÷ (0011)₂',
+                    '  • Initial: A=0000, Q=0111, M=0011, SC=4',
+                    '  • Iter 1: Shift→A=0000, A−M=1101 (−ve), Restore, Q₀=0',
+                    '  • Iter 2: Shift→A=0001, A−M=1110 (−ve), Restore, Q₀=0',
+                    '  • Iter 3: Shift→A=0011, A−M=0000 (+ve), Q₀=1',
+                    '  • Iter 4: Shift→A=0001, A−M=1110 (−ve), Restore, Q₀=0',
+                    '  • Result: Q=0010 (2), A=0001 (1) → 7=3×2+1 ✓',
+                    '<strong>Disadvantages:</strong>',
+                    '  • Restoration step wastes time',
+                    '  • Two operations per bit (subtract + possible add)',
+                    '<strong>Advantages:</strong>',
+                    '  • Simple to understand',
+                    '  • Easy to implement',
+                    '  • Always maintains positive remainder'
+                ]
+            },
+            {
+                type: 'blue',
+                title: 'Non-Restoring Division Algorithm',
+                points: [
+                    '<strong>Principle:</strong> No restoration, adjust in next iteration',
+                    '<strong>Key Idea:</strong> If A negative, add M next time (instead of subtract)',
+                    '<strong>Algorithm Steps:</strong>',
+                    '  1. Initialize: A=0, Q=dividend, M=divisor, SC=n',
+                    '  2. Left shift AQ',
+                    '  3. Check sign of A:',
+                    '     • If A ≥ 0: A = A − M, set Q₀ = 1',
+                    '     • If A < 0: A = A + M, set Q₀ = 0',
+                    '  4. Decrement SC',
+                    '  5. If SC > 0, repeat from step 2',
+                    '  6. If A < 0 at end: A = A + M (final correction)',
+                    '  7. Quotient in Q, Remainder in A',
+                    '<strong>Logic:</strong>',
+                    '  • After shift, if previous A was −ve, we add (compensate)',
+                    '  • If previous A was +ve, we subtract (normal)',
+                    '  • Eliminates explicit restoration step',
+                    '<strong>Example:</strong> 7 ÷ 3 = (0111)₂ ÷ (0011)₂',
+                    '  • Initial: A=0000, Q=0111, M=0011, SC=4',
+                    '  • Iter 1: Shift→A=0000, A≥0→A−M=1101, Q₀=0',
+                    '  • Iter 2: Shift→A=1011, A<0→A+M=1110, Q₀=0',
+                    '  • Iter 3: Shift→A=1101, A<0→A+M=0000, Q₀=1',
+                    '  • Iter 4: Shift→A=0001, A≥0→A−M=1110, Q₀=0',
+                    '  • A<0: A+M=0001',
+                    '  • Result: Q=0010 (2), A=0001 (1) ✓',
+                    '<strong>Advantages:</strong>',
+                    '  • Faster (no restoration step)',
+                    '  • One operation per iteration',
+                    '  • More efficient',
+                    '<strong>Disadvantages:</strong>',
+                    '  • Slightly more complex logic',
+                    '  • Need to track A sign for next operation',
+                    '<strong>Comparison:</strong>',
+                    '  • Restoring: Always subtract, restore if needed',
+                    '  • Non-Restoring: Alternate subtract/add based on sign',
+                    '  • Non-Restoring is generally preferred in hardware'
+                ]
+            },
+            {
+                type: 'purple',
+                title: 'Logic Micro-operations',
+                points: [
+                    '<strong>Logic Operations:</strong> Bitwise operations on binary data',
+                    '<strong>AND Operation:</strong> F = A ∧ B',
+                    '  • 1 AND 1 = 1, else 0',
+                    '  • Use: Masking (clear specific bits)',
+                    '  • Example: 1010 AND 1100 = 1000',
+                    '<strong>OR Operation:</strong> F = A ∨ B',
+                    '  • 0 OR 0 = 0, else 1',
+                    '  • Use: Set specific bits',
+                    '  • Example: 1010 OR 0101 = 1111',
+                    '<strong>XOR Operation:</strong> F = A ⊕ B',
+                    '  • Different bits = 1, same = 0',
+                    '  • Use: Toggle bits, detect differences',
+                    '  • Example: 1010 XOR 1100 = 0110',
+                    '  • Property: A ⊕ A = 0, A ⊕ 0 = A',
+                    '<strong>NOT Operation:</strong> F = Ā',
+                    '  • Complement all bits',
+                    '  • 1 → 0, 0 → 1',
+                    '  • Example: NOT 1010 = 0101',
+                    '<strong>NAND Operation:</strong> F = NOT(A AND B)',
+                    '  • Universal gate',
+                    '<strong>NOR Operation:</strong> F = NOT(A OR B)',
+                    '  • Universal gate',
+                    '<strong>Shift Left Logical:</strong> F = A << n',
+                    '  • Shift bits left, fill with 0s',
+                    '  • Equivalent to multiply by 2ⁿ',
+                    '  • Example: 0011 << 2 = 1100',
+                    '<strong>Shift Right Logical:</strong> F = A >> n',
+                    '  • Shift bits right, fill with 0s',
+                    '  • Equivalent to divide by 2ⁿ (unsigned)',
+                    '  • Example: 1100 >> 2 = 0011',
+                    '<strong>Shift Right Arithmetic:</strong>',
+                    '  • Shift right, preserve sign bit (MSB)',
+                    '  • Used for signed division by 2',
+                    '<strong>Rotate Left:</strong> Bits shifted left, MSB wraps to LSB',
+                    '<strong>Rotate Right:</strong> Bits shifted right, LSB wraps to MSB',
+                    '<strong>Applications:</strong>',
+                    '  • Bit manipulation',
+                    '  • Data encryption',
+                    '  • Compression',
+                    '  • Graphics operations'
+                ]
+            },
+            {
+                type: 'green',
+                title: 'Floating Point - IEEE 754 Standard',
+                points: [
+                    '<strong>Purpose:</strong> Represent real numbers (fractions, very large/small values)',
+                    '<strong>Format:</strong> $(-1)^S \\times 1.M \\times 2^{E-Bias}$',
+                    '<strong>Three Components:</strong>',
+                    '  • Sign Bit (S): 0 = positive, 1 = negative',
+                    '  • Exponent (E): Biased representation',
+                    '  • Mantissa/Significand (M): Fractional part',
+                    '<strong>Normalized Form:</strong> 1.xxxxx × 2ⁿ',
+                    '  • Leading 1 is implicit (not stored)',
+                    '  • Maximizes precision',
+                    '<strong>Why Bias?</strong> Allows comparison of exponents as unsigned integers',
+                    '<strong>Bias Formula:</strong> Bias = $2^{k-1} - 1$ where k = exponent bits',
+                    '<strong>Actual Exponent:</strong> $E_{actual} = E_{stored} - Bias$'
+                ]
+            },
+            {
+                type: 'green',
+                title: 'IEEE 754 - Single Precision (32-bit)',
+                points: [
+                    '<strong>Total Size:</strong> 32 bits',
+                    '<strong>Bit Allocation:</strong>',
+                    '  • Sign: 1 bit (bit 31)',
+                    '  • Exponent: 8 bits (bits 30-23)',
+                    '  • Mantissa: 23 bits (bits 22-0)',
+                    '<strong>Bias:</strong> $2^{8-1} - 1 = 127$',
+                    '<strong>Exponent Range:</strong>',
+                    '  • Stored: 0 to 255',
+                    '  • Actual: −126 to +127 (0 and 255 reserved)',
+                    '<strong>Representation:</strong> $(-1)^S \\times 1.M \\times 2^{E-127}$',
+                    '<strong>Range:</strong> ≈ $\\pm 1.18 \\times 10^{-38}$ to $\\pm 3.4 \\times 10^{38}$',
+                    '<strong>Precision:</strong> ≈ 7 decimal digits',
+                    '<strong>Special Values:</strong>',
+                    '  • E=0, M=0: Zero (±0)',
+                    '  • E=0, M≠0: Denormalized numbers',
+                    '  • E=255, M=0: Infinity (±∞)',
+                    '  • E=255, M≠0: NaN (Not a Number)',
+                    '<strong>Example:</strong> Represent 12.5',
+                    '  • 12.5 = 1100.1₂ = 1.1001 × 2³',
+                    '  • S = 0 (positive)',
+                    '  • Exponent: 3 + 127 = 130 = 10000010₂',
+                    '  • Mantissa: 10010000000000000000000 (23 bits)',
+                    '  • Result: 0 10000010 10010000000000000000000'
+                ]
+            },
+            {
+                type: 'green',
+                title: 'IEEE 754 - Double Precision (64-bit)',
+                points: [
+                    '<strong>Total Size:</strong> 64 bits',
+                    '<strong>Bit Allocation:</strong>',
+                    '  • Sign: 1 bit (bit 63)',
+                    '  • Exponent: 11 bits (bits 62-52)',
+                    '  • Mantissa: 52 bits (bits 51-0)',
+                    '<strong>Bias:</strong> $2^{11-1} - 1 = 1023$',
+                    '<strong>Exponent Range:</strong>',
+                    '  • Stored: 0 to 2047',
+                    '  • Actual: −1022 to +1023',
+                    '<strong>Representation:</strong> $(-1)^S \\times 1.M \\times 2^{E-1023}$',
+                    '<strong>Range:</strong> ≈ $\\pm 2.23 \\times 10^{-308}$ to $\\pm 1.8 \\times 10^{308}$',
+                    '<strong>Precision:</strong> ≈ 15-16 decimal digits',
+                    '<strong>Special Values:</strong> Same rules as single precision',
+                    '<strong>Example:</strong> Represent −0.75',
+                    '  • 0.75 = 0.11₂ = 1.1 × 2⁻¹',
+                    '  • S = 1 (negative)',
+                    '  • Exponent: −1 + 1023 = 1022 = 01111111110₂',
+                    '  • Mantissa: 1000...0 (52 bits)',
+                    '  • Result: 1 01111111110 1000000000000000000000000000000000000000000000000000',
+                    '<strong>Comparison:</strong>',
+                    '  • Single: Faster, less memory, lower precision',
+                    '  • Double: Slower, more memory, higher precision',
+                    '  • Use Single: Graphics, games, embedded systems',
+                    '  • Use Double: Scientific computing, finance, engineering'
+                ]
+            },
+            {
+                type: 'green',
+                title: 'Floating Point Addition/Subtraction',
+                points: [
+                    '<strong>Problem:</strong> Cannot directly add mantissas if exponents differ',
+                    '<strong>Algorithm Steps:</strong>',
+                    '  1. <strong>Check for zero:</strong> If either operand is 0, return the other',
+                    '  2. <strong>Align exponents:</strong>',
+                    '     • Compare exponents $E_1$ and $E_2$',
+                    '     • Shift mantissa of smaller exponent number right',
+                    '     • Increase its exponent until both equal',
+                    '  3. <strong>Add/Subtract mantissas:</strong>',
+                    '     • If same sign: Add mantissas',
+                    '     • If different sign: Subtract mantissas',
+                    '  4. <strong>Normalize result:</strong>',
+                    '     • Shift mantissa until form is 1.xxxxx',
+                    '     • Adjust exponent accordingly',
+                    '     • Left shift → decrement exponent',
+                    '     • Right shift → increment exponent',
+                    '  5. <strong>Round:</strong> Round mantissa to fit precision',
+                    '  6. <strong>Check overflow/underflow:</strong> Exponent in valid range',
+                    '<strong>Example:</strong> Add 1.25 × 10² + 3.5 × 10¹',
+                    '  • Align: 1.25 × 10² + 0.35 × 10²',
+                    '  • Add: 1.60 × 10²',
+                    '  • Already normalized',
+                    '<strong>Binary Example:</strong> (1.01 × 2³) + (1.11 × 2¹)',
+                    '  • Align: 1.01 × 2³ + 0.0111 × 2³',
+                    '  • Add: 1.0111 × 2³',
+                    '  • Normalize: 1.0111 × 2³ (already normalized)',
+                    '<strong>Subtraction:</strong> Same as addition, negate second operand sign',
+                    '<strong>Challenges:</strong>',
+                    '  • Loss of precision during alignment',
+                    '  • Rounding errors',
+                    '  • Overflow (result too large)',
+                    '  • Underflow (result too small)',
+                    '<strong>Guard Bits:</strong> Extra bits kept during calculation to improve accuracy',
+                    '<strong>Rounding Modes:</strong>',
+                    '  • Round to nearest (default)',
+                    '  • Round toward zero',
+                    '  • Round toward +∞',
+                    '  • Round toward −∞'
+                ]
+            },
+            {
+                type: 'green',
+                title: 'Floating Point Multiplication',
+                points: [
+                    '<strong>Algorithm Steps:</strong>',
+                    '  1. <strong>Sign:</strong> XOR of sign bits ($S_1 \\oplus S_2$)',
+                    '  2. <strong>Exponent:</strong> Add exponents, subtract bias',
+                    '     • $E_{result} = E_1 + E_2 - Bias$',
+                    '     • Why subtract bias? Both exponents have bias added',
+                    '  3. <strong>Mantissa:</strong> Multiply mantissas (1.M₁ × 1.M₂)',
+                    '  4. <strong>Normalize:</strong> Adjust if product ≥ 2 or < 1',
+                    '  5. <strong>Round:</strong> Fit to precision',
+                    '  6. <strong>Check overflow/underflow</strong>',
+                    '<strong>Example:</strong> (1.5 × 10³) × (2.0 × 10²)',
+                    '  • Sign: + × + = +',
+                    '  • Exponent: 3 + 2 = 5',
+                    '  • Mantissa: 1.5 × 2.0 = 3.0',
+                    '  • Normalize: 3.0 × 10⁵ = 0.3 × 10⁶',
+                    '<strong>Binary Example:</strong> (1.1 × 2²) × (1.01 × 2³)',
+                    '  • Exponent: 2 + 3 = 5',
+                    '  • Mantissa: 1.1 × 1.01 = 1.111',
+                    '  • Result: 1.111 × 2⁵',
+                    '<strong>Note:</strong> Multiplication is faster than addition (no alignment needed)'
+                ]
+            },
+            {
+                type: 'green',
+                title: 'Floating Point Division',
+                points: [
+                    '<strong>Algorithm Steps:</strong>',
+                    '  1. <strong>Sign:</strong> XOR of sign bits',
+                    '  2. <strong>Exponent:</strong> Subtract exponents, add bias',
+                    '     • $E_{result} = E_1 - E_2 + Bias$',
+                    '     • Why add bias? Subtraction removed both biases',
+                    '  3. <strong>Mantissa:</strong> Divide mantissas (1.M₁ ÷ 1.M₂)',
+                    '  4. <strong>Normalize</strong>',
+                    '  5. <strong>Round</strong>',
+                    '  6. <strong>Check overflow/underflow</strong>',
+                    '<strong>Example:</strong> (6.0 × 10⁴) ÷ (2.0 × 10²)',
+                    '  • Sign: + ÷ + = +',
+                    '  • Exponent: 4 − 2 = 2',
+                    '  • Mantissa: 6.0 ÷ 2.0 = 3.0',
+                    '  • Result: 3.0 × 10²',
+                    '<strong>Binary Example:</strong> (1.1 × 2⁴) ÷ (1.01 × 2²)',
+                    '  • Exponent: 4 − 2 = 2',
+                    '  • Mantissa: 1.1 ÷ 1.01 ≈ 1.0111',
+                    '  • Result: 1.0111 × 2²',
+                    '<strong>Division by Zero:</strong> Returns ±∞',
+                    '<strong>Note:</strong> Division is slowest floating point operation'
+                ]
+            },
+            {
+                type: 'red',
+                title: 'Quick Revision Summary',
+                points: [
+                    '<strong>Look-Ahead Carry Adder:</strong>',
+                    '  • P (Propagate): $P_i = A_i \\oplus B_i$',
+                    '  • G (Generate): $G_i = A_i \\cdot B_i$',
+                    '  • Carry: $C_{i+1} = G_i + P_i C_i$',
+                    '  • All carries computed in parallel (fast)',
+                    '<strong>Booth\'s Algorithm (Key Steps):</strong>',
+                    '  • Check $Q_0 Q_{-1}$: 00/11→nothing, 01→A+M, 10→A−M',
+                    '  • Arithmetic right shift AQQ₋₁',
+                    '  • Repeat n times for n-bit multiplication',
+                    '  • Product = AQ',
+                    '<strong>Division Algorithms:</strong>',
+                    '  • <strong>Restoring:</strong> Subtract, if negative restore (A+M)',
+                    '  • <strong>Non-Restoring:</strong> If negative, add next time (no restore)',
+                    '  • Non-Restoring is faster',
+                    '<strong>IEEE 754 Single (32-bit):</strong>',
+                    '  • 1 sign + 8 exponent + 23 mantissa',
+                    '  • Bias = 127',
+                    '  • Value: $(-1)^S \\times 1.M \\times 2^{E-127}$',
+                    '<strong>IEEE 754 Double (64-bit):</strong>',
+                    '  • 1 sign + 11 exponent + 52 mantissa',
+                    '  • Bias = 1023',
+                    '  • Value: $(-1)^S \\times 1.M \\times 2^{E-1023}$',
+                    '<strong>Floating Point Operations:</strong>',
+                    '  • <strong>Add/Sub:</strong> Align exponents → Add/Sub mantissas → Normalize',
+                    '  • <strong>Multiply:</strong> XOR signs, Add exponents−Bias, Multiply mantissas',
+                    '  • <strong>Divide:</strong> XOR signs, Subtract exponents+Bias, Divide mantissas',
+                    '<strong>Logic Operations:</strong>',
+                    '  • AND: Masking (clear bits)',
+                    '  • OR: Set bits',
+                    '  • XOR: Toggle bits, A⊕A=0',
+                    '  • Shift Left: Multiply by 2ⁿ',
+                    '  • Shift Right: Divide by 2ⁿ',
+                    '<strong>Array Multiplier:</strong>',
+                    '  • Combinational (parallel)',
+                    '  • n² AND gates, (n−1)² Full Adders',
+                    '  • Very fast but expensive',
+                    '<strong>Important Formulas:</strong>',
+                    '  • Bias = $2^{k-1} - 1$',
+                    '  • Actual Exp = Stored Exp − Bias',
+                    '  • FP Multiply Exp: $E_1 + E_2 - Bias$',
+                    '  • FP Divide Exp: $E_1 - E_2 + Bias$',
+                    '<strong>Special Values:</strong>',
+                    '  • E=0, M=0: Zero',
+                    '  • E=max, M=0: Infinity',
+                    '  • E=max, M≠0: NaN',
+                    '<strong>Common Pitfalls:</strong>',
+                    '  • Booth\'s: Forget Q₋₁ bit or sign extension',
+                    '  • Division: Forget final correction in non-restoring',
+                    '  • IEEE: Forget to add/subtract bias in exponent operations',
+                    '  • Floating Point: Align before add, don\'t align before multiply'
+                ]
+            }
+        ];
+
+        const { useState, useEffect } = React;
+
+        const Box = ({ type, title, children }) => {
+            const [isOpen, setIsOpen] = useState(false);
+            
+            const colors = {
+                yellow: 'bg-yellow-100 border-yellow-300',
+                blue: 'bg-blue-100 border-blue-300',
+                green: 'bg-green-100 border-green-300',
+                purple: 'bg-purple-100 border-purple-300',
+                red: 'bg-red-100 border-red-300'
+            };
+
+            const headerColors = {
+                yellow: 'bg-yellow-200',
+                blue: 'bg-blue-200',
+                green: 'bg-green-200',
+                purple: 'bg-purple-200',
+                red: 'bg-red-200'
+            };
+
+            return (
+                <div className={`mb-4 border-2 rounded-lg ${colors[type]} overflow-hidden`}>
+                    <button
+                        onClick={() => setIsOpen(!isOpen)}
+                        className={`w-full px-4 py-3 text-left font-semibold flex justify-between items-center ${headerColors[type]} hover:opacity-80 transition-opacity`}
+                    >
+                        <span>{title}</span>
+                        <span className="text-xl">{isOpen ? '−' : '+'}</span>
+                    </button>
+                    {isOpen && (
+                        <div className="px-4 py-3">
+                            {children}
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        const App = () => {
+            useEffect(() => {
+                // Render LaTeX
+                if (window.renderMathInElement) {
+                    renderMathInElement(document.body, {
+                        delimiters: [
+                            {left: '$$', right: '$$', display: true},
+                            {left: '$', right: '$', display: false}
+                        ],
+                        throwOnError: false
+                    });
+                }
+            }, []);
+
+            return (
+                <div className="max-w-4xl mx-auto p-6">
+                    <div className="text-center mb-8">
+                        <h1 className="text-4xl font-bold mb-2 text-slate-800">COA - Unit 2</h1>
+                        <h2 className="text-2xl text-slate-600 mb-1">Arithmetic & Logic Operations</h2>
+                        <p className="text-slate-500 italic">Last Minute Revision</p>
+                    </div>
+
+                    {UNIT_DATA.map((section, index) => (
+                        <Box key={index} type={section.type} title={section.title}>
+                            <ul className="space-y-1.5 text-slate-800">
+                                {section.points.map((point, idx) => (
+                                    <li 
+                                        key={idx} 
+                                        className="leading-relaxed"
+                                        dangerouslySetInnerHTML={{ 
+                                            __html: point.startsWith('  •') || point.startsWith('  ') 
+                                                ? `<span class="ml-6 block">${point.trim()}</span>`
+                                                : point.startsWith('✓')
+                                                ? point
+                                                : `• ${point}`
+                                        }}
+                                    />
+                                ))}
+                            </ul>
+                        </Box>
+                    ))}
+
+                    <footer className="mt-12 text-center pb-6">
+                        <div className="border-t-2 border-slate-300 pt-6">
+                            <p className="text-lg font-semibold text-slate-700">
+                                Crafted with love by <span className="text-blue-600">ZenYukti</span>
+                            </p>
+                            <p className="text-slate-500 italic mt-1">Learn. Build. Share.</p>
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>
