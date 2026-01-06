@@ -3,19 +3,608 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Structures: Unit 5 - Graphs | ZenYukti</title>
+    <title>Unit 4: Trees | ZenYukti</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50">
+<body class="bg-slate-50 text-slate-900 font-sans">
     <div id="root"></div>
     
     <script type="text/babel">
         const { useState } = React;
 
-        const Box = ({ type, title, children }) => {
+        const TREE_CONTENT = [
+            {
+                id: 1,
+                title: "1. Tree Terminology & Basics",
+                boxes: [
+                    {
+                        type: "yellow",
+                        title: "Key Definitions",
+                        items: [
+                            "**Tree**: Non-linear hierarchical data structure with nodes and edges",
+                            "**Root**: Topmost node (no parent)",
+                            "**Parent**: Node with children below it",
+                            "**Child**: Node directly connected below parent",
+                            "**Siblings**: Nodes with same parent",
+                            "**Leaf/Terminal**: Node with no children",
+                            "**Internal Node**: Node with at least one child",
+                            "**Degree**: Number of children of a node",
+                            "**Level**: Distance from root (root is level 0)",
+                            "**Height**: Maximum level in tree (longest path from root to leaf)",
+                            "**Depth**: Level of a node from root",
+                            "**Ancestor**: All nodes on path from root to node",
+                            "**Descendant**: All nodes in subtree below node"
+                        ]
+                    },
+                    {
+                        type: "yellow",
+                        title: "Binary Tree Properties",
+                        items: [
+                            "**Binary Tree**: Each node has at most 2 children (left, right)",
+                            "**Maximum nodes at level i**: 2^i",
+                            "**Maximum nodes with height h**: 2^(h+1) - 1",
+                            "**Minimum height for n nodes**: log₂(n+1) - 1",
+                            "**Number of leaf nodes**: Internal nodes + 1 (for full binary tree)"
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 2,
+                title: "2. Types of Binary Trees",
+                boxes: [
+                    {
+                        type: "purple",
+                        title: "A. Strictly/Full Binary Tree",
+                        items: [
+                            "Every node has either 0 or 2 children",
+                            "No node has exactly 1 child",
+                            "Leaf nodes: (n+1)/2, Internal nodes: (n-1)/2"
+                        ]
+                    },
+                    {
+                        type: "purple",
+                        title: "B. Complete Binary Tree",
+                        items: [
+                            "All levels completely filled except possibly last",
+                            "Last level filled from left to right",
+                            "Used in Binary Heap implementation",
+                            "Efficient array representation possible"
+                        ]
+                    },
+                    {
+                        type: "purple",
+                        title: "C. Extended/Full Binary Tree",
+                        items: [
+                            "Replace null pointers with special nodes",
+                            "Internal nodes: Original nodes",
+                            "External nodes: Special nodes (leaves)",
+                            "Used in expression trees"
+                        ]
+                    },
+                    {
+                        type: "purple",
+                        title: "D. Perfect Binary Tree",
+                        items: [
+                            "All internal nodes have 2 children",
+                            "All leaves at same level",
+                            "Total nodes: 2^(h+1) - 1"
+                        ]
+                    },
+                    {
+                        type: "purple",
+                        title: "E. Balanced Binary Tree",
+                        items: [
+                            "Height difference of left and right subtrees ≤ 1",
+                            "Ensures O(log n) operations",
+                            "Examples: AVL Trees, Red-Black Trees"
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 3,
+                title: "3. Tree Representations",
+                boxes: [
+                    {
+                        type: "purple",
+                        title: "A. Array Representation",
+                        items: [
+                            "**Root at index**: 0",
+                            "**Left child of i**: 2i + 1",
+                            "**Right child of i**: 2i + 2",
+                            "**Parent of i**: (i-1)/2",
+                            "**Space**: O(2^h) - Wasteful for sparse trees",
+                            "**Best for**: Complete binary trees"
+                        ],
+                        code: `Example: Tree [A, B, C, D, E]
+Index: 0  1  2  3  4
+       A  B  C  D  E
+       
+Left(1) = 2*1+1 = 3 → D
+Right(1) = 2*1+2 = 4 → E`
+                    },
+                    {
+                        type: "purple",
+                        title: "B. Pointer/Linked Representation",
+                        items: [
+                            "Each node contains: data, left pointer, right pointer",
+                            "**Space**: O(n) - Efficient for any tree",
+                            "**Flexible**: Easy insertion/deletion",
+                            "**Dynamic**: No size limitations"
+                        ],
+                        code: `struct Node {
+    int data;
+    Node* left;
+    Node* right;
+};`
+                    }
+                ]
+            },
+            {
+                id: 4,
+                title: "4. Tree Traversals",
+                boxes: [
+                    {
+                        type: "blue",
+                        title: "A. Inorder Traversal (LNR)",
+                        items: [
+                            "**Order**: Left → Node → Right",
+                            "**BST Property**: Gives sorted sequence",
+                            "**Use**: Expression evaluation, BST sorting"
+                        ],
+                        code: `Inorder(node):
+1. If node is NULL, return
+2. Inorder(node.left)
+3. Visit node
+4. Inorder(node.right)
+
+Example Tree:
+        A
+       / \\
+      B   C
+     / \\
+    D   E
+
+Execution:
+Step 1: Go left to B
+Step 2: Go left to D (leaf)
+Step 3: Visit D → Output: D
+Step 4: Back to B, visit B → Output: D, B
+Step 5: Go right to E, visit E → Output: D, B, E
+Step 6: Back to A, visit A → Output: D, B, E, A
+Step 7: Go right to C, visit C → Output: D, B, E, A, C
+
+Inorder Result: D B E A C`
+                    },
+                    {
+                        type: "blue",
+                        title: "B. Preorder Traversal (NLR)",
+                        items: [
+                            "**Order**: Node → Left → Right",
+                            "**Use**: Copy tree, Prefix expression, Serialize tree"
+                        ],
+                        code: `Preorder(node):
+1. If node is NULL, return
+2. Visit node
+3. Preorder(node.left)
+4. Preorder(node.right)
+
+Same Tree:
+        A
+       / \\
+      B   C
+     / \\
+    D   E
+
+Execution:
+Step 1: Visit A → Output: A
+Step 2: Go left to B, visit B → Output: A, B
+Step 3: Go left to D, visit D → Output: A, B, D
+Step 4: Back to B, go right to E, visit E → Output: A, B, D, E
+Step 5: Back to A, go right to C, visit C → Output: A, B, D, E, C
+
+Preorder Result: A B D E C`
+                    },
+                    {
+                        type: "blue",
+                        title: "C. Postorder Traversal (LRN)",
+                        items: [
+                            "**Order**: Left → Right → Node",
+                            "**Use**: Delete tree, Postfix expression, Calculate tree size"
+                        ],
+                        code: `Postorder(node):
+1. If node is NULL, return
+2. Postorder(node.left)
+3. Postorder(node.right)
+4. Visit node
+
+Same Tree:
+        A
+       / \\
+      B   C
+     / \\
+    D   E
+
+Execution:
+Step 1: Go left to B, then to D (leaf)
+Step 2: Visit D → Output: D
+Step 3: Back to B, go right to E, visit E → Output: D, E
+Step 4: Visit B → Output: D, E, B
+Step 5: Back to A, go right to C, visit C → Output: D, E, B, C
+Step 6: Visit A → Output: D, E, B, C, A
+
+Postorder Result: D E B C A`
+                    },
+                    {
+                        type: "blue",
+                        title: "D. Level Order Traversal",
+                        items: [
+                            "**Order**: Level by level, left to right",
+                            "**Data Structure**: Queue",
+                            "**Use**: BFS, Shortest path in tree"
+                        ],
+                        code: `LevelOrder(root):
+1. Queue Q
+2. Q.enqueue(root)
+3. While Q not empty:
+   - node = Q.dequeue()
+   - Visit node
+   - Enqueue left, right children
+
+Same Tree:
+        A       ← Level 0
+       / \\
+      B   C     ← Level 1
+     / \\
+    D   E       ← Level 2
+
+Execution:
+Queue: [A]
+Dequeue A, visit A → Output: A, Queue: [B, C]
+Dequeue B, visit B → Output: A, B, Queue: [C, D, E]
+Dequeue C, visit C → Output: A, B, C, Queue: [D, E]
+Dequeue D, visit D → Output: A, B, C, D, Queue: [E]
+Dequeue E, visit E → Output: A, B, C, D, E
+
+Level Order Result: A B C D E`
+                    },
+                    {
+                        type: "green",
+                        items: [
+                            "**Time Complexity**: O(n) for all traversals",
+                            "**Space Complexity**: O(h) for recursive, O(w) for level order (w = max width)"
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 5,
+                title: "5. Construct Tree from Traversals",
+                boxes: [
+                    {
+                        type: "blue",
+                        title: "From Inorder + Preorder",
+                        items: [
+                            "**Preorder**: First element is root",
+                            "**Inorder**: Elements left of root are left subtree, right are right subtree",
+                            "**Method**: Pick root from preorder, partition inorder, recurse"
+                        ],
+                        code: `Example:
+Inorder:  D B E A F C
+Preorder: A B D E C F
+
+Step 1: A is root (first in preorder)
+Step 2: In inorder, [D B E] left, [F C] right
+Step 3: Next in preorder is B (root of left)
+Step 4: Recursively build subtrees`
+                    },
+                    {
+                        type: "blue",
+                        title: "From Inorder + Postorder",
+                        items: [
+                            "**Postorder**: Last element is root",
+                            "**Inorder**: Partition by root",
+                            "**Method**: Pick root from end of postorder, partition inorder, recurse"
+                        ],
+                        code: `Example:
+Inorder:   D B E A F C
+Postorder: D E B F C A
+
+Step 1: A is root (last in postorder)
+Step 2: Partition inorder: [D B E] | [F C]
+Step 3: Last in left postorder is B
+Step 4: Recursively build`
+                    },
+                    {
+                        type: "yellow",
+                        items: [
+                            "**Note**: Cannot uniquely construct from Preorder + Postorder alone",
+                            "**Requirement**: Need Inorder + one other traversal"
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 6,
+                title: "6. Binary Search Tree (BST) Operations",
+                boxes: [
+                    {
+                        type: "green",
+                        title: "BST Properties",
+                        items: [
+                            "**Left subtree**: All values < node value",
+                            "**Right subtree**: All values > node value",
+                            "**Inorder traversal**: Sorted sequence",
+                            "**Search complexity**: O(h) where h = height"
+                        ]
+                    },
+                    {
+                        type: "green",
+                        title: "A. Search Operation",
+                        code: `Search(node, key):
+1. If node is NULL, return NULL
+2. If key == node.data, return node
+3. If key < node.data, Search(left)
+4. Else Search(right)
+
+Time: O(h), Space: O(h)`,
+                        items: [
+                            "**Best case**: O(log n) - Balanced tree",
+                            "**Worst case**: O(n) - Skewed tree"
+                        ]
+                    },
+                    {
+                        type: "green",
+                        title: "B. Insert Operation",
+                        code: `Insert(node, key):
+1. If node is NULL, create new node
+2. If key < node.data:
+   - node.left = Insert(left, key)
+3. Else if key > node.data:
+   - node.right = Insert(right, key)
+4. Return node
+
+Time: O(h)`,
+                        items: [
+                            "Always insert at leaf position",
+                            "Maintains BST property"
+                        ]
+                    },
+                    {
+                        type: "green",
+                        title: "C. Delete Operation",
+                        items: [
+                            "**Case 1 (Leaf node)**: Simply remove",
+                            "**Case 2 (1 child)**: Replace node with child",
+                            "**Case 3 (2 children)**: Replace with inorder successor/predecessor"
+                        ],
+                        code: `Delete(node, key):
+1. Find node to delete
+2. Case 1: Leaf → remove
+3. Case 2: 1 child → bypass node
+4. Case 3: 2 children →
+   - Find inorder successor (min in right)
+   - Replace data with successor
+   - Delete successor
+
+Example: Delete 50 from BST
+
+Original Tree:
+        50
+       /  \\
+     30    70
+    /  \\   /  \\
+   20  40 60  80
+
+Case 1 - Delete 20 (Leaf):
+        50
+       /  \\
+     30    70
+       \\   /  \\
+       40 60  80
+
+Case 2 - Delete 30 (1 child):
+        50
+       /  \\
+     40    70
+          /  \\
+        60   80
+
+Case 3 - Delete 50 (2 children):
+Inorder Successor of 50 = 60 (leftmost in right subtree)
+Replace 50 with 60:
+        60
+       /  \\
+     40    70
+             \\
+             80`
+                    }
+                ]
+            },
+            {
+                id: 7,
+                title: "7. Advanced Tree Structures",
+                boxes: [
+                    {
+                        type: "purple",
+                        title: "A. Threaded Binary Trees",
+                        items: [
+                            "**Problem**: NULL pointers waste space",
+                            "**Solution**: Replace NULL with threads (pointers to inorder predecessor/successor)",
+                            "**One-way**: Right NULL → inorder successor",
+                            "**Two-way**: Both NULLs → predecessor/successor",
+                            "**Advantage**: Inorder traversal without stack/recursion",
+                            "**Use**: Memory-efficient traversal"
+                        ],
+                        code: `struct ThreadedNode {
+    int data;
+    Node* left;
+    Node* right;
+    bool isThreaded; // right is thread?
+};`
+                    },
+                    {
+                        type: "purple",
+                        title: "B. Huffman Coding Tree",
+                        items: [
+                            "**Purpose**: Data compression using frequency",
+                            "**Method**: Build tree bottom-up using min-heap",
+                            "**Property**: Variable-length prefix codes",
+                            "**Steps**: 1) Calculate frequencies, 2) Build min-heap, 3) Merge two smallest, 4) Repeat"
+                        ],
+                        code: `Example: {A:5, B:9, C:12, D:13, E:16, F:45}
+1. Heap: [A:5, B:9, C:12, D:13, E:16, F:45]
+2. Merge A,B → AB:14
+3. Continue merging smallest
+4. Codes: Left=0, Right=1
+
+Result:
+F: 0 (most frequent)
+C: 100
+D: 101
+E: 11
+AB: 110/111`
+                    },
+                    {
+                        type: "purple",
+                        title: "C. AVL Trees",
+                        items: [
+                            "**Definition**: Self-balancing BST",
+                            "**Balance Factor**: height(left) - height(right)",
+                            "**Balanced**: BF ∈ {-1, 0, 1}",
+                            "**Rotations**: LL, RR, LR, RL",
+                            "**LL Rotation**: Right rotate at unbalanced node",
+                            "**RR Rotation**: Left rotate at unbalanced node",
+                            "**LR Rotation**: Left rotate child, right rotate parent",
+                            "**RL Rotation**: Right rotate child, left rotate parent",
+                            "**Time**: O(log n) for all operations"
+                        ]
+                    },
+                    {
+                        type: "purple",
+                        title: "D. B-Trees",
+                        items: [
+                            "**Definition**: Self-balancing m-way search tree",
+                            "**m-way**: Node can have m children, m-1 keys",
+                            "**Properties**: All leaves at same level, minimum keys = ⌈m/2⌉-1",
+                            "**Use**: Database indexing, file systems",
+                            "**Advantage**: Reduces disk access (nodes = disk blocks)"
+                        ]
+                    },
+                    {
+                        type: "purple",
+                        title: "E. Binary Heap",
+                        items: [
+                            "**Definition**: Complete binary tree with heap property",
+                            "**Max-Heap**: Parent ≥ children",
+                            "**Min-Heap**: Parent ≤ children",
+                            "**Array representation**: Efficient, no pointers",
+                            "**Operations**: Insert O(log n), Delete O(log n), Get-Min/Max O(1)",
+                            "**Use**: Priority queues, Heap sort"
+                        ],
+                        code: `Insert: Add at end, bubble up
+Delete: Replace root with last, bubble down
+Heapify: O(n) to build heap`
+                    }
+                ]
+            },
+            {
+                id: 8,
+                title: "📌 Quick Revision Summary",
+                boxes: [
+                    {
+                        type: "red",
+                        title: "Tree Operations Complexity",
+                        table: [
+                            ["Operation", "BST Average", "BST Worst", "AVL", "Heap"],
+                            ["Search", "O(log n)", "O(n)", "O(log n)", "O(n)"],
+                            ["Insert", "O(log n)", "O(n)", "O(log n)", "O(log n)"],
+                            ["Delete", "O(log n)", "O(n)", "O(log n)", "O(log n)"],
+                            ["Get Min/Max", "O(log n)", "O(n)", "O(log n)", "O(1)"]
+                        ]
+                    },
+                    {
+                        type: "red",
+                        title: "Traversal Formulas",
+                        items: [
+                            "**Inorder (LNR)**: Left → Node → Right → Gives sorted for BST",
+                            "**Preorder (NLR)**: Node → Left → Right → Root first",
+                            "**Postorder (LRN)**: Left → Right → Node → Root last",
+                            "**Level Order**: BFS using queue"
+                        ]
+                    },
+                    {
+                        type: "red",
+                        title: "Key Exam Questions",
+                        questions: [
+                            {
+                                q: "Q1: How to delete node with 2 children in BST?",
+                                a: [
+                                    "Find inorder successor (smallest in right subtree)",
+                                    "Replace node's data with successor's data",
+                                    "Delete the successor (it has at most 1 child)"
+                                ]
+                            },
+                            {
+                                q: "Q2: Array representation formulas?",
+                                a: [
+                                    "Parent of i: (i-1)/2",
+                                    "Left child of i: 2i+1",
+                                    "Right child of i: 2i+2",
+                                    "Best for complete binary trees"
+                                ]
+                            },
+                            {
+                                q: "Q3: Difference between Full and Complete Binary Tree?",
+                                a: [
+                                    "**Full/Strict**: Every node has 0 or 2 children",
+                                    "**Complete**: All levels filled except last, last filled left to right",
+                                    "Complete trees can be efficiently stored in arrays"
+                                ]
+                            },
+                            {
+                                q: "Q4: AVL Rotations?",
+                                a: [
+                                    "**LL (Left-Left)**: Right rotation",
+                                    "**RR (Right-Right)**: Left rotation",
+                                    "**LR (Left-Right)**: Left rotate child, then right rotate parent",
+                                    "**RL (Right-Left)**: Right rotate child, then left rotate parent"
+                                ]
+                            },
+                            {
+                                q: "Q5: Construct tree from which traversals?",
+                                a: [
+                                    "**Need**: Inorder + (Preorder OR Postorder)",
+                                    "Cannot uniquely construct from Preorder + Postorder",
+                                    "Inorder needed to identify left/right subtrees"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        type: "red",
+                        title: "Must Remember",
+                        items: [
+                            "**Max nodes at level i**: 2^i",
+                            "**Max nodes with height h**: 2^(h+1) - 1",
+                            "**BST Inorder**: Always gives sorted sequence",
+                            "**Threaded trees**: No NULL pointers, efficient traversal",
+                            "**Huffman**: Build from bottom using min frequencies",
+                            "**AVL Balance Factor**: |BF| ≤ 1 always",
+                            "**B-Tree**: m-way, all leaves at same level",
+                            "**Heap**: Complete binary tree, parent-child property",
+                            "**Complete tree**: Best for array representation"
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        const Box = ({ type, title, items, code, table, questions }) => {
             const colors = {
                 yellow: 'bg-yellow-50 border-yellow-200',
                 blue: 'bg-blue-50 border-blue-200',
@@ -23,10 +612,58 @@
                 purple: 'bg-purple-50 border-purple-200',
                 red: 'bg-red-50 border-red-200'
             };
+
             return (
-                <div className={`${colors[type]} border-2 rounded-lg p-4 mb-4`}>
-                    {title && <h3 className="font-bold text-lg mb-3">{title}</h3>}
-                    {children}
+                <div className={`${colors[type]} border-2 rounded-lg p-5 mb-5`}>
+                    {title && <h3 className="font-bold text-xl mb-4">{title}</h3>}
+                    
+                    {items && (
+                        <ul className="list-disc list-inside space-y-1.5 text-base">
+                            {items.map((item, i) => (
+                                <li key={i} dangerouslySetInnerHTML={{ __html: item.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+                            ))}
+                        </ul>
+                    )}
+                    
+                    {code && (
+                        <pre className="bg-white p-4 rounded mt-3 text-sm font-mono whitespace-pre-wrap leading-relaxed">{code}</pre>
+                    )}
+                    
+                    {table && (
+                        <table className="w-full text-sm bg-white mt-2">
+                            <thead className="bg-red-200">
+                                <tr>
+                                    {table[0].map((h, i) => (
+                                        <th key={i} className="p-3 text-left font-bold">{h}</th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y">
+                                {table.slice(1).map((row, i) => (
+                                    <tr key={i}>
+                                        {row.map((cell, j) => (
+                                            <td key={j} className={`p-3 ${j === 0 ? 'font-semibold' : ''}`}>{cell}</td>
+                                        ))}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
+                    
+                    {questions && (
+                        <div className="space-y-4 text-base mt-2">
+                            {questions.map((q, i) => (
+                                <div key={i} className="bg-white p-4 rounded shadow-sm">
+                                    <strong className="text-red-700 block mb-2 text-lg">{q.q}</strong>
+                                    <ul className="list-disc list-inside text-sm space-y-1.5">
+                                        {q.a.map((ans, j) => (
+                                            <li key={j} dangerouslySetInnerHTML={{ __html: ans.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+                                        ))}
+                                    </ul>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             );
         };
@@ -35,11 +672,11 @@
             const [open, setOpen] = useState(defaultOpen);
             return (
                 <div className="bg-white rounded-lg shadow-md mb-6 overflow-hidden">
-                    <button onClick={() => setOpen(!open)} className="w-full px-6 py-4 flex justify-between items-center hover:bg-gray-50">
-                        <h2 className="text-xl font-bold">{title}</h2>
-                        <span className="text-2xl">{open ? '−' : '+'}</span>
+                    <button onClick={() => setOpen(!open)} className="w-full px-6 py-4 flex justify-between items-center hover:bg-gray-50 transition">
+                        <h2 className="text-lg font-bold">{title}</h2>
+                        <span className="text-2xl font-bold">{open ? '−' : '+'}</span>
                     </button>
-                    {open && <div className="px-6 pb-6">{children}</div>}
+                    {open && <div className="px-6 pb-6 pt-4">{children}</div>}
                 </div>
             );
         };
@@ -48,291 +685,27 @@
             return (
                 <div className="max-w-4xl mx-auto p-6">
                     {/* Header */}
-                    <div className="bg-indigo-600 text-white rounded-lg shadow-xl p-8 mb-8">
-                        <h1 className="text-4xl font-bold mb-2">Data Structures: Unit 5</h1>
-                        <h2 className="text-2xl font-semibold">Graphs</h2>
+                    <div className="bg-indigo-600 text-white rounded-lg shadow-xl p-8 mb-8 text-center">
+                        <h1 className="text-4xl font-bold mb-2">Data Structures: Unit 4</h1>
+                        <h2 className="text-2xl font-semibold mb-1">Trees</h2>
+                        <p className="text-indigo-200 text-sm">Last Minute Revision Guide</p>
                     </div>
 
-                    {/* Section 1: Terminology */}
-                    <Section title="1. Graph Terminology" defaultOpen={false}>
-                        <Box type="yellow" title="Key Definitions">
-                            <ul className="list-disc list-inside space-y-1 text-sm">
-                                <li><strong>Graph G = (V, E)</strong>: V = Vertices, E = Edges</li>
-                                <li><strong>Directed Graph</strong>: Edges have direction (u → v)</li>
-                                <li><strong>Undirected Graph</strong>: Edges bidirectional (u — v)</li>
-                                <li><strong>Degree</strong>: Number of edges at a vertex</li>
-                                <li><strong>In-Degree</strong>: Incoming edges (directed)</li>
-                                <li><strong>Out-Degree</strong>: Outgoing edges (directed)</li>
-                                <li><strong>Path</strong>: Sequence of vertices connected by edges</li>
-                                <li><strong>Cycle</strong>: Path where start = end vertex</li>
-                                <li><strong>Connected Graph</strong>: Path exists between all vertex pairs</li>
-                                <li><strong>Connected Component</strong>: Maximal connected subgraph</li>
-                            </ul>
-                        </Box>
-                        <Box type="purple" title="Path vs Cycle">
-                            <ul className="list-disc list-inside space-y-1 text-sm">
-                                <li><strong>Path</strong>: Start ≠ End (A → B → C)</li>
-                                <li><strong>Cycle</strong>: Start = End (A → B → C → A)</li>
-                                <li><strong>Acyclic</strong>: No cycles (Trees, DAG)</li>
-                            </ul>
-                        </Box>
-                    </Section>
-
-                    {/* Section 2: Representations */}
-                    <Section title="2. Graph Representations">
-                        <Box type="purple" title="A. Adjacency Matrix">
-                            <ul className="list-disc list-inside space-y-1 text-sm">
-                                <li><strong>Structure</strong>: 2D array V × V</li>
-                                <li><strong>Matrix[i][j] = 1</strong> if edge exists, else 0</li>
-                                <li><strong>Space</strong>: O(V²)</li>
-                                <li><strong>Edge Lookup</strong>: O(1)</li>
-                                <li><strong>Best for</strong>: Dense graphs</li>
-                            </ul>
-                            <pre className="bg-white p-2 rounded mt-2 text-xs font-mono">{`   0 1 2 3
-0 [0,1,1,0]
-1 [0,0,1,1]
-2 [0,0,0,1]
-3 [0,0,0,0]`}</pre>
-                        </Box>
-
-                        <Box type="purple" title="B. Adjacency List">
-                            <ul className="list-disc list-inside space-y-1 text-sm">
-                                <li><strong>Structure</strong>: Array of linked lists</li>
-                                <li><strong>List[i]</strong> = neighbors of vertex i</li>
-                                <li><strong>Space</strong>: O(V + E)</li>
-                                <li><strong>Edge Lookup</strong>: O(V)</li>
-                                <li><strong>Best for</strong>: Sparse graphs</li>
-                            </ul>
-                            <pre className="bg-white p-2 rounded mt-2 text-xs font-mono">{`0 → [1, 2]
-1 → [2, 3]
-2 → [3]
-3 → []`}</pre>
-                        </Box>
-
-                        <Box type="green">
-                            <table className="w-full text-sm">
-                                <thead className="bg-gray-200">
-                                    <tr>
-                                        <th className="p-2 text-left">Aspect</th>
-                                        <th className="p-2 text-left">Matrix</th>
-                                        <th className="p-2 text-left">List</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr><td className="p-2 font-semibold">Space</td><td className="p-2">O(V²)</td><td className="p-2">O(V+E)</td></tr>
-                                    <tr><td className="p-2 font-semibold">Lookup</td><td className="p-2">O(1)</td><td className="p-2">O(V)</td></tr>
-                                    <tr><td className="p-2 font-semibold">Add Edge</td><td className="p-2">O(1)</td><td className="p-2">O(1)</td></tr>
-                                </tbody>
-                            </table>
-                        </Box>
-                    </Section>
-
-                    {/* Section 3: Traversals */}
-                    <Section title="3. Graph Traversals">
-                        <Box type="blue" title="A. Breadth-First Search (BFS)">
-                            <ul className="list-disc list-inside space-y-1 text-sm mb-3">
-                                <li><strong>Data Structure</strong>: Queue (FIFO)</li>
-                                <li><strong>Strategy</strong>: Level-by-level traversal</li>
-                                <li><strong>Use</strong>: Shortest path (unweighted), Connected components</li>
-                            </ul>
-                            <pre className="bg-white p-2 rounded text-xs font-mono">{`1. Queue Q, mark source visited
-2. Enqueue source
-3. While Q not empty:
-   - Dequeue u
-   - For each neighbor v:
-     * If unvisited: mark, enqueue`}</pre>
-                        </Box>
-
-                        <Box type="blue" title="B. Depth-First Search (DFS)">
-                            <ul className="list-disc list-inside space-y-1 text-sm mb-3">
-                                <li><strong>Data Structure</strong>: Stack (LIFO) / Recursion</li>
-                                <li><strong>Strategy</strong>: Go deep, then backtrack</li>
-                                <li><strong>Use</strong>: Cycle detection, Topological sort</li>
-                            </ul>
-                            <pre className="bg-white p-2 rounded text-xs font-mono">{`DFS(u):
-1. Mark u visited
-2. For each neighbor v:
-   - If unvisited: DFS(v)`}</pre>
-                        </Box>
-
-                        <Box type="blue" title="Dry Run (4 nodes: 0→[1,2], 1→[2,3], 2→[3], 3→[])">
-                            <div className="grid grid-cols-2 gap-4 text-xs">
-                                <div>
-                                    <strong className="block mb-1">BFS from 0:</strong>
-                                    <pre className="bg-white p-2 rounded font-mono">{`Queue: [0] → [1,2] → [2,3] → [3]
-Order: 0 → 1 → 2 → 3`}</pre>
-                                </div>
-                                <div>
-                                    <strong className="block mb-1">DFS from 0:</strong>
-                                    <pre className="bg-white p-2 rounded font-mono">{`Stack: [0] → [2,1] → [2,3]
-Order: 0 → 1 → 3 → 2`}</pre>
-                                </div>
-                            </div>
-                        </Box>
-
-                        <Box type="green">
-                            <ul className="list-disc list-inside space-y-1 text-sm">
-                                <li><strong>BFS & DFS Time</strong>: O(V + E)</li>
-                                <li><strong>BFS & DFS Space</strong>: O(V)</li>
-                            </ul>
-                        </Box>
-                    </Section>
-
-                    {/* Section 4: MST */}
-                    <Section title="4. Minimum Spanning Tree (MST)">
-                        <Box type="yellow">
-                            <ul className="list-disc list-inside space-y-1 text-sm">
-                                <li><strong>MST</strong>: Spanning tree with minimum total edge weight</li>
-                                <li><strong>Properties</strong>: V vertices, V-1 edges, connected, acyclic</li>
-                                <li><strong>Approach</strong>: Greedy algorithms</li>
-                            </ul>
-                        </Box>
-
-                        <Box type="blue" title="A. Kruskal's (Edge-Based)">
-                            <ul className="list-disc list-inside space-y-1 text-sm mb-3">
-                                <li><strong>Strategy</strong>: Sort edges by weight, add greedily</li>
-                                <li><strong>Data Structure</strong>: Union-Find</li>
-                                <li><strong>Process</strong>: Pick min edge that doesn't form cycle</li>
-                            </ul>
-                            <pre className="bg-white p-2 rounded text-xs font-mono">{`1. Sort edges by weight
-2. For each edge (u,v,w):
-   - If u,v in different sets:
-     * Add edge, Union(u,v)
-   - Stop at V-1 edges`}</pre>
-                        </Box>
-
-                        <Box type="blue" title="B. Prim's (Vertex-Based)">
-                            <ul className="list-disc list-inside space-y-1 text-sm mb-3">
-                                <li><strong>Strategy</strong>: Grow MST from starting vertex</li>
-                                <li><strong>Data Structure</strong>: Min-Heap (Priority Queue)</li>
-                                <li><strong>Process</strong>: Add min edge connecting MST to new vertex</li>
-                            </ul>
-                            <pre className="bg-white p-2 rounded text-xs font-mono">{`1. Start any vertex, mark visited
-2. Add edges to Min-Heap
-3. While MST < V-1 edges:
-   - Extract min edge
-   - If connects unvisited: add, mark`}</pre>
-                        </Box>
-
-                        <Box type="green">
-                            <table className="w-full text-sm">
-                                <thead className="bg-gray-200">
-                                    <tr><th className="p-2 text-left">Algorithm</th><th className="p-2">Time</th><th className="p-2">Best For</th></tr>
-                                </thead>
-                                <tbody>
-                                    <tr><td className="p-2 font-semibold">Kruskal's</td><td className="p-2">O(E log E)</td><td className="p-2">Sparse</td></tr>
-                                    <tr><td className="p-2 font-semibold">Prim's</td><td className="p-2">O(E log V)</td><td className="p-2">Dense</td></tr>
-                                </tbody>
-                            </table>
-                        </Box>
-                    </Section>
-
-                    {/* Section 5: Shortest Path */}
-                    <Section title="5. Dijkstra's Algorithm (Shortest Path)">
-                        <Box type="yellow">
-                            <ul className="list-disc list-inside space-y-1 text-sm">
-                                <li><strong>Purpose</strong>: Single Source Shortest Path (SSSP)</li>
-                                <li><strong>Finds</strong>: Shortest path from source to all vertices</li>
-                                <li><strong>Constraint</strong>: Non-negative edge weights only</li>
-                                <li><strong>Approach</strong>: Greedy with Min-Heap</li>
-                            </ul>
-                        </Box>
-
-                        <Box type="blue" title="Algorithm">
-                            <pre className="bg-white p-2 rounded text-xs font-mono">{`1. dist[source] = 0, others = ∞
-2. Add source to Min-Heap
-3. While heap not empty:
-   - Extract u with min dist
-   - For each neighbor v:
-     * newDist = dist[u] + w(u,v)
-     * If newDist < dist[v]:
-       → dist[v] = newDist
-       → Update heap`}</pre>
-                        </Box>
-
-                        <Box type="blue" title="Relaxation Condition">
-                            <p className="text-sm font-mono bg-white p-2 rounded">
-                                if (d[v] &gt; d[u] + w(u,v)) then d[v] = d[u] + w(u,v)
-                            </p>
-                        </Box>
-
-                        <Box type="green">
-                            <ul className="list-disc list-inside space-y-1 text-sm">
-                                <li><strong>Time</strong>: O((V + E) log V) with Min-Heap</li>
-                                <li><strong>Space</strong>: O(V)</li>
-                                <li><strong>Limitation</strong>: Cannot handle negative weights</li>
-                            </ul>
-                        </Box>
-                    </Section>
-
-                    {/* Summary */}
-                    <Section title="📌 Quick Revision Summary" defaultOpen={false}>
-                        <Box type="red" title="Complexity Table">
-                            <table className="w-full text-xs bg-white">
-                                <thead className="bg-red-200">
-                                    <tr>
-                                        <th className="p-2 text-left">Algorithm</th>
-                                        <th className="p-2">Time</th>
-                                        <th className="p-2">Space</th>
-                                        <th className="p-2 text-left">Use Case</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y">
-                                    <tr><td className="p-2 font-semibold">BFS</td><td className="p-2">O(V+E)</td><td className="p-2">O(V)</td><td className="p-2">Shortest (unweighted)</td></tr>
-                                    <tr><td className="p-2 font-semibold">DFS</td><td className="p-2">O(V+E)</td><td className="p-2">O(V)</td><td className="p-2">Cycle detection</td></tr>
-                                    <tr><td className="p-2 font-semibold">Dijkstra</td><td className="p-2">O((V+E)logV)</td><td className="p-2">O(V)</td><td className="p-2">SSSP (≥0 weights)</td></tr>
-                                    <tr><td className="p-2 font-semibold">Prim's</td><td className="p-2">O(E log V)</td><td className="p-2">O(V)</td><td className="p-2">MST (dense)</td></tr>
-                                    <tr><td className="p-2 font-semibold">Kruskal's</td><td className="p-2">O(E log E)</td><td className="p-2">O(V)</td><td className="p-2">MST (sparse)</td></tr>
-                                </tbody>
-                            </table>
-                        </Box>
-
-                        <Box type="red" title="Key Exam Questions">
-                            <div className="space-y-3 text-sm">
-                                <div className="bg-white p-3 rounded">
-                                    <strong className="text-red-700">Q1: Dijkstra's vs Prim's?</strong>
-                                    <ul className="list-disc list-inside mt-1 text-xs">
-                                        <li><strong>Dijkstra</strong>: Shortest path from source (cumulative distance)</li>
-                                        <li><strong>Prim</strong>: MST connecting all vertices (individual edge weight)</li>
-                                        <li>Both use greedy + Min-Heap</li>
-                                    </ul>
-                                </div>
-
-                                <div className="bg-white p-3 rounded">
-                                    <strong className="text-red-700">Q2: BFS vs DFS Applications?</strong>
-                                    <ul className="list-disc list-inside mt-1 text-xs">
-                                        <li><strong>BFS</strong>: Shortest path (unweighted), Level traversal, Web crawlers</li>
-                                        <li><strong>DFS</strong>: Cycle detection, Topological sort, Maze solving</li>
-                                    </ul>
-                                </div>
-
-                                <div className="bg-white p-3 rounded">
-                                    <strong className="text-red-700">Q3: Matrix vs List?</strong>
-                                    <ul className="list-disc list-inside mt-1 text-xs">
-                                        <li><strong>Matrix</strong>: Dense graphs, O(1) lookup, O(V²) space</li>
-                                        <li><strong>List</strong>: Sparse graphs, O(V+E) space, better for neighbor iteration</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </Box>
-
-                        <Box type="red" title="Must Remember">
-                            <ul className="list-disc list-inside space-y-1 text-xs">
-                                <li><strong>BFS = Queue</strong>, <strong>DFS = Stack/Recursion</strong></li>
-                                <li><strong>Spanning Tree</strong>: V vertices needs V-1 edges</li>
-                                <li><strong>Kruskal</strong> = Edge-based (sort), <strong>Prim</strong> = Vertex-based (grow)</li>
-                                <li><strong>Dijkstra</strong>: No negative weights (use Bellman-Ford instead)</li>
-                                <li><strong>Path</strong>: start ≠ end, <strong>Cycle</strong>: start = end</li>
-                            </ul>
-                        </Box>
-                    </Section>
+                    {/* Content Sections */}
+                    {TREE_CONTENT.map(section => (
+                        <Section key={section.id} title={section.title} defaultOpen={section.defaultOpen}>
+                            {section.boxes.map((box, i) => (
+                                <Box key={i} {...box} />
+                            ))}
+                        </Section>
+                    ))}
 
                     {/* Footer */}
-                    <footer className="mt-10 pt-6 border-t border-gray-300 text-center">
-                        <p className="text-gray-700 font-semibold text-lg">
+                    <footer className="mt-10 pt-6 border-t-2 border-slate-300 text-center">
+                        <p className="text-slate-700 font-semibold text-lg">
                             Crafted with love by <span className="text-indigo-600 font-bold">ZenYukti</span>
                         </p>
-                        <p className="text-gray-500 text-xs tracking-widest uppercase mt-1">
+                        <p className="text-slate-500 text-xs tracking-widest uppercase mt-1">
                             Learn. Build. Share
                         </p>
                     </footer>
