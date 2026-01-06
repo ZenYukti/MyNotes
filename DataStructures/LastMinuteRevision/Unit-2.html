@@ -89,23 +89,6 @@
 
         // Main App Component
         const App = () => {
-            useEffect(() => {
-                // Render LaTeX after component mounts
-                if (window.renderMathInElement) {
-                    setTimeout(() => {
-                        renderMathInElement(document.body, {
-                            delimiters: [
-                                {left: "$$", right: "$$", display: true},
-                                {left: "\\(", right: "\\)", display: false},
-                                {left: "$", right: "$", display: false}
-                            ],
-                            throwOnError: false,
-                            strict: false
-                        });
-                    }, 200);
-                }
-            }, []);
-
             return (
                 <div className="container mx-auto px-4 py-8 max-w-6xl">
                     {/* Header */}
@@ -122,9 +105,9 @@
                             <ul className="list-disc list-inside space-y-2">
                                 <li><strong>Stack:</strong> Linear data structure following LIFO (Last In First Out) principle</li>
                                 <li><strong>Top:</strong> Pointer to the topmost element in the stack</li>
-                                <li><strong>Push:</strong> Insert element at top → $O(1)$</li>
-                                <li><strong>Pop:</strong> Remove element from top → $O(1)$</li>
-                                <li><strong>Peek/Top:</strong> Return top element without removing → $O(1)$</li>
+                                <li><strong>Push:</strong> Insert element at top → <code className="bg-gray-200 px-2 py-1 rounded text-sm">O(1)</code></li>
+                                <li><strong>Pop:</strong> Remove element from top → <code className="bg-gray-200 px-2 py-1 rounded text-sm">O(1)</code></li>
+                                <li><strong>Peek/Top:</strong> Return top element without removing → <code className="bg-gray-200 px-2 py-1 rounded text-sm">O(1)</code></li>
                                 <li><strong>isEmpty:</strong> Check if stack is empty (top == -1 for array)</li>
                                 <li><strong>isFull:</strong> Check if stack is full (top == MAX-1 for array)</li>
                             </ul>
@@ -191,7 +174,7 @@ int pop() {
 }`}
                                     </pre>
                                 </div>
-                                <p><strong>Pros:</strong> Simple, Fast $O(1)$ | <strong>Cons:</strong> Fixed size</p>
+                                <p><strong>Pros:</strong> Simple, Fast <code className="bg-gray-200 px-2 py-1 rounded text-sm">O(1)</code> | <strong>Cons:</strong> Fixed size</p>
                             </div>
                         </ColorBox>
 
@@ -249,8 +232,8 @@ int pop() {
                                         </tr>
                                         <tr>
                                             <td className="border border-gray-300 px-3 py-2 font-semibold">Complexity</td>
-                                            <td className="border border-gray-300 px-3 py-2">$O(1)$ all ops</td>
-                                            <td className="border border-gray-300 px-3 py-2">$O(1)$ all ops</td>
+                                            <td className="border border-gray-300 px-3 py-2"><code className="bg-gray-200 px-2 py-1 rounded text-sm">O(1)</code> all ops</td>
+                                            <td className="border border-gray-300 px-3 py-2"><code className="bg-gray-200 px-2 py-1 rounded text-sm">O(1)</code> all ops</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -271,7 +254,7 @@ int pop() {
                                     <li>Operator → Pop higher/equal precedence, then push current</li>
                                     <li>End → Pop all remaining</li>
                                 </ol>
-                                <p className="mt-2"><strong>Precedence:</strong> $\wedge$ {' > '} $\times, /$ {' > '} $+, -$</p>
+                                <p className="mt-2"><strong>Precedence:</strong> <code className="bg-gray-200 px-2 py-1 rounded text-sm">^</code> {' > '} <code className="bg-gray-200 px-2 py-1 rounded text-sm">×, /</code> {' > '} <code className="bg-gray-200 px-2 py-1 rounded text-sm">+, -</code></p>
                                 <div className="bg-gray-50 p-3 rounded mt-2">
                                     <p><strong>Example: A + B * C - D</strong></p>
                                     <p className="ml-4 text-sm mt-1">Output: <strong>ABC*+D-</strong></p>
@@ -332,7 +315,7 @@ function recursive(input) {
 
                         <ColorBox color="blue" title="💻 Factorial Example">
                             <div className="space-y-3">
-                                <p><strong>Problem:</strong> $n! = n \times (n-1) \times ... \times 1$</p>
+                                <p><strong>Problem:</strong> <code className="bg-gray-200 px-2 py-1 rounded text-sm">n! = n × (n-1) × ... × 1</code></p>
                                 <div className="bg-gray-100 p-4 rounded font-mono text-xs">
                                     <pre>
 {`int factorial(int n) {
@@ -382,8 +365,8 @@ int factorial_tail(int n, int acc) {
                                         </tr>
                                         <tr className="bg-gray-50">
                                             <td className="border border-gray-300 px-3 py-2 font-semibold">Space</td>
-                                            <td className="border border-gray-300 px-3 py-2">$O(n)$ stack</td>
-                                            <td className="border border-gray-300 px-3 py-2">$O(1)$</td>
+                                            <td className="border border-gray-300 px-3 py-2"><code className="bg-gray-200 px-2 py-1 rounded text-sm">O(n)</code> stack</td>
+                                            <td className="border border-gray-300 px-3 py-2"><code className="bg-gray-200 px-2 py-1 rounded text-sm">O(1)</code></td>
                                         </tr>
                                         <tr>
                                             <td className="border border-gray-300 px-3 py-2 font-semibold">Use Case</td>
@@ -400,7 +383,7 @@ int factorial_tail(int n, int acc) {
                     <Section title="5. Classic Recursive Problems">
                         <ColorBox color="blue" title="💻 Fibonacci - Multiple Recursion">
                             <div className="space-y-3">
-                                <p><strong>Formula:</strong> $F(n) = F(n-1) + F(n-2)$, $F(0)=0, F(1)=1$</p>
+                                <p><strong>Formula:</strong> <code className="bg-gray-200 px-2 py-1 rounded text-sm">F(n) = F(n-1) + F(n-2)</code>, <code className="bg-gray-200 px-2 py-1 rounded text-sm">F(0)=0, F(1)=1</code></p>
                                 <div className="bg-gray-100 p-4 rounded font-mono text-xs">
                                     <pre>
 {`// Naive - O(2^n) time
@@ -445,7 +428,7 @@ int fibonacci_dp(int n) {
 
                         <ColorBox color="green" title="📐 Tower of Hanoi">
                             <div className="space-y-3">
-                                <p><strong>Rules:</strong> Move $n$ disks, one at a time, larger never on smaller</p>
+                                <p><strong>Rules:</strong> Move <code className="bg-gray-200 px-2 py-1 rounded text-sm">n</code> disks, one at a time, larger never on smaller</p>
                                 <div className="bg-gray-100 p-4 rounded font-mono text-xs">
                                     <pre>
 {`void towerOfHanoi(int n, char src, char dest, char aux) {
@@ -462,7 +445,7 @@ int fibonacci_dp(int n) {
 // Time: O(2^n), Space: O(n)`}
                                     </pre>
                                 </div>
-                                <p className="text-sm">3 disks → $2^3 - 1 = 7$ moves</p>
+                                <p className="text-sm">3 disks → <code className="bg-gray-200 px-2 py-1 rounded text-sm">2^3 - 1 = 7</code> moves</p>
                             </div>
                         </ColorBox>
                     </Section>
@@ -474,9 +457,9 @@ int fibonacci_dp(int n) {
                                 <li><strong>Queue:</strong> Linear data structure following FIFO (First In First Out) principle</li>
                                 <li><strong>Front:</strong> Pointer to front element (dequeue from here)</li>
                                 <li><strong>Rear:</strong> Pointer to rear element (enqueue at here)</li>
-                                <li><strong>Enqueue:</strong> Insert element at rear → $O(1)$</li>
-                                <li><strong>Dequeue:</strong> Remove element from front → $O(1)$</li>
-                                <li><strong>Peek:</strong> Return front element without removing → $O(1)$</li>
+                                <li><strong>Enqueue:</strong> Insert element at rear → <code className="bg-gray-200 px-2 py-1 rounded text-sm">O(1)</code></li>
+                                <li><strong>Dequeue:</strong> Remove element from front → <code className="bg-gray-200 px-2 py-1 rounded text-sm">O(1)</code></li>
+                                <li><strong>Peek:</strong> Return front element without removing → <code className="bg-gray-200 px-2 py-1 rounded text-sm">O(1)</code></li>
                             </ul>
                         </ColorBox>
 
@@ -541,9 +524,9 @@ Solution: Circular Queue`}
                         <ColorBox color="yellow" title="📚 Circular Queue Concept">
                             <ul className="list-disc list-inside space-y-2">
                                 <li><strong>Concept:</strong> Connect rear to front to reuse empty spaces</li>
-                                <li><strong>Modulo Logic:</strong> Use $\%$ operator: $rear = (rear + 1) \% MAX$</li>
-                                <li><strong>Full Condition:</strong> $(rear + 1) \% MAX == front$</li>
-                                <li><strong>Empty Condition:</strong> $front == -1$</li>
+                                <li><strong>Modulo Logic:</strong> Use <code className="bg-gray-200 px-2 py-1 rounded text-sm">%</code> operator: <code className="bg-gray-200 px-2 py-1 rounded text-sm">rear = (rear + 1) % MAX</code></li>
+                                <li><strong>Full Condition:</strong> <code className="bg-gray-200 px-2 py-1 rounded text-sm">(rear + 1) % MAX == front</code></li>
+                                <li><strong>Empty Condition:</strong> <code className="bg-gray-200 px-2 py-1 rounded text-sm">front == -1</code></li>
                                 <li><strong>Advantage:</strong> Efficient space utilization</li>
                             </ul>
                         </ColorBox>
@@ -607,7 +590,7 @@ int dequeue() {
                         <ColorBox color="yellow" title="📚 Deque (Double-Ended Queue)">
                             <ul className="list-disc list-inside space-y-2">
                                 <li><strong>Definition:</strong> Insertion/deletion at both ends</li>
-                                <li><strong>Operations:</strong> insertFront(), insertRear(), deleteFront(), deleteRear() - all $O(1)$</li>
+                                <li><strong>Operations:</strong> insertFront(), insertRear(), deleteFront(), deleteRear() - all <code className="bg-gray-200 px-2 py-1 rounded text-sm">O(1)</code></li>
                                 <li><strong>Types:</strong></li>
                                 <ul className="list-disc list-inside ml-6">
                                     <li><strong>Input-Restricted:</strong> Insert only at rear</li>
@@ -637,8 +620,8 @@ int dequeue() {
                                 <li><strong>Types:</strong> Min PQ (smallest first), Max PQ (largest first)</li>
                                 <li><strong>Implementation:</strong></li>
                                 <ul className="list-disc list-inside ml-6">
-                                    <li>Array/List: Enqueue $O(n)$, Dequeue $O(1)$</li>
-                                    <li>Heap: Enqueue $O(\log n)$, Dequeue $O(\log n)$ ✓ Best</li>
+                                    <li>Array/List: Enqueue <code className="bg-gray-200 px-2 py-1 rounded text-sm">O(n)</code>, Dequeue <code className="bg-gray-200 px-2 py-1 rounded text-sm">O(1)</code></li>
+                                    <li>Heap: Enqueue <code className="bg-gray-200 px-2 py-1 rounded text-sm">O(log n)</code>, Dequeue <code className="bg-gray-200 px-2 py-1 rounded text-sm">O(log n)</code> ✓ Best</li>
                                 </ul>
                                 <li><strong>Applications:</strong> CPU scheduling, Dijkstra's, Huffman coding</li>
                             </ul>
@@ -680,13 +663,13 @@ Order: B(5) → D(4) → A(3) → C(1)`}
                                         </tr>
                                         <tr className="bg-gray-50">
                                             <td className="border border-gray-300 px-3 py-2 font-semibold">Insert</td>
-                                            <td className="border border-gray-300 px-3 py-2">Push at top - $O(1)$</td>
-                                            <td className="border border-gray-300 px-3 py-2">Enqueue at rear - $O(1)$</td>
+                                            <td className="border border-gray-300 px-3 py-2">Push at top - <code className="bg-gray-200 px-2 py-1 rounded text-sm">O(1)</code></td>
+                                            <td className="border border-gray-300 px-3 py-2">Enqueue at rear - <code className="bg-gray-200 px-2 py-1 rounded text-sm">O(1)</code></td>
                                         </tr>
                                         <tr>
                                             <td className="border border-gray-300 px-3 py-2 font-semibold">Delete</td>
-                                            <td className="border border-gray-300 px-3 py-2">Pop from top - $O(1)$</td>
-                                            <td className="border border-gray-300 px-3 py-2">Dequeue from front - $O(1)$</td>
+                                            <td className="border border-gray-300 px-3 py-2">Pop from top - <code className="bg-gray-200 px-2 py-1 rounded text-sm">O(1)</code></td>
+                                            <td className="border border-gray-300 px-3 py-2">Dequeue from front - <code className="bg-gray-200 px-2 py-1 rounded text-sm">O(1)</code></td>
                                         </tr>
                                         <tr className="bg-gray-50">
                                             <td className="border border-gray-300 px-3 py-2 font-semibold">Pointers</td>
@@ -707,11 +690,11 @@ Order: B(5) → D(4) → A(3) → C(1)`}
                             <div className="bg-white p-3 rounded space-y-2 text-sm">
                                 <p><strong>Key Operations with Modulo:</strong></p>
                                 <div className="ml-4 space-y-2">
-                                    <p>• <strong>Enqueue:</strong> $rear = (rear + 1) \% MAX$</p>
-                                    <p>• <strong>Dequeue:</strong> $front = (front + 1) \% MAX$</p>
-                                    <p>• <strong>Full Check:</strong> $(rear + 1) \% MAX == front$</p>
-                                    <p>• <strong>Empty Check:</strong> $front == -1$</p>
-                                    <p>• <strong>Size:</strong> $(rear - front + MAX) \% MAX + 1$</p>
+                                    <p>• <strong>Enqueue:</strong> <code className="bg-gray-200 px-2 py-1 rounded text-sm">rear = (rear + 1) % MAX</code></p>
+                                    <p>• <strong>Dequeue:</strong> <code className="bg-gray-200 px-2 py-1 rounded text-sm">front = (front + 1) % MAX</code></p>
+                                    <p>• <strong>Full Check:</strong> <code className="bg-gray-200 px-2 py-1 rounded text-sm">(rear + 1) % MAX == front</code></p>
+                                    <p>• <strong>Empty Check:</strong> <code className="bg-gray-200 px-2 py-1 rounded text-sm">front == -1</code></p>
+                                    <p>• <strong>Size:</strong> <code className="bg-gray-200 px-2 py-1 rounded text-sm">(rear - front + MAX) % MAX + 1</code></p>
                                 </div>
                                 <p className="mt-3 text-xs text-gray-600">
                                     <strong>Why Modulo?</strong> Wraps index back to 0 when it exceeds MAX-1
@@ -756,7 +739,7 @@ Order: B(5) → D(4) → A(3) → C(1)`}
                                 </li>
                                 <li>
                                     <strong>Write Recursive Function for Tower of Hanoi with 3 disks</strong>
-                                    <p className="ml-6 text-sm mt-1">Show base case (n=1), recursive calls for n-1 disks. Total moves: $2^3 - 1 = 7$</p>
+                                    <p className="ml-6 text-sm mt-1">Show base case (n=1), recursive calls for n-1 disks. Total moves: <code className="bg-gray-200 px-2 py-1 rounded text-sm">2^3 - 1 = 7</code></p>
                                 </li>
                                 <li>
                                     <strong>Circular Queue: Enqueue 5 elements in size 4, then dequeue 2, enqueue 2 more</strong>
@@ -767,8 +750,8 @@ Order: B(5) → D(4) → A(3) → C(1)`}
                                     <p className="ml-6 text-sm mt-1">Fixed vs dynamic size, overflow conditions, memory efficiency</p>
                                 </li>
                                 <li>
-                                    <strong>Prove Time Complexity of Recursive Fibonacci is $O(2^n)$</strong>
-                                    <p className="ml-6 text-sm mt-1">Show recurrence $T(n) = T(n-1) + T(n-2) + c$, draw recursion tree</p>
+                                    <strong>Prove Time Complexity of Recursive Fibonacci is <code className="bg-gray-200 px-2 py-1 rounded text-sm">O(2^n)</code></strong>
+                                    <p className="ml-6 text-sm mt-1">Show recurrence <code className="bg-gray-200 px-2 py-1 rounded text-sm">T(n) = T(n-1) + T(n-2) + c</code>, draw recursion tree</p>
                                 </li>
                                 <li>
                                     <strong>Applications: When to use Stack vs Queue vs Priority Queue?</strong>
@@ -790,43 +773,43 @@ Order: B(5) → D(4) → A(3) → C(1)`}
                                     <tbody>
                                         <tr>
                                             <td className="border border-gray-300 px-3 py-2 font-semibold">Stack Push/Pop</td>
-                                            <td className="border border-gray-300 px-3 py-2">$O(1)$</td>
-                                            <td className="border border-gray-300 px-3 py-2">$O(n)$</td>
+                                            <td className="border border-gray-300 px-3 py-2"><code className="bg-gray-200 px-2 py-1 rounded text-sm">O(1)</code></td>
+                                            <td className="border border-gray-300 px-3 py-2"><code className="bg-gray-200 px-2 py-1 rounded text-sm">O(n)</code></td>
                                         </tr>
                                         <tr className="bg-gray-50">
                                             <td className="border border-gray-300 px-3 py-2 font-semibold">Queue Enqueue/Dequeue</td>
-                                            <td className="border border-gray-300 px-3 py-2">$O(1)$</td>
-                                            <td className="border border-gray-300 px-3 py-2">$O(n)$</td>
+                                            <td className="border border-gray-300 px-3 py-2"><code className="bg-gray-200 px-2 py-1 rounded text-sm">O(1)</code></td>
+                                            <td className="border border-gray-300 px-3 py-2"><code className="bg-gray-200 px-2 py-1 rounded text-sm">O(n)</code></td>
                                         </tr>
                                         <tr>
                                             <td className="border border-gray-300 px-3 py-2 font-semibold">Infix to Postfix</td>
-                                            <td className="border border-gray-300 px-3 py-2">$O(n)$</td>
-                                            <td className="border border-gray-300 px-3 py-2">$O(n)$</td>
+                                            <td className="border border-gray-300 px-3 py-2"><code className="bg-gray-200 px-2 py-1 rounded text-sm">O(n)</code></td>
+                                            <td className="border border-gray-300 px-3 py-2"><code className="bg-gray-200 px-2 py-1 rounded text-sm">O(n)</code></td>
                                         </tr>
                                         <tr className="bg-gray-50">
                                             <td className="border border-gray-300 px-3 py-2 font-semibold">Postfix Evaluation</td>
-                                            <td className="border border-gray-300 px-3 py-2">$O(n)$</td>
-                                            <td className="border border-gray-300 px-3 py-2">$O(n)$</td>
+                                            <td className="border border-gray-300 px-3 py-2"><code className="bg-gray-200 px-2 py-1 rounded text-sm">O(n)</code></td>
+                                            <td className="border border-gray-300 px-3 py-2"><code className="bg-gray-200 px-2 py-1 rounded text-sm">O(n)</code></td>
                                         </tr>
                                         <tr>
                                             <td className="border border-gray-300 px-3 py-2 font-semibold">Factorial (Recursive)</td>
-                                            <td className="border border-gray-300 px-3 py-2">$O(n)$</td>
-                                            <td className="border border-gray-300 px-3 py-2">$O(n)$ stack</td>
+                                            <td className="border border-gray-300 px-3 py-2"><code className="bg-gray-200 px-2 py-1 rounded text-sm">O(n)</code></td>
+                                            <td className="border border-gray-300 px-3 py-2"><code className="bg-gray-200 px-2 py-1 rounded text-sm">O(n)</code> stack</td>
                                         </tr>
                                         <tr className="bg-gray-50">
                                             <td className="border border-gray-300 px-3 py-2 font-semibold">Fibonacci (Naive)</td>
-                                            <td className="border border-gray-300 px-3 py-2">$O(2^n)$</td>
-                                            <td className="border border-gray-300 px-3 py-2">$O(n)$ stack</td>
+                                            <td className="border border-gray-300 px-3 py-2"><code className="bg-gray-200 px-2 py-1 rounded text-sm">O(2^n)</code></td>
+                                            <td className="border border-gray-300 px-3 py-2"><code className="bg-gray-200 px-2 py-1 rounded text-sm">O(n)</code> stack</td>
                                         </tr>
                                         <tr>
                                             <td className="border border-gray-300 px-3 py-2 font-semibold">Binary Search (Recursive)</td>
-                                            <td className="border border-gray-300 px-3 py-2">$O(\log n)$</td>
-                                            <td className="border border-gray-300 px-3 py-2">$O(\log n)$ stack</td>
+                                            <td className="border border-gray-300 px-3 py-2"><code className="bg-gray-200 px-2 py-1 rounded text-sm">O(log n)</code></td>
+                                            <td className="border border-gray-300 px-3 py-2"><code className="bg-gray-200 px-2 py-1 rounded text-sm">O(log n)</code> stack</td>
                                         </tr>
                                         <tr className="bg-gray-50">
                                             <td className="border border-gray-300 px-3 py-2 font-semibold">Tower of Hanoi</td>
-                                            <td className="border border-gray-300 px-3 py-2">$O(2^n)$</td>
-                                            <td className="border border-gray-300 px-3 py-2">$O(n)$ stack</td>
+                                            <td className="border border-gray-300 px-3 py-2"><code className="bg-gray-200 px-2 py-1 rounded text-sm">O(2^n)</code></td>
+                                            <td className="border border-gray-300 px-3 py-2"><code className="bg-gray-200 px-2 py-1 rounded text-sm">O(n)</code> stack</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -836,12 +819,12 @@ Order: B(5) → D(4) → A(3) → C(1)`}
                         <ColorBox color="red" title="🎯 Quick Tips for Exam">
                             <ul className="list-disc list-inside space-y-2 text-sm">
                                 <li><strong>Stack:</strong> Always check overflow (top == MAX-1) and underflow (top == -1)</li>
-                                <li><strong>Circular Queue:</strong> Master modulo arithmetic - $(rear + 1) \% MAX$</li>
-                                <li><strong>Infix to Postfix:</strong> Remember precedence: $\wedge$ {' > '} $\times, /$ {' > '} $+, -$</li>
+                                <li><strong>Circular Queue:</strong> Master modulo arithmetic - <code className="bg-gray-200 px-2 py-1 rounded text-sm">(rear + 1) % MAX</code></li>
+                                <li><strong>Infix to Postfix:</strong> Remember precedence: <code className="bg-gray-200 px-2 py-1 rounded text-sm">^</code> {' > '} <code className="bg-gray-200 px-2 py-1 rounded text-sm">×, /</code> {' > '} <code className="bg-gray-200 px-2 py-1 rounded text-sm">+, -</code></li>
                                 <li><strong>Recursion:</strong> Always write base case first, ensure progress toward base</li>
                                 <li><strong>Complexity:</strong> Recursive space includes stack depth in analysis</li>
                                 <li><strong>Tail Recursion:</strong> Can be optimized to iteration by compiler (important concept!)</li>
-                                <li><strong>Tower of Hanoi:</strong> Remember formula $2^n - 1$ moves for $n$ disks</li>
+                                <li><strong>Tower of Hanoi:</strong> Remember formula <code className="bg-gray-200 px-2 py-1 rounded text-sm">2^n - 1</code> moves for <code className="bg-gray-200 px-2 py-1 rounded text-sm">n</code> disks</li>
                                 <li><strong>Deque:</strong> Know difference between input-restricted and output-restricted</li>
                             </ul>
                         </ColorBox>
