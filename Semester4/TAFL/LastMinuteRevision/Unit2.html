@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Theory of Automata — Unit 2 | Last Minute Revision</title>
+
+    <!-- React 18 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+    <!-- Babel Standalone -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+</head>
+
+<body class="bg-slate-50 text-slate-900 font-sans">
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState } = React;
+
+/* ================================================================
+   UNIT2_DATA — Regular Expressions, Arden's, Kleene's, Properties,
+   Pumping Lemma
+   ================================================================ */
+const UNIT2_DATA = [
+
+  /* -------- 0. Regular Expressions -------- */
+  {
+    id: "regex",
+    title: "1. Regular Expressions (RE)",
+    defaultOpen: true,
+    blocks: [
+      {
+        type: "yellow",
+        heading: "Definitions",
+        bullets: [
+          "A **Regular Expression** (RE) over an alphabet $\\Sigma$ is a pattern that defines a **regular language**.",
+          "$\\emptyset$ is an RE denoting the **empty language** $\\{\\}$.",
+          "$\\epsilon$ is an RE denoting the language $\\{\\epsilon\\}$ (contains only the empty string).",
+          "For each $a \\in \\Sigma$, $a$ is an RE denoting $\\{a\\}$."
+        ]
+      },
+      {
+        type: "blue",
+        heading: "Operators (by precedence, highest first)",
+        bullets: [
+          "**Kleene Star** $R^*$ — Zero or more repetitions: $L(R^*) = \\{\\epsilon\\} \\cup L(R) \\cup L(RR) \\cup \\ldots$",
+          "**Concatenation** $R_1 \\cdot R_2$ — $L(R_1 \\cdot R_2) = \\{xy \\mid x \\in L(R_1),\\, y \\in L(R_2)\\}$.",
+          "**Union (Alternation)** $R_1 + R_2$ — $L(R_1 + R_2) = L(R_1) \\cup L(R_2)$.",
+          "Precedence: $*$ > $\\cdot$ (concatenation) > $+$ (union). Use parentheses to override."
+        ]
+      },
+      {
+        type: "blue",
+        heading: "Algebraic Identities of RE",
+        bullets: [
+          "$R + \\emptyset = R$ (Union with empty language is identity).",
+          "$R \\cdot \\epsilon = \\epsilon \\cdot R = R$ ($\\epsilon$ is concatenation identity).",
+          "$R \\cdot \\emptyset = \\emptyset \\cdot R = \\emptyset$ (Annihilation).",
+          "$R + R = R$ (Idempotent law).",
+          "$(R^*)^* = R^*$ (Kleene star is idempotent).",
+          "$\\epsilon + R \\cdot R^* = R^*$ (Unfolding).",
+          "$R_1(R_2 + R_3) = R_1 R_2 + R_1 R_3$ (Left distributive).",
+          "$(R_1 + R_2)R_3 = R_1 R_3 + R_2 R_3$ (Right distributive)."
+        ]
+      },
+      {
+        type: "yellow",
+        heading: "Common RE Examples",
+        bullets: [
+          "$\\Sigma = \\{a,b\\}$. All strings: $(a+b)^*$.",
+          "Strings starting with $a$: $a(a+b)^*$.",
+          "Strings ending with $b$: $(a+b)^*b$.",
+          "Strings containing $ab$: $(a+b)^*ab(a+b)^*$.",
+          "Even length strings: $((a+b)(a+b))^*$.",
+          "Strings with no two consecutive $a$'s: $(b + ab)^*(a + \\epsilon)$."
+        ]
+      },
+      {
+        type: "green",
+        heading: "FA → RE Conversion (State Elimination Method)",
+        diagram: "stateElim",
+        bullets: [
+          "**Step 1**: Add a new unique **start state** $q_s$ with $\\epsilon$-transition to original start, and a new unique **accept state** $q_f$ with $\\epsilon$-transitions from all original accept states.",
+          "**Step 2**: Eliminate intermediate states one by one. When removing state $q$:",
+          "  For every pair $(q_i, q_j)$ with edges $q_i \\xrightarrow{R_1} q$, $q \\xrightarrow{R_3} q_j$, and self-loop $q \\xrightarrow{R_2} q$: replace/add edge $q_i \\xrightarrow{R_1 R_2^* R_3 + R_4} q_j$ (where $R_4$ is any existing $q_i \\to q_j$ edge).",
+          "**Step 3**: After all intermediate states are removed, only $q_s$ and $q_f$ remain. The label on edge $q_s \\to q_f$ is the **final RE**."
+        ]
+      },
+      {
+        type: "green",
+        heading: "RE → NFA Conversion (Thompson's Construction)",
+        bullets: [
+          "Build small $\\epsilon$-NFA blocks for each base case ($\\emptyset$, $\\epsilon$, $a$).",
+          "**Union** $R_1 + R_2$: New start → $\\epsilon$ → both sub-NFAs → $\\epsilon$ → new accept.",
+          "**Concatenation** $R_1 \\cdot R_2$: Accept of $R_1$-NFA merges with start of $R_2$-NFA.",
+          "**Kleene Star** $R^*$: New start → $\\epsilon$ → sub-NFA → $\\epsilon$ → new accept; also new start → $\\epsilon$ → new accept (for $\\epsilon$), and sub-accept → $\\epsilon$ → sub-start (for looping)."
+        ]
+      }
+    ]
+  },
+
+  /* -------- 1. Arden's Theorem -------- */
+  {
+    id: "ardens",
+    title: "2. Arden's Theorem",
+    blocks: [
+      {
+        type: "yellow",
+        heading: "Statement",
+        bullets: [
+          "If $P$ and $Q$ are regular expressions over $\\Sigma$, and $\\epsilon \\notin L(P)$, then the equation:",
+          "$R = Q + RP$",
+          "has a **unique solution**: $R = QP^*$."
+        ]
+      },
+      {
+        type: "blue",
+        heading: "Algorithm — RE from Transition Graph",
+        diagram: "ardens",
+        bullets: [
+          "**Step 1**: Write one equation per state: $q_i = $ (sum of all incoming transitions written as $q_j \\cdot a$).",
+          "**Step 2**: If $q_i$ is the start state, add $\\epsilon$ to its equation.",
+          "**Step 3**: Solve equations by substitution. Whenever you see $q_i = Q + q_i P$, apply Arden's: $q_i = QP^*$.",
+          "**Step 4**: The solution for the final/accepting state(s) gives the desired RE.",
+          "If multiple accept states, the final RE = union of their solutions."
+        ]
+      },
+      {
+        type: "green",
+        heading: "Worked Example — DFA with $\\Sigma=\\{a,b\\}$",
+        bullets: [
+          "Given DFA: $q_0$ (start), $q_1$ (accept). $\\delta(q_0,a)=q_0,\\; \\delta(q_0,b)=q_1,\\; \\delta(q_1,a)=q_1,\\; \\delta(q_1,b)=q_0$.",
+          "**Equations**: $q_0 = \\epsilon + q_0 a + q_1 b$ and $q_1 = q_0 b + q_1 a$.",
+          "**Solve** $q_1$: Form $R = Q + RP \\Rightarrow q_1 = (q_0 b) + q_1(a)$. By Arden's: $q_1 = q_0 b a^*$.",
+          "**Substitute** into $q_0$: $q_0 = \\epsilon + q_0 a + q_0 b a^* b = \\epsilon + q_0(a + ba^*b)$.",
+          "By Arden's: $q_0 = (a + ba^*b)^*$.",
+          "**Final RE** (for $q_1$): $q_1 = (a + ba^*b)^* b a^*$.",
+          "Language: strings over $\\{a,b\\}$ ending with $ba^*$ pattern (odd number of $b$-blocks)."
+        ]
+      },
+      {
+        type: "blue",
+        heading: "Key Points to Remember",
+        bullets: [
+          "Arden's **requires** $\\epsilon \\notin L(P)$; otherwise the solution is not unique.",
+          "Always add $\\epsilon$ to the start-state equation (it represents entering that state initially).",
+          "Process non-final states first, substitute into final-state equations.",
+          "If a state has a self-loop on symbol $a$, it contributes $a^*$ via Arden's."
+        ]
+      }
+    ]
+  },
+
+  /* -------- 2. Kleene's Theorem -------- */
+  {
+    id: "kleene",
+    title: "3. Kleene's Theorem",
+    blocks: [
+      {
+        type: "yellow",
+        heading: "Statement",
+        bullets: [
+          "**Kleene's Theorem**: A language $L$ is **regular** if and only if there exists a **regular expression** for $L$.",
+          "Equivalently: RE, DFA, NFA, and $\\epsilon$-NFA all describe exactly the same class of languages — **Regular Languages**."
+        ]
+      },
+      {
+        type: "blue",
+        heading: "Proof Outline (Three Directions)",
+        bullets: [
+          "**RE → $\\epsilon$-NFA**: Thompson's Construction — build an NFA for each RE operator inductively.",
+          "**$\\epsilon$-NFA → DFA**: Subset Construction — $\\epsilon$-closures form DFA states.",
+          "**DFA → RE**: State Elimination or Arden's Theorem — algebraically derive the RE.",
+          "This forms a cycle: RE ↔ NFA ↔ DFA, proving all are equivalent."
+        ]
+      },
+      {
+        type: "blue",
+        heading: "Conversion Roadmap",
+        diagram: "kleeneRoadmap",
+        bullets: [
+          "**RE → NFA**: Thompson's construction (easy, introduces $\\epsilon$-transitions).",
+          "**NFA → DFA**: Subset construction (may cause exponential blow-up $2^n$).",
+          "**DFA → RE**: State elimination or Arden's theorem.",
+          "**DFA → Min-DFA**: Table-filling / partition refinement (Unit 1).",
+          "Any two representations can be converted via this chain."
+        ]
+      }
+    ]
+  },
+
+  /* -------- 3. Properties of Regular Languages -------- */
+  {
+    id: "properties",
+    title: "4. Properties of Regular Languages",
+    blocks: [
+      {
+        type: "purple",
+        heading: "Closure Properties — Regular Languages are closed under:",
+        bullets: [
+          "**Union**: $L_1 \\cup L_2$ is regular (build product automaton, accept if either accepts).",
+          "**Intersection**: $L_1 \\cap L_2$ is regular (product automaton, accept if both accept).",
+          "**Complement**: $\\bar{L}$ is regular (swap final and non-final states in DFA).",
+          "**Concatenation**: $L_1 \\cdot L_2$ is regular (connect accept states of $L_1$-NFA via $\\epsilon$ to start of $L_2$-NFA).",
+          "**Kleene Star**: $L^*$ is regular (add $\\epsilon$-loop from accept back to start).",
+          "**Kleene Plus**: $L^+ = L \\cdot L^*$ is regular.",
+          "**Difference**: $L_1 - L_2 = L_1 \\cap \\bar{L_2}$ is regular.",
+          "**Reversal**: $L^R$ is regular (reverse all transitions, swap start/accept).",
+          "**Homomorphism / Inverse Homomorphism**: Both preserve regularity."
+        ]
+      },
+      {
+        type: "purple",
+        heading: "Decision Properties",
+        bullets: [
+          "**Emptiness**: Is $L(M) = \\emptyset$? — Check if any accept state is reachable from start (BFS/DFS). Decidable.",
+          "**Finiteness**: Is $L(M)$ finite? — Check for cycles on paths from start to accept states. If a cycle exists → $L$ is infinite. Decidable.",
+          "**Membership**: Is $w \\in L(M)$? — Simulate DFA on input $w$. $O(|w|)$ time. Decidable.",
+          "**Equivalence**: Is $L(M_1) = L(M_2)$? — Minimize both DFAs; check if resulting automata are isomorphic. Decidable.",
+          "**Subset**: Is $L_1 \\subseteq L_2$? — Check $L_1 \\cap \\bar{L_2} = \\emptyset$. Decidable."
+        ]
+      },
+      {
+        type: "green",
+        heading: "Product / Cross-Product Construction (for Union & Intersection)",
+        bullets: [
+          "Given DFAs $M_1 = (Q_1, \\Sigma, \\delta_1, s_1, F_1)$ and $M_2 = (Q_2, \\Sigma, \\delta_2, s_2, F_2)$.",
+          "Build DFA $M = (Q_1 \\times Q_2,\\; \\Sigma,\\; \\delta,\\; (s_1,s_2),\\; F)$.",
+          "$\\delta((q_1,q_2), a) = (\\delta_1(q_1,a),\\, \\delta_2(q_2,a))$.",
+          "For **union**: $F = \\{(q_1,q_2) \\mid q_1 \\in F_1 \\text{ or } q_2 \\in F_2\\}$.",
+          "For **intersection**: $F = \\{(q_1,q_2) \\mid q_1 \\in F_1 \\text{ and } q_2 \\in F_2\\}$."
+        ]
+      }
+    ]
+  },
+
+  /* -------- 4. Pumping Lemma for Regular Languages -------- */
+  {
+    id: "pumping",
+    title: "5. Pumping Lemma for Regular Languages",
+    blocks: [
+      {
+        type: "yellow",
+        heading: "Formal Statement",
+        bullets: [
+          "If $L$ is a **regular** language, then there exists a constant $p \\geq 1$ (the **pumping length**) such that:",
+          "For every string $w \\in L$ with $|w| \\geq p$, $w$ can be split as $w = xyz$ satisfying:",
+          "  **(1)** $|y| \\geq 1$ (the pump portion is non-empty),",
+          "  **(2)** $|xy| \\leq p$ (pump portion is in the first $p$ characters),",
+          "  **(3)** $\\forall\\, i \\geq 0,\\; xy^i z \\in L$ (pumping up or down keeps string in $L$)."
+        ]
+      },
+      {
+        type: "blue",
+        heading: "Pigeonhole Principle — Why It Works",
+        diagram: "pumping",
+        bullets: [
+          "A DFA with $p$ states reading a string of length $\\geq p$ must **revisit** some state (pigeonhole).",
+          "The portion of the string between the first visit and the revisit is $y$.",
+          "This loop can be traversed **0 times** ($y^0$), **1 time** ($y^1$), **2 times** ($y^2$), etc. — all resulting strings must still be accepted.",
+          "If we find a language where this fails, the language is **not regular**."
+        ]
+      },
+      {
+        type: "green",
+        heading: "Step-by-Step: Using Pumping Lemma to Prove Non-Regularity",
+        bullets: [
+          "**Step 1**: Assume (for contradiction) that $L$ is regular. Then a pumping length $p$ exists.",
+          "**Step 2**: Choose a **specific** string $w \\in L$ with $|w| \\geq p$. (Choose wisely!)",
+          "**Step 3**: Consider **all possible** decompositions $w = xyz$ with $|y| \\geq 1$ and $|xy| \\leq p$.",
+          "**Step 4**: Show that for **some** $i$, $xy^i z \\notin L$ (usually $i=0$ or $i=2$ works).",
+          "**Step 5**: This contradicts the Pumping Lemma → $L$ is **not regular**. ∎"
+        ]
+      },
+      {
+        type: "green",
+        heading: "Worked Example — $L = \\{a^n b^n \\mid n \\geq 1\\}$ is not regular",
+        bullets: [
+          "**Assume** $L$ is regular with pumping length $p$.",
+          "**Choose** $w = a^p b^p \\in L$, so $|w| = 2p \\geq p$. ✓",
+          "**Decompose**: Since $|xy| \\leq p$ and the first $p$ characters are all $a$'s, $y = a^k$ for some $k \\geq 1$.",
+          "So $x = a^j$, $y = a^k$ ($k \\geq 1$, $j+k \\leq p$), $z = a^{p-j-k} b^p$.",
+          "**Pump** with $i = 2$: $xy^2z = a^{j} a^{2k} a^{p-j-k} b^p = a^{p+k} b^p$.",
+          "Since $k \\geq 1$, we have $p+k > p$ i.e. more $a$'s than $b$'s → $xy^2z \\notin L$. **Contradiction!**",
+          "**Pump** with $i = 0$: $xy^0z = a^{p-k} b^p$. Since $k \\geq 1$, fewer $a$'s than $b$'s → $xy^0z \\notin L$.",
+          "∴ $L = \\{a^n b^n \\mid n \\geq 1\\}$ is **not regular**. ∎"
+        ]
+      },
+      {
+        type: "green",
+        heading: "More Examples — Proving Non-Regularity",
+        bullets: [
+          "**$L = \\{a^{n^2} \\mid n \\geq 0\\}$** (perfect squares): Choose $w=a^{p^2}$. Pump $i=2$: get $a^{p^2+k}$. But $p^2 < p^2+k < (p+1)^2$ for $1 \\leq k \\leq p$, so $p^2+k$ is not a perfect square. ✗",
+          "**$L = \\{ww \\mid w \\in \\{a,b\\}^*\\}$**: Choose $w=a^p b a^p b$. The pump $y=a^k$ in the first $p$ chars creates imbalance. ✗",
+          "**$L = \\{a^p \\mid p \\text{ is prime}\\}$**: Choose $w=a^q$ ($q$ = prime $\\geq p$). Pump $i=q+1$: length becomes $q + kq = q(1+k)$, which is composite. ✗"
+        ]
+      },
+      {
+        type: "blue",
+        heading: "Common Pitfalls & Tips",
+        bullets: [
+          "The Pumping Lemma is a **necessary** condition, not sufficient — it can only prove non-regularity, never regularity.",
+          "You **choose** $w$, but the adversary **chooses** the decomposition — you must handle **all** valid splits.",
+          "Always ensure $|y| \\geq 1$ and $|xy| \\leq p$ in your argument.",
+          "Best strategy: pick $w$ so that $|xy| \\leq p$ forces $y$ to lie entirely within one type of symbol (e.g., all $a$'s).",
+          "To **prove** a language is regular, construct a DFA/NFA/RE — don't use the Pumping Lemma."
+        ]
+      }
+    ]
+  },
+
+  /* -------- 5. Revision Summary -------- */
+  {
+    id: "summary",
+    title: "6. Unit 2 — Quick Revision Summary",
+    blocks: [
+      {
+        type: "red",
+        heading: "Complete Checklist",
+        bullets: [
+          "✓ **RE Operators**: Union ($+$), Concatenation ($\\cdot$), Kleene Star ($*$). Precedence: $* > \\cdot > +$.",
+          "✓ **RE ↔ FA conversions**: Thompson's (RE→NFA), State Elimination (DFA→RE).",
+          "✓ **Arden's Theorem**: $R = Q + RP \\Rightarrow R = QP^*$ (requires $\\epsilon \\notin L(P)$).",
+          "✓ **Arden's Algorithm**: Write equations per state → substitute → solve for accept states.",
+          "✓ **Kleene's Theorem**: RE = NFA = DFA = $\\epsilon$-NFA (all describe Regular Languages).",
+          "✓ **Closure Properties**: Union, Intersection, Complement, Concatenation, Star, Reversal, Difference.",
+          "✓ **Decision Properties**: Emptiness, Finiteness, Membership, Equivalence — all decidable.",
+          "✓ **Product Construction**: Pair states for union/intersection of two DFAs.",
+          "✓ **Pumping Lemma**: $w = xyz$, $|y| \\geq 1$, $|xy| \\leq p$, $xy^iz \\in L$ ∀ $i \\geq 0$.",
+          "✓ **Pumping Lemma Usage**: Assume regular → choose $w$ → show contradiction → not regular.",
+          "✓ $\\{a^n b^n\\}$, $\\{a^{n^2}\\}$, $\\{ww\\}$ — classic non-regular examples."
+        ]
+      }
+    ]
+  }
+];
+
+/* ================================================================
+   COMPONENTS
+   ================================================================ */
+
+/* Chevron Icons */
+const ChevronDown = ({ className }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+  </svg>
+);
+const ChevronRight = ({ className }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+  </svg>
+);
+
+/* ---- Color-coded Box ---- */
+const Box = ({ type, title, children }) => {
+  const styles = {
+    yellow: "bg-yellow-50 border-yellow-400 text-yellow-900",
+    blue:   "bg-blue-50 border-blue-400 text-blue-900",
+    green:  "bg-green-50 border-green-400 text-green-900",
+    purple: "bg-purple-50 border-purple-400 text-purple-900",
+    red:    "bg-red-50 border-red-400 text-red-900",
+  };
+  return (
+    <div className={`${styles[type] || styles.blue} border-l-4 p-4 mb-4 rounded-r-lg`}>
+      {title && <h4 className="font-bold text-lg mb-2">{title}</h4>}
+      <div className="space-y-1">{children}</div>
+    </div>
+  );
+};
+
+/* ---- Convert **bold**, *italic*, and $LaTeX$ in a string to HTML ---- */
+const renderText = (text) => {
+  let html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/\*([^*]+?)\*/g, '<em>$1</em>');
+  html = html.replace(/\$([^$]+?)\$/g, (_, tex) => {
+    try { return katex.renderToString(tex, { throwOnError: false, displayMode: false }); }
+    catch (e) { return '$' + tex + '$'; }
+  });
+  return html;
+};
+
+/* ---- Render a single bullet ---- */
+const Bullet = ({ text }) => {
+  const html = renderText(text);
+  if (text.startsWith("|")) {
+    return <span className="block font-mono text-sm whitespace-pre" dangerouslySetInnerHTML={{ __html: html }} />;
+  }
+  /* Indented sub-bullet */
+  if (text.startsWith("  ")) {
+    return <p className="leading-relaxed ml-5 text-sm" dangerouslySetInnerHTML={{ __html: '◦ ' + html.trim() }} />;
+  }
+  return <p className="leading-relaxed" dangerouslySetInnerHTML={{ __html: '• ' + html }} />;
+};
+
+/* ================================================================
+   SVG DIAGRAMS
+   ================================================================ */
+
+const ArrowMarker = ({ id, color }) => (
+  <defs>
+    <marker id={id} viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,1.5 L10,5 L0,8.5 z" fill={color || "#475569"} />
+    </marker>
+  </defs>
+);
+
+/* ---- State Elimination Concept ---- */
+const StateElimDiagram = () => (
+  <div className="my-4 flex justify-center">
+    <svg viewBox="0 0 520 170" className="w-full max-w-lg">
+      <ArrowMarker id="ase" />
+      {/* qs */}
+      <circle cx="60" cy="85" r="24" fill="#fef9c3" stroke="#ca8a04" strokeWidth="2" />
+      <text x="60" y="90" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#854d0e">q_s</text>
+      {/* q (being eliminated — dashed) */}
+      <circle cx="260" cy="85" r="24" fill="#fee2e2" stroke="#dc2626" strokeWidth="2" strokeDasharray="5,3" />
+      <text x="260" y="90" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#dc2626">q</text>
+      {/* qf */}
+      <circle cx="460" cy="85" r="24" fill="#dcfce7" stroke="#16a34a" strokeWidth="2" />
+      <circle cx="460" cy="85" r="19" fill="none" stroke="#16a34a" strokeWidth="1.5" />
+      <text x="460" y="90" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#15803d">q_f</text>
+      {/* qs → q  R1 */}
+      <line x1="84" y1="80" x2="236" y2="80" stroke="#475569" strokeWidth="1.5" markerEnd="url(#ase)" />
+      <text x="160" y="73" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#1e40af">R₁</text>
+      {/* q self-loop R2 */}
+      <path d="M248,63 C238,15 282,15 272,63" fill="none" stroke="#dc2626" strokeWidth="1.5" markerEnd="url(#ase)" />
+      <text x="260" y="22" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#dc2626">R₂</text>
+      {/* q → qf  R3 */}
+      <line x1="284" y1="80" x2="436" y2="80" stroke="#475569" strokeWidth="1.5" markerEnd="url(#ase)" />
+      <text x="360" y="73" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#1e40af">R₃</text>
+      {/* After elimination: qs → qf  curved below */}
+      <path d="M82,107 Q260,175 438,107" fill="none" stroke="#16a34a" strokeWidth="2" markerEnd="url(#ase)" />
+      <text x="260" y="158" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#16a34a">R₁ R₂* R₃</text>
+      {/* Label */}
+      <text x="260" y="13" textAnchor="middle" fontSize="9" fill="#dc2626" fontStyle="italic">eliminate q</text>
+    </svg>
+  </div>
+);
+
+/* ---- Arden's Theorem — DFA for worked example ---- */
+const ArdensDiagram = () => (
+  <div className="my-4 flex justify-center">
+    <svg viewBox="0 0 460 160" className="w-full max-w-md">
+      <ArrowMarker id="aar" />
+      {/* start arrow */}
+      <line x1="10" y1="80" x2="52" y2="80" stroke="#475569" strokeWidth="1.5" markerEnd="url(#aar)" />
+      <text x="8" y="68" fontSize="10" fill="#94a3b8" fontStyle="italic">start</text>
+      {/* q0 */}
+      <circle cx="80" cy="80" r="26" fill="#fff" stroke="#334155" strokeWidth="2" />
+      <text x="80" y="85" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#334155">q₀</text>
+      {/* q1 — accepting */}
+      <circle cx="370" cy="80" r="26" fill="#dcfce7" stroke="#16a34a" strokeWidth="2" />
+      <circle cx="370" cy="80" r="21" fill="none" stroke="#16a34a" strokeWidth="1.5" />
+      <text x="370" y="85" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#15803d">q₁</text>
+      {/* self-loop q0 "a" */}
+      <path d="M68,56 C58,8 102,8 92,56" fill="none" stroke="#475569" strokeWidth="1.5" markerEnd="url(#aar)" />
+      <text x="80" y="16" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#1e40af">a</text>
+      {/* self-loop q1 "a" */}
+      <path d="M358,56 C348,8 392,8 382,56" fill="none" stroke="#475569" strokeWidth="1.5" markerEnd="url(#aar)" />
+      <text x="370" y="16" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#1e40af">a</text>
+      {/* q0 → q1 "b" curved above */}
+      <path d="M104,66 Q225,24 344,66" fill="none" stroke="#475569" strokeWidth="1.5" markerEnd="url(#aar)" />
+      <text x="225" y="36" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#1e40af">b</text>
+      {/* q1 → q0 "b" curved below */}
+      <path d="M346,96 Q225,148 106,96" fill="none" stroke="#475569" strokeWidth="1.5" markerEnd="url(#aar)" />
+      <text x="225" y="140" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#1e40af">b</text>
+    </svg>
+  </div>
+);
+
+/* ---- Kleene's Theorem Roadmap ---- */
+const KleeneRoadmap = () => (
+  <div className="my-4 flex justify-center">
+    <svg viewBox="0 0 500 200" className="w-full max-w-lg">
+      <ArrowMarker id="akr" color="#1e40af" />
+      {/* RE box */}
+      <rect x="190" y="8" width="120" height="40" rx="8" fill="#fef9c3" stroke="#ca8a04" strokeWidth="2" />
+      <text x="250" y="33" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#854d0e">RE</text>
+      {/* ε-NFA box */}
+      <rect x="10" y="120" width="130" height="40" rx="8" fill="#ede9fe" stroke="#7c3aed" strokeWidth="2" />
+      <text x="75" y="145" textAnchor="middle" fontSize="13" fontWeight="bold" fill="#6d28d9">ε-NFA</text>
+      {/* DFA box */}
+      <rect x="200" y="150" width="100" height="40" rx="8" fill="#dbeafe" stroke="#2563eb" strokeWidth="2" />
+      <text x="250" y="175" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#1e40af">DFA</text>
+      {/* NFA box */}
+      <rect x="370" y="120" width="110" height="40" rx="8" fill="#d1fae5" stroke="#059669" strokeWidth="2" />
+      <text x="425" y="145" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#047857">NFA</text>
+      {/* RE → ε-NFA */}
+      <path d="M200,46 Q100,80 110,118" fill="none" stroke="#1e40af" strokeWidth="1.8" markerEnd="url(#akr)" />
+      <text x="115" y="78" fontSize="9" fill="#1e40af" fontWeight="bold">Thompson's</text>
+      {/* ε-NFA → NFA */}
+      <path d="M140,135 Q260,100 370,132" fill="none" stroke="#1e40af" strokeWidth="1.8" markerEnd="url(#akr)" />
+      <text x="260" y="105" fontSize="9" fill="#1e40af" fontWeight="bold">Remove ε</text>
+      {/* NFA → DFA */}
+      <path d="M380,158 Q340,175 300,168" fill="none" stroke="#1e40af" strokeWidth="1.8" markerEnd="url(#akr)" />
+      <text x="355" y="183" fontSize="9" fill="#1e40af" fontWeight="bold">Subset Constr.</text>
+      {/* DFA → RE */}
+      <path d="M280,152 Q340,80 310,48" fill="none" stroke="#1e40af" strokeWidth="1.8" markerEnd="url(#akr)" />
+      <text x="340" y="78" fontSize="9" fill="#1e40af" fontWeight="bold">State Elim / Arden's</text>
+    </svg>
+  </div>
+);
+
+/* ---- Pumping Lemma Pigeonhole ---- */
+const PumpingDiagram = () => (
+  <div className="my-4 flex justify-center">
+    <svg viewBox="0 0 520 145" className="w-full max-w-lg">
+      <ArrowMarker id="apl" />
+      {/* States */}
+      <circle cx="60" cy="72" r="22" fill="#fff" stroke="#334155" strokeWidth="2" />
+      <text x="60" y="77" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#334155">q₀</text>
+      <circle cx="170" cy="72" r="22" fill="#fff" stroke="#334155" strokeWidth="2" />
+      <text x="170" y="77" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#334155">q₁</text>
+      <circle cx="280" cy="72" r="22" fill="#fef9c3" stroke="#ca8a04" strokeWidth="2" />
+      <text x="280" y="77" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#854d0e">qₖ</text>
+      <circle cx="390" cy="72" r="22" fill="#fff" stroke="#334155" strokeWidth="2" />
+      <text x="390" y="77" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#334155">…</text>
+      <circle cx="480" cy="72" r="22" fill="#dcfce7" stroke="#16a34a" strokeWidth="2" />
+      <circle cx="480" cy="72" r="17" fill="none" stroke="#16a34a" strokeWidth="1.5" />
+      <text x="480" y="77" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#15803d">q_f</text>
+      {/* start arrow */}
+      <line x1="10" y1="72" x2="38" y2="72" stroke="#475569" strokeWidth="1.5" markerEnd="url(#apl)" />
+      {/* edges */}
+      <line x1="82" y1="72" x2="148" y2="72" stroke="#475569" strokeWidth="1.5" markerEnd="url(#apl)" />
+      <line x1="192" y1="72" x2="258" y2="72" stroke="#475569" strokeWidth="1.5" markerEnd="url(#apl)" />
+      <line x1="302" y1="72" x2="368" y2="72" stroke="#475569" strokeWidth="1.5" markerEnd="url(#apl)" />
+      <line x1="412" y1="72" x2="458" y2="72" stroke="#475569" strokeWidth="1.5" markerEnd="url(#apl)" />
+      {/* loop around q1→qk (this is y) */}
+      <path d="M285,50 C290,10 175,10 175,50" fill="none" stroke="#dc2626" strokeWidth="2" strokeDasharray="5,3" markerEnd="url(#apl)" />
+      <text x="228" y="14" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#dc2626">y (loop — repeat i times)</text>
+      {/* x, y, z labels below */}
+      <text x="105" y="118" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#475569">x</text>
+      <line x1="60" y1="108" x2="150" y2="108" stroke="#475569" strokeWidth="1.5" />
+      <text x="225" y="118" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#dc2626">y</text>
+      <line x1="170" y1="108" x2="280" y2="108" stroke="#dc2626" strokeWidth="2" />
+      <text x="400" y="118" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#475569">z</text>
+      <line x1="280" y1="108" x2="480" y2="108" stroke="#475569" strokeWidth="1.5" />
+      {/* |xy| ≤ p note */}
+      <line x1="60" y1="130" x2="280" y2="130" stroke="#ca8a04" strokeWidth="1.5" />
+      <text x="170" y="142" textAnchor="middle" fontSize="10" fill="#ca8a04" fontWeight="bold">|xy| ≤ p (first p characters)</text>
+    </svg>
+  </div>
+);
+
+/* Diagram lookup */
+const DIAGRAMS = {
+  stateElim: StateElimDiagram,
+  ardens: ArdensDiagram,
+  kleeneRoadmap: KleeneRoadmap,
+  pumping: PumpingDiagram,
+};
+
+/* ---- Block = one Box with heading + bullets + optional diagram ---- */
+const Block = ({ data }) => {
+  const Diagram = data.diagram ? DIAGRAMS[data.diagram] : null;
+  return (
+    <Box type={data.type} title={data.heading}>
+      {Diagram && <Diagram />}
+      {data.bullets.map((b, i) => <Bullet key={i} text={b} />)}
+    </Box>
+  );
+};
+
+/* ---- Collapsible Section ---- */
+const Section = ({ data }) => {
+  const [open, setOpen] = useState(!!data.defaultOpen);
+  return (
+    <div className="bg-white rounded-lg shadow mb-5 overflow-hidden">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full px-5 py-4 bg-slate-800 text-white font-bold text-lg flex items-center justify-between hover:bg-slate-700 transition-colors"
+      >
+        <span>{data.title}</span>
+        {open ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
+      </button>
+      {open && (
+        <div className="p-5">
+          {data.blocks.map((b, i) => <Block key={i} data={b} />)}
+        </div>
+      )}
+    </div>
+  );
+};
+
+/* ================================================================
+   APP
+   ================================================================ */
+const App = () => {
+  return (
+    <div className="max-w-4xl mx-auto px-4 py-8">
+
+      {/* ---- Header ---- */}
+      <header className="text-center mb-8">
+        <h1 className="text-4xl font-extrabold text-slate-800 mb-1">Theory of Automata</h1>
+        <h2 className="text-xl font-semibold text-slate-500">Unit 2 — Last Minute Revision</h2>
+        <p className="mt-2 text-sm text-slate-400 tracking-wide">ZenYukti &middot; Quick-Reference Sheet</p>
+      </header>
+
+      {/* ---- Color Legend ---- */}
+      <div className="flex flex-wrap gap-3 justify-center mb-8 text-xs font-semibold">
+        <span className="px-3 py-1 rounded bg-yellow-100 text-yellow-800 border border-yellow-300">Definitions</span>
+        <span className="px-3 py-1 rounded bg-blue-100 text-blue-800 border border-blue-300">RE & Arden's Logic</span>
+        <span className="px-3 py-1 rounded bg-green-100 text-green-800 border border-green-300">Pumping Lemma Steps</span>
+        <span className="px-3 py-1 rounded bg-purple-100 text-purple-800 border border-purple-300">Closure & Decision Props</span>
+        <span className="px-3 py-1 rounded bg-red-100 text-red-800 border border-red-300">Revision Summary</span>
+      </div>
+
+      {/* ---- Sections rendered from data ---- */}
+      {UNIT2_DATA.map((sec) => (
+        <Section key={sec.id} data={sec} />
+      ))}
+
+      {/* ---- Footer ---- */}
+      <footer className="text-center mt-12 pb-6">
+        <p className="text-slate-600 font-medium">Crafted with love by <span className="font-bold text-slate-800">ZenYukti</span></p>
+        <p className="text-slate-400 text-sm mt-1 italic">Learn. Build. Share.</p>
+      </footer>
+    </div>
+  );
+};
+
+/* ---- Mount ---- */
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

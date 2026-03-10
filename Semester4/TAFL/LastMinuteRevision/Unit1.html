@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Theory of Automata — Unit 1 | Last Minute Revision</title>
+
+    <!-- React 18 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+    <!-- Babel Standalone -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+
+</head>
+
+<body class="bg-slate-50 text-slate-900 font-sans">
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState } = React;
+
+/* ================================================================
+   AUTOMATA_DATA — All Unit-1 content lives here
+   ================================================================ */
+const AUTOMATA_DATA = [
+  /* -------- 0. Foundations -------- */
+  {
+    id: "foundations",
+    title: "1. Foundations — Symbols, Strings & Languages",
+    defaultOpen: true,
+    blocks: [
+      {
+        type: "yellow",
+        heading: "Core Definitions",
+        bullets: [
+          "**Symbol** — The smallest building block; a single character (e.g., $a$, $b$, $0$, $1$).",
+          "**Alphabet ($\\Sigma$)** — A finite, non-empty set of symbols. Example: $\\Sigma = \\{0, 1\\}$.",
+          "**String (Word)** — A finite sequence of symbols from $\\Sigma$. Example: $w = 0110$.",
+          "**Empty String ($\\epsilon$)** — The string of length zero; $|\\epsilon| = 0$.",
+          "**$\\Sigma^*$** — The set of all strings (including $\\epsilon$) over $\\Sigma$. Also called Kleene closure.",
+          "**$\\Sigma^+$** — $\\Sigma^* - \\{\\epsilon\\}$; all non-empty strings over $\\Sigma$.",
+          "**Language ($L$)** — Any subset of $\\Sigma^*$. Can be finite or infinite.",
+          "**Formal Language** — A language defined by a formal grammar or recognized by an automaton."
+        ]
+      },
+      {
+        type: "blue",
+        heading: "Automata, Computability & Complexity — Quick View",
+        bullets: [
+          "**Automata Theory** studies abstract machines (models of computation) and the problems they can solve.",
+          "**Computability** asks: *What* problems can be solved by any algorithm (Turing Machine)?",
+          "**Complexity** asks: *How efficiently* (time/space) can a solvable problem be solved?",
+          "Hierarchy (low → high power): Finite Automata → Push-Down Automata → Turing Machine.",
+          "Corresponding language classes: Regular → Context-Free → Recursively Enumerable."
+        ]
+      }
+    ]
+  },
+
+  /* -------- 1. DFA -------- */
+  {
+    id: "dfa",
+    title: "2. Deterministic Finite Automaton (DFA)",
+    blocks: [
+      {
+        type: "yellow",
+        heading: "Formal Definition",
+        bullets: [
+          "A DFA is a 5-tuple $M = (Q,\\, \\Sigma,\\, \\delta,\\, q_0,\\, F)$.",
+          "$Q$ — Finite set of **states**.",
+          "$\\Sigma$ — Finite **input alphabet**.",
+          "$\\delta : Q \\times \\Sigma \\to Q$ — **Transition function** (exactly one move per symbol).",
+          "$q_0 \\in Q$ — **Start state**.",
+          "$F \\subseteq Q$ — Set of **accept / final states**."
+        ]
+      },
+      {
+        type: "blue",
+        heading: "Key Properties",
+        bullets: [
+          "For every state and every input symbol, there is **exactly one** transition — no ambiguity.",
+          "No $\\epsilon$-transitions allowed.",
+          "Total function: $\\delta$ must be defined for every $(q, a)$ pair.",
+          "**Dead state (trap state)** can be added if transitions are missing to make $\\delta$ total."
+        ]
+      },
+      {
+        type: "blue",
+        heading: "String Acceptance",
+        bullets: [
+          "**Extended transition function**: $\\hat{\\delta}(q, \\epsilon) = q$ and $\\hat{\\delta}(q, wa) = \\delta(\\hat{\\delta}(q, w), a)$.",
+          "A string $w$ is **accepted** if $\\hat{\\delta}(q_0, w) \\in F$.",
+          "A string is **rejected** if $\\hat{\\delta}(q_0, w) \\notin F$.",
+          "The **language** of a DFA: $L(M) = \\{\\, w \\in \\Sigma^* \\mid \\hat{\\delta}(q_0, w) \\in F \\,\\}$."
+        ]
+      },
+      {
+        type: "green",
+        heading: "Example — DFA accepting strings ending in '01'",
+        diagram: "dfa",
+        bullets: [
+          "$Q = \\{q_0, q_1, q_2\\}$, $\\Sigma = \\{0,1\\}$, Start: $q_0$, Accept: $\\{q_2\\}$.",
+          "$\\delta(q_0, 0) = q_1,\\; \\delta(q_0, 1) = q_0$.",
+          "$\\delta(q_1, 0) = q_1,\\; \\delta(q_1, 1) = q_2$.",
+          "$\\delta(q_2, 0) = q_1,\\; \\delta(q_2, 1) = q_0$.",
+          "Trace $w=101$: $q_0 \\xrightarrow{1} q_0 \\xrightarrow{0} q_1 \\xrightarrow{1} q_2 \\in F$ → **Accepted**."
+        ]
+      }
+    ]
+  },
+
+  /* -------- 2. NFA -------- */
+  {
+    id: "nfa",
+    title: "3. Non-Deterministic Finite Automaton (NFA)",
+    blocks: [
+      {
+        type: "yellow",
+        heading: "Formal Definition",
+        bullets: [
+          "An NFA is a 5-tuple $M = (Q,\\, \\Sigma,\\, \\delta,\\, q_0,\\, F)$.",
+          "Only difference from DFA: $\\delta : Q \\times \\Sigma \\to \\mathcal{P}(Q)$ (power set — can return **multiple** or **zero** states).",
+          "Multiple transitions on the same symbol are allowed (non-determinism)."
+        ]
+      },
+      {
+        type: "blue",
+        heading: "NFA vs DFA — Key Differences",
+        bullets: [
+          "DFA: exactly **one** next state per input. NFA: **zero, one, or many** next states.",
+          "NFA accepts if **at least one** computation path leads to a final state.",
+          "Every DFA is already an NFA (DFA $\\subset$ NFA).",
+          "For every NFA, an equivalent DFA exists (same language). Power of NFA = Power of DFA."
+        ]
+      },
+      {
+        type: "green",
+        heading: "Example — NFA accepting strings containing '01'",
+        diagram: "nfa",
+        bullets: [
+          "States: $q_0$ (start), $q_1$, $q_2$ (accept). $\\Sigma = \\{0,1\\}$.",
+          "**Non-determinism**: On input $0$ from $q_0$, machine transitions to **both** $q_0$ and $q_1$ simultaneously.",
+          "Trace $w = 101$: path $q_0 \\xrightarrow{1} q_0 \\xrightarrow{0} q_1 \\xrightarrow{1} q_2 \\in F$ exists → **Accepted**."
+        ]
+      },
+      {
+        type: "yellow",
+        heading: "$\\epsilon$-NFA (NFA with $\\epsilon$-transitions)",
+        bullets: [
+          "Transition function extended: $\\delta : Q \\times (\\Sigma \\cup \\{\\epsilon\\}) \\to \\mathcal{P}(Q)$.",
+          "Machine can change state **without consuming** any input symbol.",
+          "**$\\epsilon$-closure($q$)**: Set of all states reachable from $q$ using only $\\epsilon$-transitions (includes $q$ itself).",
+          "$\\epsilon$-closure is computed recursively / using BFS-DFS on $\\epsilon$-edges."
+        ]
+      },
+      {
+        type: "green",
+        heading: "NFA → DFA Conversion (Subset Construction)",
+        bullets: [
+          "**Input**: NFA $N = (Q_N, \\Sigma, \\delta_N, q_0, F_N)$. **Output**: Equivalent DFA $D$.",
+          "**Step 1**: Start state of DFA = $\\epsilon\\text{-closure}(q_0)$. This is a *set* of NFA states.",
+          "**Step 2**: For each DFA state $S$ and each $a \\in \\Sigma$, compute $\\delta_D(S, a) = \\epsilon\\text{-closure}\\!\\big(\\bigcup_{q \\in S} \\delta_N(q, a)\\big)$.",
+          "**Step 3**: If the resulting set is new, add it as a new DFA state. Repeat until no new states.",
+          "**Step 4**: A DFA state is **accepting** if it contains at least one NFA final state ($S \\cap F_N \\neq \\emptyset$).",
+          "Worst-case DFA can have up to $2^{|Q_N|}$ states (exponential blow-up)."
+        ]
+      }
+    ]
+  },
+
+  /* -------- 3. Finite Automata with Output -------- */
+  {
+    id: "moore-mealy",
+    title: "4. Finite Automata with Output — Moore & Mealy Machines",
+    blocks: [
+      {
+        type: "purple",
+        heading: "Moore Machine — Definition",
+        bullets: [
+          "6-tuple: $M = (Q,\\, \\Sigma,\\, \\Delta,\\, \\delta,\\, \\lambda,\\, q_0)$.",
+          "$\\Delta$ — Output alphabet.",
+          "$\\delta : Q \\times \\Sigma \\to Q$ — State transition function.",
+          "$\\lambda : Q \\to \\Delta$ — **Output function** (output depends only on **current state**).",
+          "Output is produced **with each state entered**, so for input of length $n$, output has length $n+1$.",
+          "The extra output comes from the start state before reading any input."
+        ]
+      },
+      {
+        type: "purple",
+        heading: "Example — Moore Machine (Parity of 1s)",
+        diagram: "moore",
+        bullets: [
+          "States: $q_0$ (even 1s seen, output $0$), $q_1$ (odd 1s seen, output $1$). Start: $q_0$.",
+          "Input $w = 110$: $q_0 \\xrightarrow{1} q_1 \\xrightarrow{1} q_0 \\xrightarrow{0} q_0$.",
+          "Output (from each state entered): **0, 1, 0, 0** — length $n+1 = 4$."
+        ]
+      },
+      {
+        type: "purple",
+        heading: "Mealy Machine — Definition",
+        bullets: [
+          "6-tuple: $M = (Q,\\, \\Sigma,\\, \\Delta,\\, \\delta,\\, \\lambda,\\, q_0)$.",
+          "$\\delta : Q \\times \\Sigma \\to Q$ — State transition function.",
+          "$\\lambda : Q \\times \\Sigma \\to \\Delta$ — **Output function** (output depends on **state + input**).",
+          "Output is produced **with each transition**, so for input of length $n$, output has length $n$.",
+          "Mealy machines often need **fewer states** than equivalent Moore machines."
+        ]
+      },
+      {
+        type: "purple",
+        heading: "Example — Mealy Machine (Parity of 1s)",
+        diagram: "mealy",
+        bullets: [
+          "Same behavior as Moore above, but output is on **transitions** not states.",
+          "Input $w = 110$: $q_0 \\xrightarrow{1/1} q_1 \\xrightarrow{1/0} q_0 \\xrightarrow{0/0} q_0$.",
+          "Output (from transitions): **1, 0, 0** — length $n = 3$."
+        ]
+      },
+      {
+        type: "green",
+        heading: "Moore ↔ Mealy Conversion",
+        bullets: [
+          "**Mealy → Moore**: For each Mealy state $q$ that receives transitions with *different* outputs, split $q$ into multiple Moore states (one per distinct output). Assign each copy the corresponding output.",
+          "**Moore → Mealy**: Simple — for each transition $\\delta(q_i, a) = q_j$ in Moore, set Mealy output $\\lambda(q_i, a) = \\lambda_{\\text{Moore}}(q_j)$ (output of the destination state).",
+          "Both machines are **equivalent in power** — they recognise the same class of languages (regular languages).",
+          "Key difference: Moore output = $n+1$ symbols; Mealy output = $n$ symbols (for input length $n$). The extra Moore symbol is the initial-state output."
+        ]
+      },
+      {
+        type: "blue",
+        heading: "Quick Comparison Table",
+        bullets: [
+          "| Feature | Moore | Mealy |",
+          "| --- | --- | --- |",
+          "| Output depends on | State only | State + Input |",
+          "| Output length | $n + 1$ | $n$ |",
+          "| Output function | $\\lambda : Q \\to \\Delta$ | $\\lambda : Q \\times \\Sigma \\to \\Delta$ |",
+          "| # States needed | Generally more | Generally fewer |",
+          "| Output timing | On entering state | On transition |"
+        ]
+      }
+    ]
+  },
+
+  /* -------- 4. DFA Minimization -------- */
+  {
+    id: "minimization",
+    title: "5. Minimization of DFA (Myhill-Nerode / Table Filling)",
+    blocks: [
+      {
+        type: "red",
+        heading: "Why Minimize?",
+        bullets: [
+          "Remove **unreachable** and **redundant** states to get the smallest DFA accepting the same language.",
+          "The minimal DFA is **unique** (up to renaming of states) — called the **irreducible / canonical** DFA.",
+          "Useful for efficient implementation & proving two DFAs recognize the same language."
+        ]
+      },
+      {
+        type: "red",
+        heading: "Table-Filling (Marking) Algorithm — Step by Step",
+        bullets: [
+          "**Step 0**: Remove all states unreachable from $q_0$.",
+          "**Step 1**: Draw a table of all pairs $(q_i, q_j)$ where $i < j$.",
+          "**Step 2 (Base)**: Mark every pair where one state is in $F$ and the other is not — they are **distinguishable**.",
+          "**Step 3 (Induction)**: For each unmarked pair $(q_i, q_j)$, check for every $a \\in \\Sigma$: if $(\\delta(q_i, a),\\, \\delta(q_j, a))$ is already marked, then mark $(q_i, q_j)$.",
+          "**Step 4**: Repeat Step 3 until no more pairs can be marked.",
+          "**Step 5**: All **unmarked** pairs are **equivalent** — merge them into a single state.",
+          "Result: The minimized DFA with the fewest possible states."
+        ]
+      },
+      {
+        type: "green",
+        heading: "Partition Refinement (Hopcroft's View)",
+        bullets: [
+          "Start with two groups: $P_0 = \\{F,\\; Q-F\\}$ (final vs. non-final).",
+          "For each group $G$ and each symbol $a$: split $G$ into sub-groups where states go to different current groups on input $a$.",
+          "Repeat until no group can be split further.",
+          "Each final group becomes one state in the minimized DFA.",
+          "Time complexity: $O(n \\log n)$ with Hopcroft's algorithm."
+        ]
+      },
+      {
+        type: "yellow",
+        heading: "Myhill-Nerode Theorem (Theoretical Foundation)",
+        bullets: [
+          "Two strings $x, y$ are **Myhill-Nerode equivalent** w.r.t. language $L$ if: $\\forall z \\in \\Sigma^*,\\; xz \\in L \\iff yz \\in L$.",
+          "This is an equivalence relation that partitions $\\Sigma^*$ into classes.",
+          "A language is **regular** iff the number of Myhill-Nerode equivalence classes is **finite**.",
+          "The number of classes = **number of states in the minimal DFA**."
+        ]
+      },
+      {
+        type: "red",
+        heading: "Unit 1 — Summary Checklist",
+        bullets: [
+          "✓ Symbols, Alphabets, Strings, Formal Languages, $\\Sigma^*$, $\\Sigma^+$.",
+          "✓ DFA: 5-tuple, $\\delta$ is total, acceptance via $\\hat{\\delta}$, $L(M)$.",
+          "✓ NFA: Power-set transitions, $\\epsilon$-closure, acceptance = ∃ one accepting path.",
+          "✓ Subset Construction: NFA → DFA, states are subsets, up to $2^n$ states.",
+          "✓ Moore Machine: output = $f(\\text{state})$, length $n+1$.",
+          "✓ Mealy Machine: output = $f(\\text{state, input})$, length $n$.",
+          "✓ Moore ↔ Mealy conversions, equivalent power.",
+          "✓ DFA Minimization: Table-Filling / Partition method → Irreducible DFA.",
+          "✓ Myhill-Nerode: Finite equivalence classes ⇔ Regular language."
+        ]
+      }
+    ]
+  }
+];
+
+/* ================================================================
+   COMPONENTS
+   ================================================================ */
+
+/* Chevron Icons */
+const ChevronDown = ({ className }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+  </svg>
+);
+const ChevronRight = ({ className }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+  </svg>
+);
+
+/* ---- Color-coded Box ---- */
+const Box = ({ type, title, children }) => {
+  const styles = {
+    yellow: "bg-yellow-50 border-yellow-400 text-yellow-900",
+    blue:   "bg-blue-50 border-blue-400 text-blue-900",
+    green:  "bg-green-50 border-green-400 text-green-900",
+    purple: "bg-purple-50 border-purple-400 text-purple-900",
+    red:    "bg-red-50 border-red-400 text-red-900",
+  };
+  return (
+    <div className={`${styles[type] || styles.blue} border-l-4 p-4 mb-4 rounded-r-lg`}>
+      {title && <h4 className="font-bold text-lg mb-2">{title}</h4>}
+      <div className="space-y-1">{children}</div>
+    </div>
+  );
+};
+
+/* ---- Convert **bold** and $LaTeX$ in a string to HTML ---- */
+const renderText = (text) => {
+  let html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/\$([^$]+?)\$/g, (_, tex) => {
+    try { return katex.renderToString(tex, { throwOnError: false, displayMode: false }); }
+    catch (e) { return '$' + tex + '$'; }
+  });
+  return html;
+};
+
+/* ---- Render a single bullet ---- */
+const Bullet = ({ text }) => {
+  const html = renderText(text);
+  if (text.startsWith("|")) {
+    return <span className="block font-mono text-sm whitespace-pre" dangerouslySetInnerHTML={{ __html: html }} />;
+  }
+  return <p className="leading-relaxed" dangerouslySetInnerHTML={{ __html: '• ' + html }} />;
+};
+
+/* ================================================================
+   SVG STATE-MACHINE DIAGRAMS
+   ================================================================ */
+
+/* ---- Arrowhead marker (reusable per SVG via unique id) ---- */
+const ArrowMarker = ({ id }) => (
+  <defs>
+    <marker id={id} viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,1.5 L10,5 L0,8.5 z" fill="#475569" />
+    </marker>
+  </defs>
+);
+
+/* ---- 1. DFA — accepts strings ending in "01" ---- */
+const DFADiagram = () => (
+  <div className="my-4 flex justify-center">
+    <svg viewBox="0 0 500 205" className="w-full max-w-lg">
+      <ArrowMarker id="ad" />
+      {/* start arrow */}
+      <line x1="12" y1="90" x2="53" y2="90" stroke="#475569" strokeWidth="1.5" markerEnd="url(#ad)" />
+      <text x="8" y="80" fontSize="11" fill="#94a3b8" fontStyle="italic">start</text>
+      {/* q0 */}
+      <circle cx="80" cy="90" r="26" fill="#fff" stroke="#334155" strokeWidth="2" />
+      <text x="80" y="95" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#334155">q₀</text>
+      {/* q1 */}
+      <circle cx="250" cy="90" r="26" fill="#fff" stroke="#334155" strokeWidth="2" />
+      <text x="250" y="95" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#334155">q₁</text>
+      {/* q2 — accepting (double circle) */}
+      <circle cx="420" cy="90" r="26" fill="#dcfce7" stroke="#16a34a" strokeWidth="2" />
+      <circle cx="420" cy="90" r="21" fill="none" stroke="#16a34a" strokeWidth="1.5" />
+      <text x="420" y="95" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#15803d">q₂</text>
+      {/* self-loop q0 "1" */}
+      <path d="M68,66 C58,18 102,18 92,66" fill="none" stroke="#475569" strokeWidth="1.5" markerEnd="url(#ad)" />
+      <text x="80" y="24" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#1e40af">1</text>
+      {/* self-loop q1 "0" */}
+      <path d="M238,66 C228,18 272,18 262,66" fill="none" stroke="#475569" strokeWidth="1.5" markerEnd="url(#ad)" />
+      <text x="250" y="24" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#1e40af">0</text>
+      {/* q0 → q1 "0" */}
+      <line x1="106" y1="84" x2="224" y2="84" stroke="#475569" strokeWidth="1.5" markerEnd="url(#ad)" />
+      <text x="165" y="78" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#1e40af">0</text>
+      {/* q1 → q2 "1" */}
+      <line x1="276" y1="84" x2="394" y2="84" stroke="#475569" strokeWidth="1.5" markerEnd="url(#ad)" />
+      <text x="335" y="78" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#1e40af">1</text>
+      {/* q2 → q1 "0" curved below */}
+      <path d="M398,112 Q335,168 278,112" fill="none" stroke="#475569" strokeWidth="1.5" markerEnd="url(#ad)" />
+      <text x="338" y="157" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#1e40af">0</text>
+      {/* q2 → q0 "1" curved far below */}
+      <path d="M402,114 Q250,200 104,114" fill="none" stroke="#475569" strokeWidth="1.5" markerEnd="url(#ad)" />
+      <text x="250" y="192" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#1e40af">1</text>
+    </svg>
+  </div>
+);
+
+/* ---- 2. NFA — accepts strings containing "01" ---- */
+const NFADiagram = () => (
+  <div className="my-4 flex justify-center">
+    <svg viewBox="0 0 500 150" className="w-full max-w-lg">
+      <ArrowMarker id="an" />
+      {/* start arrow */}
+      <line x1="12" y1="75" x2="53" y2="75" stroke="#475569" strokeWidth="1.5" markerEnd="url(#an)" />
+      <text x="8" y="65" fontSize="11" fill="#94a3b8" fontStyle="italic">start</text>
+      {/* q0 */}
+      <circle cx="80" cy="75" r="26" fill="#fff" stroke="#334155" strokeWidth="2" />
+      <text x="80" y="80" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#334155">q₀</text>
+      {/* q1 */}
+      <circle cx="250" cy="75" r="26" fill="#fff" stroke="#334155" strokeWidth="2" />
+      <text x="250" y="80" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#334155">q₁</text>
+      {/* q2 — accepting */}
+      <circle cx="420" cy="75" r="26" fill="#dcfce7" stroke="#16a34a" strokeWidth="2" />
+      <circle cx="420" cy="75" r="21" fill="none" stroke="#16a34a" strokeWidth="1.5" />
+      <text x="420" y="80" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#15803d">q₂</text>
+      {/* self-loop q0 "0, 1" */}
+      <path d="M68,51 C58,3 102,3 92,51" fill="none" stroke="#475569" strokeWidth="1.5" markerEnd="url(#an)" />
+      <text x="80" y="12" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#1e40af">0, 1</text>
+      {/* self-loop q2 "0, 1" */}
+      <path d="M408,51 C398,3 442,3 432,51" fill="none" stroke="#475569" strokeWidth="1.5" markerEnd="url(#an)" />
+      <text x="420" y="12" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#1e40af">0, 1</text>
+      {/* q0 → q1 "0" */}
+      <line x1="106" y1="75" x2="224" y2="75" stroke="#475569" strokeWidth="1.5" markerEnd="url(#an)" />
+      <text x="165" y="69" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#1e40af">0</text>
+      {/* q1 → q2 "1" */}
+      <line x1="276" y1="75" x2="394" y2="75" stroke="#475569" strokeWidth="1.5" markerEnd="url(#an)" />
+      <text x="335" y="69" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#1e40af">1</text>
+      {/* non-determinism note */}
+      <text x="250" y="135" textAnchor="middle" fontSize="10" fill="#dc2626" fontStyle="italic">non-deterministic: q₀ on input 0 → both q₀ and q₁</text>
+    </svg>
+  </div>
+);
+
+/* ---- 3. Moore Machine — parity of 1s ---- */
+const MooreDiagram = () => (
+  <div className="my-4 flex justify-center">
+    <svg viewBox="0 0 500 165" className="w-full max-w-lg">
+      <ArrowMarker id="am" />
+      {/* start arrow */}
+      <line x1="15" y1="82" x2="66" y2="82" stroke="#475569" strokeWidth="1.5" markerEnd="url(#am)" />
+      <text x="12" y="70" fontSize="11" fill="#94a3b8" fontStyle="italic">start</text>
+      {/* q0 with output */}
+      <circle cx="100" cy="82" r="32" fill="#faf5ff" stroke="#7e22ce" strokeWidth="2" />
+      <text x="100" y="77" textAnchor="middle" fontSize="13" fontWeight="bold" fill="#334155">q₀</text>
+      <line x1="78" y1="83" x2="122" y2="83" stroke="#a855f7" strokeWidth="0.8" strokeDasharray="3,2" />
+      <text x="100" y="98" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#7e22ce">λ = 0</text>
+      {/* q1 with output */}
+      <circle cx="400" cy="82" r="32" fill="#faf5ff" stroke="#7e22ce" strokeWidth="2" />
+      <text x="400" y="77" textAnchor="middle" fontSize="13" fontWeight="bold" fill="#334155">q₁</text>
+      <line x1="378" y1="83" x2="422" y2="83" stroke="#a855f7" strokeWidth="0.8" strokeDasharray="3,2" />
+      <text x="400" y="98" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#7e22ce">λ = 1</text>
+      {/* self-loop q0 "0" */}
+      <path d="M88,52 C78,0 122,0 112,52" fill="none" stroke="#475569" strokeWidth="1.5" markerEnd="url(#am)" />
+      <text x="100" y="8" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#1e40af">0</text>
+      {/* self-loop q1 "0" */}
+      <path d="M388,52 C378,0 422,0 412,52" fill="none" stroke="#475569" strokeWidth="1.5" markerEnd="url(#am)" />
+      <text x="400" y="8" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#1e40af">0</text>
+      {/* q0 → q1 "1" curved above */}
+      <path d="M130,68 Q250,28 368,68" fill="none" stroke="#475569" strokeWidth="1.5" markerEnd="url(#am)" />
+      <text x="250" y="40" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#1e40af">1</text>
+      {/* q1 → q0 "1" curved below */}
+      <path d="M370,98 Q250,152 132,98" fill="none" stroke="#475569" strokeWidth="1.5" markerEnd="url(#am)" />
+      <text x="250" y="145" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#1e40af">1</text>
+    </svg>
+  </div>
+);
+
+/* ---- 4. Mealy Machine — parity of 1s ---- */
+const MealyDiagram = () => (
+  <div className="my-4 flex justify-center">
+    <svg viewBox="0 0 500 165" className="w-full max-w-lg">
+      <ArrowMarker id="ay" />
+      {/* start arrow */}
+      <line x1="15" y1="82" x2="70" y2="82" stroke="#475569" strokeWidth="1.5" markerEnd="url(#ay)" />
+      <text x="12" y="70" fontSize="11" fill="#94a3b8" fontStyle="italic">start</text>
+      {/* q0 */}
+      <circle cx="100" cy="82" r="28" fill="#faf5ff" stroke="#7e22ce" strokeWidth="2" />
+      <text x="100" y="87" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#334155">q₀</text>
+      {/* q1 */}
+      <circle cx="400" cy="82" r="28" fill="#faf5ff" stroke="#7e22ce" strokeWidth="2" />
+      <text x="400" y="87" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#334155">q₁</text>
+      {/* self-loop q0 "0/0" */}
+      <path d="M88,56 C78,2 122,2 112,56" fill="none" stroke="#475569" strokeWidth="1.5" markerEnd="url(#ay)" />
+      <text x="100" y="10" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#1e40af">0 / 0</text>
+      {/* self-loop q1 "0/1" */}
+      <path d="M388,56 C378,2 422,2 412,56" fill="none" stroke="#475569" strokeWidth="1.5" markerEnd="url(#ay)" />
+      <text x="400" y="10" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#1e40af">0 / 1</text>
+      {/* q0 → q1 "1/1" curved above */}
+      <path d="M126,68 Q250,22 372,68" fill="none" stroke="#475569" strokeWidth="1.5" markerEnd="url(#ay)" />
+      <text x="250" y="36" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#1e40af">1 / 1</text>
+      {/* q1 → q0 "1/0" curved below */}
+      <path d="M372,98 Q250,152 128,98" fill="none" stroke="#475569" strokeWidth="1.5" markerEnd="url(#ay)" />
+      <text x="250" y="145" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#1e40af">1 / 0</text>
+    </svg>
+  </div>
+);
+
+/* Diagram lookup */
+const DIAGRAMS = { dfa: DFADiagram, nfa: NFADiagram, moore: MooreDiagram, mealy: MealyDiagram };
+
+/* ---- Block = one Box with heading + bullets + optional diagram ---- */
+const Block = ({ data }) => {
+  const Diagram = data.diagram ? DIAGRAMS[data.diagram] : null;
+  return (
+    <Box type={data.type} title={data.heading}>
+      {Diagram && <Diagram />}
+      {data.bullets.map((b, i) => <Bullet key={i} text={b} />)}
+    </Box>
+  );
+};
+
+/* ---- Collapsible Section ---- */
+const Section = ({ data }) => {
+  const [open, setOpen] = useState(!!data.defaultOpen);
+  return (
+    <div className="bg-white rounded-lg shadow mb-5 overflow-hidden">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full px-5 py-4 bg-slate-800 text-white font-bold text-lg flex items-center justify-between hover:bg-slate-700 transition-colors"
+      >
+        <span>{data.title}</span>
+        {open ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
+      </button>
+      {open && (
+        <div className="p-5">
+          {data.blocks.map((b, i) => <Block key={i} data={b} />)}
+        </div>
+      )}
+    </div>
+  );
+};
+
+/* ================================================================
+   APP
+   ================================================================ */
+const App = () => {
+  return (
+    <div className="max-w-4xl mx-auto px-4 py-8">
+
+      {/* ---- Header ---- */}
+      <header className="text-center mb-8">
+        <h1 className="text-4xl font-extrabold text-slate-800 mb-1">Theory of Automata</h1>
+        <h2 className="text-xl font-semibold text-slate-500">Unit 1 — Last Minute Revision</h2>
+        <p className="mt-2 text-sm text-slate-400 tracking-wide">ZenYukti &middot; Quick-Reference Sheet</p>
+      </header>
+
+      {/* ---- Color Legend ---- */}
+      <div className="flex flex-wrap gap-3 justify-center mb-8 text-xs font-semibold">
+        <span className="px-3 py-1 rounded bg-yellow-100 text-yellow-800 border border-yellow-300">Definitions</span>
+        <span className="px-3 py-1 rounded bg-blue-100 text-blue-800 border border-blue-300">DFA / NFA Logic</span>
+        <span className="px-3 py-1 rounded bg-green-100 text-green-800 border border-green-300">Conversions / Math</span>
+        <span className="px-3 py-1 rounded bg-purple-100 text-purple-800 border border-purple-300">Moore / Mealy</span>
+        <span className="px-3 py-1 rounded bg-red-100 text-red-800 border border-red-300">Minimization / Summary</span>
+      </div>
+
+      {/* ---- Sections rendered from data ---- */}
+      {AUTOMATA_DATA.map((sec) => (
+        <Section key={sec.id} data={sec} />
+      ))}
+
+      {/* ---- Footer ---- */}
+      <footer className="text-center mt-12 pb-6">
+        <p className="text-slate-600 font-medium">Crafted with love by <span className="font-bold text-slate-800">ZenYukti</span></p>
+        <p className="text-slate-400 text-sm mt-1 italic">Learn. Build. Share.</p>
+      </footer>
+    </div>
+  );
+};
+
+/* ---- Mount ---- */
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
