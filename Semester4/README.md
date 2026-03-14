@@ -20,3 +20,13 @@
 |------|-------|----------------|----------------|
 | **Unit 1** | Introduction, Programming Structures in Java, OOP, Packages | [🔗 Coming Soon] | [📄 Markdown](Semester4\OOPsWithJAVA\Unit-1.md) |
 | **Unit 2** | Exception Handling, Input /Output Basics, Multithreading | [🔗 Coming Soon] | [📄 Markdown](Semester4\OOPsWithJAVA\Unit-2.md) |
+
+
+### 📌 Cyber Security
+
+#### ⚡ LastMinuteRevision (Interactive HTML)
+
+| Unit | Topic | 🌐 Last Minute Prep. (Summarised) | Detailed Notes |
+|------|-------|----------------|----------------|
+| **Unit 1** | INTRODUCTION TO CYBER CRIME | [🔗 Coming Soon] | [📄 Markdown](Semester4\CyberSecurity\Unit-1.md) |
+| **Unit 2** | CYBER CRIME | [🔗 Coming Soon] | [📄 Markdown](Semester4\CyberSecurity\Unit-2.md) |
