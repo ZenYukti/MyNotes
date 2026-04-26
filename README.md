@@ -10,5 +10,5 @@ This repository contains curated notes for the second year of the B.Tech curricu
 ---
 
 <a href="https://zenyukti.in" target="_blank" rel="noopener">
-  <img src="image.png" alt="ZenYukti Footer" style="max-width: 100%;">
+  <img src="footer-image.png" alt="ZenYukti Footer" style="max-width: 100%;">
 </a>
