@@ -26,10 +26,10 @@
 
 | Unit | Topic | Detailed Notes (PDF) |
 |------|-------|------------------------|
-| **Unit 1** | Introduction to Cyber Crime | [Download PDF](CyberSecurity/Unit%20-%201%20-%20INTRODUCTION%20TO%20CYBER%20CRIME%20-%20ZenYukti.pdf?raw=true) |
-| **Unit 2** | Cyber Crime - Mobile and Wireless Devices | [Download PDF](CyberSecurity/Unit%20-%202%20-%20CYBER%20CRIME%20-%20Mobile%20and%20Wireless%20Devices%20-%20ZenYukti.pdf?raw=true) |
-| **Unit 3** | Tools and Methods Used in Cybercrime | [Download PDF](CyberSecurity/Unit%20-%203%20-%20TOOLS%20AND%20METHODS%20USED%20IN%20CYBERCRIME%20-%20ZenYukti.pdf?raw=true) |
-| **Unit 4** | Understanding Computer Forensics | [Download PDF](CyberSecurity/Unit%20-%204%20-%20UNDERSTANDING%20COMPUTER%20FORENSICS%20-%20ZenYukti.pdf?raw=true) |
-| **Unit 5** | Security Policies and Cyber Laws | [Download PDF](CyberSecurity/Unit%20-%205%20-%20SECURITY%20POLICIES%20AND%20CYBER%20LAWS%20%20-%20ZenYukti.pdf?raw=true) |
+| **Unit 1** | Introduction to Cyber Crime | [Download PDF](https://github.com/ZenYukti/MyNotes/raw/main/Semester4/CyberSecurity/Unit%20-%201%20-%20INTRODUCTION%20TO%20CYBER%20CRIME%20-%20ZenYukti.pdf) |
+| **Unit 2** | Cyber Crime - Mobile and Wireless Devices | [Download PDF](https://github.com/ZenYukti/MyNotes/raw/main/Semester4/CyberSecurity/Unit%20-%202%20-%20CYBER%20CRIME%20-%20Mobile%20and%20Wireless%20Devices%20-%20ZenYukti.pdf) |
+| **Unit 3** | Tools and Methods Used in Cybercrime | [Download PDF](https://github.com/ZenYukti/MyNotes/raw/main/Semester4/CyberSecurity/Unit%20-%203%20-%20TOOLS%20AND%20METHODS%20USED%20IN%20CYBERCRIME%20-%20ZenYukti.pdf) |
+| **Unit 4** | Understanding Computer Forensics | [Download PDF](https://github.com/ZenYukti/MyNotes/raw/main/Semester4/CyberSecurity/Unit%20-%204%20-%20UNDERSTANDING%20COMPUTER%20FORENSICS%20-%20ZenYukti.pdf) |
+| **Unit 5** | Security Policies and Cyber Laws | [Download PDF](https://github.com/ZenYukti/MyNotes/raw/main/Semester4/CyberSecurity/Unit%20-%205%20-%20SECURITY%20POLICIES%20AND%20CYBER%20LAWS%20%20-%20ZenYukti.pdf) |
 
 ---
