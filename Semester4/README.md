@@ -33,3 +33,14 @@
 | **Unit 5** | Security Policies and Cyber Laws | [Download PDF](https://github.com/ZenYukti/MyNotes/raw/main/Semester4/CyberSecurity/Unit%20-%205%20-%20SECURITY%20POLICIES%20AND%20CYBER%20LAWS%20%20-%20ZenYukti.pdf) |
 
 ---
+---
+
+### Operating System
+
+| Unit | Topic | Detailed Notes (PDF) |
+|------|-------|------------------------|
+| **Unit 2** | Concurrent Processes | [Download PDF](https://github.com/ZenYukti/MyNotes/raw/main/Semester4/OperatingSystem/Unit%20-%202%20-%20Concurrent%20Processes%20-%20OS%20-%20ZenYukti.pdf) |
+| **Unit 4** | Memory Management (Short Notes) | [Download PDF](https://github.com/ZenYukti/MyNotes/raw/main/Semester4/OperatingSystem/Unit%20-%204%20-%20Memory%20Management%20-%20OS%20-%20Short%20Notes%20-%20ZenYukti.pdf) |
+| **Unit 5** | IO Management and Disk Scheduling | [Download PDF](https://github.com/ZenYukti/MyNotes/raw/main/Semester4/OperatingSystem/Unit%20-%205%20-%20IO%20Management%20and%20Disk%20Scheduling%20-%20OS%20-%20ZenYukti.pdf) |
+
+---
