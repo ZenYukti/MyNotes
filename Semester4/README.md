@@ -18,6 +18,9 @@
 |------|-------|-------------------------------|----------------|
 | **Unit 1** | Introduction, Programming Structures in Java, OOP, Packages | Coming Soon | [Read Markdown](OOPsWithJAVA/Unit-1.md) |
 | **Unit 2** | Exception Handling, Input/Output Basics, Multithreading | Coming Soon | [Read Markdown](OOPsWithJAVA/Unit-2.md) |
+| **Unit 3** | Java New Features | Coming Soon | [Read Markdown](OOPsWithJAVA/Unit-3.md) |
+| **Unit 4** | Java Collections Framework | Coming Soon | [Read Markdown](OOPsWithJAVA/Unit-4.md) |
+| **Unit 5** | Spring Framework and Spring Boot | Coming Soon | [Read Markdown](OOPsWithJAVA/Unit-5.md) |
 
 ---
 ---
