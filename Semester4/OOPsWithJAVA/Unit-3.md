@@ -1,7 +1,5 @@
 # Java New Features - Exam Ready Notes
 
-## 🔴 EXAM IN 2 HOURS - FOCUS MODE
-
 ---
 
 ## 1. Functional Interfaces (Java 8)
@@ -1997,7 +1995,7 @@ class Dog extends Animal { }  // Error?
 
 ---
 
-# 📄 LAST MINUTE REVISION - 1 PAGE SUMMARY
+# LAST MINUTE REVISION - 1 PAGE SUMMARY
 
 ## Functional Programming Essentials
 
@@ -2208,7 +2206,7 @@ module com.app {
 
 ---
 
-**🔥 REMEMBER:**
+**REMEMBER:**
 - Lambda = anonymous function
 - Stream = pipeline of operations
 - var = type inference (local only)
@@ -2217,7 +2215,7 @@ module com.app {
 - Text blocks = multi-line strings
 - Switch expression = returns value
 
-**Good Luck! 🎯**
+**Good Luck!**
 
 Brought to you by Team ZenYukti
 

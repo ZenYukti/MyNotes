@@ -1,4 +1,4 @@
-# ☕ Java Collections Framework — Exam Notes
+# Java Collections Framework — Exam Notes
 
 ---
 
@@ -215,7 +215,7 @@ System.out.println(p.getProperty("user")); // admin
 
 ---
 
-## 🎯 5 Exam-Oriented Questions & Solutions
+### 5 Exam-Oriented Questions & Solutions
 
 ---
 
@@ -287,7 +287,7 @@ List<String> cowList = new CopyOnWriteArrayList<>();
 
 ---
 
-*Good luck on your exam! 🚀*
+*Good luck on your exam!*
 
 Brought to you by Team ZenYukti
 

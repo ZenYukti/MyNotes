@@ -1,4 +1,4 @@
-# 🌱 Spring Framework & Spring Boot — Exam Notes
+# Spring Framework & Spring Boot — Exam Notes
 
 ---
 
@@ -170,10 +170,10 @@ public class AppConfig {
 ```
 
 ---
-
+---
 ---
 
-# 🚀 Spring Boot
+# Spring Boot
 
 Spring Boot = Spring + **Auto-configuration + Embedded Server + Starters** (zero XML config)
 
@@ -371,7 +371,7 @@ spring.datasource.password=secret
 
 ---
 
-## 🎯 5 Exam-Oriented Questions & Solutions
+## 5. Exam-Oriented Questions & Solutions
 
 ---
 
@@ -449,7 +449,7 @@ public Object logTime(ProceedingJoinPoint pjp) throws Throwable {
 
 ---
 
-*You've got this — go ace it! ☕🚀*
+*You've got this — go ace it!*
 
 Brought to you by Team ZenYukti
 
