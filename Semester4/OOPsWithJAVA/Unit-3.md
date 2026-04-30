@@ -482,8 +482,6 @@ Rule: If lambda body is just `obj.method(arg)` → use method reference.
 
 ---
 
-*All 3 units done — go smash that exam!*
-
 Brought to you by Team ZenYukti
 
 ![Footer Banner for ZenYukti - MyNotes](../../footer-image.png)
