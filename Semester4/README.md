@@ -47,3 +47,13 @@
 | **Unit 5** | IO Management and Disk Scheduling | [Download PDF](https://github.com/ZenYukti/MyNotes/raw/main/Semester4/OperatingSystem/Unit%20-%205%20-%20IO%20Management%20and%20Disk%20Scheduling%20-%20OS%20-%20ZenYukti.pdf) |
 
 ---
+
+### Understanding Human Values & Professional Ethics (UHVPE)
+
+| Unit | Topic | Detailed Notes |
+|------|-------|----------------|
+| **Unit 3** | Harmony in Family & Society | [Read Markdown](UHVPE/Unit-3.md) |
+| **Unit 4** | Harmony in Nature & Existence | [Read Markdown](UHVPE/Unit-4.md) |
+| **Unit 5** | Implications of Holistic Understanding on Professional Ethics | [Read Markdown](UHVPE/Unit-5.md) |
+
+---
