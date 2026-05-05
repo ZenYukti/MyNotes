@@ -30,23 +30,11 @@
 
 | Unit | Topic | Quick Revision | Detailed Notes |
 |------|-------|----------------|----------------|
-| **Unit 1** | Basic Computer Organization | Coming Soon | [Markdown](COA/Unit-1.md) |
-| **Unit 2** | Computer Arithmetic | Coming Soon | [Markdown](COA/Unit-2.md) |
+| **Unit 1** | Basic Computer Organization | [Live](https://zenyukti.github.io/MyNotes/Semester3/COA/LastMinuteRevision/Unit-1.html) | [Markdown](COA/Unit-1.md) |
+| **Unit 2** | Computer Arithmetic | [Live](https://zenyukti.github.io/MyNotes/Semester3/COA/LastMinuteRevision/Unit-2.html) | [Markdown](COA/Unit-2.md) |
 | **Unit 3** | Control Unit & Microprogramming | Coming Soon | [Markdown](COA/Unit-3.md) |
 | **Unit 4** | Memory Organization | Coming Soon | [Markdown](COA/Unit-4.md) |
 | **Unit 5** | I/O Organization | Coming Soon | [Markdown](COA/Unit-5.md) |
-
----
-
-### Mathematics IV
-
-| Unit | Topic | Quick Revision | Detailed Notes |
-|------|-------|----------------|----------------|
-| **Unit 1** | Complex Numbers | Coming Soon | [Markdown](Mathematics%20IV/Unit-1.md) |
-| **Unit 2** | Linear Algebra | Coming Soon | [Markdown](Mathematics%20IV/Unit-2.md) |
-| **Unit 3** | Calculus | Coming Soon | [Markdown](Mathematics%20IV/Unit-3.md) |
-| **Unit 4** | Differential Equations | Coming Soon | [Markdown](Mathematics%20IV/Unit-4.md) |
-| **Unit 5** | Statistics & Probability | Coming Soon | [Markdown](Mathematics%20IV/Unit-5.md) |
 
 ---
 
@@ -64,10 +52,10 @@
 
 ### Technical Communication
 
-| Unit | Topic | Detailed Notes |
-|------|-------|----------------|
-| **Unit 1** | Communication Fundamentals & Voice Dynamics | [Markdown](TechnicalCommunication/Unit-1.md) |
-| **Unit 2** | Career Building: CV, Interviews, Networking | [Markdown](TechnicalCommunication/Unit-2.md) |
-| **Unit 3** | Presentation Skills & Speech Delivery | [Markdown](TechnicalCommunication/Unit-3.md) |
-| **Unit 4** | Leadership Communication & Emotional Intelligence | [Markdown](TechnicalCommunication/Unit-4.md) |
-| **Unit 5** | Digital Communication & Personality Theories | [Markdown](TechnicalCommunication/Unit-5.md) |
+| Unit | Topic | Last Minute Prep. (Summarised) | Detailed Notes |
+|------|-------|----------------|----------------|
+| **Unit 1** | Communication Fundamentals & Voice Dynamics | [Live](https://zenyukti.github.io/MyNotes/Semester3/TechnicalCommunication/LastMinuteRevision/Unit-1.html) | [Markdown](TechnicalCommunication/Unit-1.md) |
+| **Unit 2** | Career Building: CV, Interviews, Networking | [Live](https://zenyukti.github.io/MyNotes/Semester3/TechnicalCommunication/LastMinuteRevision/Unit-2.html) | [Markdown](TechnicalCommunication/Unit-2.md) |
+| **Unit 3** | Presentation Skills & Speech Delivery | [Live](https://zenyukti.github.io/MyNotes/Semester3/TechnicalCommunication/LastMinuteRevision/Unit-3.html) | [Markdown](TechnicalCommunication/Unit-3.md) |
+| **Unit 4** | Leadership Communication & Emotional Intelligence | [Live](https://zenyukti.github.io/MyNotes/Semester3/TechnicalCommunication/LastMinuteRevision/Unit-4.html) | [Markdown](TechnicalCommunication/Unit-4.md) |
+| **Unit 5** | Digital Communication & Personality Theories | [Live](https://zenyukti.github.io/MyNotes/Semester3/TechnicalCommunication/LastMinuteRevision/Unit-5.html) | [Markdown](TechnicalCommunication/Unit-5.md) |
