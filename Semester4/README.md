@@ -50,10 +50,12 @@
 
 ### Understanding Human Values & Professional Ethics (UHVPE)
 
-| Unit | Topic | Detailed Notes |
-|------|-------|----------------|
-| **Unit 3** | Harmony in Family & Society | [Read Markdown](UHVPE/Unit-3.md) |
-| **Unit 4** | Harmony in Nature & Existence | [Read Markdown](UHVPE/Unit-4.md) |
-| **Unit 5** | Implications of Holistic Understanding on Professional Ethics | [Read Markdown](UHVPE/Unit-5.md) |
+| Unit | Topic | Markdown Notes | Download PDF (brief) |
+|------|-------|----------------|--------------|
+| **Unit 1** | Introduction to Value Education | Coming Soon | [Download PDF](https://github.com/ZenYukti/MyNotes/raw/main/Semester4/UHVPE/PDF_Notes/Unit-1%20Introduction%20to%20Value%20Education%20-%20ZenYukti.pdf) |
+| **Unit 2** | Understanding Harmony in the Human Being | Coming Soon | [Download PDF](https://github.com/ZenYukti/MyNotes/raw/main/Semester4/UHVPE/PDF_Notes/Unit-2%20Understanding%20Harmony%20in%20the%20Human%20Being%20-%20ZenYukti.pdf) |
+| **Unit 3** | Harmony in Family & Society | [Read Markdown](UHVPE/Unit-3.md) | [Download PDF](https://github.com/ZenYukti/MyNotes/raw/main/Semester4/UHVPE/PDF_Notes/Unit-3%20Understanding%20Harmony%20in%20the%20Family%20and%20Society%20-%20ZenYukti.pdf) |
+| **Unit 4** | Harmony in Nature & Existence | [Read Markdown](UHVPE/Unit-4.md) | [Download PDF](https://github.com/ZenYukti/MyNotes/raw/main/Semester4/UHVPE/PDF_Notes/Unit-4%20Understanding%20Harmony%20in%20Nature%20and%20Existence%20-%20ZenYukti.pdf) |
+| **Unit 5** | Implications of Holistic Understanding on Professional Ethics | [Read Markdown](UHVPE/Unit-5.md) | [Download PDF](https://github.com/ZenYukti/MyNotes/raw/main/Semester4/UHVPE/PDF_Notes/Unit-5%20Implications%20on%20Professional%20Ethics%20-%20ZenYukti.pdf) |
 
 ---
