@@ -38,6 +38,15 @@
 ---
 ---
 
+### Digital Electronics
+
+| Unit | Topic | Detailed Notes (PDF) |
+|------|-------|------------------------|
+| **Unit 2** | Combinational Logic | [Download PDF](https://github.com/ZenYukti/MyNotes/raw/main/Semester4/DigitalElectronics/Unit%20-%202%20-%20Combinational%20Logic%20-%20DE%20-%20ZenYukti.pdf) |
+
+---
+---
+
 ### Operating System
 
 | Unit | Topic | Detailed Notes (PDF) |
