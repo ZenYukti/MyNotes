@@ -1,12 +1,12 @@
-# 🤝 Contributing to MyNotes
+# Contributing to MyNotes
 
 Thank you for your interest in contributing to **MyNotes**! This repository is maintained by [ZenYukti](https://zenyukti.in) community, and we welcome contributions from students, educators, and anyone passionate about sharing knowledge.
 
-Our mission: **Learn. Build. Share.** 💙
+Our mission: **Learn. Build. Share.**
 
 ---
 
-## 📋 Table of Contents
+##  Table of Contents
 
 - [Code of Conduct](#code-of-conduct)
 - [How Can I Contribute?](#how-can-i-contribute)
@@ -23,31 +23,20 @@ Our mission: **Learn. Build. Share.** 💙
 
 ---
 
-## 📜 Code of Conduct
-
-By participating in this project, you agree to:
-- Be respectful and inclusive
-- Provide constructive feedback
-- Focus on what's best for the community
-- Show empathy towards other contributors
-- Maintain academic integrity (no plagiarism)
-
----
-
-## 💡 How Can I Contribute?
+##  How Can I Contribute?
 
 You can contribute in several ways:
 
-1. **📝 Add New Notes**: Create study materials for new subjects or units
-2. **✨ Improve Existing Notes**: Fix errors, add examples, enhance explanations
-3. **🎨 Create Interactive HTML**: Build LastMinuteRevision HTML guides
-4. **🐛 Report Issues**: Found an error? Let us know!
-5. **💡 Suggest Improvements**: Share ideas for better organization or features
-6. **📚 Add Practice Problems**: Include solved examples and practice questions
+1. **Add New Notes**: Create study materials for new subjects or units
+2. **Improve Existing Notes**: Fix errors, add examples, enhance explanations
+3. **Create Interactive HTML**: Build LastMinuteRevision HTML guides
+4. **Report Issues**: Found an error? Let us know!
+5. **Suggest Improvements**: Share ideas for better organization or features
+6. **Add Practice Problems**: Include solved examples and practice questions
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 
@@ -83,7 +72,7 @@ You can contribute in several ways:
 
 ---
 
-## 🔄 Contribution Workflow
+##  Contribution Workflow
 
 ### Step 1: Sync Your Fork
 
@@ -155,7 +144,7 @@ git push origin feature/add-data-structures-unit1
 
 ---
 
-## 📁 Repository Structure Guidelines
+##  Repository Structure Guidelines
 
 ### Directory Structure
 
@@ -163,8 +152,8 @@ When adding content, follow this exact structure:
 
 ```
 MyNotes/
-├── 📁 [Subject Name]/
-│   ├── 📁 LastMinuteRevision/        # Optional: Quick revision HTML guides
+├── [Subject Name]/
+│   ├── LastMinuteRevision/        # Optional: Quick revision HTML guides
 │   │   ├── Unit-1.html
 │   │   ├── Unit-2.html
 │   │   └── ...
@@ -214,7 +203,7 @@ If the subject folder already exists:
 
 ---
 
-## ✍️ Content Guidelines
+##  Content Guidelines
 
 ### Markdown Notes (`.md` files)
 
@@ -274,16 +263,16 @@ Quick recap of all important points
 
 #### Content Standards
 
-- ✅ **Clear and Concise**: Use simple language, avoid unnecessary jargon
-- ✅ **Well-Structured**: Use proper headings hierarchy (H1 > H2 > H3)
-- ✅ **Include Examples**: Provide code examples, diagrams (ASCII art), or real-world applications
-- ✅ **Add Formulas**: Use proper markdown math notation when needed: `$E = mc^2$`
-- ✅ **Use Lists**: Break down complex concepts into bullet points
-- ✅ **Code Blocks**: Use proper syntax highlighting: \`\`\`python, \`\`\`javascript, etc.
-- ✅ **Tables**: Use markdown tables for comparisons
-- ✅ **Visual Elements**: Add diagrams using ASCII art or link to images
-- ❌ **No Plagiarism**: Always credit sources, write in your own words
-- ❌ **No Incomplete Content**: Don't commit half-finished notes
+- **Clear and Concise**: Use simple language, avoid unnecessary jargon
+- **Well-Structured**: Use proper headings hierarchy (H1 > H2 > H3)
+- **Include Examples**: Provide code examples, diagrams (ASCII art), or real-world applications
+- **Add Formulas**: Use proper markdown math notation when needed: `$E = mc^2$`
+- **Use Lists**: Break down complex concepts into bullet points
+- **Code Blocks**: Use proper syntax highlighting: \`\`\`python, \`\`\`javascript, etc.
+- **Tables**: Use markdown tables for comparisons
+- **Visual Elements**: Add diagrams using ASCII art or link to images
+- **No Plagiarism**: Always credit sources, write in your own words
+- **No Incomplete Content**: Don't commit half-finished notes
 
 #### Example Structure
 
@@ -322,7 +311,7 @@ print(arr)  # Output: [1, 2, 10, 4, 5]
 
 ---
 
-## 📝 Updating the README
+##  Updating the README
 
 **IMPORTANT**: Every time you add new content, you **MUST** update the `README.md` file.
 
@@ -333,8 +322,8 @@ print(arr)  # Output: [1, 2, 10, 4, 5]
 If you added a **new subject**, add it to the directory tree:
 
 ```markdown
-├── 📁 [Your New Subject]/        # Brief Description
-│   ├── 📁 LastMinuteRevision/    # (if applicable)
+├── [Your New Subject]/        # Brief Description
+│   ├── LastMinuteRevision/    # (if applicable)
 │   │   ├── Unit-1.html
 │   │   └── ...
 │   │
@@ -350,26 +339,26 @@ Add or update the subject's section in the README. Follow this template:
 **For subjects WITH interactive HTML notes:**
 
 ```markdown
-### 📌 [Subject Name]
+###  [Subject Name]
 
-#### ⚡ LastMinuteRevision (Interactive HTML)
+####  LastMinuteRevision (Interactive HTML)
 
-| Unit | Topic | 🌐 Live Preview | Quick Revision | Detailed Notes |
+| Unit | Topic |  Live Preview | Quick Revision | Detailed Notes |
 |------|-------|----------------|----------------|----------------|
-| **Unit 1** | [Topic Name] | [🔗 Live](https://zenyukti.github.io/MyNotes/[Subject]/LastMinuteRevision/Unit-1.html) | [📱 HTML]([Subject]/LastMinuteRevision/Unit-1.html) | [📄 Markdown]([Subject]/Unit-1.md) |
-| **Unit 2** | [Topic Name] | 🔜 Coming Soon | 🔜 Coming Soon | [📄 Markdown]([Subject]/Unit-2.md) |
+| **Unit 1** | [Topic Name] | [ Live](https://zenyukti.github.io/MyNotes/[Subject]/LastMinuteRevision/Unit-1.html) | [ HTML]([Subject]/LastMinuteRevision/Unit-1.html) | [ Markdown]([Subject]/Unit-1.md) |
+| **Unit 2** | [Topic Name] |  Coming Soon |  Coming Soon | [ Markdown]([Subject]/Unit-2.md) |
 ...
 ```
 
 **For subjects WITHOUT interactive HTML notes:**
 
 ```markdown
-### 📌 [Subject Name]
+###  [Subject Name]
 
 | Unit | Topic | Detailed Notes |
 |------|-------|----------------|
-| **Unit 1** | [Topic Name] | [📄 Markdown]([Subject]/Unit-1.md) |
-| **Unit 2** | [Topic Name] | [📄 Markdown]([Subject]/Unit-2.md) |
+| **Unit 1** | [Topic Name] | [ Markdown]([Subject]/Unit-1.md) |
+| **Unit 2** | [Topic Name] | [ Markdown]([Subject]/Unit-2.md) |
 ...
 ```
 
@@ -380,7 +369,7 @@ Update the status table with your contribution:
 ```markdown
 | Subject | Units | LastMinute HTML | Detailed MD | Status |
 |---------|-------|-----------------|-------------|---------|
-| **[Your Subject]** | 5 | ✅ X/5 | ✅ Y/5 | 🟡 In Progress |
+| **[Your Subject]** | 5 |  X/5 |  Y/5 |  In Progress |
 ```
 
 #### 4. Key Features Section
@@ -389,7 +378,7 @@ If you added significant new features or content types, mention them in the "Key
 
 ---
 
-## 🎨 Creating Interactive HTML Notes
+##  Creating Interactive HTML Notes
 
 If you're creating **LastMinuteRevision** HTML files, follow these guidelines:
 
@@ -429,7 +418,7 @@ If you're creating **LastMinuteRevision** HTML files, follow these guidelines:
                     {/* ZenYukti Branding - REQUIRED */}
                     <div className="text-center mt-6 pt-4 border-t border-gray-300">
                         <p className="text-sm text-gray-700 mb-2">
-                            Crafted with 💙 by <a href="https://zenyukti.in" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:text-blue-800 underline">ZenYukti</a>
+                            Crafted with  by <a href="https://zenyukti.in" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:text-blue-800 underline">ZenYukti</a>
                         </p>
                         <p className="text-xs text-gray-500 italic">Learn. Build. Share.</p>
                     </div>
@@ -446,11 +435,11 @@ If you're creating **LastMinuteRevision** HTML files, follow these guidelines:
 ### Design Guidelines
 
 1. **Color Scheme**:
-   - 🟨 Yellow: Definitions (`bg-yellow-50`, `border-yellow-400`)
-   - 🔵 Blue: Examples (`bg-blue-50`, `border-blue-400`)
-   - 🟢 Green: Formulas (`bg-green-50`, `border-green-400`)
-   - 🟣 Purple: Properties (`bg-purple-50`, `border-purple-400`)
-   - 🔴 Red: Quick Tips (`bg-red-50`, `border-red-400`)
+   -  Yellow: Definitions (`bg-yellow-50`, `border-yellow-400`)
+   -  Blue: Examples (`bg-blue-50`, `border-blue-400`)
+   -  Green: Formulas (`bg-green-50`, `border-green-400`)
+   -  Purple: Properties (`bg-purple-50`, `border-purple-400`)
+   -  Red: Quick Tips (`bg-red-50`, `border-red-400`)
 
 2. **Collapsible Sections**: Use `useState` to create expandable sections
 
@@ -472,15 +461,15 @@ xdg-open LastMinuteRevision/Unit-1.html  # Linux
 ```
 
 Verify:
-- ✅ All sections expand/collapse properly
-- ✅ Content is readable and well-formatted
-- ✅ Colors match the scheme
-- ✅ Responsive on different screen sizes
-- ✅ ZenYukti branding footer is present
+-  All sections expand/collapse properly
+-  Content is readable and well-formatted
+-  Colors match the scheme
+-  Responsive on different screen sizes
+-  ZenYukti branding footer is present
 
 ---
 
-## 📝 Commit Message Guidelines
+##  Commit Message Guidelines
 
 We follow **Conventional Commits** specification for clear and consistent commit history.
 
@@ -526,15 +515,15 @@ git commit -m "feat(COA): Add LastMinuteRevision HTML for Unit-1"
 
 ### Best Practices
 
-- ✅ Use present tense: "Add feature" not "Added feature"
-- ✅ Be specific and descriptive
-- ✅ Reference issue numbers if applicable: `fix(Python): Resolve #42`
-- ✅ Keep subject line under 72 characters
-- ❌ Don't use vague messages like "Update files" or "Fix stuff"
+- Use present tense: "Add feature" not "Added feature"
+- Be specific and descriptive
+- Reference issue numbers if applicable: `fix(Python): Resolve #42`
+- Keep subject line under 72 characters
+- Don't use vague messages like "Update files" or "Fix stuff"
 
 ---
 
-## 🔀 Pull Request Process
+##  Pull Request Process
 
 ### Before Submitting
 
@@ -601,7 +590,7 @@ Maintainers will add appropriate labels:
 
 ---
 
-## 👀 Review Process
+##  Review Process
 
 ### What Happens Next?
 
@@ -610,7 +599,7 @@ Maintainers will add appropriate labels:
 3. **Feedback**: You may receive comments or change requests
 4. **Iteration**: Make requested changes and push to same branch
 5. **Approval**: Once approved, your PR will be merged
-6. **Celebration**: You're now a contributor! 🎉
+6. **Celebration**: You're now a contributor! 
 
 ### Review Timeline
 
@@ -637,7 +626,7 @@ The PR will automatically update.
 
 ---
 
-## ❓ Questions?
+##  Questions?
 
 ### Need Help?
 
@@ -647,27 +636,27 @@ The PR will automatically update.
 
 ### Connect With ZenYukti
 
-- 🌐 Website: [zenyukti.in](https://zenyukti.in)
-- 💼 LinkedIn: [linkedin.com/company/zenyukti](https://linkedin.com/company/zenyukti)
-- 📸 Instagram: [@zenyukti](https://instagram.com/zenyukti)
-- 🐦 Twitter: [@zenyukti](https://twitter.com/zenyukti)
+- Website: [zenyukti.in](https://zenyukti.in)
+- LinkedIn: [linkedin.com/company/zenyukti](https://linkedin.com/company/zenyukti)
+- Instagram: [@zenyukti](https://instagram.com/zenyukti)
+- Twitter: [@zenyukti](https://twitter.com/zenyukti)
 
 ---
 
-## 🎉 Recognition
+##  Recognition
 
 All contributors will be:
 - Listed in the repository's contributors section
 - Mentioned in release notes for major contributions
 - Part of the ZenYukti community
 
-Your contributions help thousands of students learn better. Thank you! 🙏
+Your contributions help thousands of students learn better. Thank you! 
 
 ---
 
 <div align="center">
 
-**Learn. Build. Share.** 💙
+**Learn. Build. Share.** 
 
 *Contributing to MyNotes is contributing to education for all*
 
