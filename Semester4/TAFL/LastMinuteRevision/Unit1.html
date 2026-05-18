@@ -153,7 +153,7 @@ const AUTOMATA_DATA = [
       },
       {
         type: "yellow",
-        heading: "$\\epsilon$-NFA (NFA with $\\epsilon$-transitions)",
+        heading: "ε-NFA (NFA with ε-transitions)",
         bullets: [
           "Transition function extended: $\\delta : Q \\times (\\Sigma \\cup \\{\\epsilon\\}) \\to \\mathcal{P}(Q)$.",
           "Machine can change state **without consuming** any input symbol.",
@@ -353,6 +353,7 @@ const Box = ({ type, title, children }) => {
 /* ---- Convert **bold** and $LaTeX$ in a string to HTML ---- */
 const renderText = (text) => {
   let html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
   html = html.replace(/\$([^$]+?)\$/g, (_, tex) => {
     try { return katex.renderToString(tex, { throwOnError: false, displayMode: false }); }
     catch (e) { return '$' + tex + '$'; }
